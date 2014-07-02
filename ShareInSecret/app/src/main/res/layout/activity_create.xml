@@ -13,24 +13,22 @@
         android:layout_height="wrap_content"
         android:inputType="textMultiLine"
         android:ems="10"
-        android:id="@+id/editText"
+        android:id="@+id/plaintextIn"
         android:layout_alignParentTop="true"
         android:layout_marginTop="45dp"
         android:layout_alignParentEnd="true"
         android:layout_alignParentStart="true"
         android:textIsSelectable="true"
-        android:background="#ff0d9bff" />
+        android:background="@android:color/holo_blue_light" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Encrypt and Save"
         android:id="@+id/button_save"
-        android:layout_below="@+id/editText"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="69dp"
-        android:textColor="#ffffffff"
-        android:background="#ff0407ff"
         android:clickable="true"
-        android:onClick="encryptAndSave" />
+        android:onClick="encryptAndSave"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="110dp" />
 </RelativeLayout>

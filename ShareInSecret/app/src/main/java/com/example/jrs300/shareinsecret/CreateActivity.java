@@ -1,10 +1,16 @@
 package com.example.jrs300.shareinsecret;
 
 import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
+
+import java.io.File;
+import java.io.FileOutputStream;
 
 public class CreateActivity extends Activity {
 
@@ -34,8 +40,41 @@ public class CreateActivity extends Activity {
         return super.onOptionsItemSelected(item);
     }
 
-    //my code starts here
-    public void encryptAndSave(View view){
+    /**
+     * called whenever the user clicks the Encrypt and Save button
+     */
+    public void encryptAndSave(View view) {
 
+
+        //get the plaintext from the screen
+        EditText editText = (EditText) findViewById(R.id.plaintextIn);
+        String plaintextIn = editText.getText().toString();
+
+        //encrypt text
+        String cipherText = CreateActivity.encrypt(plaintextIn);
+
+        //write encrypted text to file
+        writeToFile(cipherText);
+
+    }
+
+    public void writeToFile(String cipherText){
+        String myFilename = "myfile";
+        FileOutputStream outputStream;
+        File outFile = new File(this.getFilesDir(), myFilename);
+
+       try {
+            outputStream = openFileOutput(myFilename, Context.MODE_PRIVATE);
+            outputStream.write(cipherText.getBytes());
+            outputStream.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+Log.e("MyMessAGE", "I have written to a file");
+
+    }
+
+    public static String encrypt (String text){
+        return text.toUpperCase();
     }
 }
