@@ -3,6 +3,7 @@ package com.example.jrs300.shareinsecret;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Environment;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -59,22 +60,60 @@ public class CreateActivity extends Activity {
     }
 
     public void writeToFile(String cipherText){
-        String myFilename = "myfile";
-        FileOutputStream outputStream;
-        File outFile = new File(this.getFilesDir(), myFilename);
 
-       try {
-            outputStream = openFileOutput(myFilename, Context.MODE_PRIVATE);
-            outputStream.write(cipherText.getBytes());
-            outputStream.close();
-        } catch (Exception e) {
-            e.printStackTrace();
+        if (isExternalStorageWritable()) {
+
+            try {
+
+                FileOutputStream fos = openFileOutput("DayTwentyTwoFile", Context.MODE_APPEND);
+                fos.write(cipherText.getBytes());
+                fos.close();
+
+                String storageState = Environment.getExternalStorageState();
+                if (storageState.equals(Environment.MEDIA_MOUNTED)) {
+
+                    File file = new File(getExternalFilesDir(null),
+                            "DayTwentyTwoFileTwo");
+
+                    FileOutputStream fos2 = new FileOutputStream(file);
+
+                    fos2.write(cipherText.getBytes());
+
+                    fos2.close();
+
+                }
+
+            } catch (Exception e) {
+
+                e.printStackTrace();
+
+            }
         }
-Log.e("MyMessAGE", "I have written to a file");
+        else Log.e("writefile", "external storage is not writeable");
 
     }
 
-    public static String encrypt (String text){
+    /* Checks if external storage is available for read and write */
+    public boolean isExternalStorageWritable() {
+        String state = Environment.getExternalStorageState();
+        if (Environment.MEDIA_MOUNTED.equals(state)) {
+            return true;
+        }
+        return false;
+    }
+
+    /* Checks if external storage is available to at least read */
+    public boolean isExternalStorageReadable() {
+        String state = Environment.getExternalStorageState();
+        if (Environment.MEDIA_MOUNTED.equals(state) ||
+                Environment.MEDIA_MOUNTED_READ_ONLY.equals(state)) {
+            return true;
+        }
+        return false;
+    }
+
+    public static String encrypt (String text)
+    {
         return text.toUpperCase();
     }
 }

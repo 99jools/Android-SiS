@@ -19,16 +19,17 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentStart="true"
         android:textIsSelectable="true"
-        android:background="@android:color/holo_blue_light" />
+        android:background="@android:color/background_light" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Encrypt and Save"
         android:id="@+id/button_save"
+        android:textColor="@android:color/background_dark"
         android:clickable="true"
         android:onClick="encryptAndSave"
+        android:background="@android:color/darker_gray"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="110dp" />
+        android:layout_centerHorizontal="true" />
 </RelativeLayout>
