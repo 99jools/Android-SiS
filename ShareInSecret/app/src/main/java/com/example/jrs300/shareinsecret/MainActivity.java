@@ -2,12 +2,16 @@ package com.example.jrs300.shareinsecret;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
 import com.ipaulpro.afilechooser.utils.FileUtils;
+
+import java.io.File;
 
 
 public class MainActivity extends Activity {
@@ -53,17 +57,28 @@ public class MainActivity extends Activity {
     /**run when user clicks button to open existing document */
     public void openExisting(View view){
 
-
-
-
         //browse files using library project aFileChooser
+
+        File myDirectory = getExternalFilesDir(null);
+        Uri uriForMyDirectory = Uri.fromFile(myDirectory);
+
         // Create the ACTION_GET_CONTENT Intent
         Intent getContentIntent = FileUtils.createGetContentIntent();
-
+        getContentIntent.setData(uriForMyDirectory);
         Intent intent = Intent.createChooser(getContentIntent, "Select a file");
+
         startActivityForResult(intent, REQUEST_CHOOSER);
 
+          }
 
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        //do something
+        Log.e("onActivityResult", data.getData().toString());
     }
+
+
 
 }
