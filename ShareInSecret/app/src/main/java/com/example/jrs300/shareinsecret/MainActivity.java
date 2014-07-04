@@ -7,8 +7,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.ipaulpro.afilechooser.utils.FileUtils;
+
 
 public class MainActivity extends Activity {
+
+    private static final int REQUEST_CHOOSER = 1234;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,5 +50,20 @@ public class MainActivity extends Activity {
 
     }
 
+    /**run when user clicks button to open existing document */
+    public void openExisting(View view){
+
+
+
+
+        //browse files using library project aFileChooser
+        // Create the ACTION_GET_CONTENT Intent
+        Intent getContentIntent = FileUtils.createGetContentIntent();
+
+        Intent intent = Intent.createChooser(getContentIntent, "Select a file");
+        startActivityForResult(intent, REQUEST_CHOOSER);
+
+
+    }
 
 }
