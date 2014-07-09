@@ -23,38 +23,20 @@ import javax.crypto.spec.SecretKeySpec;
 public class FileCryptor {
 
         public static final String CIPHER_ALGORITHM = "AES/CBC/PKCS5Padding";
-        public static final String KEY_ALGORITHM = "AES";
         public static final int AES_BLOCKSIZE = 16;   //16 bytes = 128 bits
 
-        private SecretKeySpec myKeySpec;
-        private byte[] iv = null;
 
         //constructor when new key is required
-        public FileCryptor() {
-
+        private FileCryptor() {
+            //dummy private constructor added to prevent attempts to instatiate class
             keyGen();  //initialise myKeySpec
         }
 
-        //constructor when existing key should be used
 
 
         /**
-         * generateKey method called to generate a new encryption key for AES encryption using 128 bit key
-         */
-        private void keyGen(){
-
-            try {
-                KeyGenerator myKeyGenerator = KeyGenerator.getInstance(KEY_ALGORITHM);
-                myKeyGenerator.init(128);
-                this.myKeySpec = new SecretKeySpec(myKeyGenerator.generateKey().getEncoded(), KEY_ALGORITHM);
-            }
-            catch (Exception e) {
-                Log.e("AES","Error generating secret key spec");
-            }
-        }
-
-        /**
-         * Encrypt input stream and outputs result to a file
+         * Encrypts input stream and outputs result to a file
+         * New key and iv are generatedsince no key or iv are provided in input parameters, new ones are created and returned
          * @param plaintextAsFileIn
          * @param ciphertextAsFileOut
          * @throws NoSuchAlgorithmException

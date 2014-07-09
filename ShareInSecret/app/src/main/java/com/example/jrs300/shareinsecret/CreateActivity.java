@@ -82,7 +82,7 @@ public class CreateActivity extends Activity {
                     FileOutputStream fos2 = new FileOutputStream(file);
 
                  //   fos2.write(cipherText.getBytes());
-                    
+
                     fos2.close();
 
                 }
