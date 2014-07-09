@@ -59,6 +59,10 @@ public class CreateActivity extends Activity {
 
     }
 
+    /**
+     * takes a string of text, encrypts and writes to a file
+     * @param cipherText
+     */
     public void writeToFile(String cipherText){
 
         if (isExternalStorageWritable()) {
@@ -73,12 +77,12 @@ public class CreateActivity extends Activity {
                 if (storageState.equals(Environment.MEDIA_MOUNTED)) {
 
                     File file = new File(getExternalFilesDir(null),
-                            "DayTwentyTwoFileTwo");
+                            "DayTwentyTwoFileTwo.enc");
 
                     FileOutputStream fos2 = new FileOutputStream(file);
 
-                    fos2.write(cipherText.getBytes());
-
+                 //   fos2.write(cipherText.getBytes());
+                    
                     fos2.close();
 
                 }
