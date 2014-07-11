@@ -13,6 +13,14 @@ import android.widget.Toast;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
+import java.security.InvalidAlgorithmParameterException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
 
 public class CreateActivity extends Activity {
 
@@ -59,13 +67,34 @@ public class CreateActivity extends Activity {
         EditText getFilename = (EditText) findViewById(R.id.text_filename);
         saveName = getFilename.getText().toString();
 
-        //encrypt text
-        String cipherText = encrypt(plaintextIn);
 
-        //write encrypted text to file
-        writeToFile(cipherText);
-        showToast("File saved");
-        finish();
+        try {
+            //get a new FileOutputStream
+            FileOutputStream fos = getNewFos();
+
+            //encrypt text with new key and write to file
+
+            KeyManagement keyUsedToEncrypt = FileCryptor.encryptString(plaintextIn, fos);
+            showToast("File saved");
+            finish();
+
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        } catch (NoSuchPaddingException e) {
+            e.printStackTrace();
+        } catch (InvalidKeyException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (IllegalBlockSizeException e) {
+            e.printStackTrace();
+        } catch (BadPaddingException e) {
+            e.printStackTrace();
+        } catch (InvalidAlgorithmParameterException e) {
+            e.printStackTrace();
+        }
+
+
 
     }
 
@@ -73,27 +102,19 @@ public class CreateActivity extends Activity {
      * takes a string of ciphertext and writes to a file
      * @param cipherText
      */
-    public void writeToFile(String cipherText){
+    public FileOutputStream getNewFos(){
 
         if (isExternalStorageWritable()) {
 
             try {
 
                 FileOutputStream fos = openFileOutput(saveName, Context.MODE_APPEND);
-                fos.write(cipherText.getBytes());
-                fos.close();
 
                 String storageState = Environment.getExternalStorageState();
                 if (storageState.equals(Environment.MEDIA_MOUNTED)) {
 
-                    File file = new File(getExternalFilesDir(null),
-                            saveName);
-
-                    FileOutputStream fos2 = new FileOutputStream(file);
-
-                    fos2.write(cipherText.getBytes());
-
-                    fos2.close();
+                    FileOutputStream fos2 = new FileOutputStream(new File(getExternalFilesDir(null),
+                            saveName));
 
                 }
 
