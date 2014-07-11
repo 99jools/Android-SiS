@@ -16,6 +16,9 @@ import java.io.FileOutputStream;
 
 public class CreateActivity extends Activity {
 
+    private String plaintextIn;
+    private String saveName;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,18 +55,22 @@ public class CreateActivity extends Activity {
         EditText editText = (EditText) findViewById(R.id.plaintextIn);
         String plaintextIn = editText.getText().toString();
 
+        //get the filename
+        EditText getFilename = (EditText) findViewById(R.id.text_filename);
+        saveName = getFilename.getText().toString();
+
         //encrypt text
-        String cipherText = CreateActivity.encrypt(plaintextIn);
+        String cipherText = encrypt(plaintextIn);
 
         //write encrypted text to file
         writeToFile(cipherText);
-showToast("File saved");
+        showToast("File saved");
         finish();
 
     }
 
     /**
-     * takes a string of text, encrypts and writes to a file
+     * takes a string of ciphertext and writes to a file
      * @param cipherText
      */
     public void writeToFile(String cipherText){
@@ -72,7 +79,7 @@ showToast("File saved");
 
             try {
 
-                FileOutputStream fos = openFileOutput("test file1", Context.MODE_APPEND);
+                FileOutputStream fos = openFileOutput(saveName, Context.MODE_APPEND);
                 fos.write(cipherText.getBytes());
                 fos.close();
 
@@ -80,7 +87,7 @@ showToast("File saved");
                 if (storageState.equals(Environment.MEDIA_MOUNTED)) {
 
                     File file = new File(getExternalFilesDir(null),
-                            "test file 2.txt");
+                            saveName);
 
                     FileOutputStream fos2 = new FileOutputStream(file);
 
