@@ -57,7 +57,7 @@ public class CreateActivity extends Activity {
 
         //write encrypted text to file
         writeToFile(cipherText);
-
+showToast("File saved");
         finish();
 
     }
