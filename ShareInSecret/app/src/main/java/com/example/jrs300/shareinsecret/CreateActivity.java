@@ -9,6 +9,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -57,6 +58,8 @@ public class CreateActivity extends Activity {
         //write encrypted text to file
         writeToFile(cipherText);
 
+        finish();
+
     }
 
     /**
@@ -69,7 +72,7 @@ public class CreateActivity extends Activity {
 
             try {
 
-                FileOutputStream fos = openFileOutput("DayTwentyTwoFile", Context.MODE_APPEND);
+                FileOutputStream fos = openFileOutput("test file1", Context.MODE_APPEND);
                 fos.write(cipherText.getBytes());
                 fos.close();
 
@@ -77,11 +80,11 @@ public class CreateActivity extends Activity {
                 if (storageState.equals(Environment.MEDIA_MOUNTED)) {
 
                     File file = new File(getExternalFilesDir(null),
-                            "DayTwentyTwoFileTwo.enc");
+                            "test file 2.txt");
 
                     FileOutputStream fos2 = new FileOutputStream(file);
 
-                 //   fos2.write(cipherText.getBytes());
+                    fos2.write(cipherText.getBytes());
 
                     fos2.close();
 
@@ -119,5 +122,15 @@ public class CreateActivity extends Activity {
     public static String encrypt (String text)
     {
         return text.toUpperCase();
+    }
+
+    public void showToast(String message)
+
+    {
+
+        Toast toast = Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT);
+
+        toast.show();
+
     }
 }
