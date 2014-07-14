@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.security.InvalidAlgorithmParameterException;
@@ -66,13 +67,29 @@ public class CreateActivity extends Activity {
         EditText getFilename = (EditText) findViewById(R.id.text_filename);
         saveName = getFilename.getText().toString();
 
-        //get an output stream
-        FileOutputStream fos = openFileOutput(saveName, Context.MODE_PRIVATE);
+        //check that filename isn't empty
+        if (saveName.length()< 1){
+              getFilename.setError( "Please enter a name for your file" );
+        }
+        else {
 
-        //encrypt text with new key and write to file
-        KeyManagement keyUsedToEncrypt = FileCryptor.encryptString(plaintextIn, fos);
-        showToast("File saved");
-        finish();
+            //add ,txt extension to filename
+            saveName = saveName + ".txt";
+
+            //check if filename already exists
+
+            boolean fileExists =  new File(saveName).isFile();
+            showToast(String.valueOf(fileExists));
+
+            //get an output stream
+            FileOutputStream fos = openFileOutput(saveName, Context.MODE_PRIVATE);
+
+            //encrypt text with new key and write to file
+            KeyManagement keyUsedToEncrypt = FileCryptor.encryptString(plaintextIn, fos);
+            showToast(saveName + " saved");
+            finish();
+        }
+
     }
 
     public void showToast(String message) {

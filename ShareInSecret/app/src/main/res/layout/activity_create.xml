@@ -18,7 +18,7 @@
         android:layout_alignParentStart="false"
         android:capitalize="sentences"
         android:maxLines="15"
-        android:minLines="6"
+        android:minLines="3"
         android:scrollbars="vertical"
         android:scrollHorizontally="false"
         style="@android:style/Theme.Holo.Light.Panel"
@@ -26,7 +26,8 @@
         android:layout_weight="1"
         android:background="@android:color/background_dark"
         android:textColor="@android:color/holo_orange_light"
-        android:lines="12" />
+        android:lines="12"
+        android:gravity="left|top" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -44,8 +45,7 @@
         android:id="@+id/text_filename"
         android:layout_marginTop="18dp"
         android:layout_marginBottom="18dp"
-        android:background="@android:color/background_dark"
-        android:textColor="@android:color/white" />
+        android:textColor="@android:color/holo_orange_light" />
 
     <Button
         android:layout_width="wrap_content"
