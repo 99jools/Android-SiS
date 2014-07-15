@@ -111,8 +111,6 @@ public class MainActivity extends Activity {
             e.printStackTrace();
         }
 
-
-        finish();
     }
 
     public void showToast(String message) {

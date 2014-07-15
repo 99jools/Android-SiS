@@ -33,7 +33,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Enter filename (including extension):"
+        android:text="Enter filename (alphanumeric, without extension)git commit:"
         android:id="@+id/label_filename"
         android:layout_gravity="center_horizontal|left"
         android:gravity="left"
