@@ -1,0 +1,29 @@
+apply plugin: 'android'
+
+android {
+    compileSdkVersion 19
+    buildToolsVersion "20.0.0"
+
+    defaultConfig {
+        applicationId "com.dropbox.sample.hellodropbox"
+        minSdkVersion 8
+        targetSdkVersion 19
+    }
+
+    buildTypes {
+        release {
+            runProguard false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
+        }
+    }
+}
+dependencies {
+    compile files('libs/dropbox-sync-sdk-android.jar')
+}
+
+android {
+    tasks.withType(com.android.build.gradle.tasks.PackageApplication) {
+        pkgTask -> pkgTask.jniFolders = new HashSet<File>();
+            pkgTask.jniFolders.add(new File(projectDir, 'libs'));
+    }
+}
