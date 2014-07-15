@@ -76,6 +76,8 @@ public class CreateActivity extends Activity {
             //add ,txt extension to filename
             saveName = saveName + ".txt";
 
+
+
             //check if filename already exists
 
             boolean fileExists =  new File(saveName).isFile();

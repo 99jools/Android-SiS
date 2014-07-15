@@ -4,10 +4,10 @@ import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import com.ipaulpro.afilechooser.utils.FileUtils;
 
@@ -76,9 +76,13 @@ public class MainActivity extends Activity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
         //do something
-        Log.e("onActivityResult", data.getData().toString());
+        showToast("onActivityResult" + data.getData().toString());
+        finish();
     }
 
-
+    public void showToast(String message) {
+        Toast toast = Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG);
+        toast.show();
+    }
 
 }
