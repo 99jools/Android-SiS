@@ -1,8 +1,8 @@
 package com.example.jrs300.shareinsecret;
 
 import android.app.Activity;
-import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -74,21 +74,17 @@ public class CreateActivity extends Activity {
         else {
 
             //add ,txt extension to filename
-            saveName = saveName + ".txt";
-
-
-
-            //check if filename already exists
-
-            boolean fileExists =  new File(saveName).isFile();
-            showToast(String.valueOf(fileExists));
+            saveName = saveName + ".enc";
 
             //get an output stream
-            FileOutputStream fos = openFileOutput(saveName, Context.MODE_PRIVATE);
+            File myFile = new File(this.getExternalFilesDir(null),saveName);
+            FileOutputStream fos = new FileOutputStream(myFile);
+
 
             //encrypt text with new key and write to file
             KeyManagement keyUsedToEncrypt = FileCryptor.encryptString(plaintextIn, fos);
             showToast(saveName + " saved");
+            Log.e("CreateActivity ", myFile.getAbsolutePath());
             finish();
         }
 

@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -12,6 +13,10 @@ import android.widget.Toast;
 import com.ipaulpro.afilechooser.utils.FileUtils;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 
 
 public class MainActivity extends Activity {
@@ -59,7 +64,7 @@ public class MainActivity extends Activity {
 
         //browse files using library project aFileChooser
 
-        File myDirectory = getExternalFilesDir(null);
+        File myDirectory = this.getExternalFilesDir(null);
         Uri uriForMyDirectory = Uri.fromFile(myDirectory);
 
         // Create the ACTION_GET_CONTENT Intent
@@ -68,15 +73,45 @@ public class MainActivity extends Activity {
         Intent intent = Intent.createChooser(getContentIntent, "Select a file");
 
         startActivityForResult(intent, REQUEST_CHOOSER);
-
           }
 
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    protected void onActivityResult(int requestCode, int resultCode, Intent data)  {
 
-        //do something
-        showToast("onActivityResult" + data.getData().toString());
+        //decrypt file to external storage -THIS IS A TEMPORARY SOLUTION FOR TESTING
+
+        //sort out file path
+        String in = data.getData().getPath();
+        String out = in.substring(in.lastIndexOf('/') + 1);
+        out = out.substring(0, out.length()-4) + ".dec.txt";
+
+
+
+        //get an output stream
+        File myCiphertextFile = new File(in);
+        File myPlaintextFile = new File(this.getExternalFilesDir(null),out);
+
+        Log.e("in ", myCiphertextFile.getAbsolutePath());
+        Log.e("out ", myPlaintextFile.getAbsolutePath());
+
+
+        try {
+            //get the correct key
+            KeyManagement decryptKey = new KeyManagement(in);
+
+            FileInputStream fis = new FileInputStream(myCiphertextFile);
+             FileOutputStream fos = new FileOutputStream((myPlaintextFile));
+
+            FileCryptor.decryptFile(fis, fos, decryptKey);
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
         finish();
     }
 

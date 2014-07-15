@@ -73,8 +73,8 @@ public class FileCryptor {
          * @throws InvalidAlgorithmParameterException
          */
         public static  void decryptFile(FileInputStream ciphertextAsFileIn, FileOutputStream  plaintextAsFileOut, KeyManagement decryptKey )
-                throws NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException, IOException, InvalidAlgorithmParameterException{
-            decryptKey.dummyKey();
+                {
+
             CipherInputStream cis;
 
             //initialise encryption cipher
@@ -82,8 +82,10 @@ public class FileCryptor {
 
             // read initialisation vector from input stream
             byte[] initVector = new byte[16];
-            ciphertextAsFileIn.read(initVector);
-            IvParameterSpec ips = new IvParameterSpec(initVector);
+                    try {
+                        ciphertextAsFileIn.read(initVector);
+
+                    IvParameterSpec ips = new IvParameterSpec(initVector);
 
             decryptionCipher = Cipher.getInstance(CIPHER_ALGORITHM);
             decryptionCipher.init(Cipher.DECRYPT_MODE,decryptKey.getMyKeySpec(),ips);
@@ -101,7 +103,18 @@ public class FileCryptor {
             }
             //close file
             plaintextAsFileOut.close();
-            return;
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    } catch (InvalidKeyException e) {
+                        e.printStackTrace();
+                    } catch (NoSuchAlgorithmException e) {
+                        e.printStackTrace();
+                    } catch (NoSuchPaddingException e) {
+                        e.printStackTrace();
+                    } catch (InvalidAlgorithmParameterException e) {
+                        e.printStackTrace();
+                    }
+                    return;
         } //end decryptFile
 
 

@@ -10,6 +10,17 @@ public class KeyManagement {
 
     public KeyManagement() {
         keyGen();
+
+        //for texting - overwrite generated key with a dummy key
+        dummyKey();
+    }
+
+
+    public KeyManagement(String cipherTextFilename){
+
+        /* this method will construct a KeyManagement object with the key associated with the input file
+         * for the moment it returns a copy of the dummyKey
+         */
         dummyKey();
     }
 
