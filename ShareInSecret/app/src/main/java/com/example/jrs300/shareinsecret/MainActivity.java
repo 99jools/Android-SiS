@@ -59,6 +59,16 @@ public class MainActivity extends Activity {
 
     }
 
+    //Link to Dropbox
+    public void useDropbox(View view){
+
+        //create intent fo open next activity
+        Intent intent = new Intent(this, DropboxComms.class);
+        startActivity(intent);
+
+
+    }
+
     /**run when user clicks button to open existing document */
     public void openExisting(View view){
 

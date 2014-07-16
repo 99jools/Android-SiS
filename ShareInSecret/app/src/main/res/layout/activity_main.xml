@@ -22,9 +22,19 @@
         android:layout_height="wrap_content"
         android:text="Create New Document"
         android:id="@+id/button_create"
-        android:layout_above="@+id/button_open"
-        android:layout_alignStart="@+id/button_open"
         android:layout_marginBottom="65dp"
         android:layout_alignEnd="@+id/button_open"
         android:onClick="createNewDoc" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Use Dropbox"
+        android:id="@+id/button_useDB"
+        android:layout_below="@+id/button_open"
+        android:layout_alignStart="@+id/button_open"
+        android:layout_marginTop="65dp"
+        android:layout_alignEnd="@+id/button_open"
+        android:onClick="useDropbox" />
+
 </RelativeLayout>
