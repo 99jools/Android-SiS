@@ -1,40 +1,16 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="fill_parent"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
-    android:gravity="center"
-    tools:context=".MainActivity">
+    tools:context="com.example.jrs300.shareinsecret.MainActivity">
 
-    <Button
+    <TextView
+        android:text="@string/hello_world"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Open Existing Document"
-        android:id="@+id/button_open"
-        android:onClick="openExisting"
-        android:layout_centerInParent="true"/>
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Create New Document"
-        android:id="@+id/button_create"
-        android:layout_marginBottom="65dp"
-        android:layout_alignEnd="@+id/button_open"
-        android:onClick="createNewDoc" />
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Use Dropbox"
-        android:id="@+id/button_useDB"
-        android:layout_below="@+id/button_open"
-        android:layout_alignStart="@+id/button_open"
-        android:layout_marginTop="65dp"
-        android:layout_alignEnd="@+id/button_open"
-        android:onClick="useDropbox" />
+        android:layout_height="wrap_content" />
 
 </RelativeLayout>

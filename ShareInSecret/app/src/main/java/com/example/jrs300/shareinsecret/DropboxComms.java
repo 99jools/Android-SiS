@@ -37,6 +37,7 @@ public class DropboxComms extends Activity {
         mLinkButton = (Button) findViewById(R.id.link_button);
 
     }
+
     @Override
     protected void onResume() {
         super.onResume();
@@ -79,7 +80,7 @@ public class DropboxComms extends Activity {
 
     public void linkToDropbox(View view) {
 
-        mDbxAcctMgr.startLink((Activity)this, REQUEST_LINK_TO_DBX);
+        mDbxAcctMgr.startLink((Activity) this, REQUEST_LINK_TO_DBX);
     }
 
     @Override
@@ -96,7 +97,7 @@ public class DropboxComms extends Activity {
     }
 
     private void doDropboxTest() {
-        mTestOutput.setText("Dropbox Sync API Version "+DbxAccountManager.SDK_VERSION_NAME+"\n");
+        mTestOutput.setText("Dropbox Sync API Version " + DbxAccountManager.SDK_VERSION_NAME + "\n");
         try {
             final String TEST_DATA = "Hello Dropbox";
             final String TEST_FILE_NAME = "hello_dropbox.txt";
