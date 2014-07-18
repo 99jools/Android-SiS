@@ -3,20 +3,47 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         tools:context="com.example.jrs300.shareinsecret.MainActivity">
-
         <TextView
-            android:id="@+id/test_output"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
-        <Button
-            android:id="@+id/link_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center_vertical|center_horizontal"
-            android:layout_centerInParent="true"
-            android:text="@string/link_to_dropbox"
-            android:onClick="linkToDropbox"
-            android:layout_gravity="center_vertical" />
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:id="@+id/textView2"
+            android:layout_marginBottom="57dp"
+            android:layout_above="@+id/ok_button"
+            android:layout_alignParentStart="true"
+            android:focusable="false"
+            android:gravity="center" />
+        <Button
+            android:id="@+id/ok_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:text="@string/ok"
+            android:onClick="onClickOK"
+            android:layout_gravity="center_vertical"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/test_output" />
+        <Button
+            android:id="@+id/change_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:text="@string/change"
+            android:onClick="onClickChange"
+            android:layout_gravity="center_vertical"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true" />
+        <Button
+            android:id="@+id/button_unlink"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:text="@string/unlink"
+            android:onClick="UnlinkFromDropbox"
+            android:layout_gravity="center_vertical"
+            android:layout_alignTop="@+id/change_button"
+            android:layout_alignParentEnd="true" />
+
+
 
     </RelativeLayout>
