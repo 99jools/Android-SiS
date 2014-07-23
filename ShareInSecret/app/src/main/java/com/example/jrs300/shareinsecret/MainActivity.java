@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,34 +28,44 @@ public class MainActivity extends Activity {
     private DbxAccountManager mDbxAcctMgr;
     private DbxAccountInfo mDbxAcctInfo;
     private TextView mTextOutput;
-    private Button mChangeButton;
+    private boolean linked
+
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        mTextOutput = (TextView) findViewById(R.id.textView2);  //set up variable linked to TextView
+
         mDbxAcctMgr = DbxAccountManager.getInstance(getApplicationContext(), appKey, appSecret);
+
+        //if linked - get account details (otherwise screen will display link request)
         if (mDbxAcctMgr.hasLinkedAccount()) {
+            this.linked = true;
             mDbxAcctInfo = mDbxAcctMgr.getLinkedAccount().getAccountInfo();
-        }
-        mTextOutput = (TextView) findViewById(R.id.textView2);
-        mChangeButton = (Button) findViewById(R.id.change_button);
+        } else this.linked = false;
     }
 
 
     @Override
     protected void onResume() {
         super.onResume();
+
+        /*
+         * check if linked account exists and display appropriate message
+         */
         if (mDbxAcctMgr.hasLinkedAccount()) {
-            mTextOutput.setText("You are currently linked to Dropbox account\n " + mDbxAcctInfo.displayName + "" +
-                    "\nProceed?");
-            mChangeButton.setVisibility(View.VISIBLE);
-            doDropboxTest();
-        } else {
-            mTextOutput.setText("This app needs access to your dropbox account. \nClick OK to link.");
-            mChangeButton.setVisibility(View.GONE);
-        }
+
+            // check if account information is available
+            if ( (mDbxAcctInfo==null) ){
+                //linked and missing account info - get from server
+                mDbxAcctInfo = mDbxAcctMgr.getLinkedAccount().getAccountInfo();  //check if this step is necessary
+            } else processLinked();
+
+        } else processUnlinked();
+
     }
 
     @Override
@@ -78,21 +87,31 @@ public class MainActivity extends Activity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void onClickOK(View view){
+    public void onProceed(View view){
+
+        //check which scenario we are in
+
+
         mDbxAcctMgr.startLink((Activity) this, REQUEST_LINK_TO_DBX);
     }
 
 
 
-    public void UnlinkFromDropbox(View view){
-        mDbxAcctMgr.unlink();
+    public void linkDifferent(View view){
+        mDbxAcctMgr.unlink();  //note - this will remove all locally stored account information
+        recreate();
     }
 
-    public void onClickChange(View view){
-        mDbxAcctMgr.unlink();
-        mDbxAcctMgr.startLink((Activity) this, REQUEST_LINK_TO_DBX);
+    public void processLinked(){
+
+        //check if account details are available
+        mTextOutput.setText("You are currently linked to Dropbox account\n " + mDbxAcctInfo.displayName);
     }
 
+
+    public void processUnlinked(){
+        mTextOutput.setText("This app needs access to your dropbox account. \nClick OK to link.");
+    }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -162,7 +181,5 @@ public class MainActivity extends Activity {
         toast.show();
     }
 
-    public void LinkToDropbox(View view){
-        mDbxAcctMgr.startLink((Activity) this, REQUEST_LINK_TO_DBX);
-    }
+
 }
