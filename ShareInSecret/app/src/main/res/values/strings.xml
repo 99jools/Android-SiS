@@ -7,7 +7,10 @@
     <string name="title_activity_create">CreateActivity</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_dropbox_comms">DropboxComms</string>
-    <string name="link_to_dropbox">Link to Dropbox</string>
+    <string name="ok">OK</string>
+    <string name="unlink">Unlink</string>
+    <string name="change">Change</string>
     <string name="title_activity_main">MainActivity</string>
+    <string name="link_to_dropbox">Link to Dropbox</string>
 
 </resources>
