@@ -2,7 +2,6 @@ package com.example.jrs300.shareinsecret;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -15,7 +14,6 @@ import com.dropbox.sync.android.DbxFileInfo;
 import com.dropbox.sync.android.DbxFileSystem;
 import com.dropbox.sync.android.DbxPath;
 
-import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.security.InvalidAlgorithmParameterException;
@@ -31,11 +29,13 @@ public class CreateActivity extends Activity {
 
     private String plaintextIn;
     private String saveName;
+    private DbxAccountManager mDbxAcctMgr;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create);
+        this.mDbxAcctMgr = new GetDbxAcctMgr(getApplicationContext()).getmDbxAcctMgr();
     }
 
 
@@ -68,21 +68,21 @@ public class CreateActivity extends Activity {
 
         //get the plaintext from the screen
         EditText editText = (EditText) findViewById(R.id.plaintextIn);
-        String plaintextIn = editText.getText().toString();
+        this.plaintextIn = editText.getText().toString();
 
         //get the filename
         EditText getFilename = (EditText) findViewById(R.id.text_filename);
-        saveName = getFilename.getText().toString();
+        this.saveName = getFilename.getText().toString();
 
         //check that filename isn't empty
-        if (saveName.length()< 1){
+        if (this.saveName.length()< 1){
               getFilename.setError( "Please enter a name for your file" );
         }
         else {
 
             //add .enc extension to filename
-            saveName = saveName + ".enc";
-
+            this.saveName = this.saveName + ".enc";
+/* comment this out temporarily
             //get an output stream
             File myFile = new File(this.getExternalFilesDir(null),saveName);
             FileOutputStream fos = new FileOutputStream(myFile);
@@ -92,6 +92,9 @@ public class CreateActivity extends Activity {
             KeyManagement keyUsedToEncrypt = FileCryptor.encryptString(plaintextIn, fos);
             showToast(saveName + " saved");
             Log.e("CreateActivity ", myFile.getAbsolutePath());
+*/
+
+
             finish();
         }
 
@@ -101,57 +104,35 @@ public class CreateActivity extends Activity {
         Toast toast = Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT);
         toast.show();
     }
-}
 
 
-
-
-    private void doDropboxTest() {
+    private FileOutputStream getDbxOutputStream() {
 
         try {
-            final String TEST_DATA = plaintextIn
-            final String TEST_FILE_NAME = saveName;
-            DbxPath testPath = new DbxPath(DbxPath.ROOT, TEST_FILE_NAME);
+            DbxPath savePath = new DbxPath(DbxPath.ROOT, this.saveName);
 
-            // Create DbxFileSystem for synchronized file access.
-            DbxFileSystem dbxFs = DbxFileSystem.forAccount(mDbxAcctMgr.getLinkedAccount());
+            // Create DbxFileSystem for synchronized file access and ensure first sync is complete.
+            DbxFileSystem dbxFileSys = DbxFileSystem.forAccount(this.mDbxAcctMgr.getLinkedAccount());
+            if ( dbxFileSys.hasSynced() ==  false)
+                dbxFileSys.awaitFirstSync();
 
-            // Print the contents of the root folder.  This will block until we can
-            // sync metadata the first time.
-            List<DbxFileInfo> infos = dbxFs.listFolder(DbxPath.ROOT);
-            mTestOutput.append("\nContents of app folder:\n");
-            for (DbxFileInfo info : infos) {
-                mTestOutput.append("    " + info.path + ", " + info.modifiedTime + '\n');
-            }
 
-            // Create a test file only if it doesn't already exist.
-            if (!dbxFs.exists(testPath)) {
-                DbxFile testFile = dbxFs.create(testPath);
-                try {
-                    testFile.writeString(TEST_DATA);
+         // Create a test file only if it doesn't already exist.
+            if (!dbxFileSys.exists(savePath)) {
+                DbxFile newFile = dbxFileSys.create(savePath);
+                FileOutputStream newFos = newFile.getWriteStream();
+         /*       try {
+                    newFile.writeString(this.plaintextIn);
+                    newFile.
                 } finally {
-                    testFile.close();
+                    newFile.close();
                 }
-                mTestOutput.append("\nCreated new file '" + testPath + "'.\n");
+*/
+                return newFos;
             }
 
-            // Read and print the contents of test file.  Since we're not making
-            // any attempt to wait for the latest version, this may print an
-            // older cached version.  Use getSyncStatus() and/or a listener to
-            // check for a new version.
-            if (dbxFs.isFile(testPath)) {
-                String resultData;
-                DbxFile testFile = dbxFs.open(testPath);
-                try {
-                    resultData = testFile.readString();
-                } finally {
-                    testFile.close();
-                }
-                mTestOutput.append("\nRead file '" + testPath + "' and got data:\n    " + resultData);
-            } else if (dbxFs.isFolder(testPath)) {
-                mTestOutput.append("'" + testPath.toString() + "' is a folder.\n");
-            }
+
         } catch (IOException e) {
-            mTestOutput.setText("Dropbox test failed: " + e);
+            showToast("Dropbox test failed: " + e);
         }
-    }
+    }}

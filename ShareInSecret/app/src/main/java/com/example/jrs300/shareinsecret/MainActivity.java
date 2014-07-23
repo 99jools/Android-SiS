@@ -30,8 +30,10 @@ public class MainActivity extends Activity {
     private static final int REQUEST_LINK_TO_DBX = 0;
     private DbxAccountManager mDbxAcctMgr;
     private DbxAccount mDbxAcct;
+    private DbxAccountInfo mDbxAcctInfo;
     private TextView mTextOutput;
     private Button mButton;
+    private String displayName;
     private boolean linked;
 
 
@@ -44,22 +46,22 @@ public class MainActivity extends Activity {
         mTextOutput = (TextView) findViewById(R.id.textView2);  //set up variable linked to TextView
         mButton = (Button) findViewById(R.id.button_unlink);
 
-        mDbxAcctMgr = DbxAccountManager.getInstance(getApplicationContext(), appKey, appSecret);
+        mDbxAcctMgr = new GetDbxAcctMgr(getApplicationContext()).getmDbxAcctMgr();
     }
 
 
-        @Override
-        protected void onResume() {
-            super.onResume();
-            linked = mDbxAcctMgr.hasLinkedAccount();
-            Log.e("on resume", " " + linked);
-            if (mDbxAcctMgr.hasLinkedAccount()) {
-                processLinked();
+    @Override
+    protected void onResume() {
+        super.onResume();
+        linked = mDbxAcctMgr.hasLinkedAccount();
+        Log.e("on resume", " " + linked);
+        if (mDbxAcctMgr.hasLinkedAccount()) {
+            processLinked();
 
-            } else {
-                processUnlinked();
-            }
+        } else {
+            processUnlinked();
         }
+    }
 
 
     @Override
@@ -109,11 +111,14 @@ public class MainActivity extends Activity {
             //linked and missing account info - get from server
             Log.e("get info"," "+linked);
             DbxAccount temp = mDbxAcctMgr.getLinkedAccount();
+
             mDbxAcctInfo = temp.getAccountInfo();
-      //      mDbxAcctInfo = mDbxAcctMgr.getLinkedAccount().getAccountInfo();
+            if (mDbxAcctInfo == null) displayName = "dummy";
+            else displayName = mDbxAcctInfo.displayName;
+            //      mDbxAcctInfo = mDbxAcctMgr.getLinkedAccount().getAccountInfo();
         }
 
-        mTextOutput.setText("You are currently linked to Dropbox account\n " + mDbxAcctInfo.displayName);
+        mTextOutput.setText("You are currently linked to Dropbox account\n " + displayName );
         mButton.setVisibility(View.VISIBLE);
     }
 
