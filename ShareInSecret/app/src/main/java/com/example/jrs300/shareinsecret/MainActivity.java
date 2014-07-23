@@ -3,12 +3,15 @@ package com.example.jrs300.shareinsecret;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.dropbox.sync.android.DbxAccount;
 import com.dropbox.sync.android.DbxAccountInfo;
 import com.dropbox.sync.android.DbxAccountManager;
 import com.dropbox.sync.android.DbxFile;
@@ -26,9 +29,10 @@ public class MainActivity extends Activity {
 
     private static final int REQUEST_LINK_TO_DBX = 0;
     private DbxAccountManager mDbxAcctMgr;
-    private DbxAccountInfo mDbxAcctInfo;
+    private DbxAccount mDbxAcct;
     private TextView mTextOutput;
-    private boolean linked
+    private Button mButton;
+    private boolean linked;
 
 
 
@@ -38,35 +42,25 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
 
         mTextOutput = (TextView) findViewById(R.id.textView2);  //set up variable linked to TextView
+        mButton = (Button) findViewById(R.id.button_unlink);
 
         mDbxAcctMgr = DbxAccountManager.getInstance(getApplicationContext(), appKey, appSecret);
-
-        //if linked - get account details (otherwise screen will display link request)
-        if (mDbxAcctMgr.hasLinkedAccount()) {
-            this.linked = true;
-            mDbxAcctInfo = mDbxAcctMgr.getLinkedAccount().getAccountInfo();
-        } else this.linked = false;
     }
 
 
-    @Override
-    protected void onResume() {
-        super.onResume();
+        @Override
+        protected void onResume() {
+            super.onResume();
+            linked = mDbxAcctMgr.hasLinkedAccount();
+            Log.e("on resume", " " + linked);
+            if (mDbxAcctMgr.hasLinkedAccount()) {
+                processLinked();
 
-        /*
-         * check if linked account exists and display appropriate message
-         */
-        if (mDbxAcctMgr.hasLinkedAccount()) {
+            } else {
+                processUnlinked();
+            }
+        }
 
-            // check if account information is available
-            if ( (mDbxAcctInfo==null) ){
-                //linked and missing account info - get from server
-                mDbxAcctInfo = mDbxAcctMgr.getLinkedAccount().getAccountInfo();  //check if this step is necessary
-            } else processLinked();
-
-        } else processUnlinked();
-
-    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -90,27 +84,44 @@ public class MainActivity extends Activity {
     public void onProceed(View view){
 
         //check which scenario we are in
-
-
-        mDbxAcctMgr.startLink((Activity) this, REQUEST_LINK_TO_DBX);
+        if (linked) {
+            //create intent for Chooser activity
+            Intent intent = new Intent(this, ChooserActivity.class);
+            startActivity(intent);
+        } else {
+            mDbxAcctMgr.startLink((Activity) this, REQUEST_LINK_TO_DBX);
+            linked = true;
+        }
     }
 
-
-
     public void linkDifferent(View view){
+        Log.e("before unlink", " " + linked );
         mDbxAcctMgr.unlink();  //note - this will remove all locally stored account information
+        Log.e("after unlink", " " + linked );
         recreate();
     }
 
     public void processLinked(){
+        mDbxAcct = mDbxAcctMgr.getLinkedAccount();
 
-        //check if account details are available
+        // check if account information is available
+        if ( (mDbxAcct.getAccountInfo()==null) ) {
+            //linked and missing account info - get from server
+            Log.e("get info"," "+linked);
+            DbxAccount temp = mDbxAcctMgr.getLinkedAccount();
+            mDbxAcctInfo = temp.getAccountInfo();
+      //      mDbxAcctInfo = mDbxAcctMgr.getLinkedAccount().getAccountInfo();
+        }
+
         mTextOutput.setText("You are currently linked to Dropbox account\n " + mDbxAcctInfo.displayName);
+        mButton.setVisibility(View.VISIBLE);
     }
 
 
     public void processUnlinked(){
+        Log.e("processUnlinked"," "+linked);
         mTextOutput.setText("This app needs access to your dropbox account. \nClick OK to link.");
+        mButton.setVisibility(View.GONE);
     }
 
     @Override

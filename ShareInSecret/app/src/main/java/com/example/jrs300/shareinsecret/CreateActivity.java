@@ -9,12 +9,19 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.dropbox.sync.android.DbxAccountManager;
+import com.dropbox.sync.android.DbxFile;
+import com.dropbox.sync.android.DbxFileInfo;
+import com.dropbox.sync.android.DbxFileSystem;
+import com.dropbox.sync.android.DbxPath;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
+import java.util.List;
 
 import javax.crypto.BadPaddingException;
 import javax.crypto.IllegalBlockSizeException;
@@ -73,7 +80,7 @@ public class CreateActivity extends Activity {
         }
         else {
 
-            //add ,txt extension to filename
+            //add .enc extension to filename
             saveName = saveName + ".enc";
 
             //get an output stream
@@ -95,3 +102,56 @@ public class CreateActivity extends Activity {
         toast.show();
     }
 }
+
+
+
+
+    private void doDropboxTest() {
+
+        try {
+            final String TEST_DATA = plaintextIn
+            final String TEST_FILE_NAME = saveName;
+            DbxPath testPath = new DbxPath(DbxPath.ROOT, TEST_FILE_NAME);
+
+            // Create DbxFileSystem for synchronized file access.
+            DbxFileSystem dbxFs = DbxFileSystem.forAccount(mDbxAcctMgr.getLinkedAccount());
+
+            // Print the contents of the root folder.  This will block until we can
+            // sync metadata the first time.
+            List<DbxFileInfo> infos = dbxFs.listFolder(DbxPath.ROOT);
+            mTestOutput.append("\nContents of app folder:\n");
+            for (DbxFileInfo info : infos) {
+                mTestOutput.append("    " + info.path + ", " + info.modifiedTime + '\n');
+            }
+
+            // Create a test file only if it doesn't already exist.
+            if (!dbxFs.exists(testPath)) {
+                DbxFile testFile = dbxFs.create(testPath);
+                try {
+                    testFile.writeString(TEST_DATA);
+                } finally {
+                    testFile.close();
+                }
+                mTestOutput.append("\nCreated new file '" + testPath + "'.\n");
+            }
+
+            // Read and print the contents of test file.  Since we're not making
+            // any attempt to wait for the latest version, this may print an
+            // older cached version.  Use getSyncStatus() and/or a listener to
+            // check for a new version.
+            if (dbxFs.isFile(testPath)) {
+                String resultData;
+                DbxFile testFile = dbxFs.open(testPath);
+                try {
+                    resultData = testFile.readString();
+                } finally {
+                    testFile.close();
+                }
+                mTestOutput.append("\nRead file '" + testPath + "' and got data:\n    " + resultData);
+            } else if (dbxFs.isFolder(testPath)) {
+                mTestOutput.append("'" + testPath.toString() + "' is a folder.\n");
+            }
+        } catch (IOException e) {
+            mTestOutput.setText("Dropbox test failed: " + e);
+        }
+    }
