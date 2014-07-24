@@ -43,6 +43,7 @@ public class MainActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Log.e("method call", "onCreate"+mDbxAcctInfo);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -55,9 +56,9 @@ public class MainActivity extends Activity {
 
     @Override
     protected void onResume() {
+        Log.e("method call", "onResume"+mDbxAcctInfo);
         super.onResume();
         linked = mDbxAcctMgr.hasLinkedAccount();
-        Log.e("on resume", " " + linked);
         if (mDbxAcctMgr.hasLinkedAccount()) {
             processLinked();
         } else {
@@ -86,7 +87,7 @@ public class MainActivity extends Activity {
     }
 
     public void onProceed(View view){
-
+        Log.e("method call", "onProceed"+mDbxAcctInfo);
         //check which scenario we are in
         if (linked) {
             //create intent for Chooser activity
@@ -122,14 +123,20 @@ public class MainActivity extends Activity {
     }
 
     public void processLinked(){
-        mDbxAcctInfo = mDbxAcctMgr.getLinkedAccount().getAccountInfo();
-        mTextOutput.setText("You are currently linked to Dropbox account\n " + mDbxAcctInfo.displayName);
+        Log.e("method call", "processLinked"+mDbxAcctMgr.getLinkedAccount().getAccountInfo());
+        for(int i=0;i<4;i++) {
+            mDbxAcctInfo = mDbxAcctMgr.getLinkedAccount().getAccountInfo();
+            Log.e("method call", "processLinked - after get" + i + mDbxAcctInfo);
+        }
+        mTextOutput.setText("You are currently linked to Dropbox account\n " + mDbxAcctInfo);
+
         mButtonOK.setText("OK");
         mButtonUnlink.setVisibility(View.VISIBLE);
     }
 
 
     public void processUnlinked(){
+        Log.e("method call", "processUnLinked");
         mTextOutput.setText("This app needs access a dropbox account");
         mButtonOK.setText("Link to Dropbox");
         mButtonUnlink.setVisibility(View.GONE);
@@ -137,10 +144,12 @@ public class MainActivity extends Activity {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        Log.e("method call", "onActivityResult"+mDbxAcctInfo);
         if (requestCode == REQUEST_LINK_TO_DBX) {
             if (resultCode == Activity.RESULT_OK) {
                 //start next activity
                 linked = true;
+                Log.e("in Result","");
                 mDbxAcctInfo = mDbxAcctMgr.getLinkedAccount().getAccountInfo();
                 Intent intent = new Intent(this, ChooserActivity.class);
                 startActivity(intent);

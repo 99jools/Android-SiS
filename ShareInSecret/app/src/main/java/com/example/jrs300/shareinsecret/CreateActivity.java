@@ -2,6 +2,7 @@ package com.example.jrs300.shareinsecret;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -32,6 +33,7 @@ public class CreateActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Log.e("method call", "CreateActivity");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create);
         this.mDbxAcctMgr = new GetDbxAcctMgr(getApplicationContext()).getmDbxAcctMgr();
@@ -91,7 +93,7 @@ public class CreateActivity extends Activity {
             //encrypt text with new key and write to file
             KeyManagement keyUsedToEncrypt = FileCryptor.encryptString(plaintextIn, fos);
             showToast(saveName + " saved");
-            
+
             finish();
         }
 
