@@ -15,7 +15,7 @@
         android:theme="@style/AppTheme" >
         <activity
             android:name=".ChooserActivity"
-                android:label="ChooserActivity"
+            android:label="ChooserActivity"
             android:parentActivityName=".MainActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -36,7 +36,9 @@
             android:launchMode="singleTask" >
             <intent-filter>
                 <data android:scheme="db-n8sv033pnhqujme" />
+
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.BROWSABLE" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
@@ -61,8 +63,17 @@
             android:label="ShareInSecret" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name=".DownloadActivity"
+            android:label="@string/title_activity_download"
+            android:parentActivityName=".ChooserActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.jrs300.shareinsecret.ChooserActivity" />
         </activity>
     </application>
 

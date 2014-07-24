@@ -39,6 +39,14 @@ public class CreateActivity extends Activity {
         this.mDbxAcctMgr = new GetDbxAcctMgr(getApplicationContext()).getmDbxAcctMgr();
     }
 
+    @Override
+    protected void onResume() {
+
+        //THIS IS JUST HERE FOR TESTING PURPOSES - REMOVE
+        Log.e("method call", "CreateActivity - onResume");
+        super.onResume();
+
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

@@ -11,5 +11,6 @@
     <string name="unlink">Unlink</string>
     <string name="title_activity_main">MainActivity</string>
     <string name="link_to_dropbox">Link to Dropbox</string>
+    <string name="title_activity_download">DownloadActivity</string>
 
 </resources>

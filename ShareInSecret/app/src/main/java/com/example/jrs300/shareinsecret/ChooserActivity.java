@@ -52,7 +52,7 @@ public class ChooserActivity extends Activity {
     //my code starts here
     public void createNewDoc(View view){
 
-        //create intent fo open next activity
+        //create intent for Create Activity
         Intent intent = new Intent(this, CreateActivity.class);
         startActivity(intent);
 
@@ -62,7 +62,7 @@ public class ChooserActivity extends Activity {
     //Link to Dropbox
     public void useDropbox(View view){
 
-        //create intent fo open next activity
+        //create intent for open next activity
         Intent intent = new Intent(this, DropboxComms.class);
         startActivity(intent);
 
