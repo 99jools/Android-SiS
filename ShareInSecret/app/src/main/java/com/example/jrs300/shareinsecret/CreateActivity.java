@@ -9,8 +9,8 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.dropbox.sync.android.DbxAccountManager;
+import com.dropbox.sync.android.DbxException;
 import com.dropbox.sync.android.DbxFile;
-import com.dropbox.sync.android.DbxFileInfo;
 import com.dropbox.sync.android.DbxFileSystem;
 import com.dropbox.sync.android.DbxPath;
 
@@ -19,7 +19,6 @@ import java.io.IOException;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
-import java.util.List;
 
 import javax.crypto.BadPaddingException;
 import javax.crypto.IllegalBlockSizeException;
@@ -106,21 +105,21 @@ public class CreateActivity extends Activity {
     }
 
 
-    private FileOutputStream getDbxOutputStream() {
+    private FileOutputStream getDbxOutputStream() throws DbxException, IOException{
 
-        try {
-            DbxPath savePath = new DbxPath(DbxPath.ROOT, this.saveName);
+        DbxPath savePath = new DbxPath(DbxPath.ROOT, this.saveName);
+        FileOutputStream newFos=null;
 
-            // Create DbxFileSystem for synchronized file access and ensure first sync is complete.
-            DbxFileSystem dbxFileSys = DbxFileSystem.forAccount(this.mDbxAcctMgr.getLinkedAccount());
-            if ( dbxFileSys.hasSynced() ==  false)
-                dbxFileSys.awaitFirstSync();
+        // Create DbxFileSystem for synchronized file access and ensure first sync is complete.
+        DbxFileSystem dbxFileSys = DbxFileSystem.forAccount(this.mDbxAcctMgr.getLinkedAccount());
+        if ( dbxFileSys.hasSynced() ==  false)
+            dbxFileSys.awaitFirstSync();
 
 
-         // Create a test file only if it doesn't already exist.
-            if (!dbxFileSys.exists(savePath)) {
-                DbxFile newFile = dbxFileSys.create(savePath);
-                FileOutputStream newFos = newFile.getWriteStream();
+        // Create a test file only if it doesn't already exist.
+        if (!dbxFileSys.exists(savePath)) {
+            DbxFile newFile = dbxFileSys.create(savePath);
+            newFos = newFile.getWriteStream();
          /*       try {
                     newFile.writeString(this.plaintextIn);
                     newFile.
@@ -128,11 +127,9 @@ public class CreateActivity extends Activity {
                     newFile.close();
                 }
 */
-                return newFos;
-            }
 
-
-        } catch (IOException e) {
-            showToast("Dropbox test failed: " + e);
         }
+        return newFos;
+
+
     }}

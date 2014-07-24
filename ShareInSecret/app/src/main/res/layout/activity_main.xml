@@ -10,7 +10,7 @@
         android:id="@+id/textView2"
         android:text="default"
         android:layout_marginBottom="60dp"
-        android:layout_above="@+id/ok_button"
+        android:layout_above="@+id/button_OK"
         android:focusable="false"
         android:gravity="center"
         android:layout_centerHorizontal="true"/>
@@ -24,7 +24,7 @@
         android:layout_centerHorizontal="true" />
 
     <Button
-        android:id="@+id/ok_button"
+        android:id="@+id/button_OK"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
@@ -38,12 +38,11 @@
         android:id="@+id/button_unlink"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-
         android:gravity="center"
         android:text="@string/unlink"
-        android:onClick="linkDifferent"
+        android:onClick="onClickUnlink"
         android:layout_gravity="center_vertical"
-        android:layout_alignTop="@+id/ok_button"
+        android:layout_alignTop="@+id/button_OK"
         android:layout_toRightOf="@+id/dummy" />
 
 

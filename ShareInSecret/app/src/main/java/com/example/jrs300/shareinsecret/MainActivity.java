@@ -1,6 +1,8 @@
 package com.example.jrs300.shareinsecret;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -32,7 +34,8 @@ public class MainActivity extends Activity {
     private DbxAccount mDbxAcct;
     private DbxAccountInfo mDbxAcctInfo;
     private TextView mTextOutput;
-    private Button mButton;
+    private Button mButtonUnlink;
+    private Button mButtonOK;
     private String displayName;
     private boolean linked;
 
@@ -44,8 +47,8 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
 
         mTextOutput = (TextView) findViewById(R.id.textView2);  //set up variable linked to TextView
-        mButton = (Button) findViewById(R.id.button_unlink);
-
+        mButtonUnlink = (Button) findViewById(R.id.button_unlink);
+        mButtonOK = (Button) findViewById(R.id.button_OK);
         mDbxAcctMgr = new GetDbxAcctMgr(getApplicationContext()).getmDbxAcctMgr();
     }
 
@@ -57,7 +60,6 @@ public class MainActivity extends Activity {
         Log.e("on resume", " " + linked);
         if (mDbxAcctMgr.hasLinkedAccount()) {
             processLinked();
-
         } else {
             processUnlinked();
         }
@@ -92,41 +94,45 @@ public class MainActivity extends Activity {
             startActivity(intent);
         } else {
             mDbxAcctMgr.startLink((Activity) this, REQUEST_LINK_TO_DBX);
-            linked = true;
         }
     }
 
-    public void linkDifferent(View view){
-        Log.e("before unlink", " " + linked );
-        mDbxAcctMgr.unlink();  //note - this will remove all locally stored account information
-        Log.e("after unlink", " " + linked );
-        recreate();
+    public void onClickUnlink(View view){
+        AlertDialog.Builder ad = new AlertDialog.Builder(this);
+        ad.setMessage("This will unlink your dropbox account, delete all local data and terminate the app");
+        ad.setTitle("Unlink from Dropbox");
+        ad.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                mDbxAcctMgr.unlink();
+                finish();
+            }
+        });
+        ad.setNegativeButton("Cancel",new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                recreate();
+            }
+        });
+        // create alert dialog
+        AlertDialog alertDialog = ad.create();
+
+        // show it
+        alertDialog.show();
     }
 
     public void processLinked(){
-        mDbxAcct = mDbxAcctMgr.getLinkedAccount();
-
-        // check if account information is available
-        if ( (mDbxAcct.getAccountInfo()==null) ) {
-            //linked and missing account info - get from server
-            Log.e("get info"," "+linked);
-            DbxAccount temp = mDbxAcctMgr.getLinkedAccount();
-
-            mDbxAcctInfo = temp.getAccountInfo();
-            if (mDbxAcctInfo == null) displayName = "dummy";
-            else displayName = mDbxAcctInfo.displayName;
-            //      mDbxAcctInfo = mDbxAcctMgr.getLinkedAccount().getAccountInfo();
-        }
-
-        mTextOutput.setText("You are currently linked to Dropbox account\n " + displayName );
-        mButton.setVisibility(View.VISIBLE);
+        mDbxAcctInfo = mDbxAcctMgr.getLinkedAccount().getAccountInfo();
+        mTextOutput.setText("You are currently linked to Dropbox account\n " + mDbxAcctInfo.displayName);
+        mButtonOK.setText("OK");
+        mButtonUnlink.setVisibility(View.VISIBLE);
     }
 
 
     public void processUnlinked(){
-        Log.e("processUnlinked"," "+linked);
-        mTextOutput.setText("This app needs access to your dropbox account. \nClick OK to link.");
-        mButton.setVisibility(View.GONE);
+        mTextOutput.setText("This app needs access a dropbox account");
+        mButtonOK.setText("Link to Dropbox");
+        mButtonUnlink.setVisibility(View.GONE);
     }
 
     @Override
@@ -134,6 +140,8 @@ public class MainActivity extends Activity {
         if (requestCode == REQUEST_LINK_TO_DBX) {
             if (resultCode == Activity.RESULT_OK) {
                 //start next activity
+                linked = true;
+                mDbxAcctInfo = mDbxAcctMgr.getLinkedAccount().getAccountInfo();
                 Intent intent = new Intent(this, ChooserActivity.class);
                 startActivity(intent);
             } else {
@@ -196,6 +204,8 @@ public class MainActivity extends Activity {
         Toast toast = Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT);
         toast.show();
     }
+
+
 
 
 }
