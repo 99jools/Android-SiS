@@ -81,19 +81,17 @@ public class CreateActivity extends Activity {
 
             //add .enc extension to filename
             this.saveName = this.saveName + ".enc";
-/* comment this out temporarily
-            //get an output stream
-            File myFile = new File(this.getExternalFilesDir(null),saveName);
-            FileOutputStream fos = new FileOutputStream(myFile);
 
+            //get an output stream
+  //          File myFile = new File(this.getExternalFilesDir(null),saveName);
+  //          FileOutputStream fos = new FileOutputStream(myFile);
+
+            FileOutputStream fos = getDbxOutputStream();
 
             //encrypt text with new key and write to file
             KeyManagement keyUsedToEncrypt = FileCryptor.encryptString(plaintextIn, fos);
             showToast(saveName + " saved");
-            Log.e("CreateActivity ", myFile.getAbsolutePath());
-*/
-
-
+            
             finish();
         }
 
@@ -120,16 +118,8 @@ public class CreateActivity extends Activity {
         if (!dbxFileSys.exists(savePath)) {
             DbxFile newFile = dbxFileSys.create(savePath);
             newFos = newFile.getWriteStream();
-         /*       try {
-                    newFile.writeString(this.plaintextIn);
-                    newFile.
-                } finally {
-                    newFile.close();
-                }
-*/
 
         }
         return newFos;
-
-
-    }}
+    }
+}

@@ -17,7 +17,7 @@
         android:id="@+id/plaintextIn"
         android:layout_alignParentStart="false"
         android:capitalize="sentences"
-        android:maxLines="15"
+        android:maxLines="12"
         android:minLines="3"
         android:scrollbars="vertical"
         android:scrollHorizontally="false"
@@ -26,14 +26,14 @@
         android:layout_weight="1"
         android:background="@android:color/background_dark"
         android:textColor="@android:color/holo_orange_light"
-        android:lines="12"
+        android:lines="4"
         android:gravity="left|top" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Enter filename (alphanumeric, without extension)git commit:"
+        android:text="Enter filename"
         android:id="@+id/label_filename"
         android:layout_gravity="center_horizontal|left"
         android:gravity="left"
