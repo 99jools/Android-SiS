@@ -20,7 +20,8 @@ import java.io.IOException;
 
 public class ChooserActivity extends Activity {
 
-    private static final int REQUEST_CHOOSER = 1234;
+    private static final int REQUEST_CHOOSER = 1111;
+    private static final int DROPBOX_CHOOSER = 2222;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,10 +63,9 @@ public class ChooserActivity extends Activity {
     public void useDropbox(View view){
 
         DbxChooser mChooser = new GetDbxAcctMgr(getApplicationContext()).getmChooser();
-        mChooser.forResultType(DbxChooser.ResultType.FILE_CONTENT).launch(,REQUEST_CHOOSER);
-        //create intent for open next activity
-        Intent intent = new Intent(this, DropboxComms.class);
-        startActivity(intent);
+        mChooser.forResultType(DbxChooser.ResultType.FILE_CONTENT).
+                launch(ChooserActivity.this, DROPBOX_CHOOSER);
+
 
 
     }
@@ -82,13 +82,54 @@ public class ChooserActivity extends Activity {
 
 
 
-
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data)  {
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == DROPBOX_CHOOSER) {
+            if (resultCode == Activity.RESULT_OK) {
+                DbxChooser.Result result = new DbxChooser.Result(data);
+                Log.e("main", "Link to selected file: " + result.getName());
 
-        //decrypt file to external storage -THIS IS A TEMPORARY SOLUTION FOR TESTING
+                //decryption stuff - TEMPORARY !!
+                String in = result.getLink().getPath();
+                String out = result.getName();
+                out = out.substring(0, out.length()-4) + ".dec.txt";
 
-        //sort out file path
+                try {
+                    //get the correct key
+                    KeyManagement decryptKey = new KeyManagement(in);
+
+
+
+                    //get an output stream
+                    File myCiphertextFile = new File(in);
+                    File myPlaintextFile = new File(this.getExternalFilesDir(null),out);
+
+                    FileInputStream fis = new FileInputStream(myCiphertextFile);
+                    FileOutputStream fos = new FileOutputStream((myPlaintextFile));
+
+                    FileCryptor.decryptFile(fis, fos, decryptKey);
+
+
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+
+                // Handle the result
+            } else {
+                // Failed or was cancelled by the user.
+            }
+        } else {
+            super.onActivityResult(requestCode, resultCode, data);
+        }
+    }
+
+
+
+
+ /*     decryption stuff - temporaroly removed
         String in = data.getData().getPath();
         String out = in.substring(in.lastIndexOf('/') + 1);
         out = out.substring(0, out.length()-4) + ".dec.txt";
@@ -118,8 +159,8 @@ public class ChooserActivity extends Activity {
         } catch (IOException e) {
             e.printStackTrace();
         }
+*/
 
-    }
 
     public void showToast(String message) {
         Toast toast = Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG);
