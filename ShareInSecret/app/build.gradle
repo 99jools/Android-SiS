@@ -23,7 +23,8 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile project(':libraries:aFileChooser')
+    compile project(':libraries:dropboxChooserSDK')
+
     compile files('libs/dropbox-sync-sdk-android.jar')
  }
 

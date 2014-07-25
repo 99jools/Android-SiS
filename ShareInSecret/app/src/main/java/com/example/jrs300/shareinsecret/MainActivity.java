@@ -124,10 +124,8 @@ public class MainActivity extends Activity {
 
     public void processLinked(){
         Log.e("method call", "processLinked"+mDbxAcctMgr.getLinkedAccount().getAccountInfo());
-        for(int i=0;i<4;i++) {
-            mDbxAcctInfo = mDbxAcctMgr.getLinkedAccount().getAccountInfo();
-            Log.e("method call", "processLinked - after get" + i + mDbxAcctInfo);
-        }
+        mDbxAcctInfo = mDbxAcctMgr.getLinkedAccount().getAccountInfo();
+        Log.e("method call", "processLinked - after get" + i + mDbxAcctInfo);
         mTextOutput.setText("You are currently linked to Dropbox account\n " + mDbxAcctInfo);
 
         mButtonOK.setText("OK");

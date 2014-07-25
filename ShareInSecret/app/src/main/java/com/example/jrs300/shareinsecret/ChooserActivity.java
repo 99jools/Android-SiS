@@ -2,7 +2,6 @@ package com.example.jrs300.shareinsecret;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -10,7 +9,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
-import com.ipaulpro.afilechooser.utils.FileUtils;
+import com.dropbox.chooser.android.DbxChooser;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -62,6 +61,8 @@ public class ChooserActivity extends Activity {
     //Link to Dropbox
     public void useDropbox(View view){
 
+        DbxChooser mChooser = new GetDbxAcctMgr(getApplicationContext()).getmChooser();
+        mChooser.forResultType(DbxChooser.ResultType.FILE_CONTENT).launch(,REQUEST_CHOOSER);
         //create intent for open next activity
         Intent intent = new Intent(this, DropboxComms.class);
         startActivity(intent);
@@ -72,18 +73,14 @@ public class ChooserActivity extends Activity {
     /**run when user clicks button to open existing document */
     public void openExisting(View view){
 
-        //browse files using library project aFileChooser
-
-        File myDirectory = this.getExternalFilesDir(null);
-        Uri uriForMyDirectory = Uri.fromFile(myDirectory);
-
         // Create the ACTION_GET_CONTENT Intent
-        Intent getContentIntent = FileUtils.createGetContentIntent();
-        getContentIntent.setData(uriForMyDirectory);
-        Intent intent = Intent.createChooser(getContentIntent, "Select a file");
+        Intent getContentIntent = new Intent(Intent.ACTION_GET_CONTENT);
+        getContentIntent.setType("file/*");
+        startActivityForResult(getContentIntent, REQUEST_CHOOSER);
+    }
 
-        startActivityForResult(intent, REQUEST_CHOOSER);
-          }
+
+
 
 
     @Override
