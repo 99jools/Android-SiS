@@ -36,7 +36,7 @@ public class CreateActivity extends Activity {
         Log.e("method call", "CreateActivity");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create);
-        this.mDbxAcctMgr = new GetDbxAcctMgr(getApplicationContext()).getmDbxAcctMgr();
+        this.mDbxAcctMgr = new DropboxSync(getApplicationContext()).getAccMgr();
     }
 
     @Override

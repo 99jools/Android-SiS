@@ -14,7 +14,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.dropbox.sync.android.DbxAccount;
-import com.dropbox.sync.android.DbxAccountInfo;
 import com.dropbox.sync.android.DbxAccountManager;
 import com.dropbox.sync.android.DbxFile;
 import com.dropbox.sync.android.DbxFileInfo;
@@ -32,7 +31,7 @@ public class MainActivity extends Activity {
     private static final int REQUEST_LINK_TO_DBX = 0;
     private DbxAccountManager mDbxAcctMgr;
     private DbxAccount mDbxAcct;
-    private DbxAccountInfo mDbxAcctInfo;
+//    private DbxAccountInfo mDbxAcctInfo;
     private TextView mTextOutput;
     private Button mButtonUnlink;
     private Button mButtonOK;
@@ -43,20 +42,19 @@ public class MainActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Log.e("method call", "onCreate"+mDbxAcctInfo);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         mTextOutput = (TextView) findViewById(R.id.textView2);  //set up variable linked to TextView
         mButtonUnlink = (Button) findViewById(R.id.button_unlink);
         mButtonOK = (Button) findViewById(R.id.button_OK);
-        mDbxAcctMgr = new GetDbxAcctMgr(getApplicationContext()).getmDbxAcctMgr();
+        mDbxAcctMgr = new DropboxSync(this.getApplicationContext()).getAccMgr();
     }
 
 
     @Override
     protected void onResume() {
-        Log.e("method call", "onResume"+mDbxAcctInfo);
+        Log.e("Main Activity  ", "onResume");
         super.onResume();
         linked = mDbxAcctMgr.hasLinkedAccount();
         if (mDbxAcctMgr.hasLinkedAccount()) {
@@ -100,7 +98,7 @@ public class MainActivity extends Activity {
     }
 
     public void onProceed(View view){
-        Log.e("method call", "onProceed"+mDbxAcctInfo);
+        Log.e("Main Activity  ", "onProceed");
         //check which scenario we are in
         if (linked) {
             //create intent for Chooser activity
@@ -137,9 +135,8 @@ public class MainActivity extends Activity {
 
     public void processLinked(){
         Log.e("method call", "processLinked"+mDbxAcctMgr.getLinkedAccount().getAccountInfo());
-        mDbxAcctInfo = mDbxAcctMgr.getLinkedAccount().getAccountInfo();
-        Log.e("method call", "processLinked - after get" + mDbxAcctInfo);
-        mTextOutput.setText("You are currently linked to Dropbox account\n " + mDbxAcctInfo);
+        mTextOutput.setText("You are currently linked to Dropbox account\n " +
+                mDbxAcctMgr.getLinkedAccount().getAccountInfo());
 
         mButtonOK.setText("OK");
         mButtonUnlink.setVisibility(View.VISIBLE);
@@ -155,13 +152,11 @@ public class MainActivity extends Activity {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        Log.e("method call", "onActivityResult"+mDbxAcctInfo);
+        Log.e("Main Activity  ", "onActivityResult");
         if (requestCode == REQUEST_LINK_TO_DBX) {
             if (resultCode == Activity.RESULT_OK) {
                 //start next activity
                 linked = true;
-                Log.e("in Result","");
-                mDbxAcctInfo = mDbxAcctMgr.getLinkedAccount().getAccountInfo();
                 Intent intent = new Intent(this, ChooserActivity.class);
                 startActivity(intent);
             } else {

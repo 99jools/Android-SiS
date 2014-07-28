@@ -25,7 +25,7 @@ public class DownloadActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_download);
-        this.mDbxAcctMgr = new GetDbxAcctMgr(getApplicationContext()).getmDbxAcctMgr();
+        this.mDbxAcctMgr = new DropboxSync(getApplicationContext()).getAccMgr();
     }
 
 
