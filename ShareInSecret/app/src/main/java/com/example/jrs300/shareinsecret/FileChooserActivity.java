@@ -7,13 +7,19 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.dropbox.sync.android.DbxAccountManager;
 import com.dropbox.sync.android.DbxException;
+import com.dropbox.sync.android.DbxFile;
 import com.dropbox.sync.android.DbxFileInfo;
 import com.dropbox.sync.android.DbxFileSystem;
 import com.dropbox.sync.android.DbxPath;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,7 +27,8 @@ public class FileChooserActivity extends ListActivity {
     ListView fcListView;
     DbxAccountManager fcDbxAcctMgr;
     DbxFileSystem fcDbxFileSystem;
-    String  classes[] = {"ChooserActivity", "example1", "example2", "example3"};
+    List<DbxFileInfo> fcFileInfo;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,8 +43,12 @@ public class FileChooserActivity extends ListActivity {
 
             // Get the contents of the root folder. This will block until we can
             // sync metadata the first time.
-            List<DbxFileInfo> fcFileInfo = fcDbxFileSystem.listFolder(DbxPath.ROOT);
+            fcFileInfo = fcDbxFileSystem.listFolder(DbxPath.ROOT);
 
+ /*           DbxFileInfo[] fn = new DbxFileInfo[fcFileInfo.size()];
+        fn = fcFileInfo.toArray(new DbxFileInfo[fcFileInfo.size()]);
+fcFileInfo.toArray(fn);
+*/
             //convert to list only containing filenames
             List<String> fcFileNames = new ArrayList<String>();
             for (DbxFileInfo fi:fcFileInfo ) fcFileNames.add(fi.path.getName());
@@ -79,14 +90,58 @@ public class FileChooserActivity extends ListActivity {
     protected void onListItemClick(ListView l, View v, int position, long id) {
         super.onListItemClick(l, v, position, id);
 
-        /*
-        need to edit this so that it chooses a file not a class
+        //get the path of the selected file
+        showToast("path is " +fcFileInfo.get(position).path);
+
         try {
-            Class ourClass = Class.forName("com.example.jrs300.shareinsecret." +classes[position]);    Intent ourIntent = new Intent(this, ourClass);
-            startActivity(ourIntent);
-        } catch (ClassNotFoundException e) {
+
+            //decryption stuff - TEMPORARY !!
+            DbxPath inPath = fcFileInfo.get(position).path;
+
+            //open a file input stream with given path
+            DbxFile myCiphertextFile = fcDbxFileSystem.open(inPath);
+            FileInputStream fis = myCiphertextFile.getReadStream();
+
+
+            //get file output stream
+            String out = fcFileInfo.get(position).path.getName();
+            out = out.substring(0, out.length()-4) + ".dec.txt";
+            DbxPath outPath = new DbxPath(out);
+
+
+/*
+ * Writing decrypted file to dropbox is a temporary measure just for testing
+ * THIS SHOUD NOT BE LEFT IN FINAL VERSION
+ *
+ */
+            DbxFile myPlaintextFile;
+            if (fcDbxFileSystem.exists(outPath))
+                myPlaintextFile = fcDbxFileSystem.open(outPath);
+            else myPlaintextFile = fcDbxFileSystem.create(outPath);
+
+            FileOutputStream fos = myPlaintextFile.getWriteStream();
+
+
+            //get the correct key
+            KeyManagement decryptKey = new KeyManagement(inPath.toString());
+
+
+            FileCryptor.decryptFile(fis, fos, decryptKey);
+
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
             e.printStackTrace();
         }
-*/
+
+
+        // Need to add something to handle Failed or was cancelled by the user.
+    }
+
+
+    public void showToast(String message) {
+        Toast toast = Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT);
+        toast.show();
     }
 }
