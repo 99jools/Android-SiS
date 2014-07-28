@@ -62,11 +62,14 @@ public class ChooserActivity extends Activity {
     //Link to Dropbox
     public void useDropbox(View view){
 
-        DbxChooser mChooser = new GetDbxAcctMgr(getApplicationContext()).getmChooser();
+ /*       DbxChooser mChooser = new GetDbxAcctMgr(getApplicationContext()).getmChooser();
         mChooser.forResultType(DbxChooser.ResultType.FILE_CONTENT).
                 launch(ChooserActivity.this, DROPBOX_CHOOSER);
 
+*/
 
+        Intent intent = new Intent(this, FileChooserActivity.class);
+        startActivity(intent);
 
     }
 

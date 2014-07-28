@@ -75,6 +75,14 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.jrs300.shareinsecret.ChooserActivity" />
         </activity>
+        <activity
+            android:name=".FileChooserActivity"
+            android:label="@string/title_activity_file_chooser"
+            android:parentActivityName=".ChooserActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.jrs300.shareinsecret.ChooserActivity" />
+        </activity>
     </application>
 
 </manifest>
