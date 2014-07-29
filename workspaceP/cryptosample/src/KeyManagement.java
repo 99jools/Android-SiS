@@ -21,7 +21,8 @@ public class KeyManagement {
 
 	//constructor
 	public KeyManagement(String password) throws GeneralSecurityException, IOException {
-		this.ks = loadKeyStore(password);
+		   this.ks = loadKeyStore(password);
+	
 	}
 
 	public SecretKeySpec getExistingKey(String distGroup) throws UnrecoverableKeyException {
@@ -60,7 +61,7 @@ public class KeyManagement {
 	    ks.setEntry(newGroup, skEntry, null);
 	    
 	    //write updated keystore to disk 
-	    writeKeyStore(password.toCharArray());
+	    writeKeyStore(this.ks,password.toCharArray());
 			
 		return newSecretKeySpec;
 	} //end createNewKey
@@ -72,47 +73,42 @@ public class KeyManagement {
 
 	}
 
-/**
- * Loads the App keystore using the supplied password
- * @param password
- * @return
- * @throws IOException
- * @throws GeneralSecurityException
- */
-	public KeyStore loadKeyStore(String password) 
-				throws IOException, GeneralSecurityException {
-		KeyStore ks = KeyStore.getInstance(KeyStore.getDefaultType());
-		java.io.FileInputStream fis = null;
+public void writeKeyStore(KeyStore ks, char[] passArray) throws GeneralSecurityException, NoSuchAlgorithmException, CertificateException, IOException {
+	
+	// store away the keystore
 
-		try {
-			fis = new java.io.FileInputStream(KEYSTORE_NAME);
-			ks.load(fis, password.toCharArray());
-		} catch (FileNotFoundException e) {
-			System.out.println("Keystore was not initialised - new one created");
+    FileOutputStream fos = null;
+    try {
+        fos = new FileOutputStream(KEYSTORE_NAME);
+        System.out.println(fos.getFD().toString());
+        ks.store(fos, passArray);
+    } finally {
+        if (fos != null) {
+            fos.close();
+        }
+    }
+}
 
-			//this should only get run if file store doesn't exists at all
-			ks.load(null);
-			writeKeyStore(password.toCharArray());
-		} finally {
-			if (fis != null) {
-				fis.close();
-			} 
-		}
-		return ks;
-	} //end loadKeyStore
+public KeyStore loadKeyStore( String password) 
+throws IOException, GeneralSecurityException {
+KeyStore ks = KeyStore.getInstance(KeyStore.getDefaultType());
+java.io.FileInputStream fis = null;
 
-	public void writeKeyStore( char[] passArray) throws GeneralSecurityException, NoSuchAlgorithmException, CertificateException, IOException {
-
-		// write the updated keystore to disk
-		FileOutputStream fos = null;
-		try {
-			fos = new FileOutputStream(KEYSTORE_NAME);
-			System.out.println(fos.getFD().toString());
-			ks.store(fos, passArray);
-		} finally {
-			if (fos != null) {
-				fos.close();
-			}
-		}
-	} //end writeKeyStore
+try {
+	fis = new java.io.FileInputStream(KEYSTORE_NAME);
+	ks.load(fis, password.toCharArray());
+} catch (FileNotFoundException e) {
+	System.out.println("FileNotFound caught in catch block" + e);
+	
+	//this should only get run if file store doesn't exists at all
+	ks.load(null);
+	writeKeyStore(ks, password.toCharArray());
+} finally {
+	if (fis != null) {
+	fis.close();
+	System.out.println("file close in finally block");
+	} 
+}
+return ks;
+}
 }
