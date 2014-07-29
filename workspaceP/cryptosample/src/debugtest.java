@@ -23,7 +23,11 @@ public class debugtest {
 		@Test
 		public void testEncryptFile()  {
 			try {
-		    KeyManagement km = new KeyManagement("julie");
+		    KeyManagement km = new KeyManagement("password");
+	//	    km.createNewKey("mygroup", "julie");
+	//	    km.createNewKey("newGroup", "password");
+		    
+		    System.out.println(km.getExistingKey("newGroup", "password").getAlgorithm());
 } catch (KeyStoreException e) {
 	System.out.println("Exception thrown " + e);
 } catch (NoSuchAlgorithmException e) {

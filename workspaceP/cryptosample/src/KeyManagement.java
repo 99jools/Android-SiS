@@ -25,12 +25,12 @@ public class KeyManagement {
 	
 	}
 
-	public SecretKeySpec getExistingKey(String distGroup) throws UnrecoverableKeyException {
+	public SecretKeySpec getExistingKey(String distGroup, String password) throws UnrecoverableKeyException {
 		//check if key is found and recover if available
 
 		try {
 			if (this.ks.containsAlias(distGroup)){
-				Key groupKey = this.ks.getKey(distGroup,null);
+				Key groupKey = this.ks.getKey(distGroup,password.toCharArray());
 				return new SecretKeySpec(groupKey.getEncoded(), KEY_ALGORITHM);
 			}
 
@@ -58,7 +58,7 @@ public class KeyManagement {
 		
 		 //add new key to keystore
 	    KeyStore.SecretKeyEntry skEntry = new KeyStore.SecretKeyEntry(newSecretKeySpec);
-	    ks.setEntry(newGroup, skEntry, null);
+	    ks.setEntry(newGroup, skEntry, new KeyStore.PasswordProtection(password.toCharArray()));
 	    
 	    //write updated keystore to disk 
 	    writeKeyStore(this.ks,password.toCharArray());
@@ -91,14 +91,14 @@ public void writeKeyStore(KeyStore ks, char[] passArray) throws GeneralSecurityE
 
 public KeyStore loadKeyStore( String password) 
 throws IOException, GeneralSecurityException {
-KeyStore ks = KeyStore.getInstance(KeyStore.getDefaultType());
+KeyStore ks = KeyStore.getInstance("JCEKS");
 java.io.FileInputStream fis = null;
 
 try {
 	fis = new java.io.FileInputStream(KEYSTORE_NAME);
 	ks.load(fis, password.toCharArray());
 } catch (FileNotFoundException e) {
-	System.out.println("FileNotFound caught in catch block" + e);
+	System.out.println("New keystore created");
 	
 	//this should only get run if file store doesn't exists at all
 	ks.load(null);
