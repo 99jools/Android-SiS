@@ -24,13 +24,9 @@ public class debugtest {
 		public void testEncryptFile()  {
 			try {
 		    KeyManagement km = new KeyManagement("julie");
-
-	System.out.println(km.loadKeyStore("SiS Keystore", "julie").toString());
 } catch (KeyStoreException e) {
-
 	System.out.println("Exception thrown " + e);
 } catch (NoSuchAlgorithmException e) {
-
 	System.out.println("Exception thrown " + e);
 } catch (CertificateException e) {
 	System.out.println("Exception thrown " + e);
