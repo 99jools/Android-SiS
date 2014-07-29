@@ -32,9 +32,9 @@ FileOutputStream fosd;
 	   
 	   
 	    
-	    KeyManagement returnKeyMgt = FileEncryptor.encryptFile(fis, fos);
+	    KeyManagement returnKeyMgt = FileCryptor.encryptFile(fis, fos);
 	      
-		FileEncryptor.decryptFile(fisd, fosd, returnKeyMgt);  
+		FileCryptor.decryptFile(fisd, fosd, returnKeyMgt);  
 		
 		String newString = "IT WAS the best of times, it was the worst of times, it was the age of wisdom, it was the age of foolishness, it was the epoch of belief";
 	  
@@ -44,12 +44,12 @@ FileOutputStream fosd;
 	    	+" The light shines in the darkness, and the darkness has not overcome it.";
 	    FileOutputStream fosS = new FileOutputStream("/home/students/jrs300/s.enc");
 	    
-	    returnKeyMgt = FileEncryptor.encryptString(newString, fosS);
+	    returnKeyMgt = FileCryptor.encryptString(newString, fosS);
 	    
 	    fisd = new FileInputStream("/home/students/jrs300/s.enc");
 	    fosd = new FileOutputStream("/home/students/jrs300/s.txt");
 	    
-	    FileEncryptor.decryptFile(fisd, fosd, returnKeyMgt);
+	    FileCryptor.decryptFile(fisd, fosd, returnKeyMgt);
 	    
     
 
