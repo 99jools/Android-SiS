@@ -3,9 +3,11 @@
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.security.GeneralSecurityException;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
+import java.security.UnrecoverableKeyException;
 
 import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
@@ -14,6 +16,7 @@ import javax.crypto.CipherOutputStream;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
 import javax.crypto.spec.IvParameterSpec;
+import javax.crypto.spec.SecretKeySpec;
 
 /**
  * Created by jrs300 on 09/07/14.
@@ -22,6 +25,7 @@ public class FileCryptor {
 
         public static final String CIPHER_ALGORITHM = "AES/CBC/PKCS5Padding";
         public static final int AES_BLOCKSIZE = 16;   //16 bytes = 128 bits
+      
 
         private FileCryptor() {
             // dummy constructor to prevent accidental instantiation
@@ -31,23 +35,21 @@ public class FileCryptor {
          * Encrypt input stream and outputs result to a file
          * @param plaintextAsFileIn
          * @param ciphertextAsFileOut
-         * @throws NoSuchAlgorithmException
-         * @throws NoSuchPaddingException
-         * @throws InvalidKeyException
          * @throws IOException
-         * @throws InvalidAlgorithmParameterException
+         * @throws GeneralSecurityException 
          */
-        public static  KeyManagement encryptFile(FileInputStream plaintextAsFileIn, FileOutputStream ciphertextAsFileOut )
-                throws NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException, IOException, InvalidAlgorithmParameterException{
+        public static  void encryptFile(FileInputStream plaintextAsFileIn, FileOutputStream ciphertextAsFileOut, String groupID )
+                throws IOException, GeneralSecurityException{
 
-            //get a new encryption key - THIS FUNCTIONALITY TO BE MOVED LATER
-            KeyManagement newKey = new KeyManagement();
+            //retrieve encryption from Key store (if available)
+            KeyManagement km = new KeyManagement("password");  // NEED TO GET FROM USER
+            SecretKeySpec groupSKS = km.getExistingKey(groupID, "password");
 
             //set up cipher for encryption
             IvParameterSpec ips = makeIV();
             Cipher encryptionCipher;
             encryptionCipher = Cipher.getInstance(CIPHER_ALGORITHM);
-            encryptionCipher.init(Cipher.ENCRYPT_MODE, newKey.getMyKeySpec(), ips);
+            encryptionCipher.init(Cipher.ENCRYPT_MODE, groupSKS, ips);
 
             ciphertextAsFileOut.write(ips.getIV(),0,AES_BLOCKSIZE);
             CipherOutputStream cos = new CipherOutputStream(ciphertextAsFileOut, encryptionCipher);
@@ -58,37 +60,39 @@ public class FileCryptor {
                 bytesRead = plaintextAsFileIn.read(block);
             }
             cos.close();
-            return newKey;
-        } //end EncryptFile
+            return;
+            } //end EncryptFile
 
 
         /**
          * Decrypts an input stream and outputs result to a file
          * @param ciphertextAsFileIn
          * @param plaintextAsFileOut
+         * @throws GeneralSecurityException 
          * @throws NoSuchAlgorithmException
          * @throws NoSuchPaddingException
          * @throws InvalidKeyException
          * @throws IOException
          * @throws InvalidAlgorithmParameterException
          */
-        public static  void decryptFile(FileInputStream ciphertextAsFileIn, FileOutputStream  plaintextAsFileOut, KeyManagement decryptKey )
+        public static  void decryptFile(FileInputStream ciphertextAsFileIn, FileOutputStream  plaintextAsFileOut, KeyManagement decryptKey ) throws GeneralSecurityException, IOException
                 {
-
+            KeyManagement km = new KeyManagement("password");  // NEED TO GET FROM USER
             CipherInputStream cis;
 
             //initialise encryption cipher
             Cipher decryptionCipher;
-
-            // read initialisation vector from input stream
+            
+            // read meta data from from input stream
             byte[] initVector = new byte[16];
+            byte[] distGroupArray = new byte[16];
                     try {
+                        ciphertextAsFileIn.read(distGroupArray);
                         ciphertextAsFileIn.read(initVector);
-
-                    IvParameterSpec ips = new IvParameterSpec(initVector);
+                        IvParameterSpec ips = new IvParameterSpec(initVector);
 
             decryptionCipher = Cipher.getInstance(CIPHER_ALGORITHM);
-            decryptionCipher.init(Cipher.DECRYPT_MODE,decryptKey.getMyKeySpec(),ips);
+            decryptionCipher.init(Cipher.DECRYPT_MODE,decryptKey.getExistingKey(distGroupArray.toString(), "password"),ips);
 
             cis = new CipherInputStream(ciphertextAsFileIn,decryptionCipher );
 
@@ -113,25 +117,27 @@ public class FileCryptor {
                         e.printStackTrace();
                     } catch (InvalidAlgorithmParameterException e) {
                         e.printStackTrace();
-                    }
+                    } catch (UnrecoverableKeyException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
                     return;
         } //end decryptFile
 
 
-        public static KeyManagement encryptString(String plaintextAsString, FileOutputStream ciphertextAsFileOut )
-                throws NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException, IOException,
-                IllegalBlockSizeException, BadPaddingException, InvalidAlgorithmParameterException{
+        public static void encryptString(String plaintextAsString, FileOutputStream ciphertextAsFileOut, String distGroup ) throws GeneralSecurityException, IOException
+                {
 
 
             //get a new encryption key - THIS FUNCTIONALITY TO BE MOVED LATER
-            KeyManagement newKey = new KeyManagement();
+            KeyManagement km = new KeyManagement("password");  // NEED TO GET FROM USER
 
             //set up dummy iv - CHANGE THIS
             IvParameterSpec ips = makeIV();
 
             Cipher encryptionCipher;
             encryptionCipher = Cipher.getInstance(CIPHER_ALGORITHM);
-            encryptionCipher.init(Cipher.ENCRYPT_MODE, newKey.getMyKeySpec(), ips);
+            encryptionCipher.init(Cipher.ENCRYPT_MODE, km.getExistingKey(distGroup, "password"), ips);
 
             //convert String to byte array using UTF-8 encoding
 
@@ -146,7 +152,7 @@ public class FileCryptor {
             ciphertextAsFileOut.write(ciphertextAsByteArray);
             ciphertextAsFileOut.close();
 
-            return newKey;
+            return;
         } //end encryptString
 
 

@@ -16,7 +16,8 @@ import javax.crypto.spec.SecretKeySpec;
 
 public class KeyManagement {
 	public static final String KEY_ALGORITHM = "AES";
-	public static final String KEYSTORE_NAME = "SiSKeyStore";
+	public static final int KEY_LENGTH = 256;
+	public static final String KEYSTORE_NAME = "SiSKeyStore.ks";
 	private KeyStore ks;
 
 	//constructor
@@ -52,7 +53,7 @@ public class KeyManagement {
 	 */
 	public SecretKeySpec createNewKey(String newGroup, String password) throws GeneralSecurityException, IOException{
 		KeyGenerator myKeyGenerator = KeyGenerator.getInstance(KEY_ALGORITHM);
-		myKeyGenerator.init(256);
+		myKeyGenerator.init(KEY_LENGTH);
 		 SecretKeySpec newSecretKeySpec = 
 	    		new SecretKeySpec(myKeyGenerator.generateKey().getEncoded(), KEY_ALGORITHM); 
 		
