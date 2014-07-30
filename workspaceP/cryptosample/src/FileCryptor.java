@@ -8,12 +8,9 @@ import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.security.UnrecoverableKeyException;
-
-import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
 import javax.crypto.CipherInputStream;
 import javax.crypto.CipherOutputStream;
-import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
@@ -38,12 +35,12 @@ public class FileCryptor {
          * @throws IOException
          * @throws GeneralSecurityException 
          */
-        public static  void encryptFile(FileInputStream plaintextAsFileIn, FileOutputStream ciphertextAsFileOut, String groupID )
-                throws IOException, GeneralSecurityException{
+        public static  void encryptFile(FileInputStream plaintextAsFileIn, 
+        			FileOutputStream ciphertextAsFileOut, String groupID, String appPwd )
+        					throws IOException, GeneralSecurityException{
 
-            //retrieve encryption from Key store (if available)
-            KeyManagement km = new KeyManagement("password");  // NEED TO GET FROM USER
-            SecretKeySpec groupSKS = km.getExistingKey(groupID, "password");
+            //retrieve encryption for this group from Key store 
+            SecretKeySpec groupSKS = AppKeystore.getKeySpec(groupID, appPwd);
 
             //set up cipher for encryption
             IvParameterSpec ips = makeIV();
@@ -51,6 +48,10 @@ public class FileCryptor {
             encryptionCipher = Cipher.getInstance(CIPHER_ALGORITHM);
             encryptionCipher.init(Cipher.ENCRYPT_MODE, groupSKS, ips);
 
+            //write metadata to FileOutputStream first
+     	
+           
+            
             ciphertextAsFileOut.write(ips.getIV(),0,AES_BLOCKSIZE);
             CipherOutputStream cos = new CipherOutputStream(ciphertextAsFileOut, encryptionCipher);
             byte[] block = new byte[AES_BLOCKSIZE];
@@ -64,20 +65,18 @@ public class FileCryptor {
             } //end EncryptFile
 
 
-        /**
-         * Decrypts an input stream and outputs result to a file
-         * @param ciphertextAsFileIn
-         * @param plaintextAsFileOut
-         * @throws GeneralSecurityException 
-         * @throws NoSuchAlgorithmException
-         * @throws NoSuchPaddingException
-         * @throws InvalidKeyException
-         * @throws IOException
-         * @throws InvalidAlgorithmParameterException
-         */
-        public static  void decryptFile(FileInputStream ciphertextAsFileIn, FileOutputStream  plaintextAsFileOut, KeyManagement decryptKey ) throws GeneralSecurityException, IOException
+
+/**
+ * Decrypts an output stream
+ * @param ciphertextAsFileIn
+ * @param plaintextAsFileOut
+ * @throws GeneralSecurityException
+ * @throws IOException
+ */
+        public static  void decryptFile(FileInputStream ciphertextAsFileIn, 
+        				FileOutputStream  plaintextAsFileOut) throws GeneralSecurityException, IOException
                 {
-            KeyManagement km = new KeyManagement("password");  // NEED TO GET FROM USER
+        	AppKeystore km = new AppKeystore("password");  // NEED TO GET FROM USER
             CipherInputStream cis;
 
             //initialise encryption cipher
@@ -85,14 +84,15 @@ public class FileCryptor {
             
             // read meta data from from input stream
             byte[] initVector = new byte[16];
-            byte[] distGroupArray = new byte[16];
+            byte[] groupID = new byte[16];
                     try {
-                        ciphertextAsFileIn.read(distGroupArray);
+                        ciphertextAsFileIn.read(groupID);
                         ciphertextAsFileIn.read(initVector);
                         IvParameterSpec ips = new IvParameterSpec(initVector);
 
             decryptionCipher = Cipher.getInstance(CIPHER_ALGORITHM);
-            decryptionCipher.init(Cipher.DECRYPT_MODE,decryptKey.getExistingKey(distGroupArray.toString(), "password"),ips);
+            decryptionCipher.init(Cipher.DECRYPT_MODE, 
+            		km.getExistingKey(groupID, "password"),ips);
 
             cis = new CipherInputStream(ciphertextAsFileIn,decryptionCipher );
 
@@ -124,28 +124,31 @@ public class FileCryptor {
                     return;
         } //end decryptFile
 
-
-        public static void encryptString(String plaintextAsString, FileOutputStream ciphertextAsFileOut, String distGroup ) throws GeneralSecurityException, IOException
-                {
-
-
-            //get a new encryption key - THIS FUNCTIONALITY TO BE MOVED LATER
-            KeyManagement km = new KeyManagement("password");  // NEED TO GET FROM USER
+/**
+ * Encrypt a String and write to a given FileOutputStream
+ * @param plaintextAsString
+ * @param ciphertextAsFileOut
+ * @param aliasArray - the GroupID which is used to retrieve
+ * 													 the key from the keystore
+ * @throws GeneralSecurityException
+ * @throws IOException
+ */
+        public static void encryptString(String plaintextAsString, FileOutputStream ciphertextAsFileOut, GroupCredentials gc )
+        					throws GeneralSecurityException, IOException {
+        	
 
             //set up dummy iv - CHANGE THIS
             IvParameterSpec ips = makeIV();
 
             Cipher encryptionCipher;
             encryptionCipher = Cipher.getInstance(CIPHER_ALGORITHM);
-            encryptionCipher.init(Cipher.ENCRYPT_MODE, km.getExistingKey(distGroup, "password"), ips);
+            encryptionCipher.init(Cipher.ENCRYPT_MODE, km.getExistingKey(gc), ips);
 
-            //convert String to byte array using UTF-8 encoding
+            //convert String to byte array using UTF-8 encoding and convert to encrypted array
+            byte[] stringAsByteArray = plaintextAsString.getBytes("UTF-8");
+            byte[] ciphertextAsByteArray = encryptionCipher.doFinal(stringAsByteArray);
 
-            byte[] StringAsByteArray = plaintextAsString.getBytes("UTF-8");
-
-            byte[] ciphertextAsByteArray = encryptionCipher.doFinal(StringAsByteArray);
-
-            //write out IV to output file first
+            //write out metadata to output file first
             ciphertextAsFileOut.write(ips.getIV());
 
             //write out encrypted file
@@ -155,11 +158,13 @@ public class FileCryptor {
             return;
         } //end encryptString
 
+        public static void makeNewGroup(byte[] groupID){
+        	
+        }
 
         public static IvParameterSpec makeIV(){
 
-            //set up dummy iv - CHANGE THIS
-
+        	//set up dummy iv - CHANGE THIS
             byte ff = (byte) 0xff;
             byte[] dummyIV = {ff,ff,ff,ff,0x00,ff,ff,ff,ff,ff,ff,ff,ff,ff,ff,ff};
             return new IvParameterSpec(dummyIV);

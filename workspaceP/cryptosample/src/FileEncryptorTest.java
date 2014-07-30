@@ -4,6 +4,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.security.GeneralSecurityException;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
@@ -22,19 +23,22 @@ FileInputStream fisd;
 FileOutputStream fosd;
 	
 	@Test
-	public void testEncryptFile() throws InvalidKeyException, NoSuchAlgorithmException, 
-	   NoSuchPaddingException, IOException, InvalidAlgorithmParameterException, IllegalBlockSizeException, BadPaddingException {
+	public void testEncryptFile() throws IOException, GeneralSecurityException {
 		
 	    fis = new FileInputStream("/home/students/jrs300/a.txt");
 	    fos = new FileOutputStream("/home/students/jrs300/aaa.txt.enc");
 	    fisd = new FileInputStream("/home/students/jrs300/aaa.txt.enc");
 	    fosd = new FileOutputStream("/home/students/jrs300/aaa.decrypt.txt");
+	    String password = "password";
+	    String groupID = "dummy";
 	   
 	   
+	    byte[] alias = new byte[16];
+	    alias = groupID.getBytes();
 	    
-	    KeyManagement returnKeyMgt = FileCryptor.encryptFile(fis, fos);
+	    FileCryptor.encryptFile(fis, fos, alias);
 	      
-		FileCryptor.decryptFile(fisd, fosd, returnKeyMgt);  
+		FileCryptor.decryptFile(fisd, fosd);  
 		
 		String newString = "IT WAS the best of times, it was the worst of times, it was the age of wisdom, it was the age of foolishness, it was the epoch of belief";
 	  
@@ -44,12 +48,12 @@ FileOutputStream fosd;
 	    	+" The light shines in the darkness, and the darkness has not overcome it.";
 	    FileOutputStream fosS = new FileOutputStream("/home/students/jrs300/s.enc");
 	    
-	    returnKeyMgt = FileCryptor.encryptString(newString, fosS);
+	    FileCryptor.encryptString(newString, fosS, alias);
 	    
 	    fisd = new FileInputStream("/home/students/jrs300/s.enc");
 	    fosd = new FileOutputStream("/home/students/jrs300/s.txt");
 	    
-	    FileCryptor.decryptFile(fisd, fosd, returnKeyMgt);
+	    FileCryptor.decryptFile(fisd, fosd);
 	    
     
 

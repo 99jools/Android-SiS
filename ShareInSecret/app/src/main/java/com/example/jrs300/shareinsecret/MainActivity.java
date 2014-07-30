@@ -38,6 +38,7 @@ public class MainActivity extends Activity {
     private String displayName;
     private boolean linked;
 
+    private String test;
 
 
     @Override
@@ -49,6 +50,7 @@ public class MainActivity extends Activity {
         mButtonUnlink = (Button) findViewById(R.id.button_unlink);
         mButtonOK = (Button) findViewById(R.id.button_OK);
         mDbxAcctMgr = new DropboxSync(this.getApplicationContext()).getAccMgr();
+
     }
 
 
@@ -62,6 +64,8 @@ public class MainActivity extends Activity {
         } else {
             processUnlinked();
         }
+
+        test = "in onResume";
     }
 
 
@@ -219,8 +223,13 @@ public class MainActivity extends Activity {
         Toast toast = Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT);
         toast.show();
     }
+public void methodA(View v){
+    test = "This text is set in methodA";
+}
 
-
+    public void methodB(View v){
+        showToast(test);
+    }
 
 
 }
