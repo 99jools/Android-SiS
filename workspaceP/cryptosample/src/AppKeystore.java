@@ -27,8 +27,9 @@ public class AppKeystore {
 	 * @param appPwd
 	 * @return
 	 */
-	public static SecretKeySpec getKeySpec(String groupID, String appPwd) {
+	public static SecretKeySpec getKeySpec(String groupID) {
 		KeyStore ks;
+    	String appPwd = AppPwdObj.getInstance().getValue();
 		try {
 			//load the keystore
 			ks = loadKeyStore(appPwd.toCharArray());
@@ -55,8 +56,9 @@ public class AppKeystore {
  * @throws IOException
  * @throws GeneralSecurityException
  */
-	public static void generateKey(String groupID, String appPwd) throws IOException, GeneralSecurityException{
+	public static void generateKey(String groupID) throws IOException, GeneralSecurityException{
 		//load keystore
+    	String appPwd = AppPwdObj.getInstance().getValue();
 		KeyStore ks = loadKeyStore(appPwd.toCharArray());
 		
 		//generate key

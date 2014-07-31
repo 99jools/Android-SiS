@@ -37,9 +37,9 @@ public class FileCryptor {
          * @throws GeneralSecurityException 
          */
         public static  void encryptFile(FileInputStream fis, 
-        			FileOutputStream fos, String groupID, String appPwd )
+        			FileOutputStream fos, String groupID )
         					throws IOException, GeneralSecurityException{
-
+    
             //retrieve encryption for this group from Key store 
             SecretKeySpec groupSKS = AppKeystore.getKeySpec(groupID, appPwd);
 
@@ -77,9 +77,9 @@ public class FileCryptor {
  * @throws GeneralSecurityException
  * @throws IOException
  */
-        public static  int decryptFile(FileInputStream fis, FileOutputStream  fos, String appPwd)
+        public static  int decryptFile(FileInputStream fis, FileOutputStream  fos)
         throws GeneralSecurityException, IOException {
-
+    
         	CipherInputStream cis;
         	Cipher decryptionCipher;
 
@@ -96,7 +96,7 @@ public class FileCryptor {
 
         		decryptionCipher = Cipher.getInstance(CIPHER_ALGORITHM);
         		decryptionCipher.init(Cipher.DECRYPT_MODE, 
-            		AppKeystore.getKeySpec(groupID, appPwd),ips);
+            		AppKeystore.getKeySpec(groupID),ips);
 
             cis = new CipherInputStream(fis,decryptionCipher );
 
