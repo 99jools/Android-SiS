@@ -29,14 +29,15 @@ public class FileCryptor {
         }
 
         /**
-         * Encrypt input stream and outputs result to a file
-         * @param plaintextAsFileIn
-         * @param ciphertextAsFileOut
+         * Encrypt input stream and outputs result to a file - location of output stream is set up in calling
+         * class
+         * @param fis
+         * @param fos
          * @throws IOException
          * @throws GeneralSecurityException 
          */
-        public static  void encryptFile(FileInputStream plaintextAsFileIn, 
-        			FileOutputStream ciphertextAsFileOut, String groupID, String appPwd )
+        public static  void encryptFile(FileInputStream fis, 
+        			FileOutputStream fos, String groupID, String appPwd )
         					throws IOException, GeneralSecurityException{
 
             //retrieve encryption for this group from Key store 
@@ -49,16 +50,18 @@ public class FileCryptor {
             encryptionCipher.init(Cipher.ENCRYPT_MODE, groupSKS, ips);
 
             //write metadata to FileOutputStream first
-     	
-           
+            fos.write(groupID.hashCode());   //writes 4 byte hashcode
+            fos.write(ips.getIV(),0,AES_BLOCKSIZE);  //IV length depends on blocksize
             
-            ciphertextAsFileOut.write(ips.getIV(),0,AES_BLOCKSIZE);
-            CipherOutputStream cos = new CipherOutputStream(ciphertextAsFileOut, encryptionCipher);
+            //wrap cipherFos in cipherstream to encrypt remaining blocks
+            CipherOutputStream cos = new CipherOutputStream(fos, encryptionCipher);
             byte[] block = new byte[AES_BLOCKSIZE];
-            int bytesRead = plaintextAsFileIn.read(block);
+            int bytesRead = fis.read(block);
+                  
+            //write data to output file and read next block
             while (bytesRead != -1) {
                 cos.write(block, 0, bytesRead);
-                bytesRead = plaintextAsFileIn.read(block);
+                bytesRead = fis.read(block);
             }
             cos.close();
             return;
@@ -67,34 +70,35 @@ public class FileCryptor {
 
 
 /**
- * Decrypts an output stream
- * @param ciphertextAsFileIn
- * @param plaintextAsFileOut
+ * Decrypts a fileoutputstream
+ * @param fis
+ * @param plaintFos
+ * @return  groupCode - the hash of the groupID for the decrypted file 
  * @throws GeneralSecurityException
  * @throws IOException
  */
-        public static  void decryptFile(FileInputStream ciphertextAsFileIn, 
-        				FileOutputStream  plaintextAsFileOut) throws GeneralSecurityException, IOException
-                {
-        	AppKeystore km = new AppKeystore("password");  // NEED TO GET FROM USER
-            CipherInputStream cis;
+        public static  int decryptFile(FileInputStream fis, FileOutputStream  fos, String appPwd)
+        throws GeneralSecurityException, IOException {
 
-            //initialise encryption cipher
-            Cipher decryptionCipher;
-            
-            // read meta data from from input stream
-            byte[] initVector = new byte[16];
-            byte[] groupID = new byte[16];
-                    try {
-                        ciphertextAsFileIn.read(groupID);
-                        ciphertextAsFileIn.read(initVector);
-                        IvParameterSpec ips = new IvParameterSpec(initVector);
+        	CipherInputStream cis;
+        	Cipher decryptionCipher;
 
-            decryptionCipher = Cipher.getInstance(CIPHER_ALGORITHM);
-            decryptionCipher.init(Cipher.DECRYPT_MODE, 
-            		km.getExistingKey(groupID, "password"),ips);
+        	// read meta data from from input stream
+        	int groupCode;
+        	byte[] initVector = new byte[16];
 
-            cis = new CipherInputStream(ciphertextAsFileIn,decryptionCipher );
+        	try {
+        		//get meta data
+        		groupCode = fis.read();  
+        		String groupID = 
+        		fis.read(initVector);
+        		IvParameterSpec ips = new IvParameterSpec(initVector);
+
+        		decryptionCipher = Cipher.getInstance(CIPHER_ALGORITHM);
+        		decryptionCipher.init(Cipher.DECRYPT_MODE, 
+            		AppKeystore.getKeySpec(groupID, appPwd),ips);
+
+            cis = new CipherInputStream(fis,decryptionCipher );
 
             //read and decrypt file
             byte[] block = new byte[AES_BLOCKSIZE];
@@ -102,11 +106,11 @@ public class FileCryptor {
 
             bytesRead = cis.read(block);
             while (bytesRead != -1) {
-                plaintextAsFileOut.write(block,0,bytesRead);
+                plaintFos.write(block,0,bytesRead);
                 bytesRead = cis.read(block);  //read next block
             }
             //close file
-            plaintextAsFileOut.close();
+            plaintFos.close();
                     } catch (IOException e) {
                         e.printStackTrace();
                     } catch (InvalidKeyException e) {
@@ -121,7 +125,7 @@ public class FileCryptor {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
-                    return;
+                    return 1;
         } //end decryptFile
 
 /**
