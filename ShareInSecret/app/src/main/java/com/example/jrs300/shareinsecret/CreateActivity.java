@@ -1,6 +1,7 @@
 package com.example.jrs300.shareinsecret;
 
 import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -33,6 +34,13 @@ public class CreateActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+//****************************************************************************88
+        final SiSApp  myApp = (SiSApp) getApplicationContext();
+        showToast(myApp.getAppPwd());
+//***********************************************************************************
+
+
         Log.e("method call", "CreateActivity");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create);
@@ -101,7 +109,6 @@ public class CreateActivity extends Activity {
             //encrypt text with new key and write to file
             KeyManagement keyUsedToEncrypt = FileCryptor.encryptString(plaintextIn, fos);
             showToast(saveName + " saved");
-
             finish();
         }
 

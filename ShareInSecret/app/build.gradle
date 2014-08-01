@@ -26,11 +26,15 @@ dependencies {
     compile project(':libraries:dropboxChooserSDK')
 
     compile files('libs/dropbox-sync-sdk-android.jar')
- }
+    // You must install or update the Google Repository through the SDK manager to use this dependency.
+    compile 'com.android.support:appcompat-v7:19.+'
+}
+
 
 android {
     tasks.withType(com.android.build.gradle.tasks.PackageApplication) {
-        pkgTask -> pkgTask.jniFolders = new HashSet<File>();
+        pkgTask ->
+            pkgTask.jniFolders = new HashSet<File>();
             pkgTask.jniFolders.add(new File(projectDir, 'libs'));
     }
 }

@@ -10,10 +10,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.dropbox.sync.android.DbxAccount;
 import com.dropbox.sync.android.DbxAccountManager;
 import com.dropbox.sync.android.DbxFile;
 import com.dropbox.sync.android.DbxFileInfo;
@@ -25,17 +25,12 @@ import java.util.List;
 
 public class MainActivity extends Activity {
 
-    private static final String appKey = "n8sv033pnhqujme";
-    private static final String appSecret = "mlx7499mv5t3tmq";
-
     private static final int REQUEST_LINK_TO_DBX = 0;
     private DbxAccountManager mDbxAcctMgr;
-    private DbxAccount mDbxAcct;
-//    private DbxAccountInfo mDbxAcctInfo;
+ //   private DbxAccount mDbxAcct;
     private TextView mTextOutput;
     private Button mButtonUnlink;
     private Button mButtonOK;
-    private String displayName;
     private boolean linked;
 
     private String test;
@@ -50,6 +45,7 @@ public class MainActivity extends Activity {
         mButtonUnlink = (Button) findViewById(R.id.button_unlink);
         mButtonOK = (Button) findViewById(R.id.button_OK);
         mDbxAcctMgr = new DropboxSync(this.getApplicationContext()).getAccMgr();
+        test = "in onCreate";
 
     }
 
@@ -64,8 +60,7 @@ public class MainActivity extends Activity {
         } else {
             processUnlinked();
         }
-
-        test = "in onResume";
+        test = "in onCreate";
     }
 
 
@@ -82,7 +77,7 @@ public class MainActivity extends Activity {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         Intent intent;
-        int id = item.getItemId();
+
         switch (item.getItemId()){
             case R.id.action_Create:
                 intent = new Intent(this, CreateActivity.class);
@@ -95,7 +90,6 @@ public class MainActivity extends Activity {
                 return true;
 
             case R.id.action_settings:
-                Log.e("Case: ", "settings chosen");
                 return true;
         }
         return super.onOptionsItemSelected(item);
@@ -109,7 +103,7 @@ public class MainActivity extends Activity {
             Intent intent = new Intent(this, ChooserActivity.class);
             startActivity(intent);
         } else {
-            mDbxAcctMgr.startLink((Activity) this, REQUEST_LINK_TO_DBX);
+            mDbxAcctMgr.startLink(this, REQUEST_LINK_TO_DBX);
         }
     }
 
@@ -137,11 +131,18 @@ public class MainActivity extends Activity {
         alertDialog.show();
     }
 
-    public void processLinked(){
-        Log.e("method call", "processLinked"+mDbxAcctMgr.getLinkedAccount().getAccountInfo());
-        mTextOutput.setText("You are currently linked to Dropbox account\n " +
-                mDbxAcctMgr.getLinkedAccount().getAccountInfo());
+    public void onClickPwd(View view){
 
+        SiSApp myApp = ((SiSApp)getApplicationContext());
+        EditText password = (EditText) findViewById(R.id.password);
+        myApp.setAppPwd(password.getText().toString());
+    }
+
+    public void processLinked(){
+        if (mDbxAcctMgr.getLinkedAccount().getAccountInfo()!=null ){
+            mTextOutput.setText("You are currently linked to Dropbox account\n " +
+                    mDbxAcctMgr.getLinkedAccount().getAccountInfo().displayName);
+        }
         mButtonOK.setText("OK");
         mButtonUnlink.setVisibility(View.VISIBLE);
     }
