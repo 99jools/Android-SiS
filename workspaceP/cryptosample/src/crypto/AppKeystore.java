@@ -17,7 +17,7 @@ import javax.crypto.spec.SecretKeySpec;
 public class AppKeystore {
  
     public static final String KEY_ALGORITHM = "AES";
-    public static final int KEY_LENGTH = 256;
+    public static final int KEY_LENGTH = 128;
     public static final String KEYSTORE_NAME = "SiSKeyStore.ks";
  
     private AppKeystore(){
@@ -59,7 +59,7 @@ public class AppKeystore {
  * @throws IOException
  * @throws GeneralSecurityException
  */
-    public static void generateKey(String groupID, SharedPrefs prefs) throws IOException, GeneralSecurityException{
+    public static void addGroupKey(String groupID, SharedPrefs prefs) throws IOException, GeneralSecurityException{
         //load keystore
         String appPwd = AppPwdObj.getInstance().getValue();
         KeyStore ks = loadKeyStore(appPwd.toCharArray());
@@ -76,6 +76,9 @@ public class AppKeystore {
  
         //update stored copy of keystore  (can just rewrite as adding a new group is a rare occurrence)
         writeKeyStore(ks, appPwd.toCharArray());
+        
+        //add new group to shared preferences
+        prefs.addGroup(groupID);        
  
         return;
     } //end generateKey

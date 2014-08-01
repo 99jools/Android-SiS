@@ -2,28 +2,20 @@ package crypto;
 import static org.junit.Assert.*;
 
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.security.GeneralSecurityException;
-import java.security.InvalidAlgorithmParameterException;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
-
-import javax.crypto.BadPaddingException;
-import javax.crypto.IllegalBlockSizeException;
-import javax.crypto.NoSuchPaddingException;
-
 import org.junit.Test;
-
-
 
 public class FileEncryptorTest {
 FileInputStream fis;
 FileOutputStream fos;
 FileInputStream fisd;
 FileOutputStream fosd;
+FileInputStream sisd;
+FileOutputStream sosd;
 String decryptFor;
+SharedPrefs prefs;
 	
 	@Test
 	public void testEncryptFile() throws IOException, GeneralSecurityException {
@@ -38,7 +30,13 @@ String decryptFor;
 	    appPwd.setValue("password");
 	    
 	    //get SharedPrefs
-	    SharedPrefs prefs = new SharedPrefs("/home/students/jrs300/SampleCSVFile.csv");
+	    prefs = new SharedPrefs("SharedPrefs.csv");
+	    
+	    //add some groups and generate corresponding keys
+	    addGroup("Mygroup");
+	    addGroup("Newgroup");
+	    addGroup("Mygroup");
+	    addGroup("Julie");
 	    
 	    FileCryptor.encryptFile(fis, fos, "Newgroup", prefs);
 	      
@@ -51,20 +49,28 @@ String decryptFor;
 	    	+ "He was with God in the beginning. Through him all things were made; without him nothing was made that has been made."
 	    	+ "In him was life, and that life was the light of all mankind. "
 	    	+" The light shines in the darkness, and the darkness has not overcome it.";
-	    FileOutputStream fosS = new FileOutputStream("/home/students/jrs300/s.enc");
+	    FileOutputStream sosS = new FileOutputStream("/home/students/jrs300/s.enc");
 	    
-	    FileCryptor.encryptString(newString, fosS, "Mygroup",prefs);
+	    FileCryptor.encryptString(myString, sosS, "Mygroup",prefs);
 	    
-	    fisd = new FileInputStream("/home/students/jrs300/s.enc");
-	    fosd = new FileOutputStream("/home/students/jrs300/s.txt");
-	    
-
-	    decryptFor = FileCryptor.decryptFile(fisd, fosd, prefs);  
-	    System.out.println(decryptFor);
-	    
-    
-
+	    sisd = new FileInputStream("/home/students/jrs300/s.enc");
+	    sosd = new FileOutputStream("/home/students/jrs300/s.txt");
 	
+	    decryptFor = FileCryptor.decryptFile(sisd, sosd, prefs);  
+	    System.out.println(decryptFor);
+		}
+	
+	private void addGroup(String groupID){
+		if ( !prefs.codeExists(groupID))
+			try {
+				AppKeystore.addGroupKey(groupID, prefs);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (GeneralSecurityException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 	}
 
 }
