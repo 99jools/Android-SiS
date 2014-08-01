@@ -1,3 +1,4 @@
+package crypto;
 import static org.junit.Assert.*;
 
 import java.io.FileInputStream;
@@ -16,11 +17,13 @@ import javax.crypto.NoSuchPaddingException;
 import org.junit.Test;
 
 
+
 public class FileEncryptorTest {
 FileInputStream fis;
 FileOutputStream fos;
 FileInputStream fisd;
 FileOutputStream fosd;
+String decryptFor;
 	
 	@Test
 	public void testEncryptFile() throws IOException, GeneralSecurityException {
@@ -29,16 +32,18 @@ FileOutputStream fosd;
 	    fos = new FileOutputStream("/home/students/jrs300/aaa.txt.enc");
 	    fisd = new FileInputStream("/home/students/jrs300/aaa.txt.enc");
 	    fosd = new FileOutputStream("/home/students/jrs300/aaa.decrypt.txt");
-	    String password = "password";
-	    String groupID = "dummy";
-	   
-	   
-	    byte[] alias = new byte[16];
-	    alias = groupID.getBytes();
+
+	    // initialise AppPwdObj
+	    AppPwdObj appPwd = AppPwdObj.getInstance();
+	    appPwd.setValue("password");
 	    
-	    FileCryptor.encryptFile(fis, fos, alias);
+	    //get SharedPrefs
+	    SharedPrefs prefs = new SharedPrefs("/home/students/jrs300/SampleCSVFile.csv");
+	    
+	    FileCryptor.encryptFile(fis, fos, "Newgroup", prefs);
 	      
-		FileCryptor.decryptFile(fisd, fosd);  
+	    decryptFor = FileCryptor.decryptFile(fisd, fosd, prefs);  
+	    System.out.println(decryptFor);
 		
 		String newString = "IT WAS the best of times, it was the worst of times, it was the age of wisdom, it was the age of foolishness, it was the epoch of belief";
 	  
@@ -48,12 +53,14 @@ FileOutputStream fosd;
 	    	+" The light shines in the darkness, and the darkness has not overcome it.";
 	    FileOutputStream fosS = new FileOutputStream("/home/students/jrs300/s.enc");
 	    
-	    FileCryptor.encryptString(newString, fosS, alias);
+	    FileCryptor.encryptString(newString, fosS, "Mygroup",prefs);
 	    
 	    fisd = new FileInputStream("/home/students/jrs300/s.enc");
 	    fosd = new FileOutputStream("/home/students/jrs300/s.txt");
 	    
-	    FileCryptor.decryptFile(fisd, fosd);
+
+	    decryptFor = FileCryptor.decryptFile(fisd, fosd, prefs);  
+	    System.out.println(decryptFor);
 	    
     
 

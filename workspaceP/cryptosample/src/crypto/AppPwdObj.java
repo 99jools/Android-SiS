@@ -1,3 +1,4 @@
+package crypto;
 
 public class AppPwdObj {
 

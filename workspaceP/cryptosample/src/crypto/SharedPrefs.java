@@ -1,5 +1,5 @@
+package crypto;
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.HashMap;
@@ -34,6 +34,7 @@ public class SharedPrefs {
 				int i = Integer.parseInt(tokens[1]);
 				sToInt.put(s, i);
 				iToString.put(i,s);
+				System.out.println(sToInt.toString());
 			}
 		}
 		catch (Exception e) {
