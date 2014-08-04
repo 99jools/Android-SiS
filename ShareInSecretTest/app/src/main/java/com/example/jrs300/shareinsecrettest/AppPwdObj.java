@@ -1,5 +1,7 @@
 package com.example.jrs300.shareinsecrettest;
 
+import java.io.IOException;
+
 /**
  * Created by jrs300 on 01/08/14.
  */
@@ -9,8 +11,8 @@ public class AppPwdObj {
     private String value = null;
 
     private AppPwdObj() {
-    this.value =  "mypassword";
-    }
+    this.value = "mypassword";
+    }  //this is just here for testing in case object is destroyed - remove once password fragment available
 
     public static AppPwdObj getInstance() {
         if (appPwdObj == null)
@@ -27,7 +29,9 @@ public class AppPwdObj {
         return this.value;
     }
 
-    public void setValue(String value){
+    public boolean setValue(String value) throws IOException{
         this.value = value;
+        //check that it is possible to access Keystore
+        return  AppKeystore.validate("Dummy");
     }
 }

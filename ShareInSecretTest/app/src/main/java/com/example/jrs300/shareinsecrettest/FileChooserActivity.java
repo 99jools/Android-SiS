@@ -1,7 +1,9 @@
 package com.example.jrs300.shareinsecrettest;
 
 import android.app.ListActivity;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -28,6 +30,7 @@ public class FileChooserActivity extends ListActivity {
     DbxAccountManager fcDbxAcctMgr;
     DbxFileSystem fcDbxFileSystem;
     List<DbxFileInfo> fcFileInfo;
+    SharedPrefs prefs;
 
 
     @Override
@@ -136,13 +139,23 @@ fcFileInfo.toArray(fn);
 
     } //end getFos
 
-
+    /**
+     * Takes a fileInputStream and returns the corresponding decrypted FileOutputStream
+     * @param fis
+     * @param fos
+     * @throws MissingPwdException
+     * @throws IOException
+     * @throws GeneralSecurityException
+     */
     private void decryptFile(FileInputStream fis, FileOutputStream fos)
             throws MissingPwdException, IOException, GeneralSecurityException {
         //get preferences
 
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
+        prefs = new SharedPrefs(sp);
+
         // call static method to decrypt
-        FileCryptor.decryptFile(fis, fos);
+        FileCryptor.decryptFile(fis, fos, prefs);
     }
 
     private void showToast(String message) {

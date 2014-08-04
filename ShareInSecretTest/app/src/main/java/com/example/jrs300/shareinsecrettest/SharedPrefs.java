@@ -1,96 +1,49 @@
 package com.example.jrs300.shareinsecrettest;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.PrintStream;
-import java.util.HashMap;
+import android.content.SharedPreferences;
+
 import java.util.Map;
 
 /**
  * Created by jrs300 on 01/08/14.
  */
 public class SharedPrefs {
-    private Map<String, Integer > sToInt;
-    private Map<Integer, String > iToString;
-    private String prefsLoc;
+
+    private SharedPreferences sp;
 
     //constructor
-    public SharedPrefs(String filename) throws IOException {
+    public SharedPrefs(SharedPreferences sp){
+        this.sp = sp;
+   }
 
-        this.sToInt = new HashMap<String,Integer>();
-        this.iToString = new HashMap<Integer,String>();
-        this.prefsLoc = filename;
-        //Input file which needs to be parsed
-        BufferedReader fileReader = null;
-
-        //Set the delimiter used in file
-        final String DELIMITER = ",";
-
-        try {
-            String line = "";
-            //Create the file reader
-            fileReader = new BufferedReader(new FileReader(filename));
-
-            //Read the file line by line
-            while ((line = fileReader.readLine()) != null)
-            {
-                //Get all tokens available in line
-                String[] tokens = line.split(DELIMITER);
-                String s = tokens[0];
-                int i = Integer.parseInt(tokens[1]);
-                sToInt.put(s, i);
-                iToString.put(i,s);
-            }
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-        }
-        finally
-        {
-            try {
-                fileReader.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-    }
     public int getCode(String groupID){
-        return this.sToInt.get(groupID);  //returns the corresponding int value
+         return  sp.getInt(groupID, 0); //0 is default value if not found
     }
 
-    public String getID(Integer code){
-        return iToString.get(code);
+    public String getID(Integer groupCode ) {
+        // no reverse key so need to search set of values
+        Map<String,?> sToInt =  sp.getAll();
+        for(Map.Entry<String,?> entry : sToInt.entrySet()){
+            if (entry.getValue() == groupCode)
+                return entry.getKey();
+        }
+        return null;  // groupCde not found
     }
 
-    public boolean codeExists(String GroupID){
-        return sToInt.containsKey(GroupID);
+    public boolean groupExists(String groupID){
+
+        return sp.contains(groupID);
     }
 
     public void addGroup(String groupID){
-        int nextID = sToInt.get("NextID");
-        this.sToInt.put(groupID,nextID);
-        this.iToString.put(nextID,groupID);
+        //get the next available code
+        int nextCode = sp.getInt("NextID",0);
 
-        this.sToInt.put("NextID", nextID+1);
-        this.iToString.put(nextID+1,"NextID");
-        PrintStream fs = null;
-        try {
-            fs = new PrintStream(new File(prefsLoc));
-            //write updated map to disk
-            for (Map.Entry<String, Integer> entry : sToInt.entrySet()) {
-                String out = entry.getKey() + "," + entry.getValue();
-                fs.println(out);
-            }
-        } catch (FileNotFoundException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        } finally {
-            fs.close();
-        }
+        SharedPreferences.Editor editor = sp.edit();
+        editor.putInt(groupID, nextCode);
+        editor.putInt("NextID", nextCode+1);
 
-        return;
+        // Commit the edits!
+        editor.commit();
     } //end addGroup
 }

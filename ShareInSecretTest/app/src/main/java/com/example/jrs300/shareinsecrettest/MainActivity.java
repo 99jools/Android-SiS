@@ -10,10 +10,15 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.dropbox.sync.android.DbxAccountManager;
+
+import java.io.IOException;
+
+import static com.example.jrs300.shareinsecrettest.AppPwdObj.*;
 
 public class MainActivity extends Activity {
 
@@ -122,6 +127,26 @@ public class MainActivity extends Activity {
             mDbxAcctMgr.startLink(this, REQUEST_LINK_TO_DBX);
         }
     }
+
+
+    public void onClickPwd(View view){
+        EditText getPwd = (EditText) findViewById(R.id.text_pwd);
+        Button mButtonPwd = (Button) findViewById(R.id.button_pwd);
+        String appPwd = getPwd.getText().toString();
+        Boolean confirm = null;
+        try {
+            confirm = getInstance().setValue(appPwd);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        if (confirm) {
+            showToast("Master password accepted" + confirm);
+            getPwd.setVisibility(View.GONE);
+            mButtonPwd.setVisibility(View.GONE);
+
+        }
+            else showToast("Error entering Master password - please retry");
+        }
 
     public void onClickUnlink(View view){
         AlertDialog.Builder ad = new AlertDialog.Builder(this);

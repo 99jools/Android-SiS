@@ -5,6 +5,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.security.GeneralSecurityException;
+
 import javax.crypto.Cipher;
 import javax.crypto.CipherInputStream;
 import javax.crypto.CipherOutputStream;
@@ -25,16 +26,18 @@ public class FileCryptor {
         // dummy constructor to prevent accidental instantiation
     }
 
+
     /**
      * Encrypt input stream and outputs result to a file - location of output stream is set up in calling
-     * class
      * @param fis
      * @param fos
+     * @param groupID
+     * @param prefs
+     * @throws MissingPwdException
      * @throws IOException
      * @throws GeneralSecurityException
      */
-    public static  void encryptFile(FileInputStream fis,
-                                    FileOutputStream fos, String groupID)
+    public static  void encryptFile(FileInputStream fis,FileOutputStream fos, String groupID, SharedPrefs prefs)
             throws MissingPwdException, IOException, GeneralSecurityException{
 
         Cipher encryptionCipher = initEncryptCipher(groupID);
@@ -62,11 +65,12 @@ public class FileCryptor {
      * Decrypts a fileoutputstream
      * @param fis file input stream
      * @param fos file output stream
+     * @param prefs shared preferences
      * @return returns the groupID
      * @throws GeneralSecurityException
      * @throws IOException
      */
-    public static String decryptFile(FileInputStream fis, FileOutputStream  fos)
+    public static String decryptFile(FileInputStream fis, FileOutputStream  fos, SharedPrefs prefs)
             throws MissingPwdException, GeneralSecurityException, IOException {
 
         // read meta data from input stream
@@ -105,7 +109,7 @@ public class FileCryptor {
      * @throws GeneralSecurityException
      * @throws IOException
      */
-    public static void encryptString(String plaintextAsString, FileOutputStream fos, String groupID)
+    public static void encryptString(String plaintextAsString, FileOutputStream fos, String groupID, SharedPrefs prefs)
             throws MissingPwdException,GeneralSecurityException, IOException {
 
         Cipher encryptionCipher = initEncryptCipher(groupID);
@@ -122,7 +126,6 @@ public class FileCryptor {
         fos.write(ciphertextAsByteArray);
         fos.close();
 
-        return;
     } //end encryptString
 
 

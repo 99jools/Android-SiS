@@ -1,7 +1,9 @@
 package com.example.jrs300.shareinsecrettest;
 
 import android.app.Activity;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -90,13 +92,12 @@ public class CreateActivity extends Activity {
         else {
 
             //add .enc extension to filename
-            this.saveName = this.saveName + ".enc";
-
-
+            this.saveName = this.saveName + ".xps";
             // get a FileOutputStream set up for writing to Dropbox
             FileOutputStream fos = getDbxOutputStream();
-
             //encrypt text with new key and write to file
+            SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
+            prefs = new SharedPrefs(sp);
             FileCryptor.encryptString(plaintextIn, fos, groupID ,prefs);
             showToast(saveName + " saved");
             finish();

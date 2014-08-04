@@ -63,9 +63,12 @@ public class AppKeystore {
      * @throws IOException
      * @throws GeneralSecurityException
      */
-    public static void addGroupKey(String groupID, SharedPrefs prefs)
+    public static boolean addGroupKey(String groupID, SharedPrefs prefs)
             throws MissingPwdException,IOException, GeneralSecurityException{
-        //load keystore
+
+        if (prefs.groupExists(groupID)) return false;
+
+        //otherwise add new group
         String appPwd = AppPwdObj.getInstance().getValue();
         KeyStore ks = loadKeyStore(appPwd.toCharArray());
 
@@ -85,7 +88,19 @@ public class AppKeystore {
         //add new group to shared preferences
         prefs.addGroup(groupID);
 
-    } //end generateKey
+        return true;
+
+    } //end addGroupKey
+
+    public static boolean  validate(String appPwd) throws IOException{
+        try {
+            KeyStore ks = loadKeyStore(appPwd.toCharArray());
+            return true;
+
+        } catch (GeneralSecurityException e) {
+            return false;
+        }
+    }
 
 
     /**
@@ -104,6 +119,8 @@ public class AppKeystore {
             System.out.println("New keystore created");
             //this should only get run if file store doesn't exists at all - creates a new one
             ks.load(null);
+            //add dummy entry
+
         } finally {
             if (fis != null) fis.close();
         }
@@ -124,5 +141,7 @@ public class AppKeystore {
             if (fos != null) fos.close();
         }
     } //end writeKeyStore
+
+
 
 } //end AppKeystore
