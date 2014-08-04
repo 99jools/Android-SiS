@@ -18,8 +18,6 @@ import com.dropbox.sync.android.DbxAccountManager;
 
 import java.io.IOException;
 
-import static com.example.jrs300.shareinsecrettest.AppPwdObj.*;
-
 public class MainActivity extends Activity {
 
     private static final int REQUEST_LINK_TO_DBX = 0;
@@ -57,7 +55,7 @@ public class MainActivity extends Activity {
         } else {
             processUnlinked();
         }
-        test = "in onCreate";
+        test = "in onResume";
     }
 
 
@@ -135,18 +133,18 @@ public class MainActivity extends Activity {
         String appPwd = getPwd.getText().toString();
         Boolean confirm = null;
         try {
-            confirm = getInstance().setValue(appPwd);
+            confirm = AppPwdObj.getInstance().setValue(appPwd);
+            if (confirm) {
+                showToast("Master password accepted" + confirm);
+                getPwd.setVisibility(View.GONE);
+                mButtonPwd.setVisibility(View.GONE);
+            } else showToast("Error entering Master password - please retry");
         } catch (IOException e) {
             e.printStackTrace();
         }
-        if (confirm) {
-            showToast("Master password accepted" + confirm);
-            getPwd.setVisibility(View.GONE);
-            mButtonPwd.setVisibility(View.GONE);
 
-        }
-            else showToast("Error entering Master password - please retry");
-        }
+
+    } //end onClickPwd
 
     public void onClickUnlink(View view){
         AlertDialog.Builder ad = new AlertDialog.Builder(this);
