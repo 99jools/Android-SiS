@@ -24,3 +24,9 @@ proguard/
 
 # Android Studio Settings
 .idea/
+
+# eclipse files
+*.classpath
+*.project
+*.settings/
+*.metatdata/

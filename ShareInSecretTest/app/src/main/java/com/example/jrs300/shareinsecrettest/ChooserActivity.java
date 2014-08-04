@@ -94,9 +94,6 @@ public class ChooserActivity extends Activity {
                 out = out.substring(0, out.length()-4) + ".dec.txt";
 
                 try {
-                    //get the correct key
-                    KeyManagement decryptKey = new KeyManagement(in);
-
                     //get an output stream
                     File myCiphertextFile = new File(in);
                     File myPlaintextFile = new File(this.getExternalFilesDir(null),out);
@@ -105,13 +102,13 @@ public class ChooserActivity extends Activity {
                     FileOutputStream fos = new FileOutputStream((myPlaintextFile));
 
                     FileCryptor.decryptFile(fis, fos, prefs);
-
-
+                } catch (MissingPwdException e) {
+                    showToast(e.getMessage());
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
                 } catch (IOException e) {
                     e.printStackTrace();
-                }  catch (GeneralSecurityException e) {
+                } catch (GeneralSecurityException e) {
                     e.printStackTrace();
                 }
 

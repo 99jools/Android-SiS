@@ -15,7 +15,6 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:id="@+id/plaintextIn"
-        android:layout_alignParentStart="false"
         android:capitalize="sentences"
         android:maxLines="8"
         android:minLines="3"
@@ -26,14 +25,14 @@
         android:layout_weight="1"
         android:background="@android:color/background_dark"
         android:textColor="@android:color/holo_orange_light"
-        android:lines="4"
-        android:gravity="left|top" />
+        android:gravity="left|top"
+        android:inputType="textMultiLine" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Enter filename"
+        android:text="@string/enter_filename"
         android:id="@+id/label_filename"
         android:layout_gravity="center_horizontal|left"
         android:gravity="left"
@@ -50,14 +49,12 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Encrypt and Save"
+        android:text="@string/enc                                                                                                                                 rypt_save"
         android:id="@+id/button_save"
         android:textColor="@android:color/background_dark"
         android:clickable="true"
-        android:onClick="encryptAndSave"
+        android:onClick="onClickEncryptSave"
         android:background="@android:color/darker_gray"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
         android:layout_gravity="center_horizontal"
         android:gravity="fill_vertical"
         android:layout_margin="18dp" />

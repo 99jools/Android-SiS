@@ -10,7 +10,6 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.dropbox.sync.android.DbxAccountManager;
-import com.dropbox.sync.android.DbxException;
 import com.dropbox.sync.android.DbxFile;
 import com.dropbox.sync.android.DbxFileSystem;
 import com.dropbox.sync.android.DbxPath;
@@ -18,13 +17,6 @@ import com.dropbox.sync.android.DbxPath;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.security.GeneralSecurityException;
-import java.security.InvalidAlgorithmParameterException;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
-
-import javax.crypto.BadPaddingException;
-import javax.crypto.IllegalBlockSizeException;
-import javax.crypto.NoSuchPaddingException;
 
 public class CreateActivity extends Activity {
 
@@ -40,7 +32,15 @@ public class CreateActivity extends Activity {
 //      Log.e("method call", "CreateActivity");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create);
-        this.mDbxAcctMgr = new DropboxSync(getApplicationContext()).getAccMgr();
+        this.mDbxAcctMgr = new DropboxSetup(getApplicationContext()).getAccMgr();
+
+
+/**********************************************************************************
+ * THIS IS A TEMPORARY SOLUTION!!!
+  */
+
+        this.groupID = "mygroup";
+
     }
 
     @Override
@@ -74,7 +74,7 @@ public class CreateActivity extends Activity {
     /**
      * called whenever the user clicks the Encrypt and Save button
      */
-    public void encryptAndSave(View view) throws IOException, GeneralSecurityException{
+    public void onClickEncryptSave(View view) throws MissingPwdException,IOException, GeneralSecurityException{
         //get the plaintext from the screen
         EditText editText = (EditText) findViewById(R.id.plaintextIn);
         this.plaintextIn = editText.getText().toString();
@@ -92,6 +92,8 @@ public class CreateActivity extends Activity {
             //add .enc extension to filename
             this.saveName = this.saveName + ".enc";
 
+
+            // get a FileOutputStream set up for writing to Dropbox
             FileOutputStream fos = getDbxOutputStream();
 
             //encrypt text with new key and write to file
@@ -107,15 +109,17 @@ public class CreateActivity extends Activity {
         toast.show();
     }
 
-
-    private FileOutputStream getDbxOutputStream() throws DbxException, IOException{
+    /*
+     * @return returns a FileOutputStream initialised correctly for writing to Dropbox
+     */
+    private FileOutputStream getDbxOutputStream() throws IOException{
 
         DbxPath savePath = new DbxPath(DbxPath.ROOT, this.saveName);
         FileOutputStream newFos=null;
 
         // Create DbxFileSystem for synchronized file access and ensure first sync is complete.
         DbxFileSystem dbxFileSys = DbxFileSystem.forAccount(this.mDbxAcctMgr.getLinkedAccount());
-        if ( dbxFileSys.hasSynced() ==  false)
+        if ( !dbxFileSys.hasSynced())
             dbxFileSys.awaitFirstSync();
 
 

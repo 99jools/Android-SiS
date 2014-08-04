@@ -13,5 +13,10 @@
     <string name="link_to_dropbox">Link to Dropbox</string>
     <string name="title_activity_download">DownloadActivity</string>
     <string name="title_activity_file_chooser">FileChooserActivity</string>
+    <string name="open_encrypted_file">Open Encrypted File</string>
+    <string name="unlink_from_dropbox">Unlink from Dropbox account</string>
+    <string name="create_new_document">Create New Document</string>
+    <string name="enter_filename">Enter filename for save (including extension)</string>
+    <string name="encrypt_save">Encrypt and Save</string>
 
 </resources>

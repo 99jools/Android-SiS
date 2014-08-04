@@ -17,14 +17,14 @@ import com.dropbox.sync.android.DbxFileSystem;
 import com.dropbox.sync.android.DbxPath;
 
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.security.GeneralSecurityException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class FileChooserActivity extends ListActivity {
-    ListView fcListView;
+//    ListView fcListView;
     DbxAccountManager fcDbxAcctMgr;
     DbxFileSystem fcDbxFileSystem;
     List<DbxFileInfo> fcFileInfo;
@@ -37,7 +37,7 @@ public class FileChooserActivity extends ListActivity {
 
         //get DbxFileSystem
         try {
-            fcDbxAcctMgr = new DropboxSync(this.getApplicationContext()).getAccMgr();
+            fcDbxAcctMgr = new DropboxSetup(this.getApplicationContext()).getAccMgr();
             fcDbxFileSystem = DbxFileSystem.forAccount(fcDbxAcctMgr.getLinkedAccount());
 
 
@@ -51,17 +51,15 @@ fcFileInfo.toArray(fn);
 */
             //convert to list only containing filenames
             List<String> fcFileNames = new ArrayList<String>();
-            for (DbxFileInfo fi:fcFileInfo ) fcFileNames.add(fi.path.getName());
+            for (DbxFileInfo fi : fcFileInfo) fcFileNames.add(fi.path.getName());
 
-            setListAdapter( new ArrayAdapter<String>(
-                    this,android.R.layout.simple_list_item_1, fcFileNames));
+            setListAdapter(new ArrayAdapter<String>(
+                    this, android.R.layout.simple_list_item_1, fcFileNames));
 
 
         } catch (DbxException unauthorized) {
             unauthorized.printStackTrace();
         }
-
-
 
 
     }
@@ -91,57 +89,65 @@ fcFileInfo.toArray(fn);
         super.onListItemClick(l, v, position, id);
 
         //get the path of the selected file
-        showToast("path is " +fcFileInfo.get(position).path);
+        showToast("path is " + fcFileInfo.get(position).path);
 
         try {
-
-            //decryption stuff - TEMPORARY !!
-            DbxPath inPath = fcFileInfo.get(position).path;
-
-            //open a file input stream with given path
-            DbxFile myCiphertextFile = fcDbxFileSystem.open(inPath);
-            FileInputStream fis = myCiphertextFile.getReadStream();
-
-
-            //get file output stream
-            String out = fcFileInfo.get(position).path.getName();
-            out = out.substring(0, out.length()-4) + ".dec.txt";
-            DbxPath outPath = new DbxPath(out);
-
-
-/*
- * Writing decrypted file to dropbox is a temporary measure just for testing
- * THIS SHOUD NOT BE LEFT IN FINAL VERSION
- *
- */
-            DbxFile myPlaintextFile;
-            if (fcDbxFileSystem.exists(outPath))
-                myPlaintextFile = fcDbxFileSystem.open(outPath);
-            else myPlaintextFile = fcDbxFileSystem.create(outPath);
-
-            FileOutputStream fos = myPlaintextFile.getWriteStream();
-
-
-            //get the correct key
-            KeyManagement decryptKey = new KeyManagement(inPath.toString());
-
-
-            FileCryptor.decryptFile(fis, fos, decryptKey);
-
-
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            // get file input stream
+            FileInputStream fis = getFis(position);
+            FileOutputStream fos = getFos(position, "To Dropbox");
+            decryptFile(fis, fos);
         } catch (IOException e) {
-            e.printStackTrace();
+            showToast(e.getMessage());
+        } catch (GeneralSecurityException e) {
+            showToast(e.getMessage());
+        } catch (MissingPwdException e) {
+            showToast(e.getMessage());
         }
-
 
         // Need to add something to handle Failed or was cancelled by the user.
     }
 
 
-    public void showToast(String message) {
+    private FileInputStream getFis(int position) throws IOException {
+        DbxPath inPath = fcFileInfo.get(position).path;
+        //open a file input stream with given path
+        DbxFile myCiphertextFile;
+        myCiphertextFile = fcDbxFileSystem.open(inPath);
+        return myCiphertextFile.getReadStream();
+    }
+
+    private FileOutputStream getFos(int position, String outLoc) throws IOException {
+
+/*******************************************************************************************************************************
+ * Writing decrypted file to dropbox is a temporary measure just for testing
+ * THIS SHOUD NOT BE LEFT IN FINAL VERSION
+ *
+ */
+        String out = fcFileInfo.get(position).path.getName();
+        out = out.substring(0, out.length() - 4) + ".dec.txt";
+        DbxPath outPath = new DbxPath(out);
+        DbxFile myPlaintextFile;
+        if (fcDbxFileSystem.exists(outPath))
+            myPlaintextFile = fcDbxFileSystem.open(outPath);
+        else myPlaintextFile = fcDbxFileSystem.create(outPath);
+        return myPlaintextFile.getWriteStream();
+
+//*****************************************************************************************************************************
+
+    } //end getFos
+
+
+    private void decryptFile(FileInputStream fis, FileOutputStream fos)
+            throws MissingPwdException, IOException, GeneralSecurityException {
+        //get preferences
+
+        // call static method to decrypt
+        FileCryptor.decryptFile(fis, fos);
+    }
+
+    private void showToast(String message) {
         Toast toast = Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT);
         toast.show();
     }
 }
+

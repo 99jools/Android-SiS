@@ -1,8 +1,5 @@
 package com.example.jrs300.shareinsecrettest;
 
-import android.app.Application;
-import android.content.Context;
-
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -10,7 +7,6 @@ import java.io.IOException;
 import java.security.GeneralSecurityException;
 import java.security.Key;
 import java.security.KeyStore;
-
 import javax.crypto.KeyGenerator;
 import javax.crypto.spec.SecretKeySpec;
 
@@ -31,12 +27,13 @@ public class AppKeystore {
     /**
      * recovers stored key from Keystore and wraps as SecretKeySpec
      * @param groupID
-     * @param prefs
      * @return
+     * @throws MissingPwdException
      */
-    public static SecretKeySpec getKeySpec(Context activityContext, String groupID, SharedPrefs prefs) {
+    public static SecretKeySpec getKeySpec( String groupID)
+            throws MissingPwdException {
         KeyStore ks;
-        String appPwd = AppPwdObj.getInstance(activityContext).getValue();
+        String appPwd = AppPwdObj.getInstance().getValue();
 
 
         try {
@@ -59,15 +56,17 @@ public class AppKeystore {
     } //end getExistingKey
 
     /**
-     ** generates a new group encryption key for AES encryption using 256 bit key and stores in KeyStore
+     * generates a new group encryption key for AES encryption using 256 bit key and stores in KeyStore
      * @param groupID
      * @param prefs
+     * @throws MissingPwdException
      * @throws IOException
      * @throws GeneralSecurityException
      */
-    public static void addGroupKey(Context activityContext,String groupID, SharedPrefs prefs) throws IOException, GeneralSecurityException{
+    public static void addGroupKey(String groupID, SharedPrefs prefs)
+            throws MissingPwdException,IOException, GeneralSecurityException{
         //load keystore
-        String appPwd = AppPwdObj.getInstance(activityContext).getValue();
+        String appPwd = AppPwdObj.getInstance().getValue();
         KeyStore ks = loadKeyStore(appPwd.toCharArray());
 
         //generate key
@@ -95,7 +94,7 @@ public class AppKeystore {
      * @throws IOException
      * @throws GeneralSecurityException
      */
-    private static KeyStore loadKeyStore(char[] pwd)    throws IOException, GeneralSecurityException {
+    private static KeyStore loadKeyStore(char[] pwd) throws IOException, GeneralSecurityException {
         KeyStore ks = KeyStore.getInstance("JCEKS");
         FileInputStream fis = null;
         try {

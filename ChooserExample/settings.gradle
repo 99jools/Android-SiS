@@ -1,2 +1,0 @@
-include ':chooserExample'
-include ':libraries:dropboxChooserSDK'

@@ -34,10 +34,10 @@ public class FileCryptor {
      * @throws GeneralSecurityException
      */
     public static  void encryptFile(FileInputStream fis,
-                                    FileOutputStream fos, String groupID, SharedPrefs prefs )
-            throws IOException, GeneralSecurityException{
+                                    FileOutputStream fos, String groupID)
+            throws MissingPwdException, IOException, GeneralSecurityException{
 
-        Cipher encryptionCipher = initEncryptCipher(groupID, prefs);
+        Cipher encryptionCipher = initEncryptCipher(groupID);
 
         //write metadata to FileOutputStream
         fos.write(prefs.getCode(groupID));  	 						 //writes 4 byte hashcode
@@ -62,24 +62,23 @@ public class FileCryptor {
      * Decrypts a fileoutputstream
      * @param fis file input stream
      * @param fos file output stream
-     * @param prefs shared preferences object
      * @return returns the groupID
      * @throws GeneralSecurityException
      * @throws IOException
      */
-    public static String decryptFile(FileInputStream fis, FileOutputStream  fos, SharedPrefs prefs)
-            throws GeneralSecurityException, IOException {
+    public static String decryptFile(FileInputStream fis, FileOutputStream  fos)
+            throws MissingPwdException, GeneralSecurityException, IOException {
 
         // read meta data from input stream
         byte[] initVector = new byte[AES_BLOCKSIZE];
         int groupCode = fis.read();
         String groupID = prefs.getID(groupCode);
         fis.read(initVector,0,AES_BLOCKSIZE);
-        IvParameterSpec ips = new IvParameterSpec(initVector);
+     //   IvParameterSpec ips = new IvParameterSpec(initVector);
 
         //setup decryption
         Cipher decryptionCipher = Cipher.getInstance(CIPHER_ALGORITHM);
-        decryptionCipher.init(Cipher.DECRYPT_MODE,AppKeystore.getKeySpec(groupID,prefs),ips);
+        decryptionCipher.init(Cipher.DECRYPT_MODE,AppKeystore.getKeySpec(groupID));
         CipherInputStream cis = new CipherInputStream(fis,decryptionCipher );
 
         //read and decrypt file
@@ -103,14 +102,13 @@ public class FileCryptor {
      * @param plaintextAsString
      * @param fos
      * @param groupID
-     * @param prefs
      * @throws GeneralSecurityException
      * @throws IOException
      */
-    public static void encryptString(String plaintextAsString, FileOutputStream fos,
-                                     String groupID, SharedPrefs prefs  )throws GeneralSecurityException, IOException {
+    public static void encryptString(String plaintextAsString, FileOutputStream fos, String groupID)
+            throws MissingPwdException,GeneralSecurityException, IOException {
 
-        Cipher encryptionCipher = initEncryptCipher(groupID, prefs);
+        Cipher encryptionCipher = initEncryptCipher(groupID);
 
         //convert String to byte array using UTF-8 encoding and convert to encrypted array
         byte[] stringAsByteArray = plaintextAsString.getBytes("UTF-8");
@@ -132,12 +130,11 @@ public class FileCryptor {
     /**
      * Sets up the necessary Cipher object
      * @param groupID
-     * @param prefs
      * @return
      */
-    private static Cipher initEncryptCipher(String groupID, SharedPrefs prefs){
+    private static Cipher initEncryptCipher(String groupID) throws MissingPwdException{
         //retrieve encryption for this group from Key store
-        SecretKeySpec groupSKS = AppKeystore.getKeySpec(groupID, prefs);
+        SecretKeySpec groupSKS = AppKeystore.getKeySpec(groupID);
 
         //set up cipher for encryption
         Cipher encryptionCipher = null;

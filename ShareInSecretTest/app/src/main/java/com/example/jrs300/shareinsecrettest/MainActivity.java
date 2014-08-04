@@ -10,18 +10,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.dropbox.sync.android.DbxAccountManager;
-import com.dropbox.sync.android.DbxFile;
-import com.dropbox.sync.android.DbxFileInfo;
-import com.dropbox.sync.android.DbxFileSystem;
-import com.dropbox.sync.android.DbxPath;
-
-import java.io.IOException;
-import java.util.List;
 
 public class MainActivity extends Activity {
 
@@ -44,7 +36,7 @@ public class MainActivity extends Activity {
         mTextOutput = (TextView) findViewById(R.id.textView2);  //set up variable linked to TextView
         mButtonUnlink = (Button) findViewById(R.id.button_unlink);
         mButtonOK = (Button) findViewById(R.id.button_OK);
-        mDbxAcctMgr = new DropboxSync(this.getApplicationContext()).getAccMgr();
+        mDbxAcctMgr = new DropboxSetup(this.getApplicationContext()).getAccMgr();
         test = "in onCreate";
 
     }
@@ -131,7 +123,7 @@ public class MainActivity extends Activity {
         }
     }
 
-    public void onClickunlink(View view){
+    public void onClickUnlink(View view){
         AlertDialog.Builder ad = new AlertDialog.Builder(this);
         ad.setMessage("This will unlink your dropbox account, delete all local data and terminate the app");
         ad.setTitle("Unlink from Dropbox");
@@ -153,13 +145,6 @@ public class MainActivity extends Activity {
 
         // show it
         alertDialog.show();
-    }
-
-    public void onClickPwd(View view){
-
-        SiSApp myApp = ((SiSApp)getApplicationContext());
-        EditText password = (EditText) findViewById(R.id.password);
-        myApp.setAppPwd(password.getText().toString());
     }
 
     public void processLinked(){
@@ -196,54 +181,7 @@ public class MainActivity extends Activity {
         }
     }
 
-    private void doDropboxTest() {
-        try {
-            final String TEST_DATA = "Hello Dropbox";
-            final String TEST_FILE_NAME = "hello_dropbox.txt";
-            DbxPath testPath = new DbxPath(DbxPath.ROOT, TEST_FILE_NAME);
-
-            // Create DbxFileSystem for synchronized file access.
-            DbxFileSystem dbxFs = DbxFileSystem.forAccount(mDbxAcctMgr.getLinkedAccount());
-
-            // Print the contents of the root folder. This will block until we can
-            // sync metadata the first time.
-            List<DbxFileInfo> infos = dbxFs.listFolder(DbxPath.ROOT);
-            showToast("\nContents of app folder:");
-            for (DbxFileInfo info : infos) {
-                showToast(info.path + ", " + info.modifiedTime );
-            }
-
-            // Create a test file only if it doesn't already exist.
-            if (!dbxFs.exists(testPath)) {
-                DbxFile testFile = dbxFs.create(testPath);
-                try {
-                    testFile.writeString(TEST_DATA);
-                } finally {
-                    testFile.close();
-                }
-                showToast("Created new file '" + testPath + "'.");
-            }
-
-            // Read and print the contents of test file. Since we're not making
-            // any attempt to wait for the latest version, this may print an
-            // older cached version. Use getSyncStatus() and/or a listener to
-            // check for a new version.
-            if (dbxFs.isFile(testPath)) {
-                String resultData;
-                DbxFile testFile = dbxFs.open(testPath);
-                try {
-                    resultData = testFile.readString();
-                } finally {
-                    testFile.close();
-                }
-                showToast("Read file '" + testPath + "' and got data:\n " + resultData);
-            } else if (dbxFs.isFolder(testPath)) {
-                showToast("'" + testPath.toString() + "' is a folder.");
-            }
-        } catch (IOException e) {
-            showToast("Dropbox test failed: ");
-        }
-    }
+    //****************************************************************************************************************
     public void showToast(String message) {
         Toast toast = Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT);
         toast.show();

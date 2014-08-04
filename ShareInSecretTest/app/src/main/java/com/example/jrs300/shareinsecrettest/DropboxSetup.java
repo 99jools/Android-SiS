@@ -11,13 +11,13 @@ import com.dropbox.sync.android.DbxFileSystem;
 /**
  * Created by jrs300 on 23/07/14.
  */
-public class DropboxSync {
+public class DropboxSetup {
     private static final String APPKEY = "rq1nhqsionfgtmd";
     private static final String APPSECRET = "b0hx2fvx2fcj9pk";
     private DbxAccountManager dAccManager;
     private DbxChooser dChooser;
 
-    public DropboxSync(Context appContext) {
+    public DropboxSetup(Context appContext) {
         this.dAccManager = DbxAccountManager.getInstance(appContext, APPKEY, APPSECRET);
         this.dChooser = new DbxChooser(APPKEY);
     }
