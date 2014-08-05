@@ -1,6 +1,7 @@
 package com.example.jrs300.shareinsecrettest;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.dropbox.chooser.android.DbxChooser;
 import com.dropbox.sync.android.DbxAccount;
@@ -20,6 +21,7 @@ public class DropboxSetup {
     public DropboxSetup(Context appContext) {
         this.dAccManager = DbxAccountManager.getInstance(appContext, APPKEY, APPSECRET);
         this.dChooser = new DbxChooser(APPKEY);
+        Log.e("", "setup");
     }
 
     public DbxAccountManager getAccMgr(){

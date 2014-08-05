@@ -2,7 +2,9 @@ package com.example.jrs300.shareinsecrettest;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -11,9 +13,7 @@ import android.widget.Toast;
 
 import com.dropbox.chooser.android.DbxChooser;
 
-import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.security.GeneralSecurityException;
@@ -29,6 +29,7 @@ public class ChooserActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chooser);
+        Log.e("", "in chooser create");
     }
 
 
@@ -63,19 +64,30 @@ public class ChooserActivity extends Activity {
 
     //Link to Dropbox
     public void chooseFromDropbox(View view){
+        Log.e("", "in dropbox");
+        DbxChooser mChooser;
 
-        Intent intent = new Intent(this, FileChooserActivity.class);
+        mChooser = new DropboxSetup(getApplicationContext()).getChooser();
+
+        Intent intent = new Intent(this, DropboxComms.class);
         startActivity(intent);
+        mChooser.forResultType(DbxChooser.ResultType.FILE_CONTENT).
+                launch(ChooserActivity.this, DROPBOX_CHOOSER);
+
 
     }
 
     /**run when user clicks button to open existing document */
     public void openExisting(View view){
-
+        Log.e("", "in existing");
         // Create the ACTION_GET_CONTENT Intent
         Intent getContentIntent = new Intent(Intent.ACTION_GET_CONTENT);
         getContentIntent.setType("file/*");
         startActivityForResult(getContentIntent, REQUEST_CHOOSER);
+
+        //**********************************************************************************************
+        // need to add encryption logic here
+        //*************************************************************
     }
 
 
@@ -83,49 +95,96 @@ public class ChooserActivity extends Activity {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        /*******************************************************************************88
+         * Do this if choose file from dropbox chooser
+         */
         if (requestCode == DROPBOX_CHOOSER) {
             if (resultCode == Activity.RESULT_OK) {
-                Log.e("dbxchhoser"," encrypt existing");
                 DbxChooser.Result result = new DbxChooser.Result(data);
-                Log.e("main", "Link to selected file: " + result.getName());
-
-                //decryption stuff - TEMPORARY !!
-                String in = result.getLink().getPath();
-                String out = result.getName();
-                out = out.substring(0, out.length()-4) + ".dec.txt";
-
-                try {
-                    //get an output stream
-                    File myCiphertextFile = new File(in);
-                    File myPlaintextFile = new File(this.getExternalFilesDir(null),out);
-
-                    FileInputStream fis = new FileInputStream(myCiphertextFile);
-                    FileOutputStream fos = new FileOutputStream((myPlaintextFile));
-
-                    FileCryptor.decryptFile(fis, fos, prefs);
-                } catch (MissingPwdException e) {
-                    showToast(e.getMessage());
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                } catch (GeneralSecurityException e) {
-                    e.printStackTrace();
-                }
-
-                // Handle the result
-            } else {
-                // Failed or was cancelled by the user.
+                Log.e(" ", result.toString());
+                Log.e(" ", result.getName());
+                Log.e(" ", result.getLink().toString());
             }
-        } else {
-            super.onActivityResult(requestCode, resultCode, data);
         }
-    } //end onActivityResult
+    }
+    /*               try {
+                           // get file input stream
+                           FileInputStream fis = getFis(position);
+                           FileOutputStream fos = getFos(position, "To Dropbox");
+                           decryptFile(fis, fos);
+                       } catch (IOException e) {
+                           Log.e("decrypt file ",e.getMessage());
+                       } catch (GeneralSecurityException e) {
+                           Log.e("decrypt file ",e.getMessage());
+                       } catch (MissingPwdException e) {
+                           Log.e("decrypt file ",e.getMessage());
+                       }
+
+
+               } else {
+                   // Failed or was cancelled by the user.
+               }
+           } else {
+               super.onActivityResult(requestCode, resultCode, data);
+           }
+       } //end onActivityResult
+
+
+       private FileInputStream getFis(int position) throws IOException {
+           DbxPath inPath = fcFileInfo.get(position).path;
+           //open a file input stream with given path
+           DbxFile myCiphertextFile;
+           myCiphertextFile = fcDbxFileSystem.open(inPath);
+           return myCiphertextFile.getReadStream();
+       }
+
+
+       private FileOutputStream getFos(int position, String outLoc) throws IOException {
+
+   /*******************************************************************************************************************************
+    * Writing decrypted file to dropbox is a temporary measure just for testing
+    * THIS SHOUD NOT BE LEFT IN FINAL VERSION
+    *
+           String out = fcFileInfo.get(position).path.getName();
+           out = out.substring(0, out.length() - 4) + ".dec.txt";
+           DbxPath outPath = new DbxPath(out);
+           DbxFile myPlaintextFile;
+           if (fcDbxFileSystem.exists(outPath))
+               myPlaintextFile = fcDbxFileSystem.open(outPath);
+           else myPlaintextFile = fcDbxFileSystem.create(outPath);
+           return myPlaintextFile.getWriteStream();
+
+   //*****************************************************************************************************************************
+
+       } //end getFos
+
+       /**
+        * Takes a fileInputStream and returns the corresponding decrypted FileOutputStream
+        * @param fis
+        * @param fos
+        * @throws MissingPwdException
+        * @throws IOException
+        * @throws GeneralSecurityException
+        */
+    private void decryptFile(FileInputStream fis, FileOutputStream fos)
+            throws MissingPwdException, IOException, GeneralSecurityException {
+        //get preferences
+
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
+        prefs = new SharedPrefs(sp);
+
+        // call static method to decrypt
+        FileCryptor.decryptFile(fis, fos, prefs);
+    }
 
 
 
-    public void showToast(String message) {
+
+
+    public void showToast (String message){
         Toast toast = Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG);
         toast.show();
     }
+
 }

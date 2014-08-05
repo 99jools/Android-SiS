@@ -93,8 +93,13 @@ public class CreateActivity extends Activity {
 
             //add .enc extension to filename
             this.saveName = this.saveName + ".xps";
+
+
             // get a FileOutputStream set up for writing to Dropbox
             FileOutputStream fos = getDbxOutputStream();
+
+
+
             //encrypt text with new key and write to file
             SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
             prefs = new SharedPrefs(sp);
@@ -115,7 +120,9 @@ public class CreateActivity extends Activity {
      */
     private FileOutputStream getDbxOutputStream() throws IOException{
 
-        DbxPath savePath = new DbxPath(DbxPath.ROOT, this.saveName);
+        DbxPath dir = new DbxPath("/ShareInSecret");
+        DbxPath savePath = new DbxPath(dir, this.saveName);
+
         FileOutputStream newFos=null;
 
         // Create DbxFileSystem for synchronized file access and ensure first sync is complete.
