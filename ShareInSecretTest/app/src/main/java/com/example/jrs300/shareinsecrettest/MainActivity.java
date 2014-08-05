@@ -2,6 +2,7 @@ package com.example.jrs300.shareinsecrettest;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -15,8 +16,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.dropbox.sync.android.DbxAccountManager;
+import com.example.jrs300.shareinsecret.AddGroupActivity;
 
 import java.io.IOException;
+import java.security.GeneralSecurityException;
 
 public class MainActivity extends Activity {
 
@@ -97,16 +100,33 @@ public class MainActivity extends Activity {
                 });
                 ad.setNegativeButton("Cancel",new DialogInterface.OnClickListener() {
                     @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        recreate();
-                    }
+                    public void onClick(DialogInterface dialogInterface, int i) {recreate();}
                 });
                 // create alert dialog
                 AlertDialog alertDialog = ad.create();
-
-                // show it
                 alertDialog.show();
                 return true;
+
+            case R.id.action_addgroup:
+                intent = new Intent(this, AddGroupActivity.class);
+                startActivity(intent);
+                return true;
+
+
+            case R.id.action_listgroups:
+
+                try {
+                    AppKeystore.listGroups();
+                } catch (MissingPwdException e) {
+                    Log.e("listgroups",e.getMessage());
+                } catch (GeneralSecurityException e) {
+                    Log.e("listgroups", e.getMessage());
+                } catch (IOException e) {
+                    Log.e("listgroups", e.getMessage());
+                }
+
+                return true;
+
 
             case R.id.action_settings:
                 return true;
@@ -132,10 +152,11 @@ public class MainActivity extends Activity {
         Button mButtonPwd = (Button) findViewById(R.id.button_pwd);
         String appPwd = getPwd.getText().toString();
         Boolean confirm = null;
+        AppPwdObj apo = AppPwdObj.makeObj(this.getApplicationContext());
         try {
-            confirm = AppPwdObj.getInstance().setValue(appPwd);
+            confirm =  apo.setValue(appPwd);
             if (confirm) {
-                showToast("Master password accepted" + confirm);
+                showToast("Master password accepted");
                 getPwd.setVisibility(View.GONE);
                 mButtonPwd.setVisibility(View.GONE);
             } else showToast("Error entering Master password - please retry");

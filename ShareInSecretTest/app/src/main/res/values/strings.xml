@@ -18,5 +18,8 @@
     <string name="create_new_document">Create New Document</string>
     <string name="enter_filename">Enter filename for save (including extension)</string>
     <string name="encrypt_save">Encrypt and Save</string>
+    <string name="title_activity_add_group">AddGroupActivity</string>
+    <string name="list_groups">List Groups</string>
+    <string name="add_group">Create new group</string>
 
 </resources>

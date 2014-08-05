@@ -1,5 +1,9 @@
 package com.example.jrs300.shareinsecrettest;
 
+
+import android.content.Context;
+import android.util.Log;
+
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -7,6 +11,9 @@ import java.io.IOException;
 import java.security.GeneralSecurityException;
 import java.security.Key;
 import java.security.KeyStore;
+import java.util.Collections;
+import java.util.Enumeration;
+
 import javax.crypto.KeyGenerator;
 import javax.crypto.spec.SecretKeySpec;
 
@@ -34,11 +41,10 @@ public class AppKeystore {
             throws MissingPwdException {
         KeyStore ks;
         String appPwd = AppPwdObj.getInstance().getValue();
-
-
+        Context context = AppPwdObj.getInstance().getContext();
         try {
             //load the keystore
-            ks = loadKeyStore(appPwd.toCharArray());
+            ks = loadKeyStore(appPwd.toCharArray(), context);
 
             /*recover the key entry for the group and package as a SecretKeySpec
              * - errors relating to inability to recover a key are thrown for calling class to handle
@@ -55,10 +61,13 @@ public class AppKeystore {
         return null;  //ie not able to recover key
     } //end getExistingKey
 
+
     /**
-     * generates a new group encryption key for AES encryption using 256 bit key and stores in KeyStore
+     * Ggenerates a new group encryption key for AES encryption using 256 bit key and stores in KeyStore
+     * Since this needs access to the apps internal storage, it needs to be passed a Context
      * @param groupID
      * @param prefs
+     * @return
      * @throws MissingPwdException
      * @throws IOException
      * @throws GeneralSecurityException
@@ -70,7 +79,8 @@ public class AppKeystore {
 
         //otherwise add new group
         String appPwd = AppPwdObj.getInstance().getValue();
-        KeyStore ks = loadKeyStore(appPwd.toCharArray());
+        Context context = AppPwdObj.getInstance().getContext();
+        KeyStore ks = loadKeyStore(appPwd.toCharArray(), context);
 
         //generate key
         KeyGenerator myKeyGenerator = KeyGenerator.getInstance(KEY_ALGORITHM);
@@ -83,7 +93,7 @@ public class AppKeystore {
         ks.setEntry(groupID, skEntry, new KeyStore.PasswordProtection(appPwd.toCharArray()));
 
         //update stored copy of keystore  (can just rewrite as adding a new group is a rare occurrence)
-        writeKeyStore(ks, appPwd.toCharArray());
+        writeKeyStore(ks, appPwd.toCharArray(), context);
 
         //add new group to shared preferences
         prefs.addGroup(groupID);
@@ -92,14 +102,25 @@ public class AppKeystore {
 
     } //end addGroupKey
 
-    public static boolean  validate(String appPwd) throws IOException{
+    public static boolean  validate(String appPwd, Context context) throws IOException{
         try {
-            KeyStore ks = loadKeyStore(appPwd.toCharArray());
+            KeyStore ks = loadKeyStore(appPwd.toCharArray(), context);
             return true;
 
         } catch (GeneralSecurityException e) {
             return false;
         }
+    }
+
+    public static void listGroups() throws MissingPwdException, GeneralSecurityException, IOException {
+        KeyStore ks;
+        String appPwd = AppPwdObj.getInstance().getValue();
+        Context context = AppPwdObj.getInstance().getContext();
+        ks = loadKeyStore(appPwd.toCharArray(), context);
+        Enumeration<String> es = ks.aliases();
+        Log.e("listgroups", es.toString());
+        for (String key : Collections.list(es))
+            Log.e("enum", key);
     }
 
 
@@ -109,17 +130,19 @@ public class AppKeystore {
      * @throws IOException
      * @throws GeneralSecurityException
      */
-    private static KeyStore loadKeyStore(char[] pwd) throws IOException, GeneralSecurityException {
-        KeyStore ks = KeyStore.getInstance("JCEKS");
+    private static KeyStore loadKeyStore(char[] pwd, Context context) throws IOException, GeneralSecurityException {
+        KeyStore ks = KeyStore.getInstance("BKS");
         FileInputStream fis = null;
         try {
-            fis = new FileInputStream(KEYSTORE_NAME);
+
+            fis = context.openFileInput(KEYSTORE_NAME);
+            //    fis = new FileInputStream(KEYSTORE_NAME);
             ks.load(fis, pwd);
         } catch (FileNotFoundException e) {
-            System.out.println("New keystore created");
+            Log.e("keystore","New keystore created");
             //this should only get run if file store doesn't exists at all - creates a new one
             ks.load(null);
-            //add dummy entry
+
 
         } finally {
             if (fis != null) fis.close();
@@ -128,17 +151,19 @@ public class AppKeystore {
     } //end loadKeyStore
 
     /**
-     * Updates the stored copy of the keystore
+     * Updates the stored copy of the keystore - needs to be given a context in order to get access to the Internal Storage
      * @throws GeneralSecurityException
      * @throws IOException
      */
-    private static void writeKeyStore(KeyStore ks, char[] pwd) throws GeneralSecurityException, IOException {
-        FileOutputStream fos = null;
+    private static void writeKeyStore(KeyStore ks, char[] pwd, Context context) throws GeneralSecurityException, IOException {
+
+
+        FileOutputStream fos = context.openFileOutput(KEYSTORE_NAME, Context.MODE_PRIVATE);
+        Log.e("fos", fos.getFD().toString());
         try {
-            fos = new FileOutputStream(KEYSTORE_NAME);
             ks.store(fos, pwd);
         } finally {
-            if (fos != null) fos.close();
+            fos.close();
         }
     } //end writeKeyStore
 

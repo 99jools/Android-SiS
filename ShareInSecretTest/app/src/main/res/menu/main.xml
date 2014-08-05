@@ -9,10 +9,25 @@
         android:title="@string/open_encrypted_file"
         android:orderInCategory="20"
         android:showAsAction="ifRoom" />
+
+    <item android:id="@+id/action_addgroup"
+        android:title="@string/add_group"
+        android:orderInCategory="80"
+        android:showAsAction="never"
+        tools:ignore="AppCompatResource" />
+
+    <item android:id="@+id/action_listgroups"
+        android:title="@string/list_groups"
+        android:orderInCategory="85"
+        android:showAsAction="never"
+        tools:ignore="AppCompatResource" />
+
+
     <item android:id="@+id/action_Unlink"
         android:title="@string/unlink_from_dropbox"
         android:orderInCategory="90"
         android:showAsAction="never"/>
+
     <item android:id="@+id/action_settings"
         android:title="@string/action_settings"
         android:orderInCategory="100"
