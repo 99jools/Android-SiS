@@ -49,7 +49,7 @@ public class AddGroupActivity extends Activity {
     public void onClickCreate(View view) {
         //get the groupID
         EditText getGroupID = (EditText) findViewById(R.id.text_groupID);
-        String groupID = getGroupID.getText().toString();
+        String groupID = getGroupID.getText().toString().trim();
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
         SharedPrefs prefs = new SharedPrefs(sp);
         //check that filename isn't empty

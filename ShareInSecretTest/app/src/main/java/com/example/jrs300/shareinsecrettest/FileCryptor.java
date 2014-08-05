@@ -1,10 +1,13 @@
 package com.example.jrs300.shareinsecrettest;
 
 
+import android.util.Log;
+
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.security.GeneralSecurityException;
+import java.security.spec.KeySpec;
 
 import javax.crypto.Cipher;
 import javax.crypto.CipherInputStream;
@@ -43,8 +46,12 @@ public class FileCryptor {
         Cipher encryptionCipher = initEncryptCipher(groupID);
 
         //write metadata to FileOutputStream
-        fos.write(prefs.getCode(groupID));  	 						 //writes 4 byte hashcode
-        fos.write(encryptionCipher.getIV(),0,AES_BLOCKSIZE);  //IV length depends on blocksize
+        fos.write(prefs.getCode(groupID));  	 						 //writes 4 byte groupCOde
+Log.e("IV ", encryptionCipher.getIV().toString()) ;
+
+
+
+        fos.write(encryptionCipher.getIV(),0,AES_BLOCKSIZE);            //IV length depends on blocksize
 
         //wrap fos in cipherstream to encrypt remaining blocks
         CipherOutputStream cos = new CipherOutputStream(fos, encryptionCipher);
@@ -78,11 +85,12 @@ public class FileCryptor {
         int groupCode = fis.read();
         String groupID = prefs.getID(groupCode);
         fis.read(initVector,0,AES_BLOCKSIZE);
-     //   IvParameterSpec ips = new IvParameterSpec(initVector);
-
+    IvParameterSpec ips = new IvParameterSpec(initVector);
+        Log.e("IV in decrypt  ", initVector.toString());
         //setup decryption
         Cipher decryptionCipher = Cipher.getInstance(CIPHER_ALGORITHM);
-        decryptionCipher.init(Cipher.DECRYPT_MODE,AppKeystore.getKeySpec(groupID));
+        KeySpec k = AppKeystore.getKeySpec(groupID);
+        decryptionCipher.init(Cipher.DECRYPT_MODE,AppKeystore.getKeySpec(groupID),ips);
         CipherInputStream cis = new CipherInputStream(fis,decryptionCipher );
 
         //read and decrypt file
@@ -96,6 +104,7 @@ public class FileCryptor {
         //close file
         fos.close();
         cis.close();
+        fis.close();
 
         return groupID;
     } //end decryptFile

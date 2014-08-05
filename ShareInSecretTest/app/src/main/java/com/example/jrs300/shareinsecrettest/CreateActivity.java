@@ -26,7 +26,6 @@ public class CreateActivity extends Activity {
     private String saveName;
     private DbxAccountManager mDbxAcctMgr;
     private SharedPrefs prefs;  //NOTE: need to get these parameters from somewhere
-    private String groupID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,14 +34,6 @@ public class CreateActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create);
         this.mDbxAcctMgr = new DropboxSetup(getApplicationContext()).getAccMgr();
-
-
-/**********************************************************************************
- * THIS IS A TEMPORARY SOLUTION!!!
-  */
-
-        this.groupID = "mygroup";
-
     }
 
     @Override
@@ -81,9 +72,18 @@ public class CreateActivity extends Activity {
         EditText editText = (EditText) findViewById(R.id.plaintextIn);
         this.plaintextIn = editText.getText().toString();
 
+        //get the groupID
+        EditText getGroup = (EditText) findViewById(R.id.text_groupID);
+        String groupID = getGroup.getText().toString().trim();
+        //check that filename isn't empty
+        if (groupID.length()< 1){
+            getGroup.setError( "Please enter a group name for this file" );
+        }
+
         //get the filename
         EditText getFilename = (EditText) findViewById(R.id.text_filename);
         this.saveName = getFilename.getText().toString();
+
 
         //check that filename isn't empty
         if (this.saveName.length()< 1){

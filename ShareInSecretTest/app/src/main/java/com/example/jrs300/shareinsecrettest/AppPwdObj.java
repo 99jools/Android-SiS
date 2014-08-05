@@ -1,7 +1,6 @@
 package com.example.jrs300.shareinsecrettest;
 
 import android.content.Context;
-import android.util.Log;
 
 import java.io.IOException;
 
@@ -39,7 +38,6 @@ public class AppPwdObj {
     }
 
     public boolean setValue(String value) throws IOException{
-        Log.e("pwd", this.value + "  " + value);
         this.value = value;
         //check that it is possible to access Keystore
         return  AppKeystore.validate(value, context);

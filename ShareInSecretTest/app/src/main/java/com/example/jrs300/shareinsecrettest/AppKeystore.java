@@ -38,10 +38,15 @@ public class AppKeystore {
      * @throws MissingPwdException
      */
     public static SecretKeySpec getKeySpec( String groupID)
-            throws MissingPwdException {
+            {
         KeyStore ks;
-        String appPwd = AppPwdObj.getInstance().getValue();
-        Context context = AppPwdObj.getInstance().getContext();
+                String appPwd = null;
+                try {
+                    appPwd = AppPwdObj.getInstance().getValue();
+                } catch (MissingPwdException e) {
+                    Log.e("getpwd", e.getMessage());
+                }
+                Context context = AppPwdObj.getInstance().getContext();
         try {
             //load the keystore
             ks = loadKeyStore(appPwd.toCharArray(), context);
@@ -49,14 +54,18 @@ public class AppKeystore {
             /*recover the key entry for the group and package as a SecretKeySpec
              * - errors relating to inability to recover a key are thrown for calling class to handle
              */
+
+
             if (ks.containsAlias(groupID)){
+                Log.e("getkeyspec", groupID + "alias found ");
                 Key groupKey = ks.getKey(groupID, appPwd.toCharArray());
+                Log.e("gotkey", groupKey.getEncoded().toString());
                 return new SecretKeySpec(groupKey.getEncoded(), KEY_ALGORITHM);
             }
         } catch (IOException e) {
-            System.out.println("Problem loading keystore: " + e);
+            Log.e("getKeySpec",e.getMessage());
         } catch (GeneralSecurityException e) {
-            System.out.println("Problem loading keystore: " + e);
+            Log.e("getKeySpec", e.getMessage());
         }
         return null;  //ie not able to recover key
     } //end getExistingKey
@@ -91,13 +100,13 @@ public class AppKeystore {
         //add to keystore
         KeyStore.SecretKeyEntry skEntry = new KeyStore.SecretKeyEntry(newSecretKeySpec);
         ks.setEntry(groupID, skEntry, new KeyStore.PasswordProtection(appPwd.toCharArray()));
-
+ ks.setEntry("groupZ", skEntry, new KeyStore.PasswordProtection(appPwd.toCharArray()));
         //update stored copy of keystore  (can just rewrite as adding a new group is a rare occurrence)
         writeKeyStore(ks, appPwd.toCharArray(), context);
 
         //add new group to shared preferences
         prefs.addGroup(groupID);
-
+ prefs.addGroup("groupZ");
         return true;
 
     } //end addGroupKey
@@ -118,10 +127,9 @@ public class AppKeystore {
         Context context = AppPwdObj.getInstance().getContext();
         ks = loadKeyStore(appPwd.toCharArray(), context);
         Enumeration<String> es = ks.aliases();
-        Log.e("listgroups", es.toString());
-        for (String key : Collections.list(es))
-            Log.e("enum", key);
-    }
+        for (String key : Collections.list(es)){
+            Log.e("enum", key + "found");
+        }}
 
 
     /**

@@ -11,20 +11,33 @@
     android:gravity="center_vertical|center_horizontal"
     style="@android:style/Theme.Holo">
 
-    <EditText
-        android:layout_width="fill_parent"
+    <TextView
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Enter Group Name:"
+        android:id="@+id/label_group"
+        android:layout_gravity="left"
+        android:gravity="left"
+        android:paddingTop="18dp" />
+
+    <EditText
+        android:layout_height="wrap_content"
+        android:layout_width="193dp"
+        android:id="@+id/text_groupID"
+        android:textColor="@android:color/holo_orange_light"
+        android:layout_gravity="right" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/rect_text_edit"
         android:id="@+id/plaintextIn"
         android:capitalize="sentences"
-        android:maxLines="8"
-        android:minLines="3"
         android:scrollbars="vertical"
         android:scrollHorizontally="false"
-        style="@android:style/Theme.Holo.Light.Panel"
         android:layout_gravity="top"
-        android:layout_weight="1"
-        android:background="@android:color/background_dark"
-        android:textColor="@android:color/holo_orange_light"
+        android:layout_weight="0.28"
         android:gravity="left|top"
         android:inputType="textMultiLine" />
 

@@ -12,7 +12,7 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Open Existing Document"
+        android:text="Encrypt existing file"
         android:id="@+id/button_open"
         android:onClick="openExisting"
         android:layout_centerInParent="true"/>
@@ -29,12 +29,10 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Use Dropbox"
+        android:text="Decrypt file from Dropbox"
         android:id="@+id/button_useDB"
-        android:layout_below="@+id/button_open"
-        android:layout_alignStart="@+id/button_open"
-        android:layout_marginTop="65dp"
-        android:layout_alignEnd="@+id/button_open"
-        android:onClick="useDropbox" />
+        android:onClick="chooseFromDropbox"
+        android:layout_below="@+id/button_create"
+        android:layout_alignEnd="@+id/button_open" />
 
 </RelativeLayout>

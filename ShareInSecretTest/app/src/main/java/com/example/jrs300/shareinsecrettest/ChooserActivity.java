@@ -62,7 +62,7 @@ public class ChooserActivity extends Activity {
     }
 
     //Link to Dropbox
-    public void useDropbox(View view){
+    public void chooseFromDropbox(View view){
 
         Intent intent = new Intent(this, FileChooserActivity.class);
         startActivity(intent);
@@ -85,6 +85,7 @@ public class ChooserActivity extends Activity {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == DROPBOX_CHOOSER) {
             if (resultCode == Activity.RESULT_OK) {
+                Log.e("dbxchhoser"," encrypt existing");
                 DbxChooser.Result result = new DbxChooser.Result(data);
                 Log.e("main", "Link to selected file: " + result.getName());
 

@@ -4,6 +4,7 @@ import android.app.ListActivity;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -92,7 +93,7 @@ fcFileInfo.toArray(fn);
         super.onListItemClick(l, v, position, id);
 
         //get the path of the selected file
-        showToast("path is " + fcFileInfo.get(position).path);
+        Log.e("path is ",fcFileInfo.get(position).path.toString());
 
         try {
             // get file input stream
@@ -100,11 +101,11 @@ fcFileInfo.toArray(fn);
             FileOutputStream fos = getFos(position, "To Dropbox");
             decryptFile(fis, fos);
         } catch (IOException e) {
-            showToast(e.getMessage());
+            Log.e("decrypt file ",e.getMessage());
         } catch (GeneralSecurityException e) {
-            showToast(e.getMessage());
+            Log.e("decrypt file ",e.getMessage());
         } catch (MissingPwdException e) {
-            showToast(e.getMessage());
+            Log.e("decrypt file ",e.getMessage());
         }
 
         // Need to add something to handle Failed or was cancelled by the user.

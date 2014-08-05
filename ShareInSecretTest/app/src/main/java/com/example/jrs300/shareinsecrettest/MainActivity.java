@@ -2,7 +2,6 @@ package com.example.jrs300.shareinsecrettest;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -135,7 +134,6 @@ public class MainActivity extends Activity {
     }
 
     public void onProceed(View view){
-        Log.e("Main Activity  ", "onProceed");
         //check which scenario we are in
         if (linked) {
             //create intent for Chooser activity
@@ -163,7 +161,7 @@ public class MainActivity extends Activity {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
+    getPwd.setText(null);
 
     } //end onClickPwd
 
@@ -210,7 +208,6 @@ public class MainActivity extends Activity {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        Log.e("Main Activity  ", "onActivityResult");
         if (requestCode == REQUEST_LINK_TO_DBX) {
             if (resultCode == Activity.RESULT_OK) {
                 //start next activity
