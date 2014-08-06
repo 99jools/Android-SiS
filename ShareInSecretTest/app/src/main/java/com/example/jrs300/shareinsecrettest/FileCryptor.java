@@ -1,8 +1,6 @@
 package com.example.jrs300.shareinsecrettest;
 
 
-import android.util.Log;
-
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -47,10 +45,6 @@ public class FileCryptor {
 
         //write metadata to FileOutputStream
         fos.write(prefs.getCode(groupID));  	 						 //writes 4 byte groupCOde
-Log.e("IV ", encryptionCipher.getIV().toString()) ;
-
-
-
         fos.write(encryptionCipher.getIV(),0,AES_BLOCKSIZE);            //IV length depends on blocksize
 
         //wrap fos in cipherstream to encrypt remaining blocks
@@ -86,7 +80,6 @@ Log.e("IV ", encryptionCipher.getIV().toString()) ;
         String groupID = prefs.getID(groupCode);
         fis.read(initVector,0,AES_BLOCKSIZE);
     IvParameterSpec ips = new IvParameterSpec(initVector);
-        Log.e("IV in decrypt  ", initVector.toString());
         //setup decryption
         Cipher decryptionCipher = Cipher.getInstance(CIPHER_ALGORITHM);
         KeySpec k = AppKeystore.getKeySpec(groupID);

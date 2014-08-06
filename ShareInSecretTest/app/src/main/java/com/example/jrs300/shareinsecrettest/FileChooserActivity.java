@@ -104,10 +104,18 @@ public class FileChooserActivity extends ListActivity {
                     refreshFileList();
                 } else {
                     // get file input stream
-                    FileInputStream fis = getFis(fileInfo.path);
-                    FileOutputStream fos = getFos(fileInfo.path.getName());
+
+                    //open a file input stream with given path
+                    DbxFile myCiphertextFile = fcDbxFileSystem.open(fileInfo.path);
+                    FileInputStream fis = myCiphertextFile.getReadStream();
+
+                    DbxFile myPlaintextFile  = getFos(fileInfo.path.getName());
+                    FileOutputStream fos = myPlaintextFile.getWriteStream();
                     decryptFile(fis, fos);
-                
+                    myCiphertextFile.close();
+                    myPlaintextFile.close();
+
+
                 }
             }
             }catch (IOException e) {
@@ -134,15 +142,7 @@ public class FileChooserActivity extends ListActivity {
         mAdapter.notifyDataSetChanged();
     }
 
-    private FileInputStream getFis(DbxPath inPath) throws IOException {
-
-        //open a file input stream with given path
-        DbxFile myCiphertextFile;
-        myCiphertextFile = fcDbxFileSystem.open(inPath);
-        return myCiphertextFile.getReadStream();
-    }
-
-    private FileOutputStream getFos(String out) throws IOException {
+     private DbxFile getFos(String out) throws IOException {
 
 /*******************************************************************************************************************************
  * Writing decrypted file to dropbox is a temporary measure just for testing
@@ -155,7 +155,7 @@ public class FileChooserActivity extends ListActivity {
         if (fcDbxFileSystem.exists(outPath))
             myPlaintextFile = fcDbxFileSystem.open(outPath);
         else myPlaintextFile = fcDbxFileSystem.create(outPath);
-        return myPlaintextFile.getWriteStream();
+        return myPlaintextFile;
 
 //*****************************************************************************************************************************
 
