@@ -4,13 +4,11 @@ package com.example.jrs300.shareinsecrettest;
 import android.app.ListActivity;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -21,7 +19,6 @@ import com.dropbox.sync.android.DbxFileInfo;
 import com.dropbox.sync.android.DbxFileSystem;
 import com.dropbox.sync.android.DbxPath;
 
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -35,9 +32,9 @@ public class FileChooserActivity extends ListActivity {
     private DbxFileSystem fcDbxFileSystem;
     private List<DbxFileInfo> fcFileInfo;
     private SharedPrefs prefs;
-    private File mCurrentNode = null;
-    private File mLastNode = null;
-    private File mRootNode = null;
+    private DbxFileInfo mCurrentNode = null;
+    private DbxFileInfo mLastNode = null;
+    private DbxFileInfo mRootNode = null;
     private ArrayList<DbxFileInfo> mFiles = new ArrayList<DbxFileInfo>();
     private CustomAdapter mAdapter = null;
 
@@ -55,19 +52,19 @@ public class FileChooserActivity extends ListActivity {
             fcDbxFileSystem = DbxFileSystem.forAccount(fcDbxAcctMgr.getLinkedAccount());
             // Get the contents of the ShareInSecret folder. This will block until we can
             // sync metadata the first time.
-            DbxPath dir = new DbxPath("/ShareInSecret");
-            fcFileInfo = fcDbxFileSystem.listFolder(dir);
+            fcFileInfo = fcDbxFileSystem.listFolder(new DbxPath("/ShareInSecret"));
+            refreshFileList();
         } catch (DbxException unauthorized) {
             unauthorized.printStackTrace();
         }
 
-        //restore saved state if available
+        /*restore saved state if available
         if (savedInstanceState != null) {
-            mRootNode = (File) savedInstanceState.getSerializable("root_node");
-            mLastNode = (File) savedInstanceState.getSerializable("last_node");
-            mCurrentNode = (File) savedInstanceState.getSerializable("current_node");
-        }
-        refreshFileList();
+            mRootNode = (DbxFileInfo) savedInstanceState.getSerializable("root_node");
+            mLastNode = (DbxFileInfo) savedInstanceState.getSerializable("last_node");
+            mCurrentNode = (DbxFileInfo) savedInstanceState.getSerializable("current_node");
+        } */
+
     }
 
     @Override
@@ -88,56 +85,56 @@ public class FileChooserActivity extends ListActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        outState.putSerializable("root_node", mRootNode);
-        outState.putSerializable("current_node", mCurrentNode);
-        outState.putSerializable("last_node", mLastNode);
-        super.onSaveInstanceState(outState);
-    }
 
     @Override
     public void onListItemClick(ListView parent, View v, int position, long id){
-        File f = (File) parent.getItemAtPosition(position);
-        if (position == 1) {
+        DbxFileInfo fileInfo = (DbxFileInfo) parent.getItemAtPosition(position);
+        try {
+            if (position == 1) {
             if (mCurrentNode.compareTo(mRootNode)!=0) {
-                mCurrentNode = f.getParentFile();
+
+                    DbxPath p = fileInfo.path.getParent();
+                    mCurrentNode = fcDbxFileSystem.getFileInfo(p);
+                }
                 refreshFileList();
-            }
-        } else if (f.isDirectory()) {
-            mCurrentNode = f;
+
+        } else if (fileInfo.isFolder) {
+            mCurrentNode = fileInfo;
             refreshFileList();
         } else {
-            Toast.makeText(this, "You selected: "+f.getName()+"!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "You selected: "+fileInfo.path.getName()   +"!", Toast.LENGTH_SHORT).show();
         }
 
-        try {
-            // get file input stream
-            FileInputStream fis = getFis(position);
-            FileOutputStream fos = getFos(position, "To Dropbox");
-            decryptFile(fis, fos);
+                    // get file input stream
+ //           FileInputStream fis = getFis(position);
+ //           FileOutputStream fos = getFos(position, "To Dropbox");
+ //           decryptFile(fis, fos);
         } catch (IOException e) {
             Log.e("decrypt file ", e.getMessage());
-        } catch (GeneralSecurityException e) {
+/*        } catch (GeneralSecurityException e) {
             Log.e("decrypt file ",e.getMessage());
-        } catch (MissingPwdException e) {
+       } catch (MissingPwdException e) {
             Log.e("decrypt file ",e.getMessage());
-        }
-
-        // Need to add something to handle Failed or was cancelled by the user.
+ */        }
     }
 
-    private void refreshFileList() {
-        if (mRootNode == null) mRootNode = new File(Environment.getExternalStorageDirectory().toString());
+        // Need to add something to handle Failed or was cancelled by the user.
+
+
+    private void refreshFileList() throws DbxException {
+        if (mRootNode == null) mRootNode = fcDbxFileSystem.getFileInfo(new DbxPath("/ShareInSecret"));
         if (mCurrentNode == null) mCurrentNode = mRootNode;
         mLastNode = mCurrentNode;
-        File[] files = mCurrentNode.listFiles();
+
         mFiles.clear();
         mFiles.add(mRootNode);
         mFiles.add(mLastNode);
-        if (files!=null) {
-            for (int i = 0; i< files.length; i++) mFiles.add(files[i]);
-        }
+//        if (files!=null) {
+//          for (int i = 0; i< files.length; i++) mFiles.add(files[i]);
+//     }
+
+
+        mFiles.addAll(fcFileInfo);
         mAdapter.notifyDataSetChanged();
     }
 
