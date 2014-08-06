@@ -65,21 +65,15 @@ public class ChooserActivity extends Activity {
     //Link to Dropbox
     public void chooseFromDropbox(View view){
         Log.e("", "in dropbox");
-        DbxChooser mChooser;
 
-        mChooser = new DropboxSetup(getApplicationContext()).getChooser();
-
-        Intent intent = new Intent(this, DropboxComms.class);
-        startActivity(intent);
-        mChooser.forResultType(DbxChooser.ResultType.FILE_CONTENT).
+        DropboxSetup d = new DropboxSetup(getApplicationContext());
+        DbxChooser mChooser = d.getChooser();
+        mChooser.forResultType(DbxChooser.ResultType.DIRECT_LINK).
                 launch(ChooserActivity.this, DROPBOX_CHOOSER);
-
-
     }
 
     /**run when user clicks button to open existing document */
     public void openExisting(View view){
-        Log.e("", "in existing");
         // Create the ACTION_GET_CONTENT Intent
         Intent getContentIntent = new Intent(Intent.ACTION_GET_CONTENT);
         getContentIntent.setType("file/*");
@@ -102,7 +96,7 @@ public class ChooserActivity extends Activity {
         if (requestCode == DROPBOX_CHOOSER) {
             if (resultCode == Activity.RESULT_OK) {
                 DbxChooser.Result result = new DbxChooser.Result(data);
-                Log.e(" ", result.toString());
+
                 Log.e(" ", result.getName());
                 Log.e(" ", result.getLink().toString());
             }
