@@ -91,32 +91,33 @@ public class FileChooserActivity extends ListActivity {
         DbxFileInfo fileInfo = (DbxFileInfo) parent.getItemAtPosition(position);
         try {
             if (position == 1) {
-            if (mCurrentNode.compareTo(mRootNode)!=0) {
+                if (mCurrentNode.compareTo(mRootNode)!=0) {
 
                     DbxPath p = fileInfo.path.getParent();
                     mCurrentNode = fcDbxFileSystem.getFileInfo(p);
                 }
                 refreshFileList();
 
-        } else if (fileInfo.isFolder) {
-            mCurrentNode = fileInfo;
-            refreshFileList();
-        } else {
-            Toast.makeText(this, "You selected: "+fileInfo.path.getName()   +"!", Toast.LENGTH_SHORT).show();
-        }
-
+            } else {
+                if (fileInfo.isFolder) {
+                    mCurrentNode = fileInfo;
+                    refreshFileList();
+                } else {
                     // get file input stream
- //           FileInputStream fis = getFis(position);
- //           FileOutputStream fos = getFos(position, "To Dropbox");
- //           decryptFile(fis, fos);
-        } catch (IOException e) {
-            Log.e("decrypt file ", e.getMessage());
-/*        } catch (GeneralSecurityException e) {
-            Log.e("decrypt file ",e.getMessage());
-       } catch (MissingPwdException e) {
-            Log.e("decrypt file ",e.getMessage());
- */        }
-    }
+                    FileInputStream fis = getFis(fileInfo.path);
+                    FileOutputStream fos = getFos(fileInfo.path.getName());
+                    decryptFile(fis, fos);
+                
+                }
+            }
+            }catch (IOException e) {
+                Log.e("decrypt file ", e.getMessage());
+            } catch (GeneralSecurityException e) {
+                Log.e("decrypt file ",e.getMessage());
+            } catch (MissingPwdException e) {
+                Log.e("decrypt file ",e.getMessage());
+            }
+        }
 
         // Need to add something to handle Failed or was cancelled by the user.
 
@@ -125,39 +126,29 @@ public class FileChooserActivity extends ListActivity {
         if (mRootNode == null) mRootNode = fcDbxFileSystem.getFileInfo(new DbxPath("/ShareInSecret"));
         if (mCurrentNode == null) mCurrentNode = mRootNode;
         mLastNode = mCurrentNode;
-
+        fcFileInfo = fcDbxFileSystem.listFolder(mCurrentNode.path);
         mFiles.clear();
         mFiles.add(mRootNode);
         mFiles.add(mLastNode);
-//        if (files!=null) {
-//          for (int i = 0; i< files.length; i++) mFiles.add(files[i]);
-//     }
-
-
         mFiles.addAll(fcFileInfo);
         mAdapter.notifyDataSetChanged();
     }
 
+    private FileInputStream getFis(DbxPath inPath) throws IOException {
 
-
-
-
-    private FileInputStream getFis(int position) throws IOException {
-        DbxPath inPath = fcFileInfo.get(position).path;
         //open a file input stream with given path
         DbxFile myCiphertextFile;
         myCiphertextFile = fcDbxFileSystem.open(inPath);
         return myCiphertextFile.getReadStream();
     }
 
-    private FileOutputStream getFos(int position, String outLoc) throws IOException {
+    private FileOutputStream getFos(String out) throws IOException {
 
 /*******************************************************************************************************************************
  * Writing decrypted file to dropbox is a temporary measure just for testing
  * THIS SHOUD NOT BE LEFT IN FINAL VERSION
  *
  */
-        String out = fcFileInfo.get(position).path.getName();
         out = out.substring(0, out.length() - 4) + ".dec.txt";
         DbxPath outPath = new DbxPath(out);
         DbxFile myPlaintextFile;

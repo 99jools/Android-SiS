@@ -52,10 +52,7 @@ public class AppKeystore {
             ks = loadKeyStore(appPwd.toCharArray(), context);
 
             /*recover the key entry for the group and package as a SecretKeySpec
-             * - errors relating to inability to recover a key are thrown for calling class to handle
-             */
-
-
+             * - errors relating to inability to recover a key are thrown for calling class to handle */
             if (ks.containsAlias(groupID)){
                 Log.e("getkeyspec", groupID + "alias found ");
                 Key groupKey = ks.getKey(groupID, appPwd.toCharArray());

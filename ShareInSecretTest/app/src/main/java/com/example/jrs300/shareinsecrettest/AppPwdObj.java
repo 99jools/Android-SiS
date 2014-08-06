@@ -14,7 +14,6 @@ public class AppPwdObj {
     private final Context context;
 
     private AppPwdObj(Context context) {
-    this.value = "mypassword";
         this.context = context;
     }  //this is just here for testing in case object is destroyed - remove once password fragment available
 

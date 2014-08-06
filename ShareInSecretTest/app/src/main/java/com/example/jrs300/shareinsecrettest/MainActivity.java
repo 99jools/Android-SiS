@@ -28,8 +28,10 @@ public class MainActivity extends Activity {
     private TextView mTextOutput;
     private Button mButtonUnlink;
     private Button mButtonOK;
+    private Button mButtonPwd;
+    private EditText getPwd;
     private boolean linked;
-
+    private AppPwdObj apo;
     private String test;
 
 
@@ -37,27 +39,33 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        apo = AppPwdObj.makeObj(this.getApplicationContext());
         mTextOutput = (TextView) findViewById(R.id.textView2);  //set up variable linked to TextView
         mButtonUnlink = (Button) findViewById(R.id.button_unlink);
         mButtonOK = (Button) findViewById(R.id.button_OK);
         mDbxAcctMgr = new DropboxSetup(this.getApplicationContext()).getAccMgr();
+        getPwd = (EditText) findViewById(R.id.text_pwd);
+        mButtonPwd = (Button) findViewById(R.id.button_pwd);
         test = "in onCreate";
-
     }
 
 
     @Override
     protected void onResume() {
-        Log.e("Main Activity  ", "onResume");
         super.onResume();
         linked = mDbxAcctMgr.hasLinkedAccount();
-        if (mDbxAcctMgr.hasLinkedAccount()) {
-            processLinked();
-        } else {
-            processUnlinked();
-        }
+        if (linked) processLinked();
+        else processUnlinked();
         test = "in onResume";
+        try {
+            apo.getValue();
+
+        } catch (MissingPwdException e) {
+            showToast("Please enter Master Password");
+            getPwd.setVisibility(View.VISIBLE);
+            mButtonPwd.setVisibility(View.VISIBLE);
+        }
+
     }
 
 
@@ -146,22 +154,20 @@ public class MainActivity extends Activity {
 
 
     public void onClickPwd(View view){
-        EditText getPwd = (EditText) findViewById(R.id.text_pwd);
-        Button mButtonPwd = (Button) findViewById(R.id.button_pwd);
+
         String appPwd = getPwd.getText().toString();
         Boolean confirm = null;
-        AppPwdObj apo = AppPwdObj.makeObj(this.getApplicationContext());
         try {
             confirm =  apo.setValue(appPwd);
-            if (confirm) {
-                showToast("Master password accepted");
-                getPwd.setVisibility(View.GONE);
-                mButtonPwd.setVisibility(View.GONE);
-            } else showToast("Error entering Master password - please retry");
+
+            showToast("Master password accepted");
+            getPwd.setVisibility(View.GONE);
+            mButtonPwd.setVisibility(View.GONE);
+
         } catch (IOException e) {
-            e.printStackTrace();
+            showToast("Error entering Master password - please retry");
         }
-    getPwd.setText(null);
+        getPwd.setText(null);
 
     } //end onClickPwd
 
@@ -224,7 +230,7 @@ public class MainActivity extends Activity {
 
     //****************************************************************************************************************
     public void showToast(String message) {
-        Toast toast = Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT);
+        Toast toast = Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG);
         toast.show();
     }
 public void methodA(View v){
