@@ -19,10 +19,6 @@ import javax.crypto.spec.SecretKeySpec;
  */
 public class FileCryptor {
 
-    public static final String CIPHER_ALGORITHM = "AES/CBC/PKCS5Padding";
-    public static final int AES_BLOCKSIZE = 16;   //16 bytes = 128 bits
-
-
     private FileCryptor() {
         // dummy constructor to prevent accidental instantiation
     }
@@ -41,10 +37,11 @@ public class FileCryptor {
     public static  void encryptFile(FileInputStream fis,FileOutputStream fos, String groupID, SharedPrefs prefs)
             throws MissingPwdException, IOException, GeneralSecurityException{
 
-        Cipher encryptionCipher = initEncryptCipher(groupID);
+        MyCipher encryptionCipher = new MyCipher(groupID, 'E');
+
 
         //write metadata to FileOutputStream
-        fos.write(prefs.getCode(groupID));  	 						 //writes 4 byte groupCOde
+        fos.write(prefs.getCode(groupID));  	 						 //writes 4 byte groupCde
         fos.write(encryptionCipher.getIV(),0,AES_BLOCKSIZE);            //IV length depends on blocksize
 
         //wrap fos in cipherstream to encrypt remaining blocks
@@ -132,25 +129,6 @@ public class FileCryptor {
 
 
 
-    /**
-     * Sets up the necessary Cipher object
-     * @param groupID
-     * @return
-     */
-    private static Cipher initEncryptCipher(String groupID) throws MissingPwdException{
-        //retrieve encryption for this group from Key store
-        SecretKeySpec groupSKS = AppKeystore.getKeySpec(groupID);
-
-        //set up cipher for encryption
-        Cipher encryptionCipher = null;
-        try {
-            encryptionCipher = Cipher.getInstance(CIPHER_ALGORITHM);
-            encryptionCipher.init(Cipher.ENCRYPT_MODE, groupSKS);
-        } catch (GeneralSecurityException e) {
-            e.printStackTrace();    // should not happen - ok to abort
-        }
-        return encryptionCipher;
-    } // end getCipher
 
 //********************************************************************************************
 
