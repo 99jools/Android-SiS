@@ -14,11 +14,9 @@ import android.view.View;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.dropbox.sync.android.DbxAccountManager;
 import com.dropbox.sync.android.DbxException;
 import com.dropbox.sync.android.DbxFile;
 import com.dropbox.sync.android.DbxFileInfo;
-import com.dropbox.sync.android.DbxFileSystem;
 import com.dropbox.sync.android.DbxPath;
 
 import java.io.File;
@@ -30,14 +28,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DecryptActivity extends ListActivity {
-    //    ListView fcListView;
-    private DbxAccountManager fcDbxAcctMgr;
-    private DbxFileSystem fcDbxFileSystem;
-    private List<DbxFileInfo> fcFileInfo;
-    private SharedPrefs prefs;
+
+    private MyDbxFiles mDbx;
     private DbxFileInfo mCurrentNode = null;
-    private DbxFileInfo mLastNode = null;
     private DbxFileInfo mRootNode = null;
+    private List<DbxFileInfo> fcFileInfo;
     private ArrayList<DbxFileInfo> mFiles = new ArrayList<DbxFileInfo>();
     private CustomAdapter mAdapter = null;
 
@@ -49,13 +44,11 @@ public class DecryptActivity extends ListActivity {
         mAdapter = new CustomAdapter(this, R.layout.list_row, mFiles);
         setListAdapter(mAdapter);
 
-        //get DbxFileSystem
+        //get DbxFileSystem and root folders
+
         try {
-            fcDbxAcctMgr = new DropboxSetup(this.getApplicationContext()).getAccMgr();
-            fcDbxFileSystem = DbxFileSystem.forAccount(fcDbxAcctMgr.getLinkedAccount());
-            // Get the contents of the ShareInSecret folder. This will block until we can
-            // sync metadata the first time.
-            fcFileInfo = fcDbxFileSystem.listFolder(new DbxPath("/ShareInSecret"));
+            this.mDbx = new MyDbxFiles(this);
+            fcFileInfo = mDbx.listRoot();
             refreshFileList();
         } catch (DbxException unauthorized) {
             unauthorized.printStackTrace();
@@ -89,7 +82,7 @@ public class DecryptActivity extends ListActivity {
                 if (mCurrentNode.compareTo(mRootNode)!=0) {
 
                     DbxPath p = fileInfo.path.getParent();
-                    mCurrentNode = fcDbxFileSystem.getFileInfo(p);
+                    mCurrentNode = mDbx.getFileInfo(p);
                 }
                 refreshFileList();
 
@@ -98,24 +91,22 @@ public class DecryptActivity extends ListActivity {
                     mCurrentNode = fileInfo;
                     refreshFileList();
                 } else {
-                    // get file input stream
 
                     //open a file input stream with given path
-                    DbxFile dbxCiphertextFile = fcDbxFileSystem.open(fileInfo.path);
-                    FileInputStream fis = dbxCiphertextFile.getReadStream();
+                    DbxFile dbxIn = mDbx.getInFile(fileInfo);
+                    FileInputStream fis = dbxIn.getReadStream();
 
                     File myPlaintextFile  = getFos(fileInfo.path.getName());
                     FileOutputStream fos = new FileOutputStream(myPlaintextFile);
 //      DbxFile myPlaintextFile  = getFos(fileInfo.path.getName());
 //      FileOutputStream fos = myPlaintextFile.getWriteStream();
                     decryptFile(fis, fos);
-                    dbxCiphertextFile.close();
+                    dbxIn.close();
                     // start new intent to open
                     Uri myUri = Uri.fromFile(myPlaintextFile);
                     Intent intent = new Intent(Intent.ACTION_VIEW);
                     intent.setData(myUri);
                     startActivity(intent);
-//       myPlaintextFile.close();
                 }
             }
         }catch (IOException e) {
@@ -131,10 +122,10 @@ public class DecryptActivity extends ListActivity {
 
 
     private void refreshFileList() throws DbxException {
-        if (mRootNode == null) mRootNode = fcDbxFileSystem.getFileInfo(new DbxPath("/ShareInSecret"));
+        if (mRootNode == null) mRootNode = mDbx.getFileInfo(mDbx.getRoot());
         if (mCurrentNode == null) mCurrentNode = mRootNode;
-        mLastNode = mCurrentNode;
-        fcFileInfo = fcDbxFileSystem.listFolder(mCurrentNode.path);
+        DbxFileInfo mLastNode = mCurrentNode;
+        fcFileInfo = mDbx.listFolder(mCurrentNode.path);
         mFiles.clear();
         mFiles.add(mRootNode);
         mFiles.add(mLastNode);
@@ -143,21 +134,9 @@ public class DecryptActivity extends ListActivity {
     }
 
      private File getFos(String out) throws IOException {
-
- //sort out filemame for decrypted file
+        //sort out filemame for decrypted file
         out = out.substring(0, out.length() - 4);
-         //
-        File myPlaintextFile = new File(getExternalCacheDir(),out);
-
- //       DbxPath outPath = new DbxPath(out);
- //       DbxFile myPlaintextFile;
- //       if (fcDbxFileSystem.exists(outPath))
- //          myPlaintextFile = fcDbxFileSystem.open(outPath);
-  //      else myPlaintextFile = fcDbxFileSystem.create(outPath);
-        return myPlaintextFile;
-
-//*****************************************************************************************************************************
-
+        return new File(getExternalCacheDir(),out);
     } //end getFos
 
     /**
@@ -173,7 +152,7 @@ public class DecryptActivity extends ListActivity {
         //get preferences
 
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
-        prefs = new SharedPrefs(sp);
+        SharedPrefs prefs = new SharedPrefs(sp);
 
         // call static method to decrypt
         FileCryptor.decryptFile(fis, fos, prefs);

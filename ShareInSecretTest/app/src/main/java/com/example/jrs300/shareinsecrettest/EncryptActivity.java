@@ -13,10 +13,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.dropbox.sync.android.DbxAccountManager;
 import com.dropbox.sync.android.DbxFile;
-import com.dropbox.sync.android.DbxFileSystem;
-import com.dropbox.sync.android.DbxPath;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -27,14 +24,11 @@ import java.security.GeneralSecurityException;
 public class EncryptActivity extends Activity {
     private static final int ENCRYPT_CHOOSER = 1111;
     private File inFile;
-    private String saveName;
-    private DbxAccountManager mDbxAcctMgr;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_encrypt);
-        this.mDbxAcctMgr = new DropboxSetup(getApplicationContext()).getAccMgr();
     }
 
     @Override
@@ -78,22 +72,15 @@ public class EncryptActivity extends Activity {
         if (groupID.length() < 1) {
             getGroup.setError("Please enter a group name for this file");
         } else {
-
-            //add .enc extension to filename
-            this.saveName = this.inFile.getName() + ".xps";
-
             FileInputStream fis = new FileInputStream(inFile);
-
-            // get a FileOutputStream set up for writing to Dropbox
-            DbxFile dbxCiphertext = getDbxOutputFile();
-            FileOutputStream fos = dbxCiphertext.getWriteStream();
+            DbxFile dbxOut = new MyDbxFiles(this).getOutFile(inFile);
+            FileOutputStream fos = dbxOut.getWriteStream();
 
             //encrypt file and write to Dropbox
             SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
             SharedPrefs prefs = new SharedPrefs(sp);
             FileCryptor.encryptFile(fis,fos,groupID,prefs);
-            showToast(saveName + " saved");
-            dbxCiphertext.close();
+            dbxOut.close();
  //           finish();
         }
 
@@ -101,7 +88,6 @@ public class EncryptActivity extends Activity {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-
         if (requestCode == ENCRYPT_CHOOSER) {
             if (resultCode == Activity.RESULT_OK) {
                 Log.e("result ", "file is " + data.getData().getPath());
@@ -111,16 +97,18 @@ public class EncryptActivity extends Activity {
                 String path = (data.getData().getPath());
                 getFilename.setText(path);
                 inFile = new File(path);
-
-
             }
         }
     }
 
 
-    /*
+    public void showToast(String message) {
+        Toast toast = Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT);
+        toast.show();
+    }
+}/*    /*
      * @return returns a DbxFile initialised correctly for writing to Dropbox
-     */
+
     private DbxFile getDbxOutputFile() throws IOException {
 
         DbxPath dir = new DbxPath("/ShareInSecret");
@@ -133,13 +121,7 @@ public class EncryptActivity extends Activity {
 
         // Create file only if it doesn't already exist.
         if (!dbxFileSys.exists(savePath)) {
-           return dbxFileSys.create(savePath);
+            return dbxFileSys.create(savePath);
         } else return dbxFileSys.open(savePath);
 
-    }
-
-    public void showToast(String message) {
-        Toast toast = Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT);
-        toast.show();
-    }
-}
+    }*/

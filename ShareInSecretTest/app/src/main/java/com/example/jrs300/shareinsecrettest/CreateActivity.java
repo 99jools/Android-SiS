@@ -10,10 +10,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.dropbox.sync.android.DbxAccountManager;
 import com.dropbox.sync.android.DbxFile;
-import com.dropbox.sync.android.DbxFileSystem;
-import com.dropbox.sync.android.DbxPath;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -21,18 +18,12 @@ import java.security.GeneralSecurityException;
 
 public class CreateActivity extends Activity {
 
-    private String plaintextIn;
-    private String saveName;
-    private DbxAccountManager mDbxAcctMgr;
-    private SharedPrefs prefs;  //NOTE: need to get these parameters from somewhere
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
 //      Log.e("method call", "CreateActivity");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create);
-        this.mDbxAcctMgr = new DropboxSetup(getApplicationContext()).getAccMgr();
     }
 
     @Override
@@ -66,7 +57,7 @@ public class CreateActivity extends Activity {
     public void onClickEncryptSave(View view) throws MissingPwdException,IOException, GeneralSecurityException{
         //get the plaintext from the screen
         EditText editText = (EditText) findViewById(R.id.plaintextIn);
-        this.plaintextIn = editText.getText().toString();
+        String plaintextIn = editText.getText().toString();
 
         //get the groupID
         EditText getGroup = (EditText) findViewById(R.id.text_groupID);
@@ -78,28 +69,24 @@ public class CreateActivity extends Activity {
 
         //get the filename
         EditText getFilename = (EditText) findViewById(R.id.text_filename);
-        this.saveName = getFilename.getText().toString();
+        String saveName = getFilename.getText().toString();
 
 
         //check that filename isn't empty
-        if (this.saveName.length()< 1){
+        if (saveName.length()< 1){
               getFilename.setError( "Please enter a name for your file" );
         }
         else {
 
-            //add .enc extension to filename
-            this.saveName = this.saveName + ".xps";
 
+            DbxFile dbxOut = new MyDbxFiles(this).getOutFile(saveName);
+            FileOutputStream fos = dbxOut.getWriteStream();
 
-            // get a FileOutputStream set up for writing to Dropbox
-            FileOutputStream fos = getDbxOutputStream();
-
-
-
-            //encrypt text with new key and write to file
+            //encrypt file and write to Dropbox
             SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
-            prefs = new SharedPrefs(sp);
-            FileCryptor.encryptString(plaintextIn, fos, groupID ,prefs);
+            SharedPrefs prefs = new SharedPrefs(sp);
+            FileCryptor.encryptString(plaintextIn, fos, groupID, prefs);
+            dbxOut.close();
             showToast(saveName + " saved");
             finish();
         }
@@ -114,7 +101,9 @@ public class CreateActivity extends Activity {
     /*
      * @return returns a FileOutputStream initialised correctly for writing to Dropbox
      */
-    private FileOutputStream getDbxOutputStream() throws IOException{
+
+
+ /*   private FileOutputStream getDbxOutputStream() throws IOException{
 
         DbxPath dir = new DbxPath("/ShareInSecret");
         DbxPath savePath = new DbxPath(dir, this.saveName);
@@ -134,5 +123,5 @@ public class CreateActivity extends Activity {
 
         }
         return newFos;
-    }
+    } */
 }
