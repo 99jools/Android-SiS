@@ -21,8 +21,8 @@ SharedPrefs prefs;
 	public void testEncryptFile() throws IOException, GeneralSecurityException {
 		
 	    fis = new FileInputStream("/home/students/jrs300/a.txt");
-	    fos = new FileOutputStream("/home/students/jrs300/aaa.txt.enc");
-	    fisd = new FileInputStream("/home/students/jrs300/aaa.txt.enc");
+	    fos = new FileOutputStream("/home/students/jrs300/aaa.txt.xps");
+	    fisd = new FileInputStream("/home/students/jrs300/aaa.txt.xps");
 	    fosd = new FileOutputStream("/home/students/jrs300/aaa.decrypt.txt");
 
 	    // initialise AppPwdObj
@@ -53,7 +53,7 @@ SharedPrefs prefs;
 	    
 	    FileCryptor.encryptString(myString, sosS, "Mygroup",prefs);
 	    
-	    sisd = new FileInputStream("/home/students/jrs300/s.enc");
+	    sisd = new FileInputStream("/home/students/jrs300/s.xps");
 	    sosd = new FileOutputStream("/home/students/jrs300/s.txt");
 	
 	    decryptFor = FileCryptor.decryptFile(sisd, sosd, prefs);  

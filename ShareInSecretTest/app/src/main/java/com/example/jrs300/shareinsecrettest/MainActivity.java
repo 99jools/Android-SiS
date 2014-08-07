@@ -23,6 +23,7 @@ import java.security.GeneralSecurityException;
 public class MainActivity extends Activity {
 
     private static final int REQUEST_LINK_TO_DBX = 0;
+    private static final int ENCRYPT_CHOOSER = 1111;
     private DbxAccountManager mDbxAcctMgr;
  //   private DbxAccount mDbxAcct;
     private TextView mTextOutput;
@@ -90,7 +91,25 @@ public class MainActivity extends Activity {
                 return true;
 
             case R.id.action_Open:
-                intent = new Intent(this, FileChooserActivity.class);
+                intent = new Intent(this, DecryptActivity.class);
+                startActivity(intent);
+                return true;
+
+            case R.id.action_Encrypt:
+                //sort out what file we are trying to encrypt
+
+                // Create the ACTION_GET_CONTENT Intent
+                Intent getContentIntent = new Intent(Intent.ACTION_GET_CONTENT);
+                getContentIntent.setType("file/*");
+                startActivityForResult(getContentIntent, ENCRYPT_CHOOSER);
+                //put filename in intent and start encrypt activity
+
+                intent = new Intent(this, EncryptActivity.class);
+                startActivity(intent);
+                return true;
+
+            case R.id.action_addgroup:
+                intent = new Intent(this, AddGroupActivity.class);
                 startActivity(intent);
                 return true;
 
@@ -114,13 +133,7 @@ public class MainActivity extends Activity {
                 alertDialog.show();
                 return true;
 
-            case R.id.action_addgroup:
-                intent = new Intent(this, AddGroupActivity.class);
-                startActivity(intent);
-                return true;
-
-
-            case R.id.action_listgroups:
+          case R.id.action_listgroups:
 
                 try {
                     AppKeystore.listGroups();
@@ -133,7 +146,6 @@ public class MainActivity extends Activity {
                 }
 
                 return true;
-
 
             case R.id.action_settings:
                 return true;
@@ -223,9 +235,12 @@ public class MainActivity extends Activity {
             } else {
                 showToast("Link to Dropbox failed or was cancelled.");
             }
-        } else {
-            super.onActivityResult(requestCode, resultCode, data);
-        }
+        } else if (requestCode == ENCRYPT_CHOOSER) {
+            if (resultCode == Activity.RESULT_OK) {
+
+            }
+        } else super.onActivityResult(requestCode, resultCode, data);
+
     }
 
     //****************************************************************************************************************

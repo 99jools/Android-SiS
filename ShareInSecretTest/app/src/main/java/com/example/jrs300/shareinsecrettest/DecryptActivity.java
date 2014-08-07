@@ -2,7 +2,9 @@ package com.example.jrs300.shareinsecrettest;
 
 
 import android.app.ListActivity;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
@@ -19,6 +21,7 @@ import com.dropbox.sync.android.DbxFileInfo;
 import com.dropbox.sync.android.DbxFileSystem;
 import com.dropbox.sync.android.DbxPath;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -26,7 +29,7 @@ import java.security.GeneralSecurityException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FileChooserActivity extends ListActivity {
+public class DecryptActivity extends ListActivity {
     //    ListView fcListView;
     private DbxAccountManager fcDbxAcctMgr;
     private DbxFileSystem fcDbxFileSystem;
@@ -57,14 +60,6 @@ public class FileChooserActivity extends ListActivity {
         } catch (DbxException unauthorized) {
             unauthorized.printStackTrace();
         }
-
-        /*restore saved state if available
-        if (savedInstanceState != null) {
-            mRootNode = (DbxFileInfo) savedInstanceState.getSerializable("root_node");
-            mLastNode = (DbxFileInfo) savedInstanceState.getSerializable("last_node");
-            mCurrentNode = (DbxFileInfo) savedInstanceState.getSerializable("current_node");
-        } */
-
     }
 
     @Override
@@ -106,26 +101,31 @@ public class FileChooserActivity extends ListActivity {
                     // get file input stream
 
                     //open a file input stream with given path
-                    DbxFile myCiphertextFile = fcDbxFileSystem.open(fileInfo.path);
-                    FileInputStream fis = myCiphertextFile.getReadStream();
+                    DbxFile dbxCiphertextFile = fcDbxFileSystem.open(fileInfo.path);
+                    FileInputStream fis = dbxCiphertextFile.getReadStream();
 
-                    DbxFile myPlaintextFile  = getFos(fileInfo.path.getName());
-                    FileOutputStream fos = myPlaintextFile.getWriteStream();
+                    File myPlaintextFile  = getFos(fileInfo.path.getName());
+                    FileOutputStream fos = new FileOutputStream(myPlaintextFile);
+//      DbxFile myPlaintextFile  = getFos(fileInfo.path.getName());
+//      FileOutputStream fos = myPlaintextFile.getWriteStream();
                     decryptFile(fis, fos);
-                    myCiphertextFile.close();
-                    myPlaintextFile.close();
-
-
+                    dbxCiphertextFile.close();
+                    // start new intent to open
+                    Uri myUri = Uri.fromFile(myPlaintextFile);
+                    Intent intent = new Intent(Intent.ACTION_VIEW);
+                    intent.setData(myUri);
+                    startActivity(intent);
+//       myPlaintextFile.close();
                 }
             }
-            }catch (IOException e) {
-                Log.e("decrypt file ", e.getMessage());
-            } catch (GeneralSecurityException e) {
-                Log.e("decrypt file ",e.getMessage());
-            } catch (MissingPwdException e) {
-                Log.e("decrypt file ",e.getMessage());
-            }
+        }catch (IOException e) {
+            Log.e("decrypt file ", e.getMessage());
+        } catch (GeneralSecurityException e) {
+            Log.e("decrypt file ",e.getMessage());
+        } catch (MissingPwdException e) {
+            Log.e("decrypt file ",e.getMessage());
         }
+    }
 
         // Need to add something to handle Failed or was cancelled by the user.
 
@@ -142,19 +142,18 @@ public class FileChooserActivity extends ListActivity {
         mAdapter.notifyDataSetChanged();
     }
 
-     private DbxFile getFos(String out) throws IOException {
+     private File getFos(String out) throws IOException {
 
-/*******************************************************************************************************************************
- * Writing decrypted file to dropbox is a temporary measure just for testing
- * THIS SHOUD NOT BE LEFT IN FINAL VERSION
- *
- */
-        out = out.substring(0, out.length() - 4) + ".dec.txt";
-        DbxPath outPath = new DbxPath(out);
-        DbxFile myPlaintextFile;
-        if (fcDbxFileSystem.exists(outPath))
-            myPlaintextFile = fcDbxFileSystem.open(outPath);
-        else myPlaintextFile = fcDbxFileSystem.create(outPath);
+ //sort out filemame for decrypted file
+        out = out.substring(0, out.length() - 4);
+         //
+        File myPlaintextFile = new File(getExternalCacheDir(),out);
+
+ //       DbxPath outPath = new DbxPath(out);
+ //       DbxFile myPlaintextFile;
+ //       if (fcDbxFileSystem.exists(outPath))
+ //          myPlaintextFile = fcDbxFileSystem.open(outPath);
+  //      else myPlaintextFile = fcDbxFileSystem.create(outPath);
         return myPlaintextFile;
 
 //*****************************************************************************************************************************

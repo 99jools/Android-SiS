@@ -1,14 +1,24 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.example.jrs300.shareinsecrettest.MainActivity" >
+
     <item android:id="@+id/action_Create"
         android:title="@string/create_new_document"
         android:orderInCategory="10"
+        tools:ignore="AppCompatResource"
         android:showAsAction="ifRoom" />
+
     <item android:id="@+id/action_Open"
         android:title="@string/open_encrypted_file"
         android:orderInCategory="20"
+        tools:ignore="AppCompatResource"
         android:showAsAction="ifRoom" />
+
+    <item android:id="@+id/action_Encrypt"
+        android:title="Encrypt Existing File"
+        android:orderInCategory="70"
+        tools:ignore="AppCompatResource"
+        android:showAsAction="never" />
 
     <item android:id="@+id/action_addgroup"
         android:title="@string/add_group"
@@ -26,10 +36,12 @@
     <item android:id="@+id/action_Unlink"
         android:title="@string/unlink_from_dropbox"
         android:orderInCategory="90"
+        tools:ignore="AppCompatResource"
         android:showAsAction="never"/>
 
     <item android:id="@+id/action_settings"
         android:title="@string/action_settings"
         android:orderInCategory="100"
+        tools:ignore="AppCompatResource"
         android:showAsAction="never" />
 </menu>

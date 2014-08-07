@@ -21,7 +21,7 @@ import java.security.GeneralSecurityException;
 
 public class ChooserActivity extends Activity {
 
-    private static final int REQUEST_CHOOSER = 1111;
+    private static final int ENCRYPT_CHOOSER = 1111;
     private static final int DROPBOX_CHOOSER = 2222;
     private SharedPrefs prefs;          // need to sort out getting these
 
@@ -59,7 +59,6 @@ public class ChooserActivity extends Activity {
         Intent intent = new Intent(this, CreateActivity.class);
         startActivity(intent);
 
-
     }
 
     //Link to Dropbox
@@ -71,21 +70,6 @@ public class ChooserActivity extends Activity {
         mChooser.forResultType(DbxChooser.ResultType.DIRECT_LINK).
                 launch(ChooserActivity.this, DROPBOX_CHOOSER);
     }
-
-    /**run when user clicks button to open existing document */
-    public void openExisting(View view){
-        // Create the ACTION_GET_CONTENT Intent
-        Intent getContentIntent = new Intent(Intent.ACTION_GET_CONTENT);
-        getContentIntent.setType("file/*");
-        startActivityForResult(getContentIntent, REQUEST_CHOOSER);
-
-        //**********************************************************************************************
-        // need to add encryption logic here
-        //*************************************************************
-    }
-
-
-
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -102,7 +86,7 @@ public class ChooserActivity extends Activity {
             }
         }
     }
-    /*               try {
+       /*               try {
                            // get file input stream
                            FileInputStream fis = getFis(position);
                            FileOutputStream fos = getFos(position, "To Dropbox");
@@ -134,24 +118,8 @@ public class ChooserActivity extends Activity {
        }
 
 
-       private FileOutputStream getFos(int position, String outLoc) throws IOException {
 
-   /*******************************************************************************************************************************
-    * Writing decrypted file to dropbox is a temporary measure just for testing
-    * THIS SHOUD NOT BE LEFT IN FINAL VERSION
-    *
-           String out = fcFileInfo.get(position).path.getName();
-           out = out.substring(0, out.length() - 4) + ".dec.txt";
-           DbxPath outPath = new DbxPath(out);
-           DbxFile myPlaintextFile;
-           if (fcDbxFileSystem.exists(outPath))
-               myPlaintextFile = fcDbxFileSystem.open(outPath);
-           else myPlaintextFile = fcDbxFileSystem.create(outPath);
-           return myPlaintextFile.getWriteStream();
 
-   //*****************************************************************************************************************************
-
-       } //end getFos
 
        /**
         * Takes a fileInputStream and returns the corresponding decrypted FileOutputStream
@@ -171,9 +139,6 @@ public class ChooserActivity extends Activity {
         // call static method to decrypt
         FileCryptor.decryptFile(fis, fos, prefs);
     }
-
-
-
 
 
     public void showToast (String message){

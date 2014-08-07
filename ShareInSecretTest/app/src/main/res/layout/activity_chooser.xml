@@ -12,14 +12,6 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Encrypt existing file"
-        android:id="@+id/button_open"
-        android:onClick="openExisting"
-        android:layout_centerInParent="true"/>
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:text="Create New Document"
         android:id="@+id/button_create"
         android:layout_marginBottom="65dp"

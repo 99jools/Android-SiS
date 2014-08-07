@@ -58,7 +58,7 @@
             android:label="Dropbox Sync" />
 
         <activity
-            android:name=".FileChooserActivity"
+            android:name=".DecryptActivity"
             android:parentActivityName=".MainActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -67,6 +67,14 @@
         <activity
             android:name="com.example.jrs300.shareinsecret.AddGroupActivity"
             android:label="@string/title_activity_add_group"
+            android:parentActivityName=".MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.jrs300.shareinsecrettest.MainActivity" />
+        </activity>
+        <activity
+            android:name=".EncryptActivity"
+            android:label="@string/title_activity_encrypt"
             android:parentActivityName=".MainActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

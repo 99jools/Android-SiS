@@ -1,13 +1,16 @@
 package com.example.jrs300.shareinsecrettest;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.dropbox.sync.android.DbxAccountManager;
@@ -15,30 +18,28 @@ import com.dropbox.sync.android.DbxFile;
 import com.dropbox.sync.android.DbxFileSystem;
 import com.dropbox.sync.android.DbxPath;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.security.GeneralSecurityException;
 
-public class CreateActivity extends Activity {
-
-    private String plaintextIn;
+public class EncryptActivity extends Activity {
+    private static final int ENCRYPT_CHOOSER = 1111;
+    private File inFile;
     private String saveName;
     private DbxAccountManager mDbxAcctMgr;
-    private SharedPrefs prefs;  //NOTE: need to get these parameters from somewhere
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
-//      Log.e("method call", "CreateActivity");
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_create);
+        setContentView(R.layout.activity_encrypt);
         this.mDbxAcctMgr = new DropboxSetup(getApplicationContext()).getAccMgr();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-
     }
 
     @Override
@@ -60,79 +61,85 @@ public class CreateActivity extends Activity {
         return super.onOptionsItemSelected(item);
     }
 
-    /**
-     * called whenever the user clicks the Encrypt and Save button
-     */
-    public void onClickEncryptSave(View view) throws MissingPwdException,IOException, GeneralSecurityException{
-        //get the plaintext from the screen
-        EditText editText = (EditText) findViewById(R.id.plaintextIn);
-        this.plaintextIn = editText.getText().toString();
+    public void onClickChoose(View view){
+        // Create the ACTION_GET_CONTENT Intent
+        Intent getContentIntent = new Intent(Intent.ACTION_GET_CONTENT);
+        getContentIntent.setType("file/*");
+        startActivityForResult(getContentIntent, ENCRYPT_CHOOSER);
+    }
+
+    public void onClickOK(View view) throws MissingPwdException, IOException, GeneralSecurityException {
 
         //get the groupID
         EditText getGroup = (EditText) findViewById(R.id.text_groupID);
         String groupID = getGroup.getText().toString().trim();
-        //check that filename isn't empty
-        if (groupID.length()< 1){
-            getGroup.setError( "Please enter a group name for this file" );
-        }
 
-        //get the filename
-        EditText getFilename = (EditText) findViewById(R.id.text_filename);
-        this.saveName = getFilename.getText().toString();
-
-
-        //check that filename isn't empty
-        if (this.saveName.length()< 1){
-              getFilename.setError( "Please enter a name for your file" );
-        }
-        else {
+        //check that groupID isn't empty
+        if (groupID.length() < 1) {
+            getGroup.setError("Please enter a group name for this file");
+        } else {
 
             //add .enc extension to filename
-            this.saveName = this.saveName + ".xps";
+            this.saveName = this.inFile.getName() + ".xps";
 
+            FileInputStream fis = new FileInputStream(inFile);
 
             // get a FileOutputStream set up for writing to Dropbox
-            FileOutputStream fos = getDbxOutputStream();
+            DbxFile dbxCiphertext = getDbxOutputFile();
+            FileOutputStream fos = dbxCiphertext.getWriteStream();
 
-
-
-            //encrypt text with new key and write to file
+            //encrypt file and write to Dropbox
             SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
-            prefs = new SharedPrefs(sp);
-            FileCryptor.encryptString(plaintextIn, fos, groupID ,prefs);
+            SharedPrefs prefs = new SharedPrefs(sp);
+            FileCryptor.encryptFile(fis,fos,groupID,prefs);
             showToast(saveName + " saved");
-            finish();
+            dbxCiphertext.close();
+ //           finish();
         }
+
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        if (requestCode == ENCRYPT_CHOOSER) {
+            if (resultCode == Activity.RESULT_OK) {
+                Log.e("result ", "file is " + data.getData().getPath());
+                //fill in the details on screen, and wait for the user to click the encrypt button
+                //get the filename
+                TextView getFilename = (TextView) findViewById(R.id.text_filename);
+                String path = (data.getData().getPath());
+                getFilename.setText(path);
+                inFile = new File(path);
+
+
+            }
+        }
+    }
+
+
+    /*
+     * @return returns a DbxFile initialised correctly for writing to Dropbox
+     */
+    private DbxFile getDbxOutputFile() throws IOException {
+
+        DbxPath dir = new DbxPath("/ShareInSecret");
+        DbxPath savePath = new DbxPath(dir, this.saveName);
+
+        // Create DbxFileSystem for synchronized file access and ensure first sync is complete.
+        DbxFileSystem dbxFileSys = DbxFileSystem.forAccount(this.mDbxAcctMgr.getLinkedAccount());
+        if (!dbxFileSys.hasSynced())
+            dbxFileSys.awaitFirstSync();
+
+        // Create file only if it doesn't already exist.
+        if (!dbxFileSys.exists(savePath)) {
+           return dbxFileSys.create(savePath);
+        } else return dbxFileSys.open(savePath);
 
     }
 
     public void showToast(String message) {
         Toast toast = Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT);
         toast.show();
-    }
-
-    /*
-     * @return returns a FileOutputStream initialised correctly for writing to Dropbox
-     */
-    private FileOutputStream getDbxOutputStream() throws IOException{
-
-        DbxPath dir = new DbxPath("/ShareInSecret");
-        DbxPath savePath = new DbxPath(dir, this.saveName);
-
-        FileOutputStream newFos=null;
-
-        // Create DbxFileSystem for synchronized file access and ensure first sync is complete.
-        DbxFileSystem dbxFileSys = DbxFileSystem.forAccount(this.mDbxAcctMgr.getLinkedAccount());
-        if ( !dbxFileSys.hasSynced())
-            dbxFileSys.awaitFirstSync();
-
-
-        // Create a test file only if it doesn't already exist.
-        if (!dbxFileSys.exists(savePath)) {
-            DbxFile newFile = dbxFileSys.create(savePath);
-            newFos = newFile.getWriteStream();
-
-        }
-        return newFos;
     }
 }

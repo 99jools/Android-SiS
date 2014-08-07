@@ -1,0 +1,68 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    tools:context="com.example.jrs300.shareinsecrettest.CreateActivity"
+    android:orientation="vertical"
+    android:gravity="center_vertical|center_horizontal"
+    style="@android:style/Theme.Holo">
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Choose File to Encrypt"
+        android:id="@+id/button"
+        android:layout_gravity="center_horizontal"
+        android:onClick="onClickChoose" />
+
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Enter Group Name:"
+        android:id="@+id/label_group"
+        android:layout_gravity="left"
+        android:gravity="left"
+        android:paddingTop="18dp" />
+
+    <EditText
+        android:layout_height="wrap_content"
+        android:layout_width="193dp"
+        android:id="@+id/text_groupID"
+        android:textColor="@android:color/holo_orange_light"
+        android:layout_gravity="right" />
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="This file will be encrypted and saved to the shared Dropbox folder for the group"
+        android:id="@+id/label_filename"
+        android:layout_gravity="center_horizontal|left"
+        android:gravity="left"
+        android:paddingTop="18dp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/text_filename"
+        android:layout_marginTop="18dp"
+        android:layout_marginBottom="18dp"
+        android:textColor="@android:color/holo_orange_light" />
+
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="OK"
+        android:id="@+id/buttonOK"
+        android:layout_gravity="center_horizontal"
+        android:onClick="onClickOK" />
+</LinearLayout>
