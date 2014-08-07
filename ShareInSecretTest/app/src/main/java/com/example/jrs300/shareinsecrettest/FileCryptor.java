@@ -1,17 +1,16 @@
 package com.example.jrs300.shareinsecrettest;
 
 
+import android.util.Log;
+
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.ByteBuffer;
 import java.security.GeneralSecurityException;
-import java.security.spec.KeySpec;
 
-import javax.crypto.Cipher;
 import javax.crypto.CipherInputStream;
 import javax.crypto.CipherOutputStream;
-import javax.crypto.spec.IvParameterSpec;
-import javax.crypto.spec.SecretKeySpec;
 
 
 /**
@@ -24,10 +23,10 @@ public class FileCryptor {
     }
 
 
-    public static  void encryptFile(FileInputStream fis,FileOutputStream fos, String groupID, SharedPrefs prefs)
+    public static  void encryptFile(FileInputStream fis,FileOutputStream fos, String groupID)
             throws MissingPwdException, IOException {
 
-        MyCipher encryptionCipher = new MyCipher(groupID, 'E');
+        MyCipher encryptionCipher = new MyCipher(groupID);
 
         //write metadata to FileOutputStream
         fos.write(encryptionCipher.getGroupLength());
@@ -48,10 +47,11 @@ public class FileCryptor {
         cos.close();
           } //end EncryptFile
 
-    public static void encryptString(String plaintextAsString, FileOutputStream fos, String groupID, SharedPrefs prefs)
+
+    public static void encryptString(String plaintextAsString, FileOutputStream fos, String groupID)
             throws MissingPwdException,GeneralSecurityException, IOException {
 
-        MyCipher encryptionCipher = new MyCipher(groupID, 'E');
+        MyCipher encryptionCipher = new MyCipher(groupID);
 
         //write metadata to FileOutputStream
         fos.write(encryptionCipher.getGroupLength());
@@ -68,25 +68,43 @@ public class FileCryptor {
 
     } //end encryptString
 
+    /********************************************************************************************************************************
+     *
+     * @param fis
+     * @param fos
+     * @return
+     * @throws MissingPwdException
+     * @throws GeneralSecurityException
+     * @throws IOException
+     */
 
-
-    public static String decryptFile(FileInputStream fis, FileOutputStream  fos, SharedPrefs prefs)
+    public static String decryptFile(FileInputStream fis, FileOutputStream  fos)
             throws MissingPwdException, GeneralSecurityException, IOException {
 
         // read meta data from input stream
-        byte[] initVector = new byte[AES_BLOCKSIZE];
-        int groupCode = fis.read();
-        String groupID = prefs.getID(groupCode);
-        fis.read(initVector,0,AES_BLOCKSIZE);
-    IvParameterSpec ips = new IvParameterSpec(initVector);
+int b = 0;
+        byte [] bytes = new byte[4];
+        b=fis.read(bytes);
+Log.e("bytes read", " "+b);
+        int len = ByteBuffer.wrap(bytes).getInt();
+
+        byte[] gaba = new byte[len];
+        b=fis.read(gaba);
+Log.e("bytes read", " "+b);
+  Log.e("bytes read", new String(gaba, "UTF-8")+"xxxx");
+
+        byte[] initVector = new byte[MyCipher.AES_BLOCKSIZE];
+        b=fis.read(initVector);
+Log.e("bytes read", " "+b);
+
+
         //setup decryption
-        Cipher decryptionCipher = Cipher.getInstance(CIPHER_ALGORITHM);
-        KeySpec k = AppKeystore.getKeySpec(groupID);
-        decryptionCipher.init(Cipher.DECRYPT_MODE,AppKeystore.getKeySpec(groupID),ips);
-        CipherInputStream cis = new CipherInputStream(fis,decryptionCipher );
+        MyCipher decryptionCipher = new MyCipher(gaba, initVector);
+
+        CipherInputStream cis = new CipherInputStream(fis,decryptionCipher.getmCipher() );
 
         //read and decrypt file
-        byte[] block = new byte[AES_BLOCKSIZE];
+        byte[] block = new byte[MyCipher.AES_BLOCKSIZE];
         int bytesRead;
         bytesRead = cis.read(block);
         while (bytesRead != -1) {
@@ -98,23 +116,9 @@ public class FileCryptor {
         cis.close();
         fis.close();
 
-        return groupID;
+        return decryptionCipher.getGroupID();
     } //end decryptFile
 
-
-
-
-
-
-
-//********************************************************************************************
-
-    public static IvParameterSpec dummyIV(){
-        //set up dummy iv - CHANGE THIS
-        byte ff = (byte) 0xff;
-        byte[] dummyIV = {ff,ff,ff,ff,0x00,ff,ff,ff,ff,ff,ff,ff,ff,ff,ff,ff};
-        return new IvParameterSpec(dummyIV);
-    }
 
 
 } //end FileCryptor

@@ -155,7 +155,7 @@ public class DecryptActivity extends ListActivity {
         SharedPrefs prefs = new SharedPrefs(sp);
 
         // call static method to decrypt
-        FileCryptor.decryptFile(fis, fos, prefs);
+        FileCryptor.decryptFile(fis, fos);
     }
 
     private void showToast(String message) {

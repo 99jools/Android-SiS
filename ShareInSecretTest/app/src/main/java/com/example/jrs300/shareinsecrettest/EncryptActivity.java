@@ -79,7 +79,7 @@ public class EncryptActivity extends Activity {
             //encrypt file and write to Dropbox
             SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
             SharedPrefs prefs = new SharedPrefs(sp);
-            FileCryptor.encryptFile(fis,fos,groupID,prefs);
+            FileCryptor.encryptFile(fis,fos,groupID);
             dbxOut.close();
  //           finish();
         }

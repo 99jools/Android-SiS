@@ -85,7 +85,7 @@ public class CreateActivity extends Activity {
             //encrypt file and write to Dropbox
             SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
             SharedPrefs prefs = new SharedPrefs(sp);
-            FileCryptor.encryptString(plaintextIn, fos, groupID, prefs);
+            FileCryptor.encryptString(plaintextIn, fos, groupID);
             dbxOut.close();
             showToast(saveName + " saved");
             finish();

@@ -3,6 +3,7 @@ package com.example.jrs300.shareinsecrettest;
 import android.util.Log;
 
 import java.io.UnsupportedEncodingException;
+import java.nio.ByteBuffer;
 import java.security.GeneralSecurityException;
 
 import javax.crypto.Cipher;
@@ -26,11 +27,8 @@ public class MyCipher {
     private Cipher mCipher;
     private byte[] iv;
 
-
-
-
     public MyCipher(String groupID) throws MissingPwdException {
-
+Log.e("encrypt", groupID);
         this.groupSKS = AppKeystore.getKeySpec(groupID);
         this.groupID = groupID;
 
@@ -58,6 +56,8 @@ public class MyCipher {
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
+
+        Log.e("decrypt", groupID);
     }
 
     public Cipher getmCipher() {
@@ -86,7 +86,8 @@ public class MyCipher {
         return groupSKS;
     }
 
-    public int getGroupLength(){
-        return this.getGroupAsByteArray().length;
+    public byte[] getGroupLength(){
+        int len = this.getGroupAsByteArray().length;
+        return ByteBuffer.allocate(4).putInt(len).array();
     }
 }
