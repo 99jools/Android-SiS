@@ -35,7 +35,6 @@ public class AppKeystore {
      * recovers stored key from Keystore and wraps as SecretKeySpec
      * @param groupID
      * @return
-     * @throws MissingPwdException
      */
     public static SecretKeySpec getKeySpec( String groupID)
     {
@@ -55,7 +54,6 @@ public class AppKeystore {
              * - errors relating to inability to recover a key are thrown for calling class to handle */
             if (ks.containsAlias(groupID)){
                 Key groupKey = ks.getKey(groupID, appPwd.toCharArray());
-
                 return new SecretKeySpec(groupKey.getEncoded(), KEY_ALGORITHM);
             }
         } catch (IOException e) {
@@ -71,23 +69,20 @@ public class AppKeystore {
      * Ggenerates a new group encryption key for AES encryption using 256 bit key and stores in KeyStore
      * Since this needs access to the apps internal storage, it needs to be passed a Context
      * @param groupID
-     * @param prefs
-     * @return
+         * @return
      * @throws MissingPwdException
      * @throws IOException
      * @throws GeneralSecurityException
      */
-    public static boolean addGroupKey(String groupID, SharedPrefs prefs)
+    public static boolean addGroupKey(String groupID)
             throws MissingPwdException,IOException, GeneralSecurityException{
-
-        if (prefs.groupExists(groupID)) return false;
-
-        //otherwise add new group
         String appPwd = AppPwdObj.getInstance().getValue();
         Context context = AppPwdObj.getInstance().getContext();
         KeyStore ks = loadKeyStore(appPwd.toCharArray(), context);
 
-        //generate key
+        if (ks.containsAlias(groupID)) return false;  //group already exists
+
+        // otherwise generate key
         KeyGenerator myKeyGenerator = KeyGenerator.getInstance(KEY_ALGORITHM);
         myKeyGenerator.init(KEY_LENGTH);
         SecretKeySpec newSecretKeySpec =
@@ -100,9 +95,6 @@ public class AppKeystore {
         //update stored copy of keystore  (can just rewrite as adding a new group is a rare occurrence)
         writeKeyStore(ks, appPwd.toCharArray(), context);
 
-        //add new group to shared preferences
-        prefs.addGroup(groupID);
-        prefs.addGroup("groupZ");
         return true;
 
     } //end addGroupKey
@@ -111,7 +103,6 @@ public class AppKeystore {
         try {
             KeyStore ks = loadKeyStore(appPwd.toCharArray(), context);
             return true;
-
         } catch (GeneralSecurityException e) {
             return false;
         }
@@ -146,8 +137,6 @@ public class AppKeystore {
             Log.e("keystore","New keystore created");
             //this should only get run if file store doesn't exists at all - creates a new one
             ks.load(null);
-
-
         } finally {
             if (fis != null) fis.close();
         }
@@ -160,16 +149,11 @@ public class AppKeystore {
      * @throws IOException
      */
     private static void writeKeyStore(KeyStore ks, char[] pwd, Context context) throws GeneralSecurityException, IOException {
-
-
-        FileOutputStream fos = context.openFileOutput(KEYSTORE_NAME, Context.MODE_PRIVATE);
+      FileOutputStream fos = context.openFileOutput(KEYSTORE_NAME, Context.MODE_PRIVATE);
         try {
             ks.store(fos, pwd);
         } finally {
             fos.close();
         }
     } //end writeKeyStore
-
-
-
 } //end AppKeystore

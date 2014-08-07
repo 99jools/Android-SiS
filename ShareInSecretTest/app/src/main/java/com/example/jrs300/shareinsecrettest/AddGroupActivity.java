@@ -1,9 +1,7 @@
-package com.example.jrs300.shareinsecret;
+package com.example.jrs300.shareinsecrettest;
 
 import android.app.Activity;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -13,7 +11,6 @@ import android.widget.EditText;
 import com.example.jrs300.shareinsecrettest.AppKeystore;
 import com.example.jrs300.shareinsecrettest.MissingPwdException;
 import com.example.jrs300.shareinsecrettest.R;
-import com.example.jrs300.shareinsecrettest.SharedPrefs;
 
 import java.io.IOException;
 import java.security.GeneralSecurityException;
@@ -50,8 +47,6 @@ public class AddGroupActivity extends Activity {
         //get the groupID
         EditText getGroupID = (EditText) findViewById(R.id.text_groupID);
         String groupID = getGroupID.getText().toString().trim();
-        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
-        SharedPrefs prefs = new SharedPrefs(sp);
         //check that filename isn't empty
         if (groupID.length() < 1) {
             getGroupID.setError("Group name can't be blank");
@@ -59,7 +54,7 @@ public class AddGroupActivity extends Activity {
 
 
             try {
-                AppKeystore.addGroupKey(groupID, prefs);
+                AppKeystore.addGroupKey(groupID);
             } catch (MissingPwdException e) {
                 Log.e("new group", e.getMessage());
             } catch (IOException e) {

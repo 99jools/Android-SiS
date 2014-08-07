@@ -149,12 +149,6 @@ public class DecryptActivity extends ListActivity {
      */
     private void decryptFile(FileInputStream fis, FileOutputStream fos)
             throws MissingPwdException, IOException, GeneralSecurityException {
-        //get preferences
-
-        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
-        SharedPrefs prefs = new SharedPrefs(sp);
-
-        // call static method to decrypt
         FileCryptor.decryptFile(fis, fos);
     }
 

@@ -43,12 +43,12 @@ Log.e("encrypt", groupID);
     }
 
     public MyCipher(byte[] gaba, byte[] iv ) throws MissingPwdException {
-
-        this.groupSKS = AppKeystore.getKeySpec(groupID);
-        this.iv = iv;
-        IvParameterSpec ips =  new IvParameterSpec(iv);
         try {
+
+            this.iv = iv;
+            IvParameterSpec ips =  new IvParameterSpec(iv);
             this.groupID = new String(gaba, "UTF-8");
+            this.groupSKS = AppKeystore.getKeySpec(groupID);
             this.mCipher = Cipher.getInstance(CIPHER_ALGORITHM);
             mCipher.init(Cipher.DECRYPT_MODE, groupSKS,ips);
         } catch (GeneralSecurityException e) {

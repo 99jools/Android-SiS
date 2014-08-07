@@ -21,7 +21,6 @@ public class ChooserActivity extends Activity {
 
     private static final int ENCRYPT_CHOOSER = 1111;
     private static final int DROPBOX_CHOOSER = 2222;
-    private SharedPrefs prefs;          // need to sort out getting these
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

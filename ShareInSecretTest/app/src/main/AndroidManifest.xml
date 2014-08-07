@@ -65,7 +65,7 @@
                 android:value="com.example.jrs300.shareinsecrettest.MainActivity" />
         </activity>
         <activity
-            android:name="com.example.jrs300.shareinsecret.AddGroupActivity"
+            android:name="com.example.jrs300.shareinsecrettest.AddGroupActivity"
             android:label="@string/title_activity_add_group"
             android:parentActivityName=".MainActivity" >
             <meta-data

@@ -15,8 +15,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.dropbox.sync.android.DbxAccountManager;
-import com.example.jrs300.shareinsecret.AddGroupActivity;
-
 import java.io.IOException;
 import java.security.GeneralSecurityException;
 

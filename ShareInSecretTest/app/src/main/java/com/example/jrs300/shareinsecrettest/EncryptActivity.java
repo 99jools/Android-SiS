@@ -77,8 +77,6 @@ public class EncryptActivity extends Activity {
             FileOutputStream fos = dbxOut.getWriteStream();
 
             //encrypt file and write to Dropbox
-            SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
-            SharedPrefs prefs = new SharedPrefs(sp);
             FileCryptor.encryptFile(fis,fos,groupID);
             dbxOut.close();
  //           finish();
