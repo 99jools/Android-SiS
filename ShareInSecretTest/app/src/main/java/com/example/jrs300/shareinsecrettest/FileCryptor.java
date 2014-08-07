@@ -24,29 +24,19 @@ public class FileCryptor {
     }
 
 
-    /**
-     * Encrypt input stream and outputs result to a file - location of output stream is set up in calling
-     * @param fis
-     * @param fos
-     * @param groupID
-     * @param prefs
-     * @throws MissingPwdException
-     * @throws IOException
-     * @throws GeneralSecurityException
-     */
     public static  void encryptFile(FileInputStream fis,FileOutputStream fos, String groupID, SharedPrefs prefs)
-            throws MissingPwdException, IOException, GeneralSecurityException{
+            throws MissingPwdException, IOException {
 
         MyCipher encryptionCipher = new MyCipher(groupID, 'E');
 
-
         //write metadata to FileOutputStream
-        fos.write(prefs.getCode(groupID));  	 						 //writes 4 byte groupCde
-        fos.write(encryptionCipher.getIV(),0,AES_BLOCKSIZE);            //IV length depends on blocksize
+        fos.write(encryptionCipher.getGroupLength());
+        fos.write(encryptionCipher.getGroupAsByteArray());
+        fos.write(encryptionCipher.getIv());
 
         //wrap fos in cipherstream to encrypt remaining blocks
-        CipherOutputStream cos = new CipherOutputStream(fos, encryptionCipher);
-        byte[] block = new byte[AES_BLOCKSIZE];
+        CipherOutputStream cos = new CipherOutputStream(fos, encryptionCipher.getmCipher());
+        byte[] block = new byte[MyCipher.AES_BLOCKSIZE];
         int bytesRead = fis.read(block);
 
         //write data to output file and read next block
@@ -58,16 +48,28 @@ public class FileCryptor {
         cos.close();
           } //end EncryptFile
 
+    public static void encryptString(String plaintextAsString, FileOutputStream fos, String groupID, SharedPrefs prefs)
+            throws MissingPwdException,GeneralSecurityException, IOException {
 
-    /**
-     * Decrypts a fileoutputstream
-     * @param fis file input stream
-     * @param fos file output stream
-     * @param prefs shared preferences
-     * @return returns the groupID
-     * @throws GeneralSecurityException
-     * @throws IOException
-     */
+        MyCipher encryptionCipher = new MyCipher(groupID, 'E');
+
+        //write metadata to FileOutputStream
+        fos.write(encryptionCipher.getGroupLength());
+        fos.write(encryptionCipher.getGroupAsByteArray());
+        fos.write(encryptionCipher.getIv());
+
+        //convert String to byte array using UTF-8 encoding and convert to encrypted array
+        byte[] stringAsByteArray = plaintextAsString.getBytes("UTF-8");
+        byte[] ciphertextAsByteArray = encryptionCipher.getmCipher().doFinal(stringAsByteArray);
+
+        //write out encrypted file
+        fos.write(ciphertextAsByteArray);
+        fos.close();
+
+    } //end encryptString
+
+
+
     public static String decryptFile(FileInputStream fis, FileOutputStream  fos, SharedPrefs prefs)
             throws MissingPwdException, GeneralSecurityException, IOException {
 
@@ -100,32 +102,7 @@ public class FileCryptor {
     } //end decryptFile
 
 
-    /**
-     * Encrypt a String and write to a given FileOutputStream
-     * @param plaintextAsString
-     * @param fos
-     * @param groupID
-     * @throws GeneralSecurityException
-     * @throws IOException
-     */
-    public static void encryptString(String plaintextAsString, FileOutputStream fos, String groupID, SharedPrefs prefs)
-            throws MissingPwdException,GeneralSecurityException, IOException {
 
-        Cipher encryptionCipher = initEncryptCipher(groupID);
-
-        //convert String to byte array using UTF-8 encoding and convert to encrypted array
-        byte[] stringAsByteArray = plaintextAsString.getBytes("UTF-8");
-        byte[] ciphertextAsByteArray = encryptionCipher.doFinal(stringAsByteArray);
-
-        //write metadata to FileOutputStream
-        fos.write(prefs.getCode(groupID));  	 						 //writes 4 byte hashcode
-        fos.write(encryptionCipher.getIV(),0,AES_BLOCKSIZE);  //IV length depends on blocksize
-
-        //write out encrypted file
-        fos.write(ciphertextAsByteArray);
-        fos.close();
-
-    } //end encryptString
 
 
 
@@ -138,6 +115,7 @@ public class FileCryptor {
         byte[] dummyIV = {ff,ff,ff,ff,0x00,ff,ff,ff,ff,ff,ff,ff,ff,ff,ff,ff};
         return new IvParameterSpec(dummyIV);
     }
+
 
 } //end FileCryptor
 

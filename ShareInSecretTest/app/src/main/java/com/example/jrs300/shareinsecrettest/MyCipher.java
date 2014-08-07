@@ -6,6 +6,7 @@ import java.io.UnsupportedEncodingException;
 import java.security.GeneralSecurityException;
 
 import javax.crypto.Cipher;
+import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 
 /**
@@ -20,33 +21,42 @@ public class MyCipher {
     public static final int AES_BLOCKSIZE = 16;   //16 bytes = 128 bits
     public static final int AES_KEYLENGTH = 256;  //may decide to make this a user option later
 
-    private Cipher mCipher;
-    private String groupID;
-    private byte[] iv;
-    private byte[] groupAsByteArray;
     private SecretKeySpec groupSKS;
+    private String groupID;
+    private Cipher mCipher;
+    private byte[] iv;
 
 
-    public MyCipher(String groupID, char mode) throws MissingPwdException {
+
+
+    public MyCipher(String groupID) throws MissingPwdException {
 
         this.groupSKS = AppKeystore.getKeySpec(groupID);
+        this.groupID = groupID;
 
         try {
-            Cipher cipher = Cipher.getInstance(CIPHER_ALGORITHM);
-            if (mode == 'E') {
-                cipher.init(Cipher.ENCRYPT_MODE, groupSKS);
-                this.iv =  cipher.getIV();  //array length will be equivalent to AES blocksize
-            }
-            else cipher.init(Cipher.DECRYPT_MODE, groupSKS);
 
-            this.mCipher = cipher;
-            this.groupID = groupID;
-            this.groupAsByteArray = groupID.getBytes("UTF-8");
+            this.mCipher = Cipher.getInstance(CIPHER_ALGORITHM);
+            mCipher.init(Cipher.ENCRYPT_MODE, groupSKS);
+            this.iv =  mCipher.getIV();  //array length will be equivalent to AES blocksize
+        } catch (GeneralSecurityException e) {
+            Log.e("MyCipher: ", e.getMessage());
+        }
+    }
 
+    public MyCipher(byte[] gaba, byte[] iv ) throws MissingPwdException {
+
+        this.groupSKS = AppKeystore.getKeySpec(groupID);
+        this.iv = iv;
+        IvParameterSpec ips =  new IvParameterSpec(iv);
+        try {
+            this.groupID = new String(gaba, "UTF-8");
+            this.mCipher = Cipher.getInstance(CIPHER_ALGORITHM);
+            mCipher.init(Cipher.DECRYPT_MODE, groupSKS,ips);
         } catch (GeneralSecurityException e) {
             Log.e("MyCipher: ", e.getMessage());
         } catch (UnsupportedEncodingException e) {
-            Log.e("MyCipher: ", e.getMessage());
+            e.printStackTrace();
         }
     }
 
@@ -63,10 +73,20 @@ public class MyCipher {
     }
 
     public byte[] getGroupAsByteArray() {
-        return groupAsByteArray;
+        try {
+            return groupID.getBytes("UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            Log.e("MyCipher: ", e.getMessage());
+        }
+        return null;
     }
+
 
     public SecretKeySpec getGroupSKS() {
         return groupSKS;
+    }
+
+    public int getGroupLength(){
+        return this.getGroupAsByteArray().length;
     }
 }
