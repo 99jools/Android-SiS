@@ -1,14 +1,22 @@
 package androidversion;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.security.GeneralSecurityException;
 import java.security.Key;
+import java.security.KeyFactory;
 import java.security.KeyStore;
+import java.security.PublicKey;
+import java.security.cert.CertificateFactory;
+import java.security.cert.X509Certificate;
+import java.security.spec.X509EncodedKeySpec;
 import java.util.Collections;
 import java.util.Enumeration;
 
+import javax.crypto.Cipher;
+import javax.crypto.CipherOutputStream;
 import javax.crypto.KeyGenerator;
 import javax.crypto.spec.SecretKeySpec;
 
@@ -44,7 +52,9 @@ public class AppKeystore {
 
         try {
             //load the keystore
-            ks = loadKeyStore(appPwd.toCharArray());
+            ks = loadKeyStore(appPwd.toCharArray());    System.out.println("Is keycentry - " + ks.isKeyEntry("mykey"));
+            System.out.println(ks.getCertificate("mykey").getPublicKey().toString());
+            System.out.println(ks.getCertificate("mykey").getPublicKey().getEncoded());
 
             /*recover the key entry for the group and package as a SecretKeySpec
              * - errors relating to inability to recover a key are thrown for calling class to handle */
@@ -62,8 +72,9 @@ public class AppKeystore {
 
 
     /**
+     * THIS CODE IS ONLY APPLICABLE TO JAVA VERSION - does not apply to Android version
+     * 
      * Generates a new group encryption key for AES encryption using 256 bit key and stores in KeyStore
-     * Since this needs access to the apps internal storage, it needs to be passed a Context
      * @param groupID
          * @return
      * @throws MissingPwdException
@@ -75,7 +86,6 @@ public class AppKeystore {
         String appPwd = AppPwdObj.getInstance().getValue();
 
         KeyStore ks = loadKeyStore(appPwd.toCharArray());
-
         if (ks.containsAlias(groupID)) return false;  //group already exists
 
         // otherwise generate key
@@ -84,13 +94,16 @@ public class AppKeystore {
         SecretKeySpec newSecretKeySpec =
                 new SecretKeySpec(myKeyGenerator.generateKey().getEncoded(), KEY_ALGORITHM);
 
-        //add to keystore
+        /*add to keystore
         KeyStore.SecretKeyEntry skEntry = new KeyStore.SecretKeyEntry(newSecretKeySpec);
         ks.setEntry(groupID, skEntry, new KeyStore.PasswordProtection(appPwd.toCharArray()));
         ks.setEntry("groupZ", skEntry, new KeyStore.PasswordProtection(appPwd.toCharArray()));
         //update stored copy of keystore  (can just rewrite as adding a new group is a rare occurrence)
         writeKeyStore(ks, appPwd.toCharArray());
-
+*/
+        //encrypt key and write out encrypted file
+        encryptWithPublicKey(newSecretKeySpec, new File("AES key.enc"),"public.crt");
+        
         return true;
 
     } //end addGroupKey
@@ -152,4 +165,28 @@ public class AppKeystore {
             fos.close();
         }
     } //end writeKeyStore
-} //end AppKeystore
+     
+	  public static  void encryptWithPublicKey(SecretKeySpec newSecretKeySpec, File out, String publicKeyFile) throws IOException, GeneralSecurityException {
+		  // create RSA public key cipher
+		    Cipher pkCipher = Cipher.getInstance("RSA");
+		    // create AES shared key cipher
+		    Cipher aesCipher = Cipher.getInstance("AES");    
+		    byte[] aeskey = newSecretKeySpec.getEncoded();
+	
+		     CertificateFactory cf = CertificateFactory.getInstance("X.509");
+		     X509Certificate cert = (X509Certificate)cf.generateCertificate(new FileInputStream(publicKeyFile));
+		  
+		  // read public key to be used to encrypt the AES key
+    		    byte[] encodedKey = new byte[(int)publicKeyFile.length()];
+    		    new FileInputStream(publicKeyFile).read(encodedKey);
+    		   
+    		    PublicKey pk = cert.getPublicKey();
+    		   
+    		    // write AES key
+    		    pkCipher.init(Cipher.ENCRYPT_MODE, pk);
+    		    CipherOutputStream os = new CipherOutputStream(new FileOutputStream(out), pkCipher);
+    		    os.write(aeskey);
+    		    os.close();
+    		  }
+
+    } //end AppKeystore

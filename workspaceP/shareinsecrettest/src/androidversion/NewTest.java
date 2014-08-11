@@ -66,5 +66,29 @@ public class NewTest {
 			}  
 
 		}
+		@Test
+		public void testadd() throws IOException, GeneralSecurityException {
+			
+			 // initialise AppPwdObj
+		    AppPwdObj apo = AppPwdObj.makeObj();
+		    apo.setValue("password");
+		    
+		    addGroup("test");
+		    
+		    
+		    
+		    
+}
+		private void addGroup(String groupID){
+			try {
+			AppKeystore.addGroupKey(groupID);
+		} catch (IOException e) {
+			System.out.println(e.getMessage());
+		} catch (GeneralSecurityException e) {
+			System.out.println(e.getMessage());
+		} catch (MissingPwdException e) {
+			System.out.println(e.getMessage());
+		}
+}
 }
 	 
