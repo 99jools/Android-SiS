@@ -74,20 +74,32 @@ public class NewTest {
 		    apo.setValue("password");
 		    
 		    addGroup("test");
+		    importKey("test");
+		}
 		    
-		    
-		    
-		    
-}
+
 		private void addGroup(String groupID){
 			try {
-			AppKeystore.addGroupKey(groupID);
-		} catch (IOException e) {
-			System.out.println(e.getMessage());
-		} catch (GeneralSecurityException e) {
-			System.out.println(e.getMessage());
-		} catch (MissingPwdException e) {
-			System.out.println(e.getMessage());
+				AppKeystore.addGroupKey(groupID);
+			} catch (IOException e) {
+				System.out.println(e.getMessage());
+			} catch (GeneralSecurityException e) {
+				System.out.println(e.getMessage());
+			} catch (MissingPwdException e) {
+				System.out.println(e.getMessage());
+			}
+		}
+
+		private void importKey(String groupID){
+			try {
+				AppKeystore.importGroupKey(groupID);
+			} catch (IOException e) {
+				System.out.println(e.getMessage());
+			} catch (GeneralSecurityException e) {
+				System.out.println(e.getMessage());
+			} catch (MissingPwdException e) {
+				System.out.println(e.getMessage());
+			}
 		}
 }
 }

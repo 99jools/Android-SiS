@@ -8,16 +8,24 @@ import java.security.GeneralSecurityException;
 import java.security.Key;
 import java.security.KeyFactory;
 import java.security.KeyStore;
+import java.security.KeyStoreException;
+import java.security.NoSuchAlgorithmException;
+import java.security.PrivateKey;
 import java.security.PublicKey;
+import java.security.UnrecoverableKeyException;
 import java.security.cert.CertificateFactory;
 import java.security.cert.X509Certificate;
+import java.security.spec.KeySpec;
+import java.security.spec.PKCS8EncodedKeySpec;
 import java.security.spec.X509EncodedKeySpec;
 import java.util.Collections;
 import java.util.Enumeration;
 
 import javax.crypto.Cipher;
+import javax.crypto.CipherInputStream;
 import javax.crypto.CipherOutputStream;
 import javax.crypto.KeyGenerator;
+import javax.crypto.spec.PBEKeySpec;
 import javax.crypto.spec.SecretKeySpec;
 
 /**
@@ -27,50 +35,32 @@ import javax.crypto.spec.SecretKeySpec;
 public class AppKeystore {
 
     public static final String KEY_ALGORITHM = "AES";
+    public static final String PUBKEY_ALGORITHM = "RSA";
     public static final int KEY_LENGTH = 128;
     public static final String KEYSTORE_NAME = "SiSKeyStore.ks";
     public static final String KEYSTORE_TYPE = "JCEKS";
+    
+    private char[] appPwdAsArray;
+    private KeyStore ks;
 
-    private AppKeystore(){
-        //dummy constructor to prevent instantiation
+    private AppKeystore() throws MissingPwdException, IOException, GeneralSecurityException{
+    	   String appPwd = AppPwdObj.getInstance().getValue();
+    	   this.appPwdAsArray = appPwd.toCharArray();
+           this.ks = loadKeyStore();
     }
-
-    /**
-     * recovers stored key from Keystore and wraps as SecretKeySpec
-     * @param groupID
-     * @return
-     */
-    public static SecretKeySpec getKeySpec( String groupID)
-    {
-        KeyStore ks;
-        String appPwd = null;
-        try {
-            appPwd = AppPwdObj.getInstance().getValue();
-        } catch (MissingPwdException e) {
-            System.out.println( e.getMessage());
-        }
-
-        try {
-            //load the keystore
-            ks = loadKeyStore(appPwd.toCharArray());    System.out.println("Is keycentry - " + ks.isKeyEntry("mykey"));
-            System.out.println(ks.getCertificate("mykey").getPublicKey().toString());
-            System.out.println(ks.getCertificate("mykey").getPublicKey().getEncoded());
-
-            /*recover the key entry for the group and package as a SecretKeySpec
-             * - errors relating to inability to recover a key are thrown for calling class to handle */
-            if (ks.containsAlias(groupID)){
-                Key groupKey = ks.getKey(groupID, appPwd.toCharArray());
-                return new SecretKeySpec(groupKey.getEncoded(), KEY_ALGORITHM);
-            }
-        } catch (IOException e) {
-          System.out.println(e.getMessage());
-        } catch (GeneralSecurityException e) {
-        	System.out.println( e.getMessage());
-        }
-        return null;  //ie not able to recover key
-    } //end getExistingKey
-
-
+    
+    
+/**
+ * Retrieves the key from the Keystore corresponding to the supplied alias and wraps it as SecretKeySpec
+ * @param alias
+ * @return KeySpec for the retrieved key
+ */
+    public SecretKeySpec getSKS(String alias){
+		Key key = getKey(alias);
+		return new SecretKeySpec(key.getEncoded(), KEY_ALGORITHM);
+    }
+  
+    
     /**
      * THIS CODE IS ONLY APPLICABLE TO JAVA VERSION - does not apply to Android version
      * 
@@ -81,112 +71,182 @@ public class AppKeystore {
      * @throws IOException
      * @throws GeneralSecurityException
      */
-    public static boolean addGroupKey(String groupID)
+    public boolean addGroupKey(String groupID)
             throws MissingPwdException,IOException, GeneralSecurityException{
-        String appPwd = AppPwdObj.getInstance().getValue();
-
-        KeyStore ks = loadKeyStore(appPwd.toCharArray());
+    
         if (ks.containsAlias(groupID)) return false;  //group already exists
 
-        // otherwise generate key
-        KeyGenerator myKeyGenerator = KeyGenerator.getInstance(KEY_ALGORITHM);
-        myKeyGenerator.init(KEY_LENGTH);
-        SecretKeySpec newSecretKeySpec =
-                new SecretKeySpec(myKeyGenerator.generateKey().getEncoded(), KEY_ALGORITHM);
-
-        /*add to keystore
-        KeyStore.SecretKeyEntry skEntry = new KeyStore.SecretKeyEntry(newSecretKeySpec);
-        ks.setEntry(groupID, skEntry, new KeyStore.PasswordProtection(appPwd.toCharArray()));
-        ks.setEntry("groupZ", skEntry, new KeyStore.PasswordProtection(appPwd.toCharArray()));
-        //update stored copy of keystore  (can just rewrite as adding a new group is a rare occurrence)
-        writeKeyStore(ks, appPwd.toCharArray());
-*/
-        //encrypt key and write out encrypted file
-        encryptWithPublicKey(newSecretKeySpec, new File("AES key.enc"),"public.crt");
+        // otherwise generate a new key
+        SecretKeySpec sks = genSKS();
         
-        return true;
+        //encrypt key and write out encrypted file - THIS ONLY USED FOR TESTING - WILL NEED TO BE MODIFIED
+        encryptWithPublicKey(sks, new File("AES key.enc"),"public.crt");
 
+        //add to key store
+        KeyStore.SecretKeyEntry skEntry = new KeyStore.SecretKeyEntry(sks);
+        ks.setEntry(groupID, skEntry, new KeyStore.PasswordProtection(appPwdAsArray));
+
+        //update stored copy of keystore  (can just rewrite as adding a new group is a rare occurrence)
+        writeKeyStore();
+  
+        return true;
     } //end addGroupKey
 
-    public static boolean  validate(String appPwd) throws IOException{
+    
+
+    /**
+     * with reference to code from http://www.macs.hw.ac.uk/~ml355/lore/pkencryption.htm 
+     */
+    public void importGroupKey(String groupID, File groupKeyFile) throws GeneralSecurityException, IOException{
+    	// get private key to decrypt key file 
+    	PrivateKey privateKey = (PrivateKey) getKey("mykey");
+
+    	//set up Cipher to decrypt groupKeyFile 
+    	Cipher deCipher = Cipher.getInstance(PUBKEY_ALGORITHM);
+    	deCipher.init(Cipher.DECRYPT_MODE, privateKey);
+
+    	//read and decrypt encoded group key from file  
+    	byte[] groupKey = new byte[KEY_LENGTH];  
+    	FileInputStream fis = new FileInputStream(groupKeyFile);
+     
+    	CipherInputStream cis = new CipherInputStream(fis, deCipher);
+    	cis.read(groupKey);
+    	
+    	//add to key store
+    	SecretKeySpec sks = new SecretKeySpec(groupKey, KEY_ALGORITHM);
+        KeyStore.SecretKeyEntry skEntry = new KeyStore.SecretKeyEntry(sks);
+        ks.setEntry(groupID, skEntry, new KeyStore.PasswordProtection(appPwdAsArray));
+
+        //update stored copy of keystore  (can just rewrite as adding a new group is a rare occurrence)
+        writeKeyStore();
+    } 
+
+    
+    /****************************************************************************************************************
+     * Lists all the groups in the keystore
+     * @throws MissingPwdException
+     * @throws GeneralSecurityException
+     * @throws IOException
+     */
+    public void listGroups() throws MissingPwdException, GeneralSecurityException, IOException {
+    	Enumeration<String> es = ks.aliases();
+    	for (String key : Collections.list(es)){
+    		System.out.println(key + "found");
+    	}
+    } //end listGroups
+
+    //**********************************************************************************************************************************************
+    
+    
+    /****************************************************************************************************************
+     * generates a new SecretKeySpec using the specified key algorithm
+     */
+    private SecretKeySpec genSKS() throws NoSuchAlgorithmException{ 
+    KeyGenerator myKeyGenerator = KeyGenerator.getInstance(KEY_ALGORITHM);
+    myKeyGenerator.init(KEY_LENGTH);
+    return new SecretKeySpec(myKeyGenerator.generateKey().getEncoded(), KEY_ALGORITHM);
+    }
+    
+    /****************************************************************************************************************
+     * retrieves a key from the keystore
+     * @param alias of the key to be retrieved
+     */
+    private Key getKey( String alias)  {
+    	try {
+    		if (ks.containsAlias(alias)){
+    			Key key = ks.getKey(alias, appPwdAsArray);
+    			return key;
+    		}
+    	} catch (GeneralSecurityException e) {
+    		System.out.println( e.getMessage());
+    	}
+
+    	return null;  //ie not able to recover key
+    } //end getKey
+
+
+    /****************************************************************************************************************
+     * Loads the key store from disc
+     * @return
+     * @throws IOException
+     * @throws GeneralSecurityException
+     */
+    private KeyStore loadKeyStore() throws IOException, GeneralSecurityException {
+    	FileInputStream fis = null;
+    	try {
+    		fis = new FileInputStream(KEYSTORE_NAME);
+    		ks.load(fis, appPwdAsArray);
+    	} catch (FileNotFoundException e) {
+    		System.out.println("New keystore created");
+    		//this should only get run if file store doesn't exists at all - creates a new one
+    		ks.load(null);
+    	} finally {
+    		if (fis != null) fis.close();
+    	}
+    	return ks;
+    } //end loadKeyStore
+    
+    
+    /****************************************************************************************************************
+     * Updates the stored copy of the keystore
+     * @throws GeneralSecurityException
+     * @throws IOException
+     */
+    private void writeKeyStore() throws GeneralSecurityException, IOException {
+        FileOutputStream fos = new FileOutputStream(KEYSTORE_NAME);
         try {
-            KeyStore ks = loadKeyStore(appPwd.toCharArray());
+            ks.store(fos, appPwdAsArray);
+        } finally {
+            fos.close();
+        }
+    } //end writeKeyStore
+    
+    /************************************************************************************************************************
+     * Encrypts the group key with a public key and stores the result in a file
+     * @param newSecretKeySpec
+     * @param out
+     * @param certFile
+     * @throws IOException
+     * @throws GeneralSecurityException
+     */
+    private void encryptWithPublicKey(SecretKeySpec sks, File out, String certFile) throws IOException, GeneralSecurityException {
+    	// setup Cipher to do RSA encryption with public key
+    	Cipher enCipher = Cipher.getInstance(PUBKEY_ALGORITHM);
+    	
+    	//read in the certificate from file
+    	FileInputStream certIn = new FileInputStream(certFile);
+    	CertificateFactory cf = CertificateFactory.getInstance("X.509");
+    	X509Certificate cert = (X509Certificate)cf.generateCertificate(certIn);
+    	
+    	//extract public key from certificate
+    	PublicKey pk = cert.getPublicKey();
+    	
+    	// encrypt group key and write to file
+    	byte[] groupKey = sks.getEncoded();
+    	enCipher.init(Cipher.ENCRYPT_MODE, pk);
+    	CipherOutputStream os = new CipherOutputStream(new FileOutputStream(out), enCipher);
+    	os.write(groupKey);
+    	os.close();
+    }
+   
+    
+    /**********************************************************************************************************************8
+     * validates that password (appPwd) provides access to the keystore
+     * @param appPwd
+     * @return
+     * @throws IOException
+     */
+    protected boolean  validate() throws IOException{
+        try {
+            KeyStore ks = loadKeyStore();
             return true;
         } catch (GeneralSecurityException e) {
             return false;
         }
     }
 
-    public static void listGroups() throws MissingPwdException, GeneralSecurityException, IOException {
-        KeyStore ks;
-        String appPwd = AppPwdObj.getInstance().getValue();
-
-        ks = loadKeyStore(appPwd.toCharArray());
-        Enumeration<String> es = ks.aliases();
-        for (String key : Collections.list(es)){
-        	System.out.println(key + "found");
-        }}
+} //end AppKeystore
 
 
-    /**
-     * Loads the key store from disc
-     * @return
-     * @throws IOException
-     * @throws GeneralSecurityException
-     */
-    private static KeyStore loadKeyStore(char[] pwd) throws IOException, GeneralSecurityException {
-        KeyStore ks = KeyStore.getInstance(KEYSTORE_TYPE);
-        FileInputStream fis = null;
-        try {
 
-        	 fis = new FileInputStream(KEYSTORE_NAME);
-            //    fis = new FileInputStream(KEYSTORE_NAME);
-            ks.load(fis, pwd);
-        } catch (FileNotFoundException e) {
-        	System.out.println("New keystore created");
-            //this should only get run if file store doesn't exists at all - creates a new one
-            ks.load(null);
-        } finally {
-            if (fis != null) fis.close();
-        }
-        return ks;
-    } //end loadKeyStore
 
-    /**
-     * Updates the stored copy of the keystore - needs to be given a context in order to get access to the Internal Storage
-     * @throws GeneralSecurityException
-     * @throws IOException
-     */
-    private static void writeKeyStore(KeyStore ks, char[] pwd) throws GeneralSecurityException, IOException {
-        FileOutputStream fos = new FileOutputStream(KEYSTORE_NAME);
-        try {
-            ks.store(fos, pwd);
-        } finally {
-            fos.close();
-        }
-    } //end writeKeyStore
-     
-	  public static  void encryptWithPublicKey(SecretKeySpec newSecretKeySpec, File out, String publicKeyFile) throws IOException, GeneralSecurityException {
-		  // create RSA public key cipher
-		    Cipher pkCipher = Cipher.getInstance("RSA");
-		    // create AES shared key cipher
-		    Cipher aesCipher = Cipher.getInstance("AES");    
-		    byte[] aeskey = newSecretKeySpec.getEncoded();
-	
-		     CertificateFactory cf = CertificateFactory.getInstance("X.509");
-		     X509Certificate cert = (X509Certificate)cf.generateCertificate(new FileInputStream(publicKeyFile));
-		  
-		  // read public key to be used to encrypt the AES key
-    		    byte[] encodedKey = new byte[(int)publicKeyFile.length()];
-    		    new FileInputStream(publicKeyFile).read(encodedKey);
-    		   
-    		    PublicKey pk = cert.getPublicKey();
-    		   
-    		    // write AES key
-    		    pkCipher.init(Cipher.ENCRYPT_MODE, pk);
-    		    CipherOutputStream os = new CipherOutputStream(new FileOutputStream(out), pkCipher);
-    		    os.write(aeskey);
-    		    os.close();
-    		  }
-
-    } //end AppKeystore
