@@ -27,10 +27,10 @@ public class NewTest {
 		apo.setValue("password");
 		aks = new AppKeystore();
 
-//		fis = new FileInputStream("/home/students/jrs300/dream-speech.pdf");
-//		fos = new FileOutputStream("/home/students/jrs300/Dropbox/ShareInSecret/test/dream-speech.pdf.xps");
-	eis = new FileInputStream("/home/students/jrs300/Dropbox/ShareInSecret/test/dream-speech.pdf.xps");
-		dos =    new FileOutputStream("/home/students/jrs300//Dropbox/ShareInSecret/test/mydecrypted file.pdf");
+		fis = new FileInputStream("/home/students/jrs300/dream-speech.pdf");
+		fos = new FileOutputStream("/home/students/jrs300/Dropbox/ShareInSecret/test/dream-speech.pdf.xps");
+//	eis = new FileInputStream("/home/students/jrs300/Dropbox/ShareInSecret/test/dream-speech.pdf.xps");
+//		dos =    new FileOutputStream("/home/students/jrs300//Dropbox/ShareInSecret/test/mydecrypted file.pdf");
 		myString = "In the beginning was the Word, and the Word was with God, and the Word was God."
 			+ "He was with God in the beginning. Through him all things were made; without him nothing was made that has been made."
 			+ "In him was life, and that life was the light of all mankind. "
@@ -39,7 +39,7 @@ public class NewTest {
 //			addGroup("test");
 //		FileCryptor.encryptFile(fis, fos, "test");
 		aks.importGroupKey("test", new File("AES key.enc"));
-		FileCryptor.decryptFile(eis, dos);
+//		FileCryptor.decryptFile(eis, dos);
 //			FileCryptor.encryptString(myString, fos, "My test group");
 //			FileCryptor.decryptFile(fis, fos);
 		

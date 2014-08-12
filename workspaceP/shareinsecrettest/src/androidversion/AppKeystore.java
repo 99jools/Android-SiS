@@ -162,6 +162,7 @@ public class AppKeystore {
     	try {
     		if (ks.containsAlias(alias)){
     			Key key = ks.getKey(alias, appPwdAsArray);
+    			
     			return key;
     		}
     	} catch (GeneralSecurityException e) {
