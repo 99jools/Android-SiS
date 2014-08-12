@@ -13,6 +13,7 @@ import java.security.NoSuchAlgorithmException;
 import java.security.PrivateKey;
 import java.security.PublicKey;
 import java.security.UnrecoverableKeyException;
+import java.security.cert.CertificateException;
 import java.security.cert.CertificateFactory;
 import java.security.cert.X509Certificate;
 import java.security.spec.KeySpec;
@@ -43,12 +44,18 @@ public class AppKeystore {
     private char[] appPwdAsArray;
     private KeyStore ks;
 
-    private AppKeystore() throws MissingPwdException, IOException, GeneralSecurityException{
-    	   String appPwd = AppPwdObj.getInstance().getValue();
-    	   this.appPwdAsArray = appPwd.toCharArray();
-           this.ks = loadKeyStore();
+    public AppKeystore() throws MissingPwdException{
+    	String appPwd = AppPwdObj.getInstance().getValue();
+    	this.appPwdAsArray = appPwd.toCharArray();
+    	try {
+    		this.ks = loadKeyStore(appPwdAsArray);
+    	} catch (IOException e) {
+    		System.out.println( e.getMessage());
+    	} catch (GeneralSecurityException e) {
+    		System.out.println( e.getMessage());
+    	}
+
     }
-    
     
 /**
  * Retrieves the key from the Keystore corresponding to the supplied alias and wraps it as SecretKeySpec
@@ -71,7 +78,7 @@ public class AppKeystore {
      * @throws IOException
      * @throws GeneralSecurityException
      */
-    public boolean addGroupKey(String groupID)
+    public boolean addGroupKey(String groupID, File certIn, File outFile )
             throws MissingPwdException,IOException, GeneralSecurityException{
     
         if (ks.containsAlias(groupID)) return false;  //group already exists
@@ -80,7 +87,7 @@ public class AppKeystore {
         SecretKeySpec sks = genSKS();
         
         //encrypt key and write out encrypted file - THIS ONLY USED FOR TESTING - WILL NEED TO BE MODIFIED
-        encryptWithPublicKey(sks, new File("AES key.enc"),"public.crt");
+        encryptWithPublicKey(sks, certIn, outFile);
 
         //add to key store
         KeyStore.SecretKeyEntry skEntry = new KeyStore.SecretKeyEntry(sks);
@@ -158,33 +165,15 @@ public class AppKeystore {
     			return key;
     		}
     	} catch (GeneralSecurityException e) {
-    		System.out.println( e.getMessage());
+    		e.printStackTrace();
     	}
 
     	return null;  //ie not able to recover key
     } //end getKey
 
 
-    /****************************************************************************************************************
-     * Loads the key store from disc
-     * @return
-     * @throws IOException
-     * @throws GeneralSecurityException
-     */
-    private KeyStore loadKeyStore() throws IOException, GeneralSecurityException {
-    	FileInputStream fis = null;
-    	try {
-    		fis = new FileInputStream(KEYSTORE_NAME);
-    		ks.load(fis, appPwdAsArray);
-    	} catch (FileNotFoundException e) {
-    		System.out.println("New keystore created");
-    		//this should only get run if file store doesn't exists at all - creates a new one
-    		ks.load(null);
-    	} finally {
-    		if (fis != null) fis.close();
-    	}
-    	return ks;
-    } //end loadKeyStore
+   
+
     
     
     /****************************************************************************************************************
@@ -209,7 +198,7 @@ public class AppKeystore {
      * @throws IOException
      * @throws GeneralSecurityException
      */
-    private void encryptWithPublicKey(SecretKeySpec sks, File out, String certFile) throws IOException, GeneralSecurityException {
+    private void encryptWithPublicKey(SecretKeySpec sks, File certFile, File outFile) throws IOException, GeneralSecurityException {
     	// setup Cipher to do RSA encryption with public key
     	Cipher enCipher = Cipher.getInstance(PUBKEY_ALGORITHM);
     	
@@ -224,21 +213,53 @@ public class AppKeystore {
     	// encrypt group key and write to file
     	byte[] groupKey = sks.getEncoded();
     	enCipher.init(Cipher.ENCRYPT_MODE, pk);
-    	CipherOutputStream os = new CipherOutputStream(new FileOutputStream(out), enCipher);
+    	CipherOutputStream os = new CipherOutputStream(new FileOutputStream(outFile), enCipher);
     	os.write(groupKey);
     	os.close();
     }
    
+    /****************************************************************************************************************
+     * Loads the key store from disc
+     * @return
+     * @throws IOException
+     * @throws GeneralSecurityException
+     */
+    private static KeyStore loadKeyStore(char[] pwd) throws IOException, GeneralSecurityException {
+        KeyStore myks = KeyStore.getInstance(KEYSTORE_TYPE);
+        FileInputStream fis = null;
+        try {
+        	fis = new FileInputStream(KEYSTORE_NAME);
+            myks.load(fis, pwd);
+        } catch (FileNotFoundException e) {
+            System.out.println("New keystore created");
+            //this should only get run if file store doesn't exists at all - creates a new one
+
+           myks = initKeyStore(myks);
+        } finally {
+            if (fis != null) fis.close();
+        }
+        return myks;
+    } //end loadKeyStore
     
+    protected static KeyStore  initKeyStore(KeyStore myks) throws GeneralSecurityException, IOException{
+    myks.load(null);
+  
+    
+    //create public/private key pair
+    
+    //write certificate out to file
+    
+    return myks;
+    }
     /**********************************************************************************************************************8
      * validates that password (appPwd) provides access to the keystore
      * @param appPwd
      * @return
      * @throws IOException
      */
-    protected boolean  validate() throws IOException{
+    protected static boolean  validate(String appPwd) throws IOException{
         try {
-            KeyStore ks = loadKeyStore();
+            KeyStore myks = loadKeyStore(appPwd.toCharArray());
             return true;
         } catch (GeneralSecurityException e) {
             return false;

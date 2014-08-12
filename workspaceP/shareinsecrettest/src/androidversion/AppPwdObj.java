@@ -38,5 +38,4 @@ public class AppPwdObj {
         //check that it is possible to access Keystore
         return  AppKeystore.validate(value);
     }
-
 }
