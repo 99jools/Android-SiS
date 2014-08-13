@@ -7,6 +7,8 @@ import java.io.IOException;
 import java.security.GeneralSecurityException;
 import java.security.Key;
 import java.security.KeyFactory;
+import java.security.KeyPair;
+import java.security.KeyPairGenerator;
 import java.security.KeyStore;
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
@@ -36,8 +38,9 @@ import javax.crypto.spec.SecretKeySpec;
 public class AppKeystore {
 
     public static final String KEY_ALGORITHM = "AES";
-    public static final String PUBKEY_ALGORITHM = "RSA";
+    public static final String KEYPAIR_ALGORITHM = "RSA";
     public static final int KEY_LENGTH = 128;
+    public static final int KEYPAIR_LENGTH = 1024;
     public static final String KEYSTORE_NAME = "SiSKeyStore.ks";
     public static final String KEYSTORE_TYPE = "JCEKS";
     
@@ -109,7 +112,7 @@ public class AppKeystore {
     	PrivateKey privateKey = (PrivateKey) getKey("mykey");
 
     	//set up Cipher to decrypt groupKeyFile 
-    	Cipher deCipher = Cipher.getInstance(PUBKEY_ALGORITHM);
+    	Cipher deCipher = Cipher.getInstance(KEYPAIR_ALGORITHM);
     	deCipher.init(Cipher.DECRYPT_MODE, privateKey);
 
     	//read and decrypt encoded group key from file  
@@ -161,6 +164,8 @@ public class AppKeystore {
     private Key getKey( String alias)  {
     	try {
     		if (ks.containsAlias(alias)){
+    			
+    			
     			Key key = ks.getKey(alias, appPwdAsArray);
     			
     			return key;
@@ -201,16 +206,10 @@ public class AppKeystore {
      */
     private void encryptWithPublicKey(SecretKeySpec sks, File certFile, File outFile) throws IOException, GeneralSecurityException {
     	// setup Cipher to do RSA encryption with public key
-    	Cipher enCipher = Cipher.getInstance(PUBKEY_ALGORITHM);
+    	Cipher enCipher = Cipher.getInstance(KEYPAIR_ALGORITHM);
     	
-    	//read in the certificate from file
-    	FileInputStream certIn = new FileInputStream(certFile);
-    	CertificateFactory cf = CertificateFactory.getInstance("X.509");
-    	X509Certificate cert = (X509Certificate)cf.generateCertificate(certIn);
-    	
-    	//extract public key from certificate
-    	PublicKey pk = cert.getPublicKey();
-    	
+    	PublicKey pk = getPublicKey(certFile);
+      	
     	// encrypt group key and write to file
     	byte[] groupKey = sks.getEncoded();
     	enCipher.init(Cipher.ENCRYPT_MODE, pk);
@@ -232,43 +231,118 @@ public class AppKeystore {
         	fis = new FileInputStream(KEYSTORE_NAME);
             myks.load(fis, pwd);
         } catch (FileNotFoundException e) {
-            System.out.println("New keystore created");
+            System.out.println("Please create your keystore with 'keytool' as per User Manual");
             //this should only get run if file store doesn't exists at all - creates a new one
 
-           myks = initKeyStore(myks);
+           myks.load(null);
         } finally {
             if (fis != null) fis.close();
         }
         return myks;
     } //end loadKeyStore
     
-    protected static KeyStore  initKeyStore(KeyStore myks) throws GeneralSecurityException, IOException{
-    myks.load(null);
-  
-    
-    //create public/private key pair
-    
-    //write certificate out to file
-    
-    return myks;
+private PrivateKey getPrivateKey(){
+	PrivateKey key = null;
+	try {
+		key = (PrivateKey) ks.getKey("rsassokey", appPwdAsArray);
+	} catch (UnrecoverableKeyException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	} catch (KeyStoreException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	} catch (NoSuchAlgorithmException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
+	return key;
+}
+
+private PublicKey getPublicKey(File certFile){
+  	
+	//read in the certificate from file
+	FileInputStream certIn;
+	PublicKey pk = null;
+	try {
+		certIn = new FileInputStream(certFile);
+		CertificateFactory cf = CertificateFactory.getInstance("X.509");
+		X509Certificate cert = (X509Certificate) cf.generateCertificate(certIn);
+		pk = cert.getPublicKey();
+	} catch (FileNotFoundException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	} catch (CertificateException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
+	return pk;
+}
+
+public void testEnc(String s, File certFile, File outFile) throws IOException, GeneralSecurityException {
+	// setup Cipher to do RSA encryption with public key
+	Cipher enCipher = Cipher.getInstance(KEYPAIR_ALGORITHM);
+	
+	PublicKey pk = getPublicKey(certFile);
+  	
+	// encrypt group key and write to file
+	byte[] stuff = s.getBytes("UTF-8");
+	enCipher.init(Cipher.ENCRYPT_MODE, pk);
+	CipherOutputStream os = new CipherOutputStream(new FileOutputStream(outFile), enCipher);
+	os.write(stuff);
+	os.close();
+}
+
+public void testDec(File encFile, File outFile) throws IOException, GeneralSecurityException {
+	// setup Cipher to do RSA encryption 
+	Cipher deCipher = Cipher.getInstance(KEYPAIR_ALGORITHM);
+	
+	PrivateKey pk = getPrivateKey();
+
+	deCipher.init(Cipher.DECRYPT_MODE, pk);
+	FileOutputStream fos = new FileOutputStream(outFile);
+	CipherInputStream cis = new CipherInputStream(new FileInputStream(encFile), deCipher);
+
+
+    //read and decrypt file
+    byte[] block = new byte[KEYPAIR_LENGTH];
+    int bytesRead;
+    bytesRead = cis.read(block);
+    while (bytesRead != -1) {
+        fos.write(block,0,bytesRead);
+        bytesRead = cis.read(block);  //read next block
     }
+    //close file
+    fos.close();
+    cis.close();
+
+}
+
+
     /**********************************************************************************************************************8
-     * validates that password (appPwd) provides access to the keystore
+     * validates that password (appPwd) provides access to the keystore and that keystore is initialised with a keypair
      * @param appPwd
      * @return
      * @throws IOException
      */
-    protected static boolean  validate(String appPwd) throws IOException{
-        try {
-            KeyStore myks = loadKeyStore(appPwd.toCharArray());
-            return true;
-        } catch (GeneralSecurityException e) {
-            return false;
-        }
-    }
+    public static boolean  validate(String appPwd) throws IOException{
+    	try {
+    		KeyStore ks = loadKeyStore(appPwd.toCharArray());
+    		ks.load(new FileInputStream(KEYSTORE_NAME),
+    				appPwd.toCharArray());
+    		Key key = ks.getKey("rsassokey",
+    				appPwd.toCharArray());
+    		FileOutputStream privateKyFileOs = 
+    			new FileOutputStream("/home/students/jrs300/AndroidStudioProjects/workspaceP/shareinsecrettest/rsaprivate.key");
+    		privateKyFileOs.write(key.getEncoded());
+    		privateKyFileOs.close();
+    	    return true;
+} catch (GeneralSecurityException e) {
+	e.printStackTrace();
+	return false;
+}
+}
 
 } //end AppKeystore
-
 
 
 

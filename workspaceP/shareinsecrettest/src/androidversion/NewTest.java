@@ -38,11 +38,15 @@ public class NewTest {
 
 //			addGroup("test");
 //		FileCryptor.encryptFile(fis, fos, "test");
-		aks.importGroupKey("test", new File("AES key.enc"));
+//		aks.importGroupKey("test", new File("AES key.enc"));
 //		FileCryptor.decryptFile(eis, dos);
 //			FileCryptor.encryptString(myString, fos, "My test group");
 //			FileCryptor.decryptFile(fis, fos);
-		
+//	aks.testEnc("word", new File("/home/students/jrs300/AndroidStudioProjects/workspaceP/shareinsecrettest/rsacert.cert"),
+//		new File("/home/students/jrs300/AndroidStudioProjects/workspaceP/shareinsecrettest/rsaencrypted.enc") );
+	
+	aks.testDec( new File("/home/students/jrs300/AndroidStudioProjects/workspaceP/shareinsecrettest/rsaencrypted.enc"),
+			new File("/home/students/jrs300/AndroidStudioProjects/workspaceP/shareinsecrettest/myString.txt") );
 	}
 
 
