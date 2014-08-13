@@ -88,7 +88,7 @@ public class AppKeystore {
 
         // otherwise generate a new key
         SecretKeySpec sks = genSKS();
-        
+              
         //encrypt key and write out encrypted file - THIS ONLY USED FOR TESTING - WILL NEED TO BE MODIFIED
         encryptWithPublicKey(sks, certIn, outFile);
 
@@ -116,7 +116,7 @@ public class AppKeystore {
     	deCipher.init(Cipher.DECRYPT_MODE, privateKey);
 
     	//read and decrypt encoded group key from file  
-    	byte[] groupKey = new byte[KEY_LENGTH];  
+    	byte[] groupKey = new byte[KEY_LENGTH/8];   //need to convert to bytes
     	FileInputStream fis = new FileInputStream(groupKeyFile);
      
     	CipherInputStream cis = new CipherInputStream(fis, deCipher);
@@ -168,12 +168,22 @@ public class AppKeystore {
     			
     			
     			Key key = ks.getKey(alias, appPwdAsArray);
-    			
+ System.out.println(key.getEncoded().length)   ;			
+    	        FileOutputStream temp = new FileOutputStream(new File("/home/students/jrs300/AndroidStudioProjects/workspaceP/shareinsecrettest/secretkeyforjulie"));
+    	        temp.write(key.getEncoded());
+    	        temp.close();
+    	        
     			return key;
     		}
     	} catch (GeneralSecurityException e) {
     		e.printStackTrace();
-    	}
+    	} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
     	return null;  //ie not able to recover key
     } //end getKey
