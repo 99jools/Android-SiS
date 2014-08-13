@@ -6,6 +6,9 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.security.GeneralSecurityException;
+
+import javax.crypto.spec.SecretKeySpec;
+
 import org.junit.Test;
 
 public class NewTest {
@@ -36,7 +39,12 @@ public class NewTest {
 			+ "In him was life, and that life was the light of all mankind. "
 			+" The light shines in the darkness, and the darkness has not overcome it.";
 
-//			addGroup("test");
+		
+			SecretKeySpec insks = 	aks.addGroupKey("julie", new File("/home/students/jrs300/AndroidStudioProjects/workspaceP/shareinsecrettest/rsacert.cert"),
+					new File("/home/students/jrs300/AndroidStudioProjects/workspaceP/shareinsecrettest/rsaencrypted.enc"));
+			
+			SecretKeySpec outsks = aks.importGroupKey("julie",  new File("/home/students/jrs300/AndroidStudioProjects/workspaceP/shareinsecrettest/rsaencrypted.enc"));
+			assertTrue(insks.getEncoded().equals(outsks.getEncoded()));
 //		FileCryptor.encryptFile(fis, fos, "test");
 //		aks.importGroupKey("test", new File("AES key.enc"));
 //		FileCryptor.decryptFile(eis, dos);
@@ -45,8 +53,8 @@ public class NewTest {
 //	aks.testEnc("word", new File("/home/students/jrs300/AndroidStudioProjects/workspaceP/shareinsecrettest/rsacert.cert"),
 //		new File("/home/students/jrs300/AndroidStudioProjects/workspaceP/shareinsecrettest/rsaencrypted.enc") );
 	
-	aks.testDec( new File("/home/students/jrs300/AndroidStudioProjects/workspaceP/shareinsecrettest/rsaencrypted.enc"),
-			new File("/home/students/jrs300/AndroidStudioProjects/workspaceP/shareinsecrettest/myString.txt") );
+//	aks.testDec( new File("/home/students/jrs300/AndroidStudioProjects/workspaceP/shareinsecrettest/rsaencrypted.enc"),
+//			new File("/home/students/jrs300/AndroidStudioProjects/workspaceP/shareinsecrettest/myString.txt") );
 	}
 
 

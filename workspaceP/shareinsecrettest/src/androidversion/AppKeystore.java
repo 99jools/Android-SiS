@@ -81,10 +81,10 @@ public class AppKeystore {
      * @throws IOException
      * @throws GeneralSecurityException
      */
-    public boolean addGroupKey(String groupID, File certIn, File outFile )
+    public SecretKeySpec addGroupKey(String groupID, File certIn, File outFile )
             throws MissingPwdException,IOException, GeneralSecurityException{
     
-        if (ks.containsAlias(groupID)) return false;  //group already exists
+ //       if (ks.containsAlias(groupID)) return false;  //group already exists
 
         // otherwise generate a new key
         SecretKeySpec sks = genSKS();
@@ -99,7 +99,7 @@ public class AppKeystore {
         //update stored copy of keystore  (can just rewrite as adding a new group is a rare occurrence)
         writeKeyStore();
   
-        return true;
+        return sks;
     } //end addGroupKey
 
     
@@ -107,9 +107,9 @@ public class AppKeystore {
     /**
      * with reference to code from http://www.macs.hw.ac.uk/~ml355/lore/pkencryption.htm 
      */
-    public void importGroupKey(String groupID, File groupKeyFile) throws GeneralSecurityException, IOException{
+    public SecretKeySpec importGroupKey(String groupID, File groupKeyFile) throws GeneralSecurityException, IOException{
     	// get private key to decrypt key file 
-    	PrivateKey privateKey = (PrivateKey) getKey("mykey");
+    	PrivateKey privateKey = getPrivateKey();
 
     	//set up Cipher to decrypt groupKeyFile 
     	Cipher deCipher = Cipher.getInstance(KEYPAIR_ALGORITHM);
@@ -129,6 +129,7 @@ public class AppKeystore {
 
         //update stored copy of keystore  (can just rewrite as adding a new group is a rare occurrence)
         writeKeyStore();
+        return sks;
     } 
 
     
@@ -204,7 +205,7 @@ public class AppKeystore {
      * @throws IOException
      * @throws GeneralSecurityException
      */
-    private void encryptWithPublicKey(SecretKeySpec sks, File certFile, File outFile) throws IOException, GeneralSecurityException {
+    protected void encryptWithPublicKey(SecretKeySpec sks, File certFile, File outFile) throws IOException, GeneralSecurityException {
     	// setup Cipher to do RSA encryption with public key
     	Cipher enCipher = Cipher.getInstance(KEYPAIR_ALGORITHM);
     	
