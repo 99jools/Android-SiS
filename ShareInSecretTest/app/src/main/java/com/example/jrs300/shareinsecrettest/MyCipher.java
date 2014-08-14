@@ -1,7 +1,5 @@
 package com.example.jrs300.shareinsecrettest;
 
-import android.util.Log;
-
 import java.io.UnsupportedEncodingException;
 import java.nio.ByteBuffer;
 import java.security.GeneralSecurityException;
@@ -27,37 +25,44 @@ public class MyCipher {
     private Cipher mCipher;
     private byte[] iv;
 
+    /**
+     * this constructor used to create encryption cipher
+     * @param groupID
+     * @throws MissingPwdException
+     */
     public MyCipher(String groupID) throws MissingPwdException {
-Log.e("encrypt", groupID);
-        this.groupSKS = AppKeystore.getKeySpec(groupID);
-        this.groupID = groupID;
-
         try {
-
+            AppKeystore aks = new AppKeystore();
+            this.groupSKS = aks.getSKS(groupID);
+            this.groupID = groupID;
             this.mCipher = Cipher.getInstance(CIPHER_ALGORITHM);
             mCipher.init(Cipher.ENCRYPT_MODE, groupSKS);
             this.iv =  mCipher.getIV();  //array length will be equivalent to AES blocksize
         } catch (GeneralSecurityException e) {
-            Log.e("MyCipher: ", e.getMessage());
+            System.out.println(e.getMessage());
         }
     }
 
+    /**
+     * this constructor used to create decryption cipher
+     * @param gaba
+     * @param iv
+     * @throws MissingPwdException
+     */
     public MyCipher(byte[] gaba, byte[] iv ) throws MissingPwdException {
         try {
-
+            AppKeystore aks = new AppKeystore();
             this.iv = iv;
             IvParameterSpec ips =  new IvParameterSpec(iv);
             this.groupID = new String(gaba, "UTF-8");
-            this.groupSKS = AppKeystore.getKeySpec(groupID);
+            this.groupSKS = aks.getSKS(groupID);
             this.mCipher = Cipher.getInstance(CIPHER_ALGORITHM);
             mCipher.init(Cipher.DECRYPT_MODE, groupSKS,ips);
         } catch (GeneralSecurityException e) {
-            Log.e("MyCipher: ", e.getMessage());
+            System.out.println(e.getMessage());
         } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
         }
-
-        Log.e("decrypt", groupID);
     }
 
     public Cipher getmCipher() {
@@ -76,7 +81,7 @@ Log.e("encrypt", groupID);
         try {
             return groupID.getBytes("UTF-8");
         } catch (UnsupportedEncodingException e) {
-            Log.e("MyCipher: ", e.getMessage());
+            System.out.println( e.getMessage());
         }
         return null;
     }

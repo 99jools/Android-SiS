@@ -63,8 +63,10 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" exported="" name="appcompat-v7-19.1.0" level="project" />
     <orderEntry type="library" exported="" name="dropbox-sync-sdk-android" level="project" />
+    <orderEntry type="library" exported="" name="core-1.51.0.0" level="project" />
     <orderEntry type="library" exported="" name="support-annotations-20.0.0" level="project" />
     <orderEntry type="library" exported="" name="support-v4-20.0.0" level="project" />
+    <orderEntry type="library" exported="" name="prov-1.51.0.0" level="project" />
     <orderEntry type="module" module-name="dropboxChooserSDK" exported="" />
   </component>
 </module>

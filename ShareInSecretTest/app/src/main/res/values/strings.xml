@@ -22,5 +22,6 @@
     <string name="list_groups">List Groups</string>
     <string name="add_group">Create new group</string>
     <string name="title_activity_encrypt">EncryptActivity</string>
+    <string name="title_activity_my_main">MyMainActivity</string>
 
 </resources>
