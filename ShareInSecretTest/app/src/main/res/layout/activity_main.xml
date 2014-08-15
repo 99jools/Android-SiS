@@ -3,12 +3,32 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     tools:context="com.example.jrs300.shareinsecrettest.MainActivity">
+    <EditText
+        android:id="@+id/text_pwd"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPassword"
+        android:visibility="gone"
+        android:ems="10"
+        android:layout_alignParentTop="true"
+        android:layout_toLeftOf="@+id/textView2"
+        android:layout_marginTop="34dp" />
+
+    <Button
+        android:id="@+id/button_pwd"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Submit"
+        android:visibility="gone"
+        android:layout_alignBottom="@+id/text_pwd"
+        android:layout_toRightOf="@+id/textView2"
+        android:onClick="onClickPwd" />
     <TextView
+        android:id="@+id/textView2"
+        android:text="popup window should display here"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:id="@+id/textView2"
-        android:text="default"
         android:layout_marginBottom="60dp"
         android:layout_above="@+id/button_OK"
         android:focusable="false"
@@ -17,18 +37,18 @@
 
     <TextView
         android:id="@+id/dummy"
+        android:text=""
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text=""
         android:layout_below="@+id/textView2"
         android:layout_centerHorizontal="true" />
 
     <Button
         android:id="@+id/button_OK"
+        android:text="@string/ok"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
-        android:text="@string/ok"
         android:onClick="onProceed"
         android:layout_gravity="center_vertical"
         android:layout_centerVertical="true"
@@ -36,57 +56,12 @@
 
     <Button
         android:id="@+id/button_unlink"
+        android:text="@string/unlink"
+        android:onClick="onClickUnlink"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:text="@string/unlink"
-        android:onClick="onClickUnlink"
         android:layout_gravity="center_vertical"
         android:layout_alignTop="@+id/button_OK"
         android:layout_toRightOf="@+id/dummy" />
-
-    <Button
-        style="?android:attr/buttonStyleSmall"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Changetext
-        "
-        android:id="@+id/button"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginBottom="46dp"
-        android:onClick="methodA" />
-
-    <Button
-        style="?android:attr/buttonStyleSmall"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Toast"
-        android:id="@+id/button2"
-        android:layout_alignTop="@+id/button"
-        android:layout_alignParentEnd="true"
-        android:onClick="methodB" />
-
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="textPassword"
-        android:visibility="gone"
-        android:ems="10"
-        android:id="@+id/text_pwd"
-        android:layout_alignParentTop="true"
-        android:layout_toLeftOf="@+id/textView2"
-        android:layout_marginTop="34dp" />
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Submit"
-        android:visibility="gone"
-        android:id="@+id/button_pwd"
-        android:layout_alignBottom="@+id/text_pwd"
-        android:layout_toRightOf="@+id/textView2"
-        android:onClick="onClickPwd" />
-
-
 </RelativeLayout>

@@ -8,14 +8,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 
-import com.example.jrs300.shareinsecrettest.AppKeystore;
-import com.example.jrs300.shareinsecrettest.MissingPwdException;
-import com.example.jrs300.shareinsecrettest.R;
-
+import java.io.File;
 import java.io.IOException;
 import java.security.GeneralSecurityException;
 
-public class AddGroupActivity extends Activity {
+public class ImportGroupActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,7 +51,8 @@ public class AddGroupActivity extends Activity {
 
 
             try {
-                AppKeystore.addGroupKey(groupID);
+                AppKeystore aks = new AppKeystore();
+                aks.importGroupKey(groupID, new File("TEMP"));
             } catch (MissingPwdException e) {
                 Log.e("new group", e.getMessage());
             } catch (IOException e) {

@@ -22,30 +22,31 @@ public class FileCryptor {
         // dummy constructor to prevent accidental instantiation
     }
 
-
     public static  void encryptFile(FileInputStream fis,FileOutputStream fos, String groupID)
-            throws MissingPwdException, IOException {
+            throws MissingPwdException {
 
         MyCipher encryptionCipher = new MyCipher(groupID);
 
         //write metadata to FileOutputStream
-        fos.write(encryptionCipher.getGroupLength());
-        fos.write(encryptionCipher.getGroupAsByteArray());
-        fos.write(encryptionCipher.getIv());
+        try {
+            fos.write(encryptionCipher.getGroupLength());
+            fos.write(encryptionCipher.getGroupAsByteArray());
+            fos.write(encryptionCipher.getIv());
+            //wrap fos in cipherstream to encrypt remaining blocks
+            CipherOutputStream cos = new CipherOutputStream(fos, encryptionCipher.getmCipher());
+            byte[] block = new byte[MyCipher.AES_BLOCKSIZE];
+            int bytesRead = fis.read(block);
 
-        //wrap fos in cipherstream to encrypt remaining blocks
-        CipherOutputStream cos = new CipherOutputStream(fos, encryptionCipher.getmCipher());
-        byte[] block = new byte[MyCipher.AES_BLOCKSIZE];
-        int bytesRead = fis.read(block);
-
-        //write data to output file and read next block
-        while (bytesRead != -1) {
-            cos.write(block, 0, bytesRead);
-            bytesRead = fis.read(block);
+            //write data to output file and read next block
+            while (bytesRead != -1) {
+                cos.write(block, 0, bytesRead);
+                bytesRead = fis.read(block);
+            }
+        }catch(IOException e){
+            e.printStackTrace();
         }
-        fis.close();
-        cos.close();
-          } //end EncryptFile
+
+    } //end EncryptFile
 
 
     public static void encryptString(String plaintextAsString, FileOutputStream fos, String groupID)
@@ -85,17 +86,17 @@ public class FileCryptor {
 int b = 0;
         byte [] bytes = new byte[4];
         b=fis.read(bytes);
-Log.e("bytes read", " "+b);
+Log.d("bytes read", " "+b);
         int len = ByteBuffer.wrap(bytes).getInt();
 
         byte[] gaba = new byte[len];
         b=fis.read(gaba);
-Log.e("bytes read", " "+b);
-  Log.e("bytes read", new String(gaba, "UTF-8")+"xxxx");
+Log.d("bytes read", " "+b);
+  Log.d("bytes read", new String(gaba, "UTF-8")+"xxxx");
 
         byte[] initVector = new byte[MyCipher.AES_BLOCKSIZE];
         b=fis.read(initVector);
-Log.e("bytes read", " "+b);
+Log.d("bytes read", " "+b);
 
 
         //setup decryption

@@ -39,7 +39,7 @@ public class AppPwdObj {
     public boolean setValue(String value) throws IOException{
         this.value = value;
         //check that it is possible to access Keystore
-        return  AppKeystore.validate(value, context);
+        return  AppKeystore.validate(value);
     }
 
     public Context getContext(){

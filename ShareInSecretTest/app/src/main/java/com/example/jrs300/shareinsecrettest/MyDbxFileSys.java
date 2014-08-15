@@ -16,13 +16,13 @@ import java.util.List;
 /**
  * Created by jrs300 on 07/08/14.
  */
-public class MyDbxFiles {
+public class MyDbxFileSys {
     private DbxAccountManager mDbxAcctMgr;
     private DbxFileSystem mDbxFileSys;
     private DbxPath root;
 
     //constructor
-    public MyDbxFiles(Context context) throws DbxException.Unauthorized {
+    public MyDbxFileSys(Context context) throws DbxException.Unauthorized {
         this.mDbxAcctMgr = new DropboxSetup(context.getApplicationContext()).getAccMgr();
         this.mDbxFileSys = DbxFileSystem.forAccount(mDbxAcctMgr.getLinkedAccount());
         this.root = new DbxPath("/ShareInSecret");
@@ -33,7 +33,13 @@ public class MyDbxFiles {
     }
 
 
-
+    /**
+     * Overloaded method to generate a DbxFile to use as output file
+     * Uses just a filename as input and adds .xps to make the output filename
+     * @param filename
+     * @return
+     * @throws IOException
+     */
     public DbxFile getOutFile(String filename) throws IOException {
         String savename = filename + ".xps";
         DbxPath savePath = new DbxPath(this.root, savename);
@@ -45,7 +51,7 @@ public class MyDbxFiles {
         } else return dbxFileSys.open(savePath);
     }
 
-    //create overloaded method for use when input file is just a string
+
     public DbxFile getOutFile(File inFile) throws IOException {
          return getOutFile(inFile.getName());
     }

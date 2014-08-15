@@ -101,10 +101,10 @@ public class AppKeystore {
      * @throws GeneralSecurityException
      * @throws IOException
      */
-    public void listGroups() throws MissingPwdException, GeneralSecurityException, IOException {
-        Enumeration<String> es = ks.aliases();
+    public static void listGroups(AppKeystore aks) throws MissingPwdException, GeneralSecurityException, IOException {
+        Enumeration<String> es = aks.ks.aliases();
         for (String key : Collections.list(es)){
-            System.out.println(key + "found");
+            Log.d("Listgroups: ", key + "found");
         }
     } //end listGroups
 

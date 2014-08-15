@@ -18,10 +18,11 @@
     <string name="create_new_document">Create New Document</string>
     <string name="enter_filename">Enter filename for save (including extension)</string>
     <string name="encrypt_save">Encrypt and Save</string>
-    <string name="title_activity_add_group">AddGroupActivity</string>
+    <string name="title_activity_import_group">AddGroupActivity</string>
     <string name="list_groups">List Groups</string>
-    <string name="add_group">Create new group</string>
+    <string name="import_group">Import new group</string>
     <string name="title_activity_encrypt">EncryptActivity</string>
     <string name="title_activity_my_main">MyMainActivity</string>
+    <string name="encrypt_existing">Encrypt Existing File</string>
 
 </resources>

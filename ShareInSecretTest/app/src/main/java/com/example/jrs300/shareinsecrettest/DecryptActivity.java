@@ -27,7 +27,7 @@ import java.util.List;
 
 public class DecryptActivity extends ListActivity {
 
-    private MyDbxFiles mDbx;
+    private MyDbxFileSys mDbx;
     private DbxFileInfo mCurrentNode = null;
     private DbxFileInfo mRootNode = null;
     private List<DbxFileInfo> fcFileInfo;
@@ -45,7 +45,7 @@ public class DecryptActivity extends ListActivity {
         //get DbxFileSystem and root folders
 
         try {
-            this.mDbx = new MyDbxFiles(this);
+            this.mDbx = new MyDbxFileSys(this);
             fcFileInfo = mDbx.listRoot();
             refreshFileList();
         } catch (DbxException unauthorized) {

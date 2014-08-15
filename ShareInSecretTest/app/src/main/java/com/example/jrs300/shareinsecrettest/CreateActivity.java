@@ -1,9 +1,7 @@
 package com.example.jrs300.shareinsecrettest;
 
 import android.app.Activity;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -79,7 +77,7 @@ public class CreateActivity extends Activity {
         else {
 
 
-            DbxFile dbxOut = new MyDbxFiles(this).getOutFile(saveName);
+            DbxFile dbxOut = new MyDbxFileSys(this).getOutFile(saveName);
             FileOutputStream fos = dbxOut.getWriteStream();
 
             //encrypt file and write to Dropbox

@@ -2,19 +2,25 @@ package com.example.jrs300.shareinsecrettest;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.dropbox.sync.android.DbxAccountManager;
+
 import java.io.IOException;
 import java.security.GeneralSecurityException;
 
@@ -24,14 +30,15 @@ public class MainActivity extends Activity {
     private static final int ENCRYPT_CHOOSER = 1111;
     private DbxAccountManager mDbxAcctMgr;
  //   private DbxAccount mDbxAcct;
+    private PopupWindow pwindow;
     private TextView mTextOutput;
     private Button mButtonUnlink;
-    private Button mButtonOK;
+    private Button mButtonOK;     // make this the button to trigger the popup
     private Button mButtonPwd;
     private EditText getPwd;
     private boolean linked;
     private AppPwdObj apo;
-    private String test;
+
 
 
     @Override
@@ -41,12 +48,25 @@ public class MainActivity extends Activity {
         apo = AppPwdObj.makeObj(this.getApplicationContext());
         mTextOutput = (TextView) findViewById(R.id.textView2);  //set up variable linked to TextView
         mButtonUnlink = (Button) findViewById(R.id.button_unlink);
-        mButtonOK = (Button) findViewById(R.id.button_OK);
+
         mDbxAcctMgr = new DropboxSetup(this.getApplicationContext()).getAccMgr();
-        getPwd = (EditText) findViewById(R.id.text_pwd);
+
         mButtonPwd = (Button) findViewById(R.id.button_pwd);
-        test = "in onCreate";
+
+
+
+        mButtonOK = (Button) findViewById(R.id.button_OK);
+        mButtonOK.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                getPopupWindow();
+            }
+        });
+
     }
+
+
 
 
     @Override
@@ -55,11 +75,11 @@ public class MainActivity extends Activity {
         linked = mDbxAcctMgr.hasLinkedAccount();
         if (linked) processLinked();
         else processUnlinked();
-        test = "in onResume";
         try {
             apo.getValue();
 
         } catch (MissingPwdException e) {
+            getPopupWindow();
             showToast("Please enter Master Password");
             getPwd.setVisibility(View.VISIBLE);
             mButtonPwd.setVisibility(View.VISIBLE);
@@ -107,7 +127,7 @@ public class MainActivity extends Activity {
                 return true;
 
             case R.id.action_addgroup:
-                intent = new Intent(this, AddGroupActivity.class);
+                intent = new Intent(this, ImportGroupActivity.class);
                 startActivity(intent);
                 return true;
 
@@ -127,6 +147,7 @@ public class MainActivity extends Activity {
                     public void onClick(DialogInterface dialogInterface, int i) {recreate();}
                 });
                 // create alert dialog
+
                 AlertDialog alertDialog = ad.create();
                 alertDialog.show();
                 return true;
@@ -134,7 +155,7 @@ public class MainActivity extends Activity {
           case R.id.action_listgroups:
 
                 try {
-                    AppKeystore.listGroups();
+                    AppKeystore.listGroups(new AppKeystore());
                 } catch (MissingPwdException e) {
                     Log.e("listgroups",e.getMessage());
                 } catch (GeneralSecurityException e) {
@@ -169,10 +190,10 @@ public class MainActivity extends Activity {
         Boolean confirm = null;
         try {
             confirm =  apo.setValue(appPwd);
-
             showToast("Master password accepted");
             getPwd.setVisibility(View.GONE);
             mButtonPwd.setVisibility(View.GONE);
+            pwindow.dismiss();
 
         } catch (IOException e) {
             showToast("Error entering Master password - please retry");
@@ -216,7 +237,6 @@ public class MainActivity extends Activity {
 
 
     public void processUnlinked(){
-        Log.e("method call", "processUnLinked");
         mTextOutput.setText("This app needs access a dropbox account");
         mButtonOK.setText("Link to Dropbox");
         mButtonUnlink.setVisibility(View.GONE);
@@ -241,18 +261,26 @@ public class MainActivity extends Activity {
 
     }
 
+    private void getPopupWindow()  {
+        LayoutInflater inflater = (LayoutInflater) MainActivity.this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View layout = inflater.inflate(R.layout.popup_pwd,
+                (ViewGroup) findViewById(R.id.popup_element));
+        getPwd = (EditText) findViewById(R.id.text_pwd);
+        pwindow = new PopupWindow(layout, 300, 370, true);
+        pwindow.showAtLocation(layout, Gravity.CENTER, 0, 0);
+
+    }
+    public void onClickClose(View v) {
+        pwindow.dismiss();
+
+    }
+
+
     //****************************************************************************************************************
     public void showToast(String message) {
         Toast toast = Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG);
         toast.show();
     }
-public void methodA(View v){
-    test = "This text is set in methodA";
 }
+//******************************************************************************************************************************************
 
-    public void methodB(View v){
-        showToast(test);
-    }
-
-
-}
