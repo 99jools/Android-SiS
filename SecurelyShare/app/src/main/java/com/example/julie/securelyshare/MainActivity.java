@@ -3,13 +3,16 @@ package com.example.julie.securelyshare;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.Menu;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.dropbox.sync.android.DbxAccountManager;
 
@@ -23,7 +26,7 @@ public class MainActivity extends Activity {
     private AppPwdObj apo;
 
     private TextView mTextOutput;
-    private Button mButtonUnlink;
+
     private Button mButtonOK;
     private Button mButtonPwd;
     private EditText getPwd;
@@ -33,27 +36,72 @@ public class MainActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-     //   setContentView(R.layout.activity_main);
-        setContentView(R.layout.fragment_layout);
+        setContentView(R.layout.activity_main);
 
-//************************************************************************************
+        //stuff from original version
+
+        setContentView(R.layout.activity_main);
+        apo = AppPwdObj.makeObj(this.getApplicationContext());
+        mTextOutput = (TextView) findViewById(R.id.textView2);  //set up variable linked to TextView
+        mButtonOK = (Button) findViewById(R.id.button_OK);
+        mDbxAcctMgr = new DropboxSetup(this.getApplicationContext()).getAccMgr();
+//        getPwd = (EditText) findViewById(R.id.text_pwd);
+//        mButtonPwd = (Button) findViewById(R.id.button_pwd);
+
+        // Hiding Alpha pane only applies on portrait
         int screenOrientation = getResources().getConfiguration().orientation;
-        if (screenOrientation == Configuration.ORIENTATION_PORTRAIT){
-
-        // Code to run whilst device is portrait goes here
+        if (screenOrientation == Configuration.ORIENTATION_PORTRAIT) {
             hideAlphaPane();
+
+            View omegaPane = findViewById(R.id.right);
+            omegaPane.setOnTouchListener(new OnSwipeTouchListener(this) {
+                @Override
+                public void onSwipeLeft(){
+                    hideAlphaPane();
+                    super.onSwipeLeft();
+                }
+
+                public void onSwipeRight(){
+                    showAlphaPane();
+                    super.onSwipeRight();
+                }
+
+                @Override
+                public boolean onTouch(View v, MotionEvent event) {
+                    hideAlphaPane();
+                    return super.onTouch(v, event);
+                }
+            });
         }
-
-
-
     }
 
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        linked = mDbxAcctMgr.hasLinkedAccount();
+        if (linked) processLinked();
+        else {
+            mTextOutput.setText("This app needs access a dropbox account");
+            mButtonOK.setText("Link to Dropbox");
+        }
+        try {
+            apo.getValue();
+
+        } catch (MissingPwdException e) {
+            showToast("Please enter Master Password");
+            getPwd.setVisibility(View.VISIBLE);
+            mButtonPwd.setVisibility(View.VISIBLE);
+        }
+
+    }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
+
 
     /****************NOT IMPLEMENTED YET*********************************
      *
@@ -149,6 +197,44 @@ public class MainActivity extends Activity {
         alertDialog.show();
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == REQUEST_LINK_TO_DBX) {
+            if (resultCode == Activity.RESULT_OK) {
+                //start next activity
+                linked = true;
+showToast("Completed link to Dropbox - now ready for next activity");
+            } else {
+                showToast("Link to Dropbox failed or was cancelled.");
+            }
+        } else if (requestCode == ENCRYPT_CHOSEN) {
+            if (resultCode == Activity.RESULT_OK) {
+
+            }
+        } else super.onActivityResult(requestCode, resultCode, data);
+
+    }
+    private void processLinked(){
+        if (mDbxAcctMgr.getLinkedAccount().getAccountInfo()!=null ){
+            mTextOutput.setText("You are currently linked to Dropbox account\n " +
+                    mDbxAcctMgr.getLinkedAccount().getAccountInfo().displayName);
+        }
+        mButtonOK.setText("OK");
+    }
+
+    public void onProceed(View view){
+        //check which scenario we are in
+        if (linked) {
+     showToast("Ready to start next activity");
+        } else {
+            mDbxAcctMgr.startLink(this, REQUEST_LINK_TO_DBX);
+        }
+    }
+
+    public void showToast(String message) {
+        Toast toast = Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG);
+        toast.show();
+    }
 
 
 

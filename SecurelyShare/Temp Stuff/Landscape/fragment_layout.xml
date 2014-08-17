@@ -10,14 +10,14 @@
     android:orientation="horizontal" >
 
     <fragment
-        android:id="@+id/left"
+        android:id="@+id/dbxleft"
         android:layout_width="0px"
         android:layout_height="match_parent"
         android:layout_weight="1"
-        class="com.example.julie.fragmentlayout.TitlesFragment" />
+        class="com.example.julie.securelyshare.DropboxFragment" />
 
     <FrameLayout
-        android:id="@+id/left"
+        android:id="@+id/dbxright"
         android:layout_width="0px"
         android:layout_height="match_parent"
         android:layout_weight="1"
