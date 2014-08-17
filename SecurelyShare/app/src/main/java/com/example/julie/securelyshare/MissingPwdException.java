@@ -1,4 +1,4 @@
-package com.example.jrs300.shareinsecrettest;
+package com.example.julie.securelyshare;
 
 /**
  * Created by jrs300 on 04/08/14.

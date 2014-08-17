@@ -1,12 +1,11 @@
 package com.example.julie.securelyshare;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
 
-public class CreateActivity extends Activity {
+public class CreateActivity extends MainActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

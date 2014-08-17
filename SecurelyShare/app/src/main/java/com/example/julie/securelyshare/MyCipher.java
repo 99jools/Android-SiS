@@ -1,4 +1,4 @@
-package com.example.jrs300.shareinsecrettest;
+package com.example.julie.securelyshare;
 
 import java.io.UnsupportedEncodingException;
 import java.nio.ByteBuffer;

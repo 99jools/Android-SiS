@@ -2,7 +2,6 @@ package com.example.julie.securelyshare;
 
 import android.content.Context;
 
-import com.dropbox.chooser.android.DbxChooser;
 import com.dropbox.sync.android.DbxAccount;
 import com.dropbox.sync.android.DbxAccountManager;
 import com.dropbox.sync.android.DbxException;
@@ -12,14 +11,14 @@ import com.dropbox.sync.android.DbxFileSystem;
  * Created by jrs300 on 23/07/14.
  */
 public class DropboxSetup {
-    private static final String APPKEY = "rq1nhqsionfgtmd";
-    private static final String APPSECRET = "b0hx2fvx2fcj9pk";
+    private static final String APPKEY = "nyocwukormiszd9";
+    private static final String APPSECRET = "kbg6wiavip0ukah";
     private DbxAccountManager dAccManager;
-    private DbxChooser dChooser;
+
 
     public DropboxSetup(Context appContext) {
         this.dAccManager = DbxAccountManager.getInstance(appContext, APPKEY, APPSECRET);
-        this.dChooser = new DbxChooser(APPKEY);
+
     }
 
     public DbxAccountManager getAccMgr(){
@@ -30,10 +29,6 @@ public class DropboxSetup {
     public DbxAccount getAccount() {
 
         return dAccManager.getLinkedAccount();
-    }
-
-    public DbxChooser getChooser() {
-        return dChooser;
     }
 
     public DbxFileSystem getFileSystem() throws DbxException.Unauthorized {
