@@ -26,7 +26,6 @@ dependencies {
     compile project(':libraries:dropboxChooserSDK')
     compile files('libs/dropbox-sync-sdk-android.jar')
     // You must install or update the Google Repository through the SDK manager to use this dependency.
-    compile 'com.android.support:appcompat-v7:19.+'
     compile files('libs/prov-1.51.0.0.jar')
     compile files('libs/core-1.51.0.0.jar')
 }
