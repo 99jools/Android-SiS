@@ -1,35 +1,47 @@
 package com.example.julie.securelyshare;
 
+import android.app.FragmentManager;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 
-
+/*
+based on code from http://www.androidbegin.com/tutorial/android-dialogfragment-tutorial/
+ */
 public class CreateActivity extends MainActivity {
+    Button dfragbutton;
+    Button alertdfragbutton;
+    FragmentManager fm = getFragmentManager();
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        // Get the view from activity_main.xml
         setContentView(R.layout.activity_create);
+
+        dfragbutton = (Button) findViewById(R.id.dfragbutton);
+        alertdfragbutton = (Button) findViewById(R.id.alertdfragbutton);
+
+        // Capture button clicks
+        dfragbutton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View arg0) {
+                DFragment dFragment = new DFragment();
+                dFragment.show(fm, "Dialog Fragment");
+            }
+        });
+
+        // Capture button clicks
+        alertdfragbutton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View arg0) {
+                MyAlertDialogFragment alertdFragment = new MyAlertDialogFragment();
+                alertdFragment.show(fm, "Alert Dialog Fragment");
+            }
+        });
     }
-
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.create, menu);
-        return true;
+    public void doPositiveClick(){
+        showToast("positive click");
     }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
+    public void doNegativeClick(){
+        showToast("positive click");
     }
 }

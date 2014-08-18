@@ -39,7 +39,6 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
 
         //stuff from original version
-
         apo = AppPwdObj.makeObj(this.getApplicationContext());
         mTextOutput = (TextView) findViewById(R.id.textView2);  //set up variable linked to TextView
         mButtonOK = (Button) findViewById(R.id.button_OK);
@@ -224,7 +223,8 @@ showToast("Completed link to Dropbox - now ready for next activity");
     public void onProceed(View view){
         //check which scenario we are in
         if (linked) {
-     showToast("Ready to start next activity");
+            Intent intent = new Intent(this, CreateActivity.class);
+            startActivity(intent);
         } else {
             mDbxAcctMgr.startLink(this, REQUEST_LINK_TO_DBX);
         }
