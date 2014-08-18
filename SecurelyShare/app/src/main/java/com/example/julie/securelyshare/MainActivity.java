@@ -40,7 +40,6 @@ public class MainActivity extends Activity {
 
         //stuff from original version
 
-        setContentView(R.layout.activity_main);
         apo = AppPwdObj.makeObj(this.getApplicationContext());
         mTextOutput = (TextView) findViewById(R.id.textView2);  //set up variable linked to TextView
         mButtonOK = (Button) findViewById(R.id.button_OK);
@@ -90,8 +89,8 @@ public class MainActivity extends Activity {
 
         } catch (MissingPwdException e) {
             showToast("Please enter Master Password");
-            getPwd.setVisibility(View.VISIBLE);
-            mButtonPwd.setVisibility(View.VISIBLE);
+//            getPwd.setVisibility(View.VISIBLE);
+ //           mButtonPwd.setVisibility(View.VISIBLE);
         }
 
     }

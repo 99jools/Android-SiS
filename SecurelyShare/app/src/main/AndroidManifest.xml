@@ -32,6 +32,24 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.julie.securelyshare.MainActivity" />
         </activity>
+        <activity android:name="com.dropbox.sync.android.DbxAuthActivity" />
+        <activity
+            android:name="com.dropbox.client2.android.AuthActivity"
+            android:launchMode="singleTask" >
+            <intent-filter>
+                <data android:scheme="db-nyocwukormiszd9" />
+
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.BROWSABLE" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <service
+            android:name="com.dropbox.sync.android.DbxSyncService"
+            android:enabled="true"
+            android:exported="false"
+            android:label="Dropbox Sync" />
     </application>
 
 </manifest>
