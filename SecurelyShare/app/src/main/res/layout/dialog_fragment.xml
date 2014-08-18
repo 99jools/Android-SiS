@@ -7,8 +7,37 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
         android:padding="10dp"
-        android:text="welcome" />
+        android:text="Please enter the Master Password to unlock the KeyStore"
+        android:layout_centerVertical="true"
+        android:layout_alignParentStart="true"
+        android:id="@+id/textView" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPassword"
+        android:ems="10"
+        android:id="@+id/pwd"
+        android:layout_below="@+id/textView"
+        android:layout_centerHorizontal="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Unlock"
+        android:id="@+id/button_unlock"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="61dp" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Cancel"
+        android:id="@+id/button_cancel"
+        android:layout_alignParentBottom="true"
+        android:layout_toRightOf="@id/button_unlock"
+        android:layout_marginBottom="61dp" />
+
 
 </RelativeLayout>

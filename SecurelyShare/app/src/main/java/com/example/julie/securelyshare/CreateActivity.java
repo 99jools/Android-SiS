@@ -8,7 +8,7 @@ import android.widget.Button;
 /*
 based on code from http://www.androidbegin.com/tutorial/android-dialogfragment-tutorial/
  */
-public class CreateActivity extends MainActivity {
+public class CreateActivity extends MainActivity implements DFragment.Communicator {
     Button dfragbutton;
     Button alertdfragbutton;
     FragmentManager fm = getFragmentManager();
@@ -42,6 +42,11 @@ public class CreateActivity extends MainActivity {
         showToast("positive click");
     }
     public void doNegativeClick(){
-        showToast("positive click");
+        showToast("negative click");
+    }
+
+    @Override
+    public void onDialogResponse(String data) {
+        showToast(data);
     }
 }
