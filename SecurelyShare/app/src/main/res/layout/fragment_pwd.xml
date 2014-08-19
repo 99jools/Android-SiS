@@ -26,7 +26,7 @@ android:layout_height="wrap_content">
 
 <EditText
     android:id="@+id/init_pwd"
-    android:hint="password/phrase"
+    android:hint="enter password"
     android:layout_below="@+id/init_textView2"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
@@ -62,24 +62,13 @@ android:layout_height="wrap_content">
 
 <Button
 
-    android:id="@+id/init_OK"
-    android:text="@string/OK"
+    android:id="@+id/init_submit"
+    android:text="@string/init_submit"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_marginTop="40dp"
     android:layout_below="@+id/init_pwd2"
     android:layout_alignStart="@+id/init_pwd"
 />
-
-<Button
-    android:id="@+id/init_cancel"
-    android:text="Cancel"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_marginTop="40dp"
-    android:layout_below="@+id/init_pwd2"
-    android:layout_alignEnd="@+id/init_pwd"
- />
-
 
 </RelativeLayout>

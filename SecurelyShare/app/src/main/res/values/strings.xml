@@ -18,5 +18,10 @@
     <string name="init_keystore">Initialise KeyStore</string>
     <string name="init_restore">Do you have a KeyStore backup you want to import?</string>
     <string name="unlock_keystore">Unlock KeyStore</string>
+    <string name="init_confirm">Initialisation Complete</string>
+    <string name="confirm_msg">You have successfully initialised this application.  Click YES to proceed - you will be
+    asked to re-enter your password at the next screen</string>
+
+    <string name="init_submit">Submit</string>
 
 </resources>

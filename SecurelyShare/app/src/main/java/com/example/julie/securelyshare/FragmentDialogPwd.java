@@ -13,7 +13,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 public class FragmentDialogPwd extends DialogFragment implements View.OnClickListener {
-    Button mOK, mCancel;
+    Button mSubmit;
     Communicator communicator;
     EditText mEditPwd, mEditPwd2;
 
@@ -28,10 +28,8 @@ public class FragmentDialogPwd extends DialogFragment implements View.OnClickLis
         View view = inflater.inflate(R.layout.fragment_pwd, container, false);
         mEditPwd = (EditText) view.findViewById(R.id.init_pwd);
         mEditPwd2 = (EditText) view.findViewById(R.id.init_pwd2);
-        mOK = (Button) view.findViewById(R.id.init_OK);
-        mCancel = (Button) view.findViewById(R.id.init_cancel);
-        mOK.setOnClickListener(this);
-        mOK.setOnClickListener(this);
+        mSubmit = (Button) view.findViewById(R.id.init_submit);
+        mSubmit.setOnClickListener(this);
         setCancelable(false);
         getDialog().setTitle("Set up Master password/phrase");
         getDialog().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
@@ -49,8 +47,9 @@ public class FragmentDialogPwd extends DialogFragment implements View.OnClickLis
         String s1 = mEditPwd.getText().toString().trim();
         String s2 = mEditPwd2.getText().toString().trim();
         if (s1.equals(s2)) {
-            communicator.onDialogResponse("Passwords match");
+            //return password to calling activity
+            communicator.onDialogResponse(s1);
             dismiss();
-        } else communicator.onDialogResponse(mEditPwd.getText() + "xx" + mEditPwd2.getText() + "xx");
+        } else mEditPwd2.setError("Passwords don't match");
     }
 }
