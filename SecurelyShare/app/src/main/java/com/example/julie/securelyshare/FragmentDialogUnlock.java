@@ -11,7 +11,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
 
-public class DFragment extends DialogFragment implements View.OnClickListener {
+public class FragmentDialogUnlock extends DialogFragment implements View.OnClickListener {
     Button mUnlock, mCancel;
     Communicator communicator;
 
@@ -23,13 +23,13 @@ public class DFragment extends DialogFragment implements View.OnClickListener {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        Log.e("In DFragment", "");
-        View view = inflater.inflate(R.layout.dialog_fragment, container, false);
+        Log.e("In FragmentDialogUnlock", "");
+        View view = inflater.inflate(R.layout.dialog_fragment_unlock, container, false);
         mUnlock = (Button) view.findViewById(R.id.button_unlock);
         mCancel = (Button) view.findViewById(R.id.button_cancel);
         mUnlock.setOnClickListener(this);
         mCancel.setOnClickListener(this);
-        getDialog().setTitle("DFragment Tutorial");
+        getDialog().setTitle("FragmentDialogUnlock Tutorial");
         setCancelable(false);
         return view;
     }

@@ -10,7 +10,7 @@ import java.io.File;
 Splash screen implementation based on code from http://www.androidhive.info/2013/07/how-to-implement-android-splash-screen-2/
  */
 
-public class SplashScreenActivity extends Activity {
+public class ActivitySplashScreen extends Activity {
     private static final int SHOW_SPLASH = 3000;
     public static final String CERTIFICATE_FILE = "SiSCert.ks";
 
@@ -25,12 +25,13 @@ public class SplashScreenActivity extends Activity {
             @Override
             public void run() {
                 //check if keystore exists
-               if (new File(CERTIFICATE_FILE).isFile()) {
-                  Intent i = new Intent(SplashScreenActivity.this, MainActivity.class);
+              if (new File(CERTIFICATE_FILE).isFile()) {
+                  Intent i = new Intent(ActivitySplashScreen.this, ActivityMain.class);
                   startActivity(i);
-               } else {
-                   Intent i = new Intent(SplashScreenActivity.this, InitActivity.class);
-                 i.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+              } else {
+
+                  Intent i = new Intent(ActivitySplashScreen.this, ActivityInitialise.class);
+                  i.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
                   startActivity(i);
               }
 

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources><string name="Initialise">Thank you for installing Securely Share.\n
+    There are just a few things you need to do before you can use this app for the first time. \n
+     * set up your KeyStore
+     * set a Master Password/phrase
+     * export your certificate </string>
+</resources>

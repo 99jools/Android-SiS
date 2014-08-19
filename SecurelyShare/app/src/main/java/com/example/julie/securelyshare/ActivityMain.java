@@ -17,7 +17,7 @@ import android.widget.Toast;
 import com.dropbox.sync.android.DbxAccountManager;
 
 
-public class MainActivity extends Activity {
+public class ActivityMain extends Activity {
 
     private static final int REQUEST_LINK_TO_DBX = 1111;
     private static final int ENCRYPT_CHOSEN = 2222;
@@ -113,7 +113,7 @@ public class MainActivity extends Activity {
 
         switch (item.getItemId()){
             case R.id.action_Create:
-                intent = new Intent(this, CreateActivity.class);
+                intent = new Intent(this, ActivityCreate.class);
                 startActivity(intent);
                 return true;
 
@@ -223,7 +223,7 @@ showToast("Completed link to Dropbox - now ready for next activity");
     public void onProceed(View view){
         //check which scenario we are in
         if (linked) {
-            Intent intent = new Intent(this, CreateActivity.class);
+            Intent intent = new Intent(this, ActivityCreate.class);
             startActivity(intent);
         } else {
             mDbxAcctMgr.startLink(this, REQUEST_LINK_TO_DBX);

@@ -8,7 +8,7 @@ import android.widget.Button;
 /*
 based on code from http://www.androidbegin.com/tutorial/android-dialogfragment-tutorial/
  */
-public class CreateActivity extends MainActivity implements DFragment.Communicator {
+public class ActivityCreate extends ActivityMain implements FragmentDialogUnlock.Communicator {
     Button dfragbutton;
     Button alertdfragbutton;
     FragmentManager fm = getFragmentManager();
@@ -22,10 +22,18 @@ public class CreateActivity extends MainActivity implements DFragment.Communicat
         dfragbutton = (Button) findViewById(R.id.dfragbutton);
         alertdfragbutton = (Button) findViewById(R.id.alertdfragbutton);
 
+        FragmentDialogUnlock dFragment = new FragmentDialogUnlock();
+        dFragment.show(fm, "Dialog Fragment");
+
+
+
+
+
+
         // Capture button clicks
         dfragbutton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View arg0) {
-                DFragment dFragment = new DFragment();
+                FragmentDialogUnlock dFragment = new FragmentDialogUnlock();
                 dFragment.show(fm, "Dialog Fragment");
             }
         });
@@ -33,7 +41,7 @@ public class CreateActivity extends MainActivity implements DFragment.Communicat
         // Capture button clicks
         alertdfragbutton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View arg0) {
-                MyAlertDialogFragment alertdFragment = new MyAlertDialogFragment();
+                FragmentAlertDialog alertdFragment = new FragmentAlertDialog();
                 alertdFragment.show(fm, "Alert Dialog Fragment");
             }
         });

@@ -13,7 +13,7 @@ import android.view.ViewGroup;
  * A simple {@link Fragment} subclass.
  *
  */
-public class LeftFragment extends Fragment {
+public class FragmentLeft extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

@@ -12,12 +12,12 @@
         android:layout_width="0px"
         android:layout_height="match_parent"
         android:layout_weight="1"
-        class="com.example.julie.securelyshare.LeftFragment" />
+        class="com.example.julie.securelyshare.FragmentLeft" />
 
     <fragment android:id="@+id/right"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="1"
-        class="com.example.julie.securelyshare.RightFragment" />
+        class="com.example.julie.securelyshare.FragmentRight" />
 
 </LinearLayout>

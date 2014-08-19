@@ -9,7 +9,7 @@ import android.widget.Toast;
  * Created by Julie on 17/08/2014.
  * Based on an example from Samples API
  */
-public class DropboxFragment extends Fragment{
+public class UnusedFragmentDropbox extends Fragment{
 
     boolean mDualPane;
     int mCurCheckPosition = 0;
@@ -25,7 +25,7 @@ public class DropboxFragment extends Fragment{
         // with a fragment.
         // The activity is a context (since Activity extends Context) .
 
-        Toast.makeText(getActivity(), "DropboxFragment:onActivityCreated",
+        Toast.makeText(getActivity(), "UnusedFragmentDropbox:onActivityCreated",
                 Toast.LENGTH_LONG).show();
 
         // Check to see if we have a frame in which to embed the left

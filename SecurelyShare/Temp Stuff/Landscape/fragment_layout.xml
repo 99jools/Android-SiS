@@ -14,7 +14,7 @@
         android:layout_width="0px"
         android:layout_height="match_parent"
         android:layout_weight="1"
-        class="com.example.julie.securelyshare.DropboxFragment" />
+        class="com.example.julie.securelyshare.UnusedFragmentDropbox" />
 
     <FrameLayout
         android:id="@+id/dbxright"
