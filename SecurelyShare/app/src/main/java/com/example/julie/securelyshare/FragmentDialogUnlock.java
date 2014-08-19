@@ -4,7 +4,6 @@ package com.example.julie.securelyshare;
 import android.app.Activity;
 import android.app.DialogFragment;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +14,17 @@ import android.widget.Toast;
 public class FragmentDialogUnlock extends DialogFragment implements View.OnClickListener {
     Button mUnlock, mCancel;
     Communicator communicator;
+    int layoutID;
+
+    public static FragmentDialogUnlock newInstance(int title, int layoutID) {
+        FragmentDialogUnlock frag = new FragmentDialogUnlock();
+        Bundle args = new Bundle();
+        args.putInt("title", title);
+        args.putInt("layoutID", layoutID);
+        frag.setArguments(args);
+        return frag;
+    }
+
 
     @Override
     public void onAttach(Activity activity) {
@@ -24,18 +34,15 @@ public class FragmentDialogUnlock extends DialogFragment implements View.OnClick
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        Log.e("In FragmentDialogUnlock", "");
-        View view = inflater.inflate(R.layout.dialog_fragment_unlock, container, false);
+        layoutID = getArguments().getInt("layoutID");
+        View view = inflater.inflate(layoutID, container, false);
         mUnlock = (Button) view.findViewById(R.id.button_unlock);
         mCancel = (Button) view.findViewById(R.id.button_cancel);
         mUnlock.setOnClickListener(this);
         mCancel.setOnClickListener(this);
-        getDialog().setTitle("Unlock KeyStore");
         setCancelable(false);
-        //to hide keyboard when showing dialog fragment
+        getDialog().setTitle(getArguments().getInt("title"));
         getDialog().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
-
-
         return view;
     }
 

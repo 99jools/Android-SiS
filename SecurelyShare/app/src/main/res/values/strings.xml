@@ -18,4 +18,5 @@
      * export your Certificate </string>
     <string name="init_keystore">Initialise KeyStore</string>
     <string name="init_restore">Do you have a KeyStore backup you want to import?</string>
+    <string name="unlock_keystore">Unlock KeyStore</string>
 </resources>

@@ -72,7 +72,8 @@ public class ActivityInitialise extends Activity implements Communicator {
             else  {
                 //new keystore setup is required
                 //show dialog to set up a master password
-                FragmentDialogUnlock dFragment = new FragmentDialogUnlock();
+                FragmentDialogUnlock dFragment = FragmentDialogUnlock.newInstance(
+                        R.string.unlock_keystore,R.layout.dialog_fragment_unlock);
                 dFragment.show(fm, "Dialog Fragment");
 
             }
