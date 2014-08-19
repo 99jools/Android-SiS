@@ -5,9 +5,8 @@
     <string name="hello_world">Hello world!</string>
     <string name="yes">YES</string>
     <string name="no">NO</string>
-    <string name="cancel">CANCEL</string>
     <string name="cont">CONTINUE</string>
-    <string name="ok">OK</string>
+    <string name="OK">OK</string>
     <string name="action_settings">Settings</string>
     <string name="title_activity_main">MainActivity</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
@@ -19,4 +18,5 @@
     <string name="init_keystore">Initialise KeyStore</string>
     <string name="init_restore">Do you have a KeyStore backup you want to import?</string>
     <string name="unlock_keystore">Unlock KeyStore</string>
+
 </resources>

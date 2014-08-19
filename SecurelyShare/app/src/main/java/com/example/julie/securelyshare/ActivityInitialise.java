@@ -35,9 +35,7 @@ public class ActivityInitialise extends Activity implements Communicator {
         mButtonContinue = (Button) findViewById(R.id.button_continue);
 
     }
-
-
-        //create certificate KeyStore
+     //create certificate KeyStore
 
         //Export certificate
 
@@ -58,12 +56,7 @@ public class ActivityInitialise extends Activity implements Communicator {
         mButtonContinue.setVisibility(View.GONE);
     }
 
-    public void showToast(String message) {
-        Toast toast = Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG);
-        toast.show();
-    }
-
-    @Override
+        @Override
     public void alertDialogResponse(int titleInt, int whichButton) {
         if (titleInt == R.string.init_keystore){
             // this is a response from the Import Keystore dialog
@@ -72,19 +65,21 @@ public class ActivityInitialise extends Activity implements Communicator {
             else  {
                 //new keystore setup is required
                 //show dialog to set up a master password
-                FragmentDialogUnlock dFragment = FragmentDialogUnlock.newInstance(
-                        R.string.unlock_keystore,R.layout.dialog_fragment_unlock);
-                dFragment.show(fm, "Dialog Fragment");
-
+                FragmentDialogPwd dFragment = new FragmentDialogPwd();
+                dFragment.show(fm, "Dialog Fragment Pwd");
             }
-
         }
     }
 
     @Override
     public void onDialogResponse(String data) {
-
+        showToast(data);
     }
+    public void showToast(String message) {
+        Toast toast = Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG);
+        toast.show();
+    }
+
 }
 
 

@@ -9,11 +9,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
-public class FragmentDialogUnlock extends DialogFragment implements View.OnClickListener {
-    Button mUnlock, mCancel;
+public class FragmentDialogPwd extends DialogFragment implements View.OnClickListener {
+    Button mOK, mCancel;
     Communicator communicator;
+    EditText mEditPwd, mEditPwd2;
 
     @Override
     public void onAttach(Activity activity) {
@@ -23,13 +25,15 @@ public class FragmentDialogUnlock extends DialogFragment implements View.OnClick
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_dialog_unlock, container, false);
-        mUnlock = (Button) view.findViewById(R.id.button_unlock);
-        mCancel = (Button) view.findViewById(R.id.button_cancel);
-        mUnlock.setOnClickListener(this);
-        mCancel.setOnClickListener(this);
+        View view = inflater.inflate(R.layout.fragment_pwd, container, false);
+        mEditPwd = (EditText) view.findViewById(R.id.init_pwd);
+        mEditPwd2 = (EditText) view.findViewById(R.id.init_pwd2);
+        mOK = (Button) view.findViewById(R.id.init_OK);
+        mCancel = (Button) view.findViewById(R.id.init_cancel);
+        mOK.setOnClickListener(this);
+        mOK.setOnClickListener(this);
         setCancelable(false);
-        getDialog().setTitle("Unlock Application KeyStore");
+        getDialog().setTitle("Set up Master password/phrase");
         getDialog().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
         return view;
     }
@@ -41,15 +45,12 @@ public class FragmentDialogUnlock extends DialogFragment implements View.OnClick
 
     @Override
     public void onClick(View view) {
-        if (view.getId() == R.id.button_unlock) {
-            communicator.onDialogResponse("Keystore was unlocked");
+        //check that passwords match
+        String s1 = mEditPwd.getText().toString().trim();
+        String s2 = mEditPwd2.getText().toString().trim();
+        if (s1.equals(s2)) {
+            communicator.onDialogResponse("Passwords match");
             dismiss();
-        } else {
-            communicator.onDialogResponse("Keystore - cancel was clicked");
-            dismiss();
-        }
+        } else communicator.onDialogResponse(mEditPwd.getText() + "xx" + mEditPwd2.getText() + "xx");
     }
-
-
-
 }
