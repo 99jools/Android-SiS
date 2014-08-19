@@ -43,26 +43,19 @@ public class FragmentAlertDialog extends DialogFragment {
                 .setPositiveButton(R.string.yes,
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int whichButton) {
-                                myCommunicator.onOptionSelected(title, whichButton);
+                                myCommunicator.alertDialogResponse(title, whichButton);
                             }
                         }
                 )
                 .setNegativeButton(R.string.no,
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int whichButton) {
-                               myCommunicator.onOptionSelected(title, whichButton);
+                               myCommunicator.alertDialogResponse(title, whichButton);
                             }
                         }
                 )
                 .create();
     }
-    //this interface has only one method (note, all implementing classes must supply this method)
-    interface Communicator {
-        public static final int POS_CLICK = -1;
-        public static final int NEG_CLICK = -2;
-        public void onOptionSelected(int title, int whichButton);
-    }
-
 
 }
 /*

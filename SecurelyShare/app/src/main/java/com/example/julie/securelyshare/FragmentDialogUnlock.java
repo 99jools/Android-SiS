@@ -50,10 +50,6 @@ public class FragmentDialogUnlock extends DialogFragment implements View.OnClick
         }
     }
 
-    interface Communicator {
-        public void onDialogResponse(String data);
-
-    }
 
 
 }

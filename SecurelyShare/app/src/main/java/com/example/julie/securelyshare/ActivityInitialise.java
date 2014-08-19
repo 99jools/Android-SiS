@@ -12,8 +12,8 @@ import android.widget.Toast;
  * ActivityInitialise is only called when the app is first installed or when the keystore containing the public/private keypair
  * has been otherwise removed (manually by user or due to 3 failed password attempts)
  */
-public class ActivityInitialise extends Activity implements FragmentAlertDialog.Communicator {
-    Button mButtonConfirm;
+public class ActivityInitialise extends Activity implements Communicator {
+    Button mButtonContinue;
     Button mButtonCancel;
     EditText mEditPwd;
     EditText mEditPwd2;
@@ -26,8 +26,8 @@ public class ActivityInitialise extends Activity implements FragmentAlertDialog.
 
 
         // Watch for button clicks.
-        Button button = (Button) findViewById(R.id.button_continue);
-        button.setOnClickListener(new View.OnClickListener() {
+        mButtonContinue = (Button) findViewById(R.id.button_continue);
+        mButtonContinue.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 showDialog();
             }
@@ -65,6 +65,7 @@ public class ActivityInitialise extends Activity implements FragmentAlertDialog.
             DialogFragment newFragment = FragmentAlertDialog
                     .newInstance(R.string.init_keystore, R.string.init_restore);
             newFragment.show(getFragmentManager(), "dialog");
+            mButtonContinue.setVisibility(View.GONE);
         }
 
     public void doPositiveClick() {
@@ -82,14 +83,19 @@ public class ActivityInitialise extends Activity implements FragmentAlertDialog.
     }
 
     @Override
-    public void onOptionSelected(int titleInt, int whichButton) {
+    public void alertDialogResponse(int titleInt, int whichButton) {
         if (titleInt == R.string.init_keystore){
             // this is a response from the Import Keystore dialog
-            if (whichButton == FragmentAlertDialog.Communicator.POS_CLICK)
-                showToast("button pressed is YES " + whichButton );
+            if (whichButton == Communicator.POS_CLICK)
+                showToast("Import Keystore functionality to be inserted here" );
             else   showToast("button pressed is NO " + whichButton );
 
         }
+    }
+
+    @Override
+    public void onDialogResponse(String data) {
+
     }
 }
 

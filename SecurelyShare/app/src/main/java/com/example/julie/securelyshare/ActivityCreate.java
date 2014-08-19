@@ -8,7 +8,7 @@ import android.widget.Button;
 /*
 based on code from http://www.androidbegin.com/tutorial/android-dialogfragment-tutorial/
  */
-public class ActivityCreate extends ActivityMain implements FragmentDialogUnlock.Communicator {
+public class ActivityCreate extends ActivityMain implements Communicator {
     Button dfragbutton;
     Button alertdfragbutton;
     FragmentManager fm = getFragmentManager();
@@ -54,7 +54,13 @@ public class ActivityCreate extends ActivityMain implements FragmentDialogUnlock
     }
 
     @Override
-    public void onDialogResponse(String data) {
+    public void alertDialogResponse(int title, int whichButton) {
+
+    }
+
+    @Override
+    public void onDialogResponse(String data)
+    {
         showToast(data);
     }
 }
