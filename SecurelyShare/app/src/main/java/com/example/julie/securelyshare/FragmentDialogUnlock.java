@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.Toast;
 
@@ -29,8 +30,12 @@ public class FragmentDialogUnlock extends DialogFragment implements View.OnClick
         mCancel = (Button) view.findViewById(R.id.button_cancel);
         mUnlock.setOnClickListener(this);
         mCancel.setOnClickListener(this);
-        getDialog().setTitle("FragmentDialogUnlock Tutorial");
+        getDialog().setTitle("Unlock KeyStore");
         setCancelable(false);
+        //to hide keyboard when showing dialog fragment
+        getDialog().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
+
+
         return view;
     }
 

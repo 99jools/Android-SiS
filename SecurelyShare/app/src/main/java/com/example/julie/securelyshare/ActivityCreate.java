@@ -46,12 +46,6 @@ public class ActivityCreate extends ActivityMain implements Communicator {
             }
         });
     }
-    public void doPositiveClick(){
-        showToast("positive click");
-    }
-    public void doNegativeClick(){
-        showToast("negative click");
-    }
 
     @Override
     public void alertDialogResponse(int title, int whichButton) {
