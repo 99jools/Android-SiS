@@ -1,7 +1,6 @@
 package com.example.julie.securelyshare;
 
 import android.content.Context;
-import android.util.Log;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -176,9 +175,6 @@ public class AppKeystore {
         try {
             fis = new FileInputStream(KEYSTORE_NAME);
             myks.load(fis, pwd);
-        } catch (FileNotFoundException e) {
-            Log.d("KeyStore: ", "New keystore created");
-            myks.load(null);
         } finally {
             if (fis != null) fis.close();
         }
@@ -224,21 +220,16 @@ public class AppKeystore {
 
 
     /**********************************************************************************************************************8
-     * validates that password (appPwd) provides access to the keystore and that keystore is initialised with a keypair
+     * validates that password (appPwd) provides access to the keystore
      * @param appPwd
      * @return
      * @throws IOException
      */
-    public boolean  validate(String appPwd, Context context) throws IOException {
-        try {
+    public boolean validate(String appPwd, Context context) throws IOException, GeneralSecurityException {
             KeyStore ks = loadKeyStore(appPwd.toCharArray());
             ks.load(new FileInputStream(KEYSTORE_NAME),
                     appPwd.toCharArray());
             return true;
-        } catch (GeneralSecurityException e) {
-            e.printStackTrace();
-            return false;
-        }
     }
 
 

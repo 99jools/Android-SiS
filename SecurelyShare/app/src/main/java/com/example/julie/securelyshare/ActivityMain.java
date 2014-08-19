@@ -2,6 +2,7 @@ package com.example.julie.securelyshare;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.FragmentManager;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -17,7 +18,7 @@ import android.widget.Toast;
 import com.dropbox.sync.android.DbxAccountManager;
 
 
-public class ActivityMain extends Activity {
+public class ActivityMain extends Activity  implements Communicator{
 
     private static final int REQUEST_LINK_TO_DBX = 1111;
     private static final int ENCRYPT_CHOSEN = 2222;
@@ -31,17 +32,22 @@ public class ActivityMain extends Activity {
     private Button mButtonPwd;
     private EditText getPwd;
     private boolean linked;
-
+    private FragmentManager fm = getFragmentManager();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        //stuff from original version
-        apo = AppPwdObj.makeObj(this.getApplicationContext());
-        mTextOutput = (TextView) findViewById(R.id.textView2);  //set up variable linked to TextView
+        mTextOutput = (TextView) findViewById(R.id.textView2);
         mButtonOK = (Button) findViewById(R.id.button_OK);
+
+        //get Master Password
+        apo = AppPwdObj.makeObj(this.getApplicationContext());
+        FragmentDialogUnlock dFragment = new FragmentDialogUnlock();
+        dFragment.show(fm, "Dialog Fragment Unlock");
+
+
+
         mDbxAcctMgr = new DropboxSetup(this.getApplicationContext()).getAccMgr();
 //        getPwd = (EditText) findViewById(R.id.text_pwd);
 //        mButtonPwd = (Button) findViewById(R.id.button_pwd);
@@ -256,9 +262,17 @@ showToast("Completed link to Dropbox - now ready for next activity");
     }
 
 
+    @Override
+    public void alertDialogResponse(int title, int whichButton) {
 
+    }
 
+    @Override
+    public void onDialogResponse(String data) {
+        boolean b = apo.setValue(data);
+        if (b == false)
 
+            ///////////////////////handle keystore error
 
-
+    }
 }

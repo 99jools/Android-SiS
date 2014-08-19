@@ -3,6 +3,7 @@ package com.example.julie.securelyshare;
 import android.content.Context;
 
 import java.io.IOException;
+import java.security.GeneralSecurityException;
 
 /**
  * Created by jrs300 on 01/08/14.
@@ -36,13 +37,21 @@ public class AppPwdObj {
         return this.value;
     }
 
-    public boolean setValue(String value) throws IOException{
+    public boolean setValue(String value){
         this.value = value;
         //check that it is possible to access Keystore
-
- //*******ERROR HERE***********
-        return true;
-     //   return  AppKeystore.validate(value, context);
+        try {
+            new AppKeystore().validate(value, context);
+            return true;
+        } catch (MissingPwdException e) {
+            e.printStackTrace();
+            //this should not occur as we have just set the password above!!
+        } catch (GeneralSecurityException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 
     public Context getContext(){

@@ -45,16 +45,13 @@ public class ActivityInitialise extends Activity implements Communicator {
         mButtonContinue = (Button) findViewById(R.id.button_continue);
 
     }
-    //create certificate KeyStore
 
-    //Export certificate
-
-
-    // offer alternative to import certificate keystore - confirm that correct format and
-    //can be accessed with supplied password
-    //
-
-
+    /**
+     * Shows the AlertDialog to ask whether user wants to import a keystore from backup
+     * rather than creating a new one
+     * This is th onClick method fr the "Continue" button on the initial screen
+     * @param view
+     */
     public void showKeystoreDialog(View view) {
         DialogFragment newFragment = FragmentAlertDialog
                 .newInstance(R.string.init_keystore, R.string.init_restore);
@@ -62,7 +59,12 @@ public class ActivityInitialise extends Activity implements Communicator {
         mButtonContinue.setVisibility(View.GONE);
     }
 
-
+    /**
+     * Handles the response from the AlertDialogFragment
+     *
+     * @param titleInt - indicates which instance of the Alert Dialog Fragment is responding
+     * @param whichButton - indicates which button has been pressed
+     */
     @Override
     public void alertDialogResponse(int titleInt, int whichButton) {
         switch (titleInt) {
