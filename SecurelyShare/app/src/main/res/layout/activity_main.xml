@@ -14,14 +14,14 @@
         android:layout_height="match_parent"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        class="com.example.julie.securelyshare.RightFragment"  />
+        class="com.example.julie.securelyshare.LeftFragment"  />
 
     <fragment android:id="@+id/right"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        class="com.example.julie.securelyshare.LeftFragment"  />
+        class="com.example.julie.securelyshare.RightFragment"  />
 
 </RelativeLayout>
 

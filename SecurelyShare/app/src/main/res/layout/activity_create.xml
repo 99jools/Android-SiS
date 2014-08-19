@@ -6,17 +6,19 @@
 
     <Button
         android:id="@+id/dfragbutton"
+        android:text="dialogfragment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:text="dialogfragment" />
+         />
 
     <Button
         android:id="@+id/alertdfragbutton"
+        android:text="alertdialogfragment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/dfragbutton"
         android:layout_centerInParent="true"
-        android:text="alertdialogfragment" />
+      />
 
 </RelativeLayout>

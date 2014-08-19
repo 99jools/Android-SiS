@@ -10,6 +10,7 @@ import android.widget.Toast;
  * Based on an example from Samples API
  */
 public class DropboxFragment extends Fragment{
+
     boolean mDualPane;
     int mCurCheckPosition = 0;
 

@@ -4,6 +4,7 @@ package com.example.julie.securelyshare;
 import android.app.Activity;
 import android.app.DialogFragment;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,6 +23,7 @@ public class DFragment extends DialogFragment implements View.OnClickListener {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        Log.e("In DFragment", "");
         View view = inflater.inflate(R.layout.dialog_fragment, container, false);
         mUnlock = (Button) view.findViewById(R.id.button_unlock);
         mCancel = (Button) view.findViewById(R.id.button_cancel);

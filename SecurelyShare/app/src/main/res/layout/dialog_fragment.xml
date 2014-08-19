@@ -5,36 +5,36 @@
     android:layout_height="match_parent" >
 
     <TextView
+        android:id="@+id/dialog_textView"
+        android:text="Please enter the Master Password to unlock the KeyStore"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="10dp"
-        android:text="Please enter the Master Password to unlock the KeyStore"
         android:layout_centerVertical="true"
         android:layout_alignParentStart="true"
-        android:id="@+id/textView" />
+       />
 
     <EditText
+        android:id="@+id/pwd"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:inputType="textPassword"
-        android:ems="10"
-        android:id="@+id/pwd"
-        android:layout_below="@+id/textView"
+        android:layout_below="@+id/dialog_textView"
         android:layout_centerHorizontal="true" />
 
     <Button
+        android:id="@+id/button_unlock"
+        android:text="Unlock"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Unlock"
-        android:id="@+id/button_unlock"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="61dp" />
 
     <Button
+        android:id="@+id/button_cancel"
+        android:text="Cancel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Cancel"
-        android:id="@+id/button_cancel"
         android:layout_alignParentBottom="true"
         android:layout_toRightOf="@id/button_unlock"
         android:layout_marginBottom="61dp" />

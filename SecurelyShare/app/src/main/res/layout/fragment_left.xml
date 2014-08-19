@@ -17,17 +17,12 @@
         android:focusable="false"
         android:layout_gravity="center_horizontal" />
 
-
-
     <Button
         android:id="@+id/button_OK"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Proceed"
         android:onClick="onProceed"
-
         android:layout_gravity="center_horizontal" />
-
-
 
 </LinearLayout>

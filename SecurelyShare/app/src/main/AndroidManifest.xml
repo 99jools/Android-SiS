@@ -26,7 +26,6 @@
         </activity>
         <activity
             android:name=".CreateActivity"
-            android:label="@string/title_activity_create"
             android:parentActivityName=".MainActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -45,11 +44,17 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
+
         <service
             android:name="com.dropbox.sync.android.DbxSyncService"
             android:enabled="true"
             android:exported="false"
             android:label="Dropbox Sync" />
+
+        <activity
+            android:name=".InitActivity"
+            android:label="@string/title_activity_init" >
+        </activity>
     </application>
 
 </manifest>

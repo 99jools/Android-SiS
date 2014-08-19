@@ -5,20 +5,18 @@
 
     <ImageView
         android:id="@+id/imgLogo"
+        android:src="@drawable/crypto_logo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:src="@drawable/crypto_logo" />
+        android:layout_centerInParent="true"  />
 
     <TextView
+        android:id="@+id/textView"
+        android:text="Securely Share "
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Securely Share "
-        android:id="@+id/textView"
         android:layout_above="@+id/imgLogo"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="51dp" />
-
-
 </RelativeLayout>
