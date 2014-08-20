@@ -4,6 +4,7 @@ import android.content.Context;
 
 import java.io.IOException;
 import java.security.GeneralSecurityException;
+import java.security.KeyStore;
 
 /**
  * Created by jrs300 on 01/08/14.
@@ -41,7 +42,8 @@ public class AppPwdObj {
         this.value = value;
         //check that it is possible to access Keystore
         try {
-            new AppKeystore().validate(value, context);
+            AppKeystore aks = new AppKeystore();
+                  aks.validate();
             return true;
         } catch (MissingPwdException e) {
             e.printStackTrace();

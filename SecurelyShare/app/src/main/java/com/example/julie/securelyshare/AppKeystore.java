@@ -40,12 +40,14 @@ public class AppKeystore {
 
     private char[] appPwdAsArray;
     private KeyStore ks;
+    Context context;
 
     public AppKeystore() throws MissingPwdException{
         String appPwd = AppPwdObj.getInstance().getValue();
         this.appPwdAsArray = appPwd.toCharArray();
+        this.context =  AppPwdObj.getInstance().getContext();
         try {
-            this.ks = loadKeyStore(appPwdAsArray);
+            this.ks = loadKeyStore();
         } catch (IOException e) {
             System.out.println( e.getMessage());
         } catch (GeneralSecurityException e) {
@@ -153,7 +155,7 @@ public class AppKeystore {
      * @throws IOException
      */
     private void writeKeyStore() throws GeneralSecurityException, IOException {
-        FileOutputStream fos = new FileOutputStream(KEYSTORE_NAME);
+        FileOutputStream fos = context.openFileOutput(KEYSTORE_NAME, Context.MODE_PRIVATE);
         try {
             ks.store(fos, appPwdAsArray);
         } finally {
@@ -162,24 +164,29 @@ public class AppKeystore {
     } //end writeKeyStore
 
 
+
     /**
      * Loads the key store from disc
-     * @param pwd
      * @return the keystore
      * @throws IOException
      * @throws GeneralSecurityException
      */
-    private static KeyStore loadKeyStore(char[] pwd) throws IOException, GeneralSecurityException {
+    private KeyStore loadKeyStore() throws IOException, GeneralSecurityException {
         KeyStore myks = KeyStore.getInstance(KEYSTORE_TYPE);
         FileInputStream fis = null;
         try {
-            fis = new FileInputStream(KEYSTORE_NAME);
-            myks.load(fis, pwd);
+            fis = context.openFileInput(KEYSTORE_NAME);
+            myks.load(fis, appPwdAsArray);
         } finally {
             if (fis != null) fis.close();
         }
         return myks;
     } //end loadKeyStore
+
+
+
+
+
 
     private PrivateKey getPrivateKey(){
         PrivateKey key = null;
@@ -221,16 +228,16 @@ public class AppKeystore {
 
     /**********************************************************************************************************************8
      * validates that password (appPwd) provides access to the keystore
-     * @param appPwd
      * @return
      * @throws IOException
      */
-    public boolean validate(String appPwd, Context context) throws IOException, GeneralSecurityException {
-            KeyStore ks = loadKeyStore(appPwd.toCharArray());
-            ks.load(new FileInputStream(KEYSTORE_NAME),
-                    appPwd.toCharArray());
+    public boolean validate() throws IOException, GeneralSecurityException {
+             ks.load(new FileInputStream(KEYSTORE_NAME), appPwdAsArray);
+
             return true;
     }
+
+
 
 
 } //end AppKeystore

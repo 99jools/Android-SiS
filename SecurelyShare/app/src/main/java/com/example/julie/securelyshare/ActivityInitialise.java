@@ -6,7 +6,6 @@ import android.app.FragmentManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -124,7 +123,6 @@ public class ActivityInitialise extends Activity implements Communicator {
         KeyStore newKS = KeyStore.getInstance(KEYSTORE_TYPE);
         newKS.load(null);
         FileOutputStream fos = openFileOutput(name, Context.MODE_PRIVATE);
-        Log.e("FOS ",fos.getFD().toString());
         newKS.store(fos, appPwd.toCharArray());
         fos.close();
     }

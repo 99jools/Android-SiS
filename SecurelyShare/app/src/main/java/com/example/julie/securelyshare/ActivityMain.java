@@ -270,7 +270,7 @@ showToast("Completed link to Dropbox - now ready for next activity");
     @Override
     public void onDialogResponse(String data) {
         boolean b = apo.setValue(data);
-        if (b == false)
+
 
             ///////////////////////handle keystore error
 
