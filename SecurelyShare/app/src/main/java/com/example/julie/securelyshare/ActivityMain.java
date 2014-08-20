@@ -11,8 +11,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.dropbox.sync.android.DbxAccountManager;
@@ -29,10 +27,6 @@ public class ActivityMain extends Activity  implements Communicator{
     private DbxAccountManager mDbxAcctMgr;
     private AppPwdObj apo;
 
-    private TextView mTextOutput;
-
-    private Button mButtonOK;
-
     private boolean linked;
     private FragmentManager fm = getFragmentManager();
     private ActionBar  actionBar;
@@ -41,8 +35,6 @@ public class ActivityMain extends Activity  implements Communicator{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        mTextOutput = (TextView) findViewById(R.id.textView2);
-        mButtonOK = (Button) findViewById(R.id.button_OK);
         mDbxAcctMgr = new DropboxSetup(this.getApplicationContext()).getAccMgr();
         actionBar = getActionBar();
 
@@ -61,17 +53,12 @@ public class ActivityMain extends Activity  implements Communicator{
             dFragment.show(fm, "Dialog Fragment Unlock");
         }
 
-
-
-
-
-
-
-        linked = mDbxAcctMgr.hasLinkedAccount();
-        if (linked) processLinked();
+        if (mDbxAcctMgr.hasLinkedAccount()) {
+            if (mDbxAcctMgr.getLinkedAccount().getAccountInfo()!=null )
+                actionBar.setSubtitle(mDbxAcctMgr.getLinkedAccount().getAccountInfo().displayName);
+        }
         else {
-         //   mTextOutput.setText("This app needs access a dropbox account");
-         //   mButtonOK.setText("Link to Dropbox");
+            //Link to Dropbox
             mDbxAcctMgr.startLink(this, REQUEST_LINK_TO_DBX);
         }
 
@@ -130,7 +117,7 @@ public class ActivityMain extends Activity  implements Communicator{
             case R.id.action_listgroups:
 
                 try {
-                 new AppKeystore().listGroups();
+                    new AppKeystore().listGroups();
                 } catch (MissingPwdException e) {
                     Log.e("listgroups", e.getMessage());
                 } catch (GeneralSecurityException e) {
@@ -154,13 +141,12 @@ public class ActivityMain extends Activity  implements Communicator{
      */
     private void doUnlink(){
         AlertDialog.Builder ad = new AlertDialog.Builder(this);
-        ad.setMessage("This will unlink your dropbox account, delete all local data and terminate the app");
+        ad.setMessage("This will unlink your dropbox account and delete all local copies of your data");
         ad.setTitle("Unlink from Dropbox");
         ad.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 mDbxAcctMgr.unlink();
-                finish();
             }
         });
         ad.setNegativeButton("Cancel",new DialogInterface.OnClickListener() {
@@ -173,7 +159,13 @@ public class ActivityMain extends Activity  implements Communicator{
         AlertDialog alertDialog = ad.create();
         // show it
         alertDialog.show();
+     //   actionBar.setSubtitle("");
+        Intent i = new Intent(this, ActivityMain.class);
+        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(i);
+        finish();
     }
+
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -181,7 +173,7 @@ public class ActivityMain extends Activity  implements Communicator{
             if (resultCode == Activity.RESULT_OK) {
                 //start next activity
                 linked = true;
-showToast("Completed link to Dropbox - now ready for next activity");
+                showToast("Completed link to Dropbox - now ready for next activity");
             } else {
                 showToast("Link to Dropbox failed or was cancelled.");
             }
@@ -192,13 +184,7 @@ showToast("Completed link to Dropbox - now ready for next activity");
         } else super.onActivityResult(requestCode, resultCode, data);
 
     }
-    private void processLinked(){
 
-        if (mDbxAcctMgr.getLinkedAccount().getAccountInfo()!=null ){
-            actionBar.setSubtitle(mDbxAcctMgr.getLinkedAccount().getAccountInfo().displayName);
-        }
-        mButtonOK.setText("OK");
-    }
 
     public void onProceed(View view){
         //check which scenario we are in
