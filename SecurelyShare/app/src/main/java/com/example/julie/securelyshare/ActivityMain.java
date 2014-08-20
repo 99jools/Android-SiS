@@ -70,8 +70,9 @@ public class ActivityMain extends Activity  implements Communicator{
         linked = mDbxAcctMgr.hasLinkedAccount();
         if (linked) processLinked();
         else {
-            mTextOutput.setText("This app needs access a dropbox account");
-            mButtonOK.setText("Link to Dropbox");
+         //   mTextOutput.setText("This app needs access a dropbox account");
+         //   mButtonOK.setText("Link to Dropbox");
+            mDbxAcctMgr.startLink(this, REQUEST_LINK_TO_DBX);
         }
 
     }
@@ -192,11 +193,9 @@ showToast("Completed link to Dropbox - now ready for next activity");
 
     }
     private void processLinked(){
-        String info =  mDbxAcctMgr.getLinkedAccount().getAccountInfo()
+
         if (mDbxAcctMgr.getLinkedAccount().getAccountInfo()!=null ){
-            actionBar.setSubtitle("dropbox account");
-            mTextOutput.setText("You are currently linked to Dropbox account\n " +
-                    mDbxAcctMgr.getLinkedAccount().getAccountInfo().displayName);
+            actionBar.setSubtitle(mDbxAcctMgr.getLinkedAccount().getAccountInfo().displayName);
         }
         mButtonOK.setText("OK");
     }

@@ -8,7 +8,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.Toast;
 
 import java.io.FileOutputStream;
@@ -29,9 +28,9 @@ public class ActivityInitialise extends Activity implements Communicator {
     public static final int KEYPAIR_LENGTH = 1024;
 
     private Button mButtonContinue;
-    private Button mButtonCancel;
-    private EditText mEditPwd;
-    private EditText mEditPwd2;
+ //   private Button mButtonCancel;
+  //  private EditText mEditPwd;
+  //  private EditText mEditPwd2;
 
     private FragmentManager fm = getFragmentManager();
     private String appPwd;

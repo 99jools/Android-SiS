@@ -19,23 +19,25 @@ public class ActivitySplashScreen extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash_screen);
 
-      // delayed start is done by using a Handler to add the Runnable to the message queueto run after delay period
-      new Handler().postDelayed(new Runnable() {
+        // delayed start is done by using a Handler to add the Runnable to the message queueto run after delay period
+        new Handler().postDelayed(new Runnable() {
 
             @Override
             public void run() {
+
                 //check if keystore exists
-              if (new File(CERTIFICATE_FILE).isFile()) {
-                  Intent i = new Intent(ActivitySplashScreen.this, ActivityMain.class);
-                  startActivity(i);
-              } else {
+                File file = getFileStreamPath(CERTIFICATE_FILE);
+                if (file.exists()) {
+                    Intent i = new Intent(ActivitySplashScreen.this, ActivityMain.class);
+                    startActivity(i);
+                } else {
 
-                  Intent i = new Intent(ActivitySplashScreen.this, ActivityInitialise.class);
-                  i.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-                  startActivity(i);
-              }
+                    Intent i = new Intent(ActivitySplashScreen.this, ActivityInitialise.class);
+                    i.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+                    startActivity(i);
+                }
 
-               // close this activity
+                // close this activity
                 finish();
             }
         }, SHOW_SPLASH);
