@@ -1,21 +1,24 @@
 package com.example.julie.securelyshare;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.FragmentManager;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.res.Configuration;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
-import android.view.MotionEvent;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.dropbox.sync.android.DbxAccountManager;
+
+import java.io.IOException;
+import java.security.GeneralSecurityException;
 
 
 public class ActivityMain extends Activity  implements Communicator{
@@ -29,10 +32,10 @@ public class ActivityMain extends Activity  implements Communicator{
     private TextView mTextOutput;
 
     private Button mButtonOK;
-    private Button mButtonPwd;
-    private EditText getPwd;
+
     private boolean linked;
     private FragmentManager fm = getFragmentManager();
+    private ActionBar  actionBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,62 +43,35 @@ public class ActivityMain extends Activity  implements Communicator{
         setContentView(R.layout.activity_main);
         mTextOutput = (TextView) findViewById(R.id.textView2);
         mButtonOK = (Button) findViewById(R.id.button_OK);
-
-        //get Master Password
-        apo = AppPwdObj.makeObj(this.getApplicationContext());
-        FragmentDialogUnlock dFragment = new FragmentDialogUnlock();
-        dFragment.show(fm, "Dialog Fragment Unlock");
-
-
-
         mDbxAcctMgr = new DropboxSetup(this.getApplicationContext()).getAccMgr();
-//        getPwd = (EditText) findViewById(R.id.text_pwd);
-//        mButtonPwd = (Button) findViewById(R.id.button_pwd);
+        actionBar = getActionBar();
 
-        // Hiding Alpha pane only applies on portrait
-        int screenOrientation = getResources().getConfiguration().orientation;
-        if (screenOrientation == Configuration.ORIENTATION_PORTRAIT) {
-            hideAlphaPane();
-
-            View omegaPane = findViewById(R.id.right);
-            omegaPane.setOnTouchListener(new OnSwipeTouchListener(this) {
-                @Override
-                public void onSwipeLeft(){
-                    hideAlphaPane();
-                    super.onSwipeLeft();
-                }
-
-                public void onSwipeRight(){
-                    showAlphaPane();
-                    super.onSwipeRight();
-                }
-
-                @Override
-                public boolean onTouch(View v, MotionEvent event) {
-                    hideAlphaPane();
-                    return super.onTouch(v, event);
-                }
-            });
-        }
     }
 
 
     @Override
     protected void onResume() {
         super.onResume();
+
+        apo = AppPwdObj.makeObj(this.getApplicationContext());
+        //get Master Password - code branches here to dialog
+        if (apo.getValue()==null) {
+            // we need to get the password from the user
+            FragmentDialogUnlock dFragment = new FragmentDialogUnlock();
+            dFragment.show(fm, "Dialog Fragment Unlock");
+        }
+
+
+
+
+
+
+
         linked = mDbxAcctMgr.hasLinkedAccount();
         if (linked) processLinked();
         else {
             mTextOutput.setText("This app needs access a dropbox account");
             mButtonOK.setText("Link to Dropbox");
-        }
-        try {
-            apo.getValue();
-
-        } catch (MissingPwdException e) {
-            showToast("Please enter Master Password");
-//            getPwd.setVisibility(View.VISIBLE);
- //           mButtonPwd.setVisibility(View.VISIBLE);
         }
 
     }
@@ -103,14 +79,11 @@ public class ActivityMain extends Activity  implements Communicator{
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar
         getMenuInflater().inflate(R.menu.main, menu);
+        actionBar = getActionBar();
         return true;
     }
 
 
-    /****************NOT IMPLEMENTED YET*********************************
-     *
-     * @param item
-     * @return
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -124,7 +97,7 @@ public class ActivityMain extends Activity  implements Communicator{
                 return true;
 
             case R.id.action_Open:
-                intent = new Intent(this, DecryptActivity.class);
+                intent = new Intent(this, ActivityDecrypt.class);
                 startActivity(intent);
                 return true;
 
@@ -134,18 +107,18 @@ public class ActivityMain extends Activity  implements Communicator{
                    - something we seek to avoid!!
                  */
 
-/*                // Create the ACTION_GET_CONTENT Intent
+               // Create the ACTION_GET_CONTENT Intent
                 Intent getContentIntent = new Intent(Intent.ACTION_GET_CONTENT);
                 getContentIntent.setType("file/*");
-                startActivityForResult(getContentIntent, ENCRYPT_CHOOSER);
+                startActivityForResult(getContentIntent, ENCRYPT_CHOSEN);
                 //put filename in intent and start encrypt activity
 
-                intent = new Intent(this, EncryptActivity.class);
+                intent = new Intent(this, ActivityEncrypt.class);
                 startActivity(intent);
                 return true;
 
             case R.id.action_addgroup:
-                intent = new Intent(this, AddGroupActivity.class);
+                intent = new Intent(this, ActivityAddGroup.class);
                 startActivity(intent);
                 return true;
 
@@ -156,7 +129,7 @@ public class ActivityMain extends Activity  implements Communicator{
             case R.id.action_listgroups:
 
                 try {
-                    com.example.jrs300.shareinsecrettest.AppKeystore.listGroups();
+                 new AppKeystore().listGroups();
                 } catch (MissingPwdException e) {
                     Log.e("listgroups", e.getMessage());
                 } catch (GeneralSecurityException e) {
@@ -174,7 +147,7 @@ public class ActivityMain extends Activity  implements Communicator{
 
 
     }
-                */
+
     /**
      * Unlinks the current Dropbox account, deletes local data and terminates the app
      */
@@ -219,7 +192,9 @@ showToast("Completed link to Dropbox - now ready for next activity");
 
     }
     private void processLinked(){
+        String info =  mDbxAcctMgr.getLinkedAccount().getAccountInfo()
         if (mDbxAcctMgr.getLinkedAccount().getAccountInfo()!=null ){
+            actionBar.setSubtitle("dropbox account");
             mTextOutput.setText("You are currently linked to Dropbox account\n " +
                     mDbxAcctMgr.getLinkedAccount().getAccountInfo().displayName);
         }
@@ -241,25 +216,6 @@ showToast("Completed link to Dropbox - now ready for next activity");
         toast.show();
     }
 
-
-
-
-
-    /** * Method to hide the Alpha pane */
-    private void hideAlphaPane() {
-        View alphaPane = findViewById(R.id.left);
-        if (alphaPane.getVisibility() == View.VISIBLE) {
-            alphaPane.setVisibility(View.GONE);
-        }
-    }
-
-    /** * Method to show the Alpha pane */
-    private void showAlphaPane() {
-        View alphaPane = findViewById(R.id.left);
-        if (alphaPane.getVisibility() == View.GONE) {
-            alphaPane.setVisibility(View.VISIBLE);
-        }
-    }
 
 
     @Override

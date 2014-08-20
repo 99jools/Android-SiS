@@ -4,7 +4,6 @@ import android.content.Context;
 
 import java.io.IOException;
 import java.security.GeneralSecurityException;
-import java.security.KeyStore;
 
 /**
  * Created by jrs300 on 01/08/14.
@@ -30,10 +29,7 @@ public class AppPwdObj {
         return appPwdObj;
     }
 
-    public String getValue() throws MissingPwdException{
-        if  (value==null)
-            //password has not been initialised - throw exception
-            throw new MissingPwdException();
+    public String getValue(){
 
         return this.value;
     }
