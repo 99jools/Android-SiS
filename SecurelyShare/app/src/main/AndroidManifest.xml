@@ -83,6 +83,9 @@
             android:exported="false"
             android:label="Dropbox Sync" />
 
+        <activity
+            android:name=".DetailsActivity" >
+        </activity>
     </application>
 
 </manifest>

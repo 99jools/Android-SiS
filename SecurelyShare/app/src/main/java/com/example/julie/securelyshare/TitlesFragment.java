@@ -1,16 +1,20 @@
 package com.example.julie.securelyshare;
 
-import android.app.Fragment;
+
+// Displays a list of items that are managed by an adapter similar to
+// ListActivity. It provides several methods for managing a list view, such
+// as the onListItemClick() callback to handle click events.
+
+import android.app.FragmentTransaction;
+import android.app.ListFragment;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.Toast;
 
-/**
- * Created by Julie on 17/08/2014.
- * Based on an example from Samples API
- */
-public class UnusedFragmentDropbox extends Fragment{
-
+public class TitlesFragment extends ListFragment {
     boolean mDualPane;
     int mCurCheckPosition = 0;
 
@@ -21,22 +25,21 @@ public class UnusedFragmentDropbox extends Fragment{
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        // You can use getActivity(), which returns the activity associated
-        // with a fragment.
-        // The activity is a context (since Activity extends Context) .
+        // Populate list with our static array of titles in list in the
+        // Shakespeare class
+        setListAdapter(new ArrayAdapter<String>(getActivity(),
+                android.R.layout.simple_list_item_activated_1,
+                Shakespeare.TITLES));
 
-        Toast.makeText(getActivity(), "UnusedFragmentDropbox:onActivityCreated",
-                Toast.LENGTH_LONG).show();
-
-        // Check to see if we have a frame in which to embed the left
+        // Check to see if we have a frame in which to embed the details
         // fragment directly in the containing UI.
-        // R.id.left relates to the res/layout-land/fragment_layout.xml
+        // R.id.details relates to the res/layout-land/fragment_layout.xml
         // This is first created when the phone is switched to landscape
         // mode
 
-        View leftFrame = getActivity().findViewById(R.id.left);
+        View detailsFrame = getActivity().findViewById(R.id.details);
 
-        Toast.makeText(getActivity(), "leftFrame " + leftFrame,
+        Toast.makeText(getActivity(), "detailsFrame " + detailsFrame,
                 Toast.LENGTH_LONG).show();
 
         // Check that a view exists and is visible
@@ -44,15 +47,31 @@ public class UnusedFragmentDropbox extends Fragment{
         // It can also be invisible and hidden, as if the view had not been
         // added.
         //
-        mDualPane = leftFrame != null
-                && leftFrame.getVisibility() == View.VISIBLE;
+        mDualPane = detailsFrame != null
+                && detailsFrame.getVisibility() == View.VISIBLE;
 
         Toast.makeText(getActivity(), "mDualPane " + mDualPane,
                 Toast.LENGTH_LONG).show();
 
+        if (savedInstanceState != null) {
+            // Restore last state for checked position.
+            mCurCheckPosition = savedInstanceState.getInt("curChoice", 0);
+        }
+
+        if (mDualPane) {
+            // In dual-pane mode, the list view highlights the selected
+            // item.
+            getListView().setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+            // Make sure our UI is in the correct state.
+            showDetails(mCurCheckPosition);
+        } else {
+            // We also highlight in uni-pane just for fun
+            getListView().setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+            getListView().setItemChecked(mCurCheckPosition, true);
+        }
     }
 
- /*   @Override
+    @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         Toast.makeText(getActivity(), "onSaveInstanceState",
@@ -60,18 +79,26 @@ public class UnusedFragmentDropbox extends Fragment{
 
         outState.putInt("curChoice", mCurCheckPosition);
     }
-*/
+
     // If the user clicks on an item in the list (e.g., Henry V then the
     // onListItemClick() method is called. It calls a helper function in
     // this case.
 
+    @Override
+    public void onListItemClick(ListView l, View v, int position, long id) {
 
+        Toast.makeText(getActivity(),
+                "onListItemClick position is" + position, Toast.LENGTH_LONG)
+                .show();
+
+        showDetails(position);
+    }
 
     // Helper function to show the details of a selected item, either by
     // displaying a fragment in-place in the current UI, or starting a whole
     // new activity in which it is displayed.
 
- /*   void showDetails(int index) {
+    void showDetails(int index) {
         mCurCheckPosition = index;
 
         // The basic design is mutli-pane (landscape on the phone) allows us
@@ -90,7 +117,7 @@ public class UnusedFragmentDropbox extends Fragment{
 
             // Check what fragment is currently shown, replace if needed.
             DetailsFragment details = (DetailsFragment) getFragmentManager()
-                    .findFragmentById(R.id.left);
+                    .findFragmentById(R.id.details);
             if (details == null || details.getShownIndex() != index) {
                 // Make new fragment to show this selection.
 
@@ -104,7 +131,7 @@ public class UnusedFragmentDropbox extends Fragment{
                 // with this one inside the frame.
                 FragmentTransaction ft = getFragmentManager()
                         .beginTransaction();
-                ft.replace(R.id.left, details);
+                ft.replace(R.id.details, details);
                 ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
                 ft.commit();
             }
@@ -129,6 +156,4 @@ public class UnusedFragmentDropbox extends Fragment{
             startActivity(intent);
         }
     }
-
-    */
 }

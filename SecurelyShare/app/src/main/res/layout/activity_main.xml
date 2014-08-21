@@ -1,27 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/RelativeLayout1"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:baselineAligned="false"
-    android:orientation="horizontal"
-    android:animateLayoutChanges="true"
-    tools:context=".MainActivity" >
+    android:layout_height="match_parent" >
 
-    <fragment android:id="@+id/left"
+    <fragment
+        android:id="@+id/left"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        class="com.example.julie.securelyshare.FragmentLeft"  />
+        class="com.example.julie.securelyshare.TitlesFragment" />
 
-    <fragment android:id="@+id/right"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        class="com.example.julie.securelyshare.FragmentRight"  />
-
-</RelativeLayout>
+</FrameLayout>
 

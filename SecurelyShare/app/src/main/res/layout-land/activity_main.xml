@@ -12,12 +12,13 @@
         android:layout_width="0px"
         android:layout_height="match_parent"
         android:layout_weight="1"
-        class="com.example.julie.securelyshare.FragmentLeft" />
+        class="com.example.julie.securelyshare.TitlesFragment" />
 
-    <fragment android:id="@+id/right"
-        android:layout_width="0dp"
+    <FrameLayout
+        android:id="@+id/details"
+        android:layout_width="0px"
         android:layout_height="match_parent"
         android:layout_weight="1"
-        class="com.example.julie.securelyshare.FragmentRight" />
+        android:background="?android:attr/detailsElementBackground" />
 
 </LinearLayout>

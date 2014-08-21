@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -31,6 +30,8 @@ public class ActivityDecrypt extends ListActivity {
     private DbxFileInfo mRootNode = null;
     private List<DbxFileInfo> fcFileInfo;
     private ArrayList<DbxFileInfo> mFiles = new ArrayList<DbxFileInfo>();
+
+    ArrayList<String> test =   new ArrayList<String>();
     private CustomAdapter mAdapter = null;
 
 
@@ -46,6 +47,8 @@ public class ActivityDecrypt extends ListActivity {
         try {
             this.mDbx = new MyDbxFiles(this);
             fcFileInfo = mDbx.listRoot();
+
+
             refreshFileList();
         } catch (DbxException unauthorized) {
             unauthorized.printStackTrace();
@@ -53,17 +56,6 @@ public class ActivityDecrypt extends ListActivity {
     }
 
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
 
     @Override
     public void onListItemClick(ListView parent, View v, int position, long id){

@@ -58,6 +58,8 @@ public class MyDbxFiles {
     public List<DbxFileInfo> listRoot() throws DbxException {
         // Get the contents of the ShareInSecret folder. This will block until we can
         // sync metadata the first time.
+
+
         return this.mDbxFileSys.listFolder(root);
     }
 
