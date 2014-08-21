@@ -10,7 +10,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.Toast;
 
 import com.dropbox.sync.android.DbxAccountManager;
@@ -27,7 +26,7 @@ public class ActivityMain extends Activity  implements Communicator{
     private DbxAccountManager mDbxAcctMgr;
     private AppPwdObj apo;
 
-    private boolean linked;
+//    private boolean linked;
     private FragmentManager fm = getFragmentManager();
     private ActionBar  actionBar;
 
@@ -172,7 +171,7 @@ public class ActivityMain extends Activity  implements Communicator{
         if (requestCode == REQUEST_LINK_TO_DBX) {
             if (resultCode == Activity.RESULT_OK) {
                 //start next activity
-                linked = true;
+ //               linked = true;
                 showToast("Completed link to Dropbox - now ready for next activity");
             } else {
                 showToast("Link to Dropbox failed or was cancelled.");
@@ -186,7 +185,7 @@ public class ActivityMain extends Activity  implements Communicator{
     }
 
 
-    public void onProceed(View view){
+/*    public void onProceed(View view){
         //check which scenario we are in
         if (linked) {
             Intent intent = new Intent(this, ActivityCreate.class);
@@ -195,7 +194,7 @@ public class ActivityMain extends Activity  implements Communicator{
             mDbxAcctMgr.startLink(this, REQUEST_LINK_TO_DBX);
         }
     }
-
+*/
     public void showToast(String message) {
         Toast toast = Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG);
         toast.show();

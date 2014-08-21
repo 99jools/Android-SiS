@@ -30,8 +30,6 @@ public class ActivityDecrypt extends ListActivity {
     private DbxFileInfo mRootNode = null;
     private List<DbxFileInfo> fcFileInfo;
     private ArrayList<DbxFileInfo> mFiles = new ArrayList<DbxFileInfo>();
-
-    ArrayList<String> test =   new ArrayList<String>();
     private CustomAdapter mAdapter = null;
 
 
@@ -73,32 +71,20 @@ public class ActivityDecrypt extends ListActivity {
                 if (fileInfo.isFolder) {
                     mCurrentNode = fileInfo;
                     refreshFileList();
-                } else {
+                } else
+                try{
+                    doDecrypt(fileInfo);
 
-                    //open a file input stream with given path
-                    DbxFile dbxIn = mDbx.getInFile(fileInfo);
-                    FileInputStream fis = dbxIn.getReadStream();
-
-                    File myPlaintextFile  = getFos(fileInfo.path.getName());
-                    FileOutputStream fos = new FileOutputStream(myPlaintextFile);
-//      DbxFile myPlaintextFile  = getFos(fileInfo.path.getName());
-//      FileOutputStream fos = myPlaintextFile.getWriteStream();
-                    decryptFile(fis, fos);
-                    dbxIn.close();
-                    // start new intent to open
-                    Uri myUri = Uri.fromFile(myPlaintextFile);
-                    Intent intent = new Intent(Intent.ACTION_VIEW);
-                    intent.setData(myUri);
-                    startActivity(intent);
+                } catch (GeneralSecurityException e) {
+                    e.printStackTrace();
+                } catch (MissingPwdException e) {
+                    e.printStackTrace();
                 }
             }
         }catch (IOException e) {
             Log.e("decrypt file ", e.getMessage());
-        } catch (GeneralSecurityException e) {
-            Log.e("decrypt file ",e.getMessage());
-        } catch (MissingPwdException e) {
-            Log.e("decrypt file ",e.getMessage());
         }
+
     }
 
         // Need to add something to handle Failed or was cancelled by the user.
@@ -116,24 +102,31 @@ public class ActivityDecrypt extends ListActivity {
         mAdapter.notifyDataSetChanged();
     }
 
+    private void doDecrypt(DbxFileInfo fileInfo) throws IOException, MissingPwdException, GeneralSecurityException {
+        //open a file input stream with given path
+        DbxFile dbxIn = mDbx.getInFile(fileInfo);
+        FileInputStream fis = dbxIn.getReadStream();
+
+        File myPlaintextFile  = getFos(fileInfo.path.getName());
+        FileOutputStream fos = new FileOutputStream(myPlaintextFile);
+//      DbxFile myPlaintextFile  = getFos(fileInfo.path.getName());
+//      FileOutputStream fos = myPlaintextFile.getWriteStream();
+        FileCryptor.decryptFile(fis, fos);
+        dbxIn.close();
+        // start new intent to open
+        Uri myUri = Uri.fromFile(myPlaintextFile);
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        intent.setData(myUri);
+        startActivity(intent);
+    }
+
      private File getFos(String out) throws IOException {
         //sort out filemame for decrypted file
         out = out.substring(0, out.length() - 4);
         return new File(getExternalCacheDir(),out);
     } //end getFos
 
-    /**
-     * Takes a fileInputStream and returns the corresponding decrypted FileOutputStream
-     * @param fis
-     * @param fos
-     * @throws MissingPwdException
-     * @throws java.io.IOException
-     * @throws java.security.GeneralSecurityException
-     */
-    private void decryptFile(FileInputStream fis, FileOutputStream fos)
-            throws MissingPwdException, IOException, GeneralSecurityException {
-        FileCryptor.decryptFile(fis, fos);
-    }
+
 
     private void showToast(String message) {
         Toast toast = Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT);

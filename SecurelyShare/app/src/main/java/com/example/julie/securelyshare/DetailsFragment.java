@@ -1,6 +1,8 @@
 package com.example.julie.securelyshare;
 
 import android.app.Fragment;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
@@ -10,8 +12,19 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.dropbox.sync.android.DbxException;
+import com.dropbox.sync.android.DbxFile;
+import com.dropbox.sync.android.DbxPath;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.security.GeneralSecurityException;
+
 public  class DetailsFragment extends Fragment {
 
+  private MyDbxFiles mDbx;
     // Create a new instance of DetailsFragment, initialized to show the
     // text at 'index'.
 
@@ -22,7 +35,6 @@ public  class DetailsFragment extends Fragment {
         Bundle args = new Bundle();
         args.putInt("index", index);
         f.setArguments(args);
-
         return f;
     }
 
@@ -30,11 +42,6 @@ public  class DetailsFragment extends Fragment {
         return getArguments().getInt("index", 0);
     }
 
-    // The system calls this when it's time for the fragment to draw its
-    // user interface for the first time. To draw a UI for your fragment,
-    // you must return a View from this method that is the root of your
-    // fragment's layout. You can return null if the fragment does not
-    // provide a UI.
 
     // We create the UI with a scrollview and text and return a reference to
     // the scoller which is then drawn to the screen
@@ -42,6 +49,11 @@ public  class DetailsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        try {
+            this.mDbx = new MyDbxFiles(getActivity());
+        } catch (DbxException.Unauthorized unauthorized) {
+            unauthorized.printStackTrace();
+        }
 
         Toast.makeText(getActivity(), "DetailsFragment:onCreateView",
                 Toast.LENGTH_LONG).show();
@@ -63,6 +75,8 @@ public  class DetailsFragment extends Fragment {
         // the view.
         //
 
+        DbxFile fileInfo = mDbx.
+        doDecrypt(fileInfo);
         // programmatically create a scrollview and texview for the text in
         // the container/fragment layout. Set up the properties and add the
         // view.
@@ -74,8 +88,33 @@ public  class DetailsFragment extends Fragment {
                         .getResources().getDisplayMetrics());
         text.setPadding(padding, padding, padding, padding);
         scroller.addView(text);
-        text.setText(Shakespeare.DIALOGUE[getShownIndex()]);
+        text.setText("decryption complete");
         return scroller;
     }
+
+
+    private void doDecrypt(DbxPath path) throws IOException, MissingPwdException, GeneralSecurityException {
+        //open a file input stream with given path
+        DbxFile dbxIn = mDbx.getInFile(fileInfo);
+        FileInputStream fis = dbxIn.getReadStream();
+
+        File myPlaintextFile  = getFos(fileInfo.path.getName());
+        FileOutputStream fos = new FileOutputStream(myPlaintextFile);
+//      DbxFile myPlaintextFile  = getFos(fileInfo.path.getName());
+//      FileOutputStream fos = myPlaintextFile.getWriteStream();
+        FileCryptor.decryptFile(fis, fos);
+        dbxIn.close();
+        // start new intent to open
+        Uri myUri = Uri.fromFile(myPlaintextFile);
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        intent.setData(myUri);
+        startActivity(intent);
+    }
+
+    private File getFos(String out) throws IOException {
+        //sort out filemame for decrypted file
+        out = out.substring(0, out.length() - 4);
+        return new File(getActivity().getExternalCacheDir(),out);
+    } //end getFos
 }
 

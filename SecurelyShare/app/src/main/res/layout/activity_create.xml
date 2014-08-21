@@ -1,24 +1,74 @@
-<?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    tools:context="com.example.jrs300.shareinsecrettest.CreateActivity"
+    android:orientation="vertical"
+    android:gravity="center_vertical|center_horizontal"
+    style="@android:style/Theme.Holo">
 
-    <Button
-        android:id="@+id/dfragbutton"
-        android:text="dialogfragment"
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-         />
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Enter Group Name:"
+        android:id="@+id/label_group"
+        android:layout_gravity="left"
+        android:gravity="left"
+        android:paddingTop="18dp" />
 
-    <Button
-        android:id="@+id/alertdfragbutton"
-        android:text="alertdialogfragment"
+    <EditText
+        android:layout_height="wrap_content"
+        android:layout_width="193dp"
+        android:id="@+id/text_groupID"
+        android:textColor="@android:color/holo_orange_light"
+        android:layout_gravity="right" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/rect_text_edit"
+        android:id="@+id/plaintextIn"
+        android:capitalize="sentences"
+        android:scrollbars="vertical"
+        android:scrollHorizontally="false"
+        android:layout_gravity="top"
+        android:layout_weight="0.28"
+        android:gravity="left|top"
+        android:inputType="textMultiLine" />
+
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/dfragbutton"
-        android:layout_centerInParent="true"
-      />
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="enter_filename"
+        android:id="@+id/label_filename"
+        android:layout_gravity="center_horizontal|left"
+        android:gravity="left"
+        android:paddingTop="18dp" />
 
-</RelativeLayout>
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/text_filename"
+        android:layout_marginTop="18dp"
+        android:layout_marginBottom="18dp"
+        android:textColor="@android:color/holo_orange_light" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="encrypt_save"
+        android:id="@+id/button_save"
+        android:textColor="@android:color/background_dark"
+        android:clickable="true"
+        android:onClick="onClickEncryptSave"
+        android:background="@android:color/darker_gray"
+        android:layout_gravity="center_horizontal"
+        android:gravity="fill_vertical"
+        android:layout_margin="18dp" />
+</LinearLayout>
