@@ -16,7 +16,7 @@
 
     <EditText
         android:id="@+id/pwd"
-        android:hint="password/phrase"
+        android:hint="password"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:inputType="textPassword"
@@ -38,10 +38,8 @@
         android:text="Cancel"
          android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
-        android:layout_below="@+id/pwd"
-        android:layout_alignRight="@+id/pwd"
-     />
+        android:layout_alignTop="@+id/button_unlock"
+        android:layout_toRightOf="@id/button_unlock" />
 
 
 </RelativeLayout>

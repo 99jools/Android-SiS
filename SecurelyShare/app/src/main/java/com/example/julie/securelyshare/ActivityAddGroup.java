@@ -1,8 +1,12 @@
 package com.example.julie.securelyshare;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+
+import java.io.IOException;
+import java.security.GeneralSecurityException;
 
 
 public class ActivityAddGroup extends ActivityMain {
@@ -18,6 +22,7 @@ public class ActivityAddGroup extends ActivityMain {
 
     public void onClickCreate(View view) {
         //get the groupID
+        Log.e("in add","");
         EditText getGroupID = (EditText) findViewById(R.id.text_groupID);
         String groupID = getGroupID.getText().toString().trim();
         //check that filename isn't empty
@@ -26,7 +31,15 @@ public class ActivityAddGroup extends ActivityMain {
         } else {
 
 
-    //            new AppKeystore().importGroupKey(groupID,);
+            try {
+                new AppKeystore().addGroupKey(groupID);
+            } catch (GeneralSecurityException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (MissingPwdException e) {
+                e.printStackTrace();
+            }
 
             finish();
         }

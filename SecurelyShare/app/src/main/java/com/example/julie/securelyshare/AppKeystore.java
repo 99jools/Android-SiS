@@ -1,6 +1,7 @@
 package com.example.julie.securelyshare;
 
 import android.content.Context;
+import android.util.Log;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -23,6 +24,7 @@ import java.util.Enumeration;
 
 import javax.crypto.Cipher;
 import javax.crypto.CipherInputStream;
+import javax.crypto.KeyGenerator;
 import javax.crypto.spec.SecretKeySpec;
 
 /**
@@ -49,9 +51,9 @@ public class AppKeystore {
         try {
             this.ks = loadKeyStore();
         } catch (IOException e) {
-            System.out.println( e.getMessage());
+           e.printStackTrace();
         } catch (GeneralSecurityException e) {
-            System.out.println( e.getMessage());
+            e.printStackTrace();
         }
 
     }
@@ -61,11 +63,21 @@ public class AppKeystore {
      * @param alias
      * @return KeySpec for the retrieved key
      */
-    public SecretKeySpec getSKS(String alias){
-        Key key = getKey(alias);
-        return new SecretKeySpec(key.getEncoded(), KEY_ALGORITHM);
+    public SecretKeySpec getSKS(String alias) {
+        try {
+            if (ks.containsAlias(alias)) {
+                Key groupKey = ks.getKey(alias, appPwdAsArray);
+                return new SecretKeySpec(groupKey.getEncoded(), KEY_ALGORITHM);
+            }
+        } catch (KeyStoreException e) {
+            e.printStackTrace();
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        } catch (UnrecoverableKeyException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
-
 
 
     /**
@@ -106,46 +118,11 @@ public class AppKeystore {
     public void listGroups() throws MissingPwdException, GeneralSecurityException, IOException {
         Enumeration<String> es = ks.aliases();
         for (String key : Collections.list(es)){
-            System.out.println(key + "found");
+            Log.e("key found", key);
         }
     } //end listGroups
 
     //**********************************************************************************************************************************************
-
-
-
-    /****************************************************************************************************************
-     * retrieves a key from the keystore
-     * @param alias of the key to be retrieved
-     */
-    private Key getKey( String alias)  {
-        try {
-            if (ks.containsAlias(alias)){
-
-
-                Key key = ks.getKey(alias, appPwdAsArray);
-                System.out.println(key.getEncoded().length)   ;
-                FileOutputStream temp = new FileOutputStream(new File("/home/students/jrs300/AndroidStudioProjects/workspaceP/shareinsecrettest/secretkeyforjulie"));
-                temp.write(key.getEncoded());
-                temp.close();
-
-                return key;
-            }
-        } catch (GeneralSecurityException e) {
-            e.printStackTrace();
-        } catch (FileNotFoundException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-
-        return null;  //ie not able to recover key
-    } //end getKey
-
-
-
 
 
 
@@ -234,6 +211,7 @@ public class AppKeystore {
     public boolean validate()  {
         try {
             ks.load(new FileInputStream(KEYSTORE_NAME), appPwdAsArray);
+            return true;
         } catch (IOException e) {
             e.printStackTrace();
         } catch (NoSuchAlgorithmException e) {
@@ -242,10 +220,43 @@ public class AppKeystore {
             e.printStackTrace();
         }
 
-        return true;
+        return false;
     }
 
 
+    /**
+     * ONLY NEEDED WHILST TESTING IN ANDROID
+     * @param groupID
+     * @throws IOException
+     * @throws GeneralSecurityException
+     */
+    public  void addGroupKey(String groupID) throws IOException, GeneralSecurityException{
+        //load keystore
+        String appPwd = AppPwdObj.getInstance().getValue();
+
+        //generate key
+        KeyGenerator myKeyGenerator = KeyGenerator.getInstance(KEY_ALGORITHM);
+        myKeyGenerator.init(KEY_LENGTH);
+        SecretKeySpec newSecretKeySpec =
+                new SecretKeySpec(myKeyGenerator.generateKey().getEncoded(), KEY_ALGORITHM);
+
+        //add to keystore
+        KeyStore.SecretKeyEntry skEntry = new KeyStore.SecretKeyEntry(newSecretKeySpec);
+        ks.setEntry(groupID, skEntry, new KeyStore.PasswordProtection(appPwd.toCharArray()));
+
+        //update stored copy of keystore  (can just rewrite as adding a new group is a rare occurrence)
+        writeKeyStore();
+
+
+    } //end generateKey
+
+    public int getSize(){
+        try {
+            return ks.size();
+        } catch (KeyStoreException e) {
+            e.printStackTrace();
+        }
+    return  99;}
 
 
 } //end AppKeystore

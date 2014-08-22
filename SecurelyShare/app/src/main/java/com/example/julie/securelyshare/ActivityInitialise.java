@@ -3,13 +3,13 @@ package com.example.julie.securelyshare;
 import android.app.Activity;
 import android.app.DialogFragment;
 import android.app.FragmentManager;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
-import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.security.GeneralSecurityException;
@@ -122,9 +122,9 @@ public class ActivityInitialise extends Activity implements Communicator {
         KeyStore newKS = KeyStore.getInstance(KEYSTORE_TYPE);
         newKS.load(null);
 
-        File file = new File(getExternalFilesDir(null), name);
-        FileOutputStream fos = new FileOutputStream(file);
-     //   FileOutputStream fos = openFileOutput(name, Context.MODE_PRIVATE);
+    //    File file = new File(getExternalFilesDir(null), name);
+    //    FileOutputStream fos = new FileOutputStream(file);
+       FileOutputStream fos = openFileOutput(name, Context.MODE_PRIVATE);
         newKS.store(fos, appPwd.toCharArray());
         fos.close();
        }

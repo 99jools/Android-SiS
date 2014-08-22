@@ -78,44 +78,45 @@ public class FileCryptor {
      * @throws IOException
      */
 
-    public static String decryptFile(FileInputStream fis, FileOutputStream  fos)
-            throws MissingPwdException, GeneralSecurityException, IOException {
-
+    public static String decryptFile(FileInputStream fis, FileOutputStream  fos) throws MissingPwdException {
+        MyCipher decryptionCipher=null;
         // read meta data from input stream
 int b = 0;
         byte [] bytes = new byte[4];
-        b=fis.read(bytes);
-Log.e("bytes read", " "+b);
-        int len = ByteBuffer.wrap(bytes).getInt();
+               try {
+                   b=fis.read(bytes);
+                   int len = ByteBuffer.wrap(bytes).getInt();
+                   byte[] gaba = new byte[len];
+                   b=fis.read(gaba);
+                   byte[] initVector = new byte[MyCipher.AES_BLOCKSIZE];
+                   b=fis.read(initVector);
+                   Log.e("metadata read", " ");
 
-        byte[] gaba = new byte[len];
-        b=fis.read(gaba);
-Log.e("bytes read", " "+b);
-  Log.e("bytes read", new String(gaba, "UTF-8")+"xxxx");
 
-        byte[] initVector = new byte[MyCipher.AES_BLOCKSIZE];
-        b=fis.read(initVector);
-Log.e("bytes read", " "+b);
 
 
         //setup decryption
-        MyCipher decryptionCipher = new MyCipher(gaba, initVector);
+        decryptionCipher = new MyCipher(gaba, initVector);
 
         CipherInputStream cis = new CipherInputStream(fis,decryptionCipher.getmCipher() );
 
         //read and decrypt file
         byte[] block = new byte[MyCipher.AES_BLOCKSIZE];
-        int bytesRead;
+        int bytesRead=0;
+        Log.e("bytes read",""+bytesRead);
         bytesRead = cis.read(block);
+        Log.e("bytes read",""+bytesRead);
         while (bytesRead != -1) {
             fos.write(block,0,bytesRead);
             bytesRead = cis.read(block);  //read next block
+            Log.e("bytes read",""+bytesRead);
         }
-        //close file
-        fos.close();
-        cis.close();
-        fis.close();
-
+                   fos.close();
+                   cis.close();
+                   fis.close();
+               } catch (IOException e) {
+                   e.printStackTrace();
+               }
         return decryptionCipher.getGroupID();
     } //end decryptFile
 

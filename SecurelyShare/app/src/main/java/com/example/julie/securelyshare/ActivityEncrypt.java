@@ -77,7 +77,7 @@ public class ActivityEncrypt extends ActivityMain {
             //encrypt file and write to Dropbox
             FileCryptor.encryptFile(fis,fos,groupID);
             dbxOut.close();
- //           finish();
+           finish();
         }
 
     }

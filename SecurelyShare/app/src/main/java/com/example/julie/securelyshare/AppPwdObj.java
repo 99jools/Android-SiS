@@ -31,18 +31,9 @@ public class AppPwdObj {
         return this.value;
     }
 
-    public boolean setValue(String value){
+    public void setValue(String value) {
         this.value = value;
-        //check that it is possible to access Keystore
-        try {
-            AppKeystore aks = new AppKeystore();
-                  aks.validate();
-            return true;
-        } catch (MissingPwdException e) {
-            e.printStackTrace();
-            //this should not occur as we have just set the password above!!
-        }
-        return false;
+        return;
     }
 
     public Context getContext(){

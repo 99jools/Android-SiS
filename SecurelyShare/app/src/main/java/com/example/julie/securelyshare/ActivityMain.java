@@ -61,6 +61,7 @@ public class ActivityMain extends Activity  implements Communicator{
             dFragment.show(fm, "Dialog Fragment Unlock");
         }
 
+
         //once dropbox connected and keystore unlocked, attach titles fragment
 
  /*       FragmentTransaction fleft =fm.beginTransaction();
@@ -217,10 +218,9 @@ public class ActivityMain extends Activity  implements Communicator{
 
     @Override
     public void onDialogResponse(String data) {
-        boolean b = apo.setValue(data);
+        apo.setValue(data);
 
-        if (b) showToast("keystore unlocked");
-                else showToast("password error");
+
 
     }
     ///////////////////////handle keystore error
