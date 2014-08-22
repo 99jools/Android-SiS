@@ -11,7 +11,7 @@ Splash screen implementation based on code from http://www.androidhive.info/2013
  */
 
 public class ActivitySplashScreen extends Activity {
-    private static final int SHOW_SPLASH = 3000;
+    private static final int SHOW_SPLASH = 500;
     public static final String CERTIFICATE_FILE = "SiSCert.ks";
 
     @Override

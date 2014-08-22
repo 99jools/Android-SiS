@@ -8,24 +8,16 @@ package com.example.julie.securelyshare;
 import android.app.FragmentTransaction;
 import android.app.ListFragment;
 import android.content.Intent;
-import android.net.Uri;
+import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.Toast;
 
 import com.dropbox.sync.android.DbxException;
-import com.dropbox.sync.android.DbxFile;
 import com.dropbox.sync.android.DbxFileInfo;
 import com.dropbox.sync.android.DbxPath;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.security.GeneralSecurityException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -73,7 +65,7 @@ public class TitlesFragment extends ListFragment {
 
         if (mDualPane) {
             getListView().setChoiceMode(ListView.CHOICE_MODE_SINGLE);
-            showDetails(mCurCheckPosition);
+            showDetails(mCurCheckPosition, true);
         } else {
             // We also highlight in uni-pane just for fun
             getListView().setChoiceMode(ListView.CHOICE_MODE_SINGLE);
@@ -104,15 +96,19 @@ public class TitlesFragment extends ListFragment {
                 if (fileInfo.isFolder) {
                     mCurrentNode = fileInfo;
                     refreshFileList();
-                } else doDecrypt(fileInfo);
+                } else          Toast.makeText(getActivity(), "do decrypt",
+                        Toast.LENGTH_LONG).show();
+
+
+                    // doDecrypt(fileInfo);
             }
 
         } catch (DbxException e1) {
             e1.printStackTrace();
         }
 
-        boolean displayable = doDecrypt(fileInfo);
-        showDetails(position, displayable);
+ //       boolean displayable = doDecrypt(fileInfo);
+        showDetails(position, true);
     }
 
     // Helper function to show the details of a selected item, either by
@@ -126,6 +122,7 @@ public class TitlesFragment extends ListFragment {
         // start a second activity to show the details fragment
         if (mDualPane) {
             getListView().setItemChecked(position, true);
+            getListView().setBackgroundColor(Color.BLUE);
             // Check what fragment is currently shown, replace if needed.
             DetailsFragment details = (DetailsFragment) getFragmentManager()
                     .findFragmentById(R.id.details);
@@ -136,7 +133,7 @@ public class TitlesFragment extends ListFragment {
                 // with this one inside the frame.
                 FragmentTransaction ft = getFragmentManager()
                         .beginTransaction();
-                ft.replace(R.id.details, details);
+                ft.replace(R.id.left, details);
                 ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
                 ft.commit();
             }
@@ -155,7 +152,7 @@ public class TitlesFragment extends ListFragment {
             intent.setClass(getActivity(), DetailsActivity.class);
             // pass the current position
             intent.putExtra("position", position);
-            intent.putExtra("displayable", displayable);
+            intent.putExtra("displayable", "This is the data to be displayed");
             startActivity(intent);
         }
     }
@@ -171,7 +168,7 @@ public class TitlesFragment extends ListFragment {
         mAdapter.notifyDataSetChanged();
     }
 
-    private boolean doDecrypt(DbxFileInfo fileInfo)  {
+ /*   private boolean doDecrypt(DbxFileInfo fileInfo)  {
         File myPlaintextFile;
         Boolean displayable;
         /* work out how we are goint to show output
@@ -179,7 +176,7 @@ public class TitlesFragment extends ListFragment {
          * I >2GB or type .pdf (or any other) - offer the user the chance to write plaintext
          * to external cache and open using the app of their choice
          * NB we will clear the cache in
-         */
+
          Log.e("size ", " "+ fileInfo.size);
 
         if  ( (fileInfo.size <  1800000) && (fileInfo.path.getName().endsWith(".txt"))) {
@@ -189,7 +186,7 @@ public class TitlesFragment extends ListFragment {
         //open a file input stream with given path
         if (displayable) try {
             DbxFile dbxIn = mDbx.getInFile(fileInfo);
-            FileInputStream fis = dbxIn.getReadStream()
+            FileInputStream fis = dbxIn.getReadStream();
 
             myPlaintextFile = getFos(fileInfo.path.getName());
             FileOutputStream fos = new FileOutputStream(myPlaintextFile);
@@ -219,6 +216,6 @@ public class TitlesFragment extends ListFragment {
         out = out.substring(0, out.length() - 4);
         return new File(getActivity().getExternalCacheDir(),out);
     } //end getFos
-
+*/
 
 }

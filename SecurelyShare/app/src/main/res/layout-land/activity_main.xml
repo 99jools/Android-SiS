@@ -8,17 +8,20 @@
     android:baselineAligned="false"
     android:orientation="horizontal" tools:context=".MainActivity" >
 
-    <fragment android:id="@+id/left"
+    <FrameLayout
+        android:id="@+id/left"
         android:layout_width="0px"
         android:layout_height="match_parent"
         android:layout_weight="1"
-        class="com.example.julie.securelyshare.TitlesFragment" />
+        android:background="@android:color/holo_blue_bright"
+        />
 
     <FrameLayout
         android:id="@+id/details"
         android:layout_width="0px"
         android:layout_height="match_parent"
         android:layout_weight="1"
-        android:background="?android:attr/detailsElementBackground" />
+        android:background="?android:attr/detailsElementBackground"
+ />
 
 </LinearLayout>

@@ -2,9 +2,6 @@ package com.example.julie.securelyshare;
 
 import android.content.Context;
 
-import java.io.IOException;
-import java.security.GeneralSecurityException;
-
 /**
  * Created by jrs300 on 01/08/14.
  */
@@ -44,10 +41,6 @@ public class AppPwdObj {
         } catch (MissingPwdException e) {
             e.printStackTrace();
             //this should not occur as we have just set the password above!!
-        } catch (GeneralSecurityException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
         }
         return false;
     }

@@ -9,10 +9,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.Toast;
+import android.widget.EditText;
 
 public class FragmentDialogUnlock extends DialogFragment implements View.OnClickListener {
     Button mUnlock, mCancel;
+    EditText mEditPwd;
     Communicator communicator;
 
     @Override
@@ -26,6 +27,7 @@ public class FragmentDialogUnlock extends DialogFragment implements View.OnClick
         View view = inflater.inflate(R.layout.fragment_dialog_unlock, container, false);
         mUnlock = (Button) view.findViewById(R.id.button_unlock);
         mCancel = (Button) view.findViewById(R.id.button_cancel);
+        mEditPwd = (EditText) view.findViewById(R.id.pwd);
         mUnlock.setOnClickListener(this);
         mCancel.setOnClickListener(this);
         setCancelable(false);
@@ -34,18 +36,14 @@ public class FragmentDialogUnlock extends DialogFragment implements View.OnClick
         return view;
     }
 
-    public void showToast(String message) {
-        Toast toast = Toast.makeText(getActivity(), message, Toast.LENGTH_LONG);
-        toast.show();
-    }
-
     @Override
     public void onClick(View view) {
         if (view.getId() == R.id.button_unlock) {
-            communicator.onDialogResponse("Keystore was unlocked");
+            //return password to calling activity
+            communicator.onDialogResponse(mEditPwd.getText().toString().trim());
             dismiss();
         } else {
-            communicator.onDialogResponse("Keystore - cancel was clicked");
+            communicator.onDialogResponse(null);
             dismiss();
         }
     }

@@ -231,10 +231,18 @@ public class AppKeystore {
      * @return
      * @throws IOException
      */
-    public boolean validate() throws IOException, GeneralSecurityException {
-             ks.load(new FileInputStream(KEYSTORE_NAME), appPwdAsArray);
+    public boolean validate()  {
+        try {
+            ks.load(new FileInputStream(KEYSTORE_NAME), appPwdAsArray);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        } catch (CertificateException e) {
+            e.printStackTrace();
+        }
 
-            return true;
+        return true;
     }
 
 

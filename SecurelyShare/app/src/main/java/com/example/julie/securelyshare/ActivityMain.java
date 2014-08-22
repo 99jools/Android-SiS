@@ -43,15 +43,6 @@ public class ActivityMain extends Activity  implements Communicator{
     @Override
     protected void onResume() {
         super.onResume();
-
-        apo = AppPwdObj.makeObj(this.getApplicationContext());
-        //get Master Password - code branches here to dialog
-        if (apo.getValue()==null) {
-            // we need to get the password from the user
-            FragmentDialogUnlock dFragment = new FragmentDialogUnlock();
-            dFragment.show(fm, "Dialog Fragment Unlock");
-        }
-
         if (mDbxAcctMgr.hasLinkedAccount()) {
             if (mDbxAcctMgr.getLinkedAccount().getAccountInfo()!=null )
                 actionBar.setSubtitle(mDbxAcctMgr.getLinkedAccount().getAccountInfo().displayName);
@@ -61,6 +52,23 @@ public class ActivityMain extends Activity  implements Communicator{
             mDbxAcctMgr.startLink(this, REQUEST_LINK_TO_DBX);
         }
 
+
+        apo = AppPwdObj.makeObj(this.getApplicationContext());
+        //get Master Password - code branches here to dialog
+        if (apo.getValue()==null) {
+            // we need to get the password from the user
+            FragmentDialogUnlock dFragment = new FragmentDialogUnlock();
+            dFragment.show(fm, "Dialog Fragment Unlock");
+        }
+
+        //once dropbox connected and keystore unlocked, attach titles fragment
+
+ /*       FragmentTransaction fleft =fm.beginTransaction();
+        TitlesFragment titles = new TitlesFragment();
+        fleft.replace(R.id.left,titles);
+        fleft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+        fleft.commit();
+*/
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -211,8 +219,11 @@ public class ActivityMain extends Activity  implements Communicator{
     public void onDialogResponse(String data) {
         boolean b = apo.setValue(data);
 
-
-            ///////////////////////handle keystore error
+        if (b) showToast("keystore unlocked");
+                else showToast("password error");
 
     }
+    ///////////////////////handle keystore error
+
 }
+
