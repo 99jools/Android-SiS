@@ -54,7 +54,6 @@ public class ActivityMain extends Activity  implements Communicator{
 
         //sort out password
         apo = AppPwdObj.makeObj(this.getApplicationContext());
-apo.validate("test");
         if (apo.getValue()==null) {
             // get password from the user and set in AppPwdObj
             FragmentDialogUnlock dFragment = new FragmentDialogUnlock();
