@@ -13,7 +13,7 @@ public class AppPwdObj {
 
     private AppPwdObj(Context context) {
         this.context = context;
-    }  //this is just here for testing in case object is destroyed - remove once password fragment available
+    }
 
     public static AppPwdObj makeObj(Context context) {
         if (appPwdObj == null)
@@ -27,7 +27,6 @@ public class AppPwdObj {
     }
 
     public String getValue(){
-
         return this.value;
     }
 
@@ -38,5 +37,9 @@ public class AppPwdObj {
 
     public Context getContext(){
         return this.context;
+    }
+
+    public boolean validate(){
+        return
     }
 }

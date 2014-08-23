@@ -35,8 +35,8 @@ public class AppKeystore {
 
     public static final String KEY_ALGORITHM = "AES";
     public static final String KEYPAIR_ALGORITHM = "RSA";
-    public static final int KEY_LENGTH = 128;
-    public static final int KEYPAIR_LENGTH = 1024;
+    public static final int    KEY_LENGTH = 128;
+    public static final int    KEYPAIR_LENGTH = 1024;
     public static final String KEYSTORE_NAME = "SiSKeyStore.ks";
     public static final String KEYSTORE_TYPE = "BKS";
 
@@ -161,10 +161,6 @@ public class AppKeystore {
     } //end loadKeyStore
 
 
-
-
-
-
     private PrivateKey getPrivateKey(){
         PrivateKey key = null;
         try {
@@ -208,16 +204,22 @@ public class AppKeystore {
      * @return
      * @throws IOException
      */
-    public boolean validate()  {
+    public static boolean validate(String pwd)  {
         try {
-            ks.load(new FileInputStream(KEYSTORE_NAME), appPwdAsArray);
+            myks.load(new FileInputStream(KEYSTORE_NAME), pwd.toCharArray());
             return true;
-        } catch (IOException e) {
+        } catch (CertificateException e) {
+            // TODO Auto-generated catch block
             e.printStackTrace();
         } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        } catch (CertificateException e) {
-            e.printStackTrace();
+            // TODO Auto-generated catch block
+            // e.printStackTrace();
+        } catch (FileNotFoundException e) {
+            // TODO Auto-generated catch block
+            // e.printStackTrace();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            // e.printStackTrace();
         }
 
         return false;

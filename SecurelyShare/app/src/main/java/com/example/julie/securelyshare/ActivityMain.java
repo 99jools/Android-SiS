@@ -26,7 +26,6 @@ public class ActivityMain extends Activity  implements Communicator{
     private DbxAccountManager mDbxAcctMgr;
     private AppPwdObj apo;
 
-//    private boolean linked;
     private FragmentManager fm = getFragmentManager();
     private ActionBar  actionBar;
 
@@ -36,29 +35,26 @@ public class ActivityMain extends Activity  implements Communicator{
         setContentView(R.layout.activity_main);
         mDbxAcctMgr = new DropboxSetup(this.getApplicationContext()).getAccMgr();
         actionBar = getActionBar();
-
     }
 
 
     @Override
     protected void onResume() {
         super.onResume();
+
+        //sort out dropbox link
         if (mDbxAcctMgr.hasLinkedAccount()) {
             if (mDbxAcctMgr.getLinkedAccount().getAccountInfo()!=null )
                 actionBar.setSubtitle(mDbxAcctMgr.getLinkedAccount().getAccountInfo().displayName);
         }
-        else {
-            //Link to Dropbox
-            mDbxAcctMgr.startLink(this, REQUEST_LINK_TO_DBX);
-        }
+        else mDbxAcctMgr.startLink(this, REQUEST_LINK_TO_DBX);
 
-
+        //sort out password
         apo = AppPwdObj.makeObj(this.getApplicationContext());
-        //get Master Password - code branches here to dialog
+        Log.e("ApppwdObj", apo.getValue());
         if (apo.getValue()==null) {
-            // we need to get the password from the user
-            FragmentDialogUnlock dFragment = new FragmentDialogUnlock();
-            dFragment.show(fm, "Dialog Fragment Unlock");
+            getMasterPwd();
+
         }
 
 
@@ -180,50 +176,44 @@ public class ActivityMain extends Activity  implements Communicator{
         if (requestCode == REQUEST_LINK_TO_DBX) {
             if (resultCode == Activity.RESULT_OK) {
                 //start next activity
- //               linked = true;
-                showToast("Completed link to Dropbox - now ready for next activity");
+                showToast("Link to Dropbox complete");
             } else {
-                showToast("Link to Dropbox failed or was cancelled.");
+                showToast("Link to Dropbox failed or was cancelled by user.");
             }
         } else if (requestCode == ENCRYPT_CHOSEN) {
             if (resultCode == Activity.RESULT_OK) {
-
+//TODO need to sort out what happens when user selects file to be encrypted
             }
         } else super.onActivityResult(requestCode, resultCode, data);
 
     }
+    public boolean getMasterPwd() {
+        // get password from the user and set in AppPwdObj
+        FragmentDialogUnlock dFragment = new FragmentDialogUnlock();
+        dFragment.show(fm, "Dialog Fragment Unlock");
+        Log.e("pwd from user", apo.getValue());
 
+        //now check that this pwd provides access to the store
+        boolean valid = new AppKeystore().validate()
 
-/*    public void onProceed(View view){
-        //check which scenario we are in
-        if (linked) {
-            Intent intent = new Intent(this, ActivityCreate.class);
-            startActivity(intent);
-        } else {
-            mDbxAcctMgr.startLink(this, REQUEST_LINK_TO_DBX);
-        }
     }
-*/
-    public void showToast(String message) {
-        Toast toast = Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG);
-        toast.show();
-    }
-
-
 
     @Override
     public void alertDialogResponse(int title, int whichButton) {
-
     }
 
     @Override
     public void onDialogResponse(String data) {
+        /*set keystore password using data supplied by user
+         * NB validation takes place elsewhere
+        */
         apo.setValue(data);
-
-
-
     }
-    ///////////////////////handle keystore error
+
+    public void showToast(String message) {
+        Toast toast = Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG);
+        toast.show();
+    }
 
 }
 
