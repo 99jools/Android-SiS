@@ -30,16 +30,17 @@ public class AppPwdObj {
         return this.value;
     }
 
-    public void setValue(String value) {
-        this.value = value;
-        return;
-    }
-
     public Context getContext(){
         return this.context;
     }
 
-    public boolean validate(){
-        return
+    public boolean validate(String value){
+        this.value = value;
+        try {
+            AppKeystore testKS = new AppKeystore();
+            return true;
+        } catch (WrongPwdException e) {
+            return false;
+        }
     }
 }

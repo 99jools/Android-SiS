@@ -37,7 +37,7 @@ public class ActivityAddGroup extends ActivityMain {
                 e.printStackTrace();
             } catch (IOException e) {
                 e.printStackTrace();
-            } catch (MissingPwdException e) {
+            } catch (WrongPwdException e) {
                 e.printStackTrace();
             }
 

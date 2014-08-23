@@ -44,18 +44,33 @@ public class AppKeystore {
     private KeyStore ks;
     Context context;
 
-    public AppKeystore() throws MissingPwdException{
+    /**
+     * AppKeystore constructor
+     * @throws WrongPwdException if the password stored in AppPwdObj
+     * is null (as may have happened if object has been recreated)
+     * or if it is incorrect and doesn't unlock the keystore
+     */
+    public AppKeystore() throws WrongPwdException {
         String appPwd = AppPwdObj.getInstance().getValue();
+        if (appPwd == null) throw  new WrongPwdException();
+        //otherwise continue to load the keystore
         this.appPwdAsArray = appPwd.toCharArray();
         this.context =  AppPwdObj.getInstance().getContext();
+        FileInputStream fis = null;
         try {
-            this.ks = loadKeyStore();
+            fis = context.openFileInput(KEYSTORE_NAME);
+            this.ks.load(fis, appPwdAsArray);
         } catch (IOException e) {
            e.printStackTrace();
         } catch (GeneralSecurityException e) {
             e.printStackTrace();
+        } finally {
+            if (fis != null) try {
+                fis.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
-
     }
 
     /**
@@ -111,11 +126,11 @@ public class AppKeystore {
 
     /****************************************************************************************************************
      * Lists all the groups in the keystore
-     * @throws MissingPwdException
+     * @throws WrongPwdException
      * @throws GeneralSecurityException
      * @throws IOException
      */
-    public void listGroups() throws MissingPwdException, GeneralSecurityException, IOException {
+    public void listGroups() throws WrongPwdException, GeneralSecurityException, IOException {
         Enumeration<String> es = ks.aliases();
         for (String key : Collections.list(es)){
             Log.e("key found", key);
@@ -140,27 +155,6 @@ public class AppKeystore {
         }
     } //end writeKeyStore
 
-
-
-    /**
-     * Loads the key store from disc
-     * @return the keystore
-     * @throws IOException
-     * @throws GeneralSecurityException
-     */
-    private KeyStore loadKeyStore() throws IOException, GeneralSecurityException {
-        KeyStore myks = KeyStore.getInstance(KEYSTORE_TYPE);
-        FileInputStream fis = null;
-        try {
-            fis = context.openFileInput(KEYSTORE_NAME);
-            myks.load(fis, appPwdAsArray);
-        } finally {
-            if (fis != null) fis.close();
-        }
-        return myks;
-    } //end loadKeyStore
-
-
     private PrivateKey getPrivateKey(){
         PrivateKey key = null;
         try {
@@ -177,9 +171,8 @@ public class AppKeystore {
         }
         return key;
     }
-
+//TODO check whether this can be removed
     private PublicKey getPublicKey(File certFile){
-
         //read in the certificate from file
         FileInputStream certIn;
         PublicKey pk = null;
@@ -198,44 +191,13 @@ public class AppKeystore {
         return pk;
     }
 
-
-    /**********************************************************************************************************************8
-     * validates that password (appPwd) provides access to the keystore
-     * @return
-     * @throws IOException
-     */
-    public static boolean validate(String pwd)  {
-        try {
-            myks.load(new FileInputStream(KEYSTORE_NAME), pwd.toCharArray());
-            return true;
-        } catch (CertificateException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        } catch (NoSuchAlgorithmException e) {
-            // TODO Auto-generated catch block
-            // e.printStackTrace();
-        } catch (FileNotFoundException e) {
-            // TODO Auto-generated catch block
-            // e.printStackTrace();
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            // e.printStackTrace();
-        }
-
-        return false;
-    }
-
-
-    /**
+     /**
      * ONLY NEEDED WHILST TESTING IN ANDROID
      * @param groupID
      * @throws IOException
      * @throws GeneralSecurityException
      */
     public  void addGroupKey(String groupID) throws IOException, GeneralSecurityException{
-        //load keystore
-        String appPwd = AppPwdObj.getInstance().getValue();
-
         //generate key
         KeyGenerator myKeyGenerator = KeyGenerator.getInstance(KEY_ALGORITHM);
         myKeyGenerator.init(KEY_LENGTH);
@@ -244,7 +206,7 @@ public class AppKeystore {
 
         //add to keystore
         KeyStore.SecretKeyEntry skEntry = new KeyStore.SecretKeyEntry(newSecretKeySpec);
-        ks.setEntry(groupID, skEntry, new KeyStore.PasswordProtection(appPwd.toCharArray()));
+        ks.setEntry(groupID, skEntry, new KeyStore.PasswordProtection(appPwdAsArray));
 
         //update stored copy of keystore  (can just rewrite as adding a new group is a rare occurrence)
         writeKeyStore();

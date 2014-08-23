@@ -4,6 +4,7 @@ import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -25,6 +26,8 @@ public class ActivityMain extends Activity  implements Communicator{
 
     private DbxAccountManager mDbxAcctMgr;
     private AppPwdObj apo;
+    private boolean pwdValid;
+    private int tries = 0;
 
     private FragmentManager fm = getFragmentManager();
     private ActionBar  actionBar;
@@ -51,21 +54,22 @@ public class ActivityMain extends Activity  implements Communicator{
 
         //sort out password
         apo = AppPwdObj.makeObj(this.getApplicationContext());
-        Log.e("ApppwdObj", apo.getValue());
+apo.validate("test");
         if (apo.getValue()==null) {
-            getMasterPwd();
-
+            // get password from the user and set in AppPwdObj
+            FragmentDialogUnlock dFragment = new FragmentDialogUnlock();
+            dFragment.show(fm, "Dialog Fragment Unlock");
         }
-
+        showToast ("good to go");
 
         //once dropbox connected and keystore unlocked, attach titles fragment
 
- /*       FragmentTransaction fleft =fm.beginTransaction();
+       FragmentTransaction fleft =fm.beginTransaction();
         TitlesFragment titles = new TitlesFragment();
         fleft.replace(R.id.left,titles);
         fleft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
         fleft.commit();
-*/
+
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -122,7 +126,7 @@ public class ActivityMain extends Activity  implements Communicator{
 
                 try {
                     new AppKeystore().listGroups();
-                } catch (MissingPwdException e) {
+                } catch (WrongPwdException e) {
                     Log.e("listgroups", e.getMessage());
                 } catch (GeneralSecurityException e) {
                     Log.e("listgroups", e.getMessage());
@@ -187,16 +191,6 @@ public class ActivityMain extends Activity  implements Communicator{
         } else super.onActivityResult(requestCode, resultCode, data);
 
     }
-    public boolean getMasterPwd() {
-        // get password from the user and set in AppPwdObj
-        FragmentDialogUnlock dFragment = new FragmentDialogUnlock();
-        dFragment.show(fm, "Dialog Fragment Unlock");
-        Log.e("pwd from user", apo.getValue());
-
-        //now check that this pwd provides access to the store
-        boolean valid = new AppKeystore().validate()
-
-    }
 
     @Override
     public void alertDialogResponse(int title, int whichButton) {
@@ -204,10 +198,20 @@ public class ActivityMain extends Activity  implements Communicator{
 
     @Override
     public void onDialogResponse(String data) {
-        /*set keystore password using data supplied by user
-         * NB validation takes place elsewhere
-        */
-        apo.setValue(data);
+        pwdValid = apo.validate(data);
+        Log.e("tries", " " + tries);
+        //now check that this pwd provides access to the store
+        if (!pwdValid) {
+            if (tries < 2) showToast("The password entered is invalid - please retry");
+            else {
+                if (tries == 2)
+                    showToast("Password invalid - ONE MORE FAILURE WILL RESULT IN KEYSTORE BEING WIPED");
+                else showToast("Keystore wiped");
+            }
+            tries++;
+            FragmentDialogUnlock dFragment = new FragmentDialogUnlock();
+            dFragment.show(fm, "Dialog Fragment Unlock");
+        }
     }
 
     public void showToast(String message) {

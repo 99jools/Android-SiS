@@ -60,7 +60,7 @@ public class ActivityEncrypt extends ActivityMain {
         startActivityForResult(getContentIntent, ENCRYPT_CHOOSER);
     }
 
-    public void onClickOK(View view) throws MissingPwdException, IOException, GeneralSecurityException {
+    public void onClickOK(View view) throws WrongPwdException, IOException, GeneralSecurityException {
 
         //get the groupID
         EditText getGroup = (EditText) findViewById(R.id.text_groupID);

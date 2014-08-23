@@ -52,7 +52,7 @@ public class ActivityCreate extends Activity {
     /**
      * called whenever the user clicks the Encrypt and Save button
      */
-    public void onClickEncryptSave(View view) throws MissingPwdException,IOException, GeneralSecurityException{
+    public void onClickEncryptSave(View view) throws WrongPwdException,IOException, GeneralSecurityException{
         //get the plaintext from the screen
         EditText editText = (EditText) findViewById(R.id.plaintextIn);
         String plaintextIn = editText.getText().toString();
