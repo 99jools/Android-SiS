@@ -26,8 +26,11 @@ public class ActivitySplashScreen extends Activity {
             public void run() {
 
                 //check if keystore exists
-                File file = getFileStreamPath(CERTIFICATE_FILE);
-                if (file.exists()) {
+                //            File mFile = getFileStreamPath(CERTIFICATE_FILE);
+                //moved to external storage for testing and demonstration purposes
+                File mFile = new File(getExternalFilesDir(null), CERTIFICATE_FILE);
+
+                if (mFile.exists()) {
                     Intent i = new Intent(ActivitySplashScreen.this, ActivityMain.class);
                     startActivity(i);
                 } else {

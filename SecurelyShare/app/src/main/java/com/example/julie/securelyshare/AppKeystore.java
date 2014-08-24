@@ -35,8 +35,8 @@ public class AppKeystore {
 
     public static final String KEY_ALGORITHM = "AES";
     public static final String KEYPAIR_ALGORITHM = "RSA";
-    public static final int    KEY_LENGTH = 128;
-    public static final int    KEYPAIR_LENGTH = 1024;
+    public static final int KEY_LENGTH = 128;
+    public static final int KEYPAIR_LENGTH = 1024;
     public static final String KEYSTORE_NAME = "SiSKeyStore.ks";
     public static final String KEYSTORE_TYPE = "BKS";
 
@@ -46,22 +46,26 @@ public class AppKeystore {
 
     /**
      * AppKeystore constructor
+     *
      * @throws WrongPwdException if the password stored in AppPwdObj
-     * is null (as may have happened if object has been recreated)
-     * or if it is incorrect and doesn't unlock the keystore
+     *                           is null (as may have happened if object has been recreated)
+     *                           or if it is incorrect and doesn't unlock the keystore
      */
     public AppKeystore() throws WrongPwdException {
         String appPwd = AppPwdObj.getInstance().getValue();
-        if (appPwd == null) throw  new WrongPwdException();
+        if (appPwd == null) throw new WrongPwdException();
         //otherwise continue to load the keystore
         this.appPwdAsArray = appPwd.toCharArray();
-        this.context =  AppPwdObj.getInstance().getContext();
+        this.context = AppPwdObj.getInstance().getContext();
         FileInputStream fis = null;
         try {
-            fis = context.openFileInput(KEYSTORE_NAME);
+            //           fis = context.openFileInput(KEYSTORE_NAME);
+
+            //moved to external storage for testing and demo
+            fis = new FileInputStream(new File(context.getExternalFilesDir(null), KEYSTORE_NAME));
             this.ks.load(fis, appPwdAsArray);
         } catch (IOException e) {
-           e.printStackTrace();
+            e.printStackTrace();
         } catch (GeneralSecurityException e) {
             e.printStackTrace();
         } finally {
@@ -75,6 +79,7 @@ public class AppKeystore {
 
     /**
      * Retrieves the key from the Keystore corresponding to the supplied alias and wraps it as SecretKeySpec
+     *
      * @param alias
      * @return KeySpec for the retrieved key
      */
@@ -98,7 +103,7 @@ public class AppKeystore {
     /**
      * with reference to code from http://www.macs.hw.ac.uk/~ml355/lore/pkencryption.htm
      */
-    public void importGroupKey(String groupID, File groupKeyFile) throws GeneralSecurityException, IOException{
+    public void importGroupKey(String groupID, File groupKeyFile) throws GeneralSecurityException, IOException {
         // get private key to decrypt key file
         PrivateKey privateKey = getPrivateKey();
 
@@ -107,7 +112,7 @@ public class AppKeystore {
         deCipher.init(Cipher.DECRYPT_MODE, privateKey);
 
         //read and decrypt encoded group key from file
-        byte[] groupKey = new byte[KEY_LENGTH/8];   //need to convert to bytes
+        byte[] groupKey = new byte[KEY_LENGTH / 8];   //need to convert to bytes
         FileInputStream fis = new FileInputStream(groupKeyFile);
 
         CipherInputStream cis = new CipherInputStream(fis, deCipher);
@@ -124,15 +129,17 @@ public class AppKeystore {
     }
 
 
-    /****************************************************************************************************************
+    /**
+     * *************************************************************************************************************
      * Lists all the groups in the keystore
+     *
      * @throws WrongPwdException
      * @throws GeneralSecurityException
      * @throws IOException
      */
     public void listGroups() throws WrongPwdException, GeneralSecurityException, IOException {
         Enumeration<String> es = ks.aliases();
-        for (String key : Collections.list(es)){
+        for (String key : Collections.list(es)) {
             Log.e("key found", key);
         }
     } //end listGroups
@@ -140,14 +147,17 @@ public class AppKeystore {
     //**********************************************************************************************************************************************
 
 
-
-    /****************************************************************************************************************
+    /**
+     * *************************************************************************************************************
      * Updates the stored copy of the keystore
+     *
      * @throws GeneralSecurityException
      * @throws IOException
      */
     private void writeKeyStore() throws GeneralSecurityException, IOException {
-        FileOutputStream fos = context.openFileOutput(KEYSTORE_NAME, Context.MODE_PRIVATE);
+  //      FileOutputStream fos = context.openFileOutput(KEYSTORE_NAME, Context.MODE_PRIVATE);
+        FileOutputStream fos = new FileOutputStream(new File(context.getExternalFilesDir(null), KEYSTORE_NAME));
+
         try {
             ks.store(fos, appPwdAsArray);
         } finally {
@@ -155,10 +165,10 @@ public class AppKeystore {
         }
     } //end writeKeyStore
 
-    private PrivateKey getPrivateKey(){
+    private PrivateKey getPrivateKey() {
         PrivateKey key = null;
         try {
-            key = (PrivateKey) ks.getKey("rsassokey", appPwdAsArray);
+            key = (PrivateKey) ks.getKey("rsasso", appPwdAsArray);
         } catch (UnrecoverableKeyException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -171,8 +181,9 @@ public class AppKeystore {
         }
         return key;
     }
-//TODO check whether this can be removed
-    private PublicKey getPublicKey(File certFile){
+
+    //TODO check whether this can be removed
+    private PublicKey getPublicKey(File certFile) {
         //read in the certificate from file
         FileInputStream certIn;
         PublicKey pk = null;
@@ -191,13 +202,14 @@ public class AppKeystore {
         return pk;
     }
 
-     /**
+    /**
      * ONLY NEEDED WHILST TESTING IN ANDROID
+     *
      * @param groupID
      * @throws IOException
      * @throws GeneralSecurityException
      */
-    public  void addGroupKey(String groupID) throws IOException, GeneralSecurityException{
+    public void addGroupKey(String groupID) throws IOException, GeneralSecurityException {
         //generate key
         KeyGenerator myKeyGenerator = KeyGenerator.getInstance(KEY_ALGORITHM);
         myKeyGenerator.init(KEY_LENGTH);
@@ -214,13 +226,14 @@ public class AppKeystore {
 
     } //end generateKey
 
-    public int getSize(){
+    public int getSize() {
         try {
             return ks.size();
         } catch (KeyStoreException e) {
             e.printStackTrace();
         }
-    return  99;}
+        return 99;
+    }
 
 
 } //end AppKeystore

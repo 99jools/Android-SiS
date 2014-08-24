@@ -3,13 +3,13 @@ package com.example.julie.securelyshare;
 import android.app.Activity;
 import android.app.DialogFragment;
 import android.app.FragmentManager;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.security.GeneralSecurityException;
@@ -28,9 +28,9 @@ public class ActivityInitialise extends Activity implements Communicator {
     public static final int KEYPAIR_LENGTH = 1024;
 
     private Button mButtonContinue;
- //   private Button mButtonCancel;
-  //  private EditText mEditPwd;
-  //  private EditText mEditPwd2;
+    //   private Button mButtonCancel;
+    //  private EditText mEditPwd;
+    //  private EditText mEditPwd2;
 
     private FragmentManager fm = getFragmentManager();
     private String appPwd;
@@ -48,6 +48,7 @@ public class ActivityInitialise extends Activity implements Communicator {
      * Shows the AlertDialog to ask whether user wants to import a keystore from backup
      * rather than creating a new one
      * This is th onClick method fr the "Continue" button on the initial screen
+     *
      * @param view
      */
     public void showKeystoreDialog(View view) {
@@ -60,7 +61,7 @@ public class ActivityInitialise extends Activity implements Communicator {
     /**
      * Handles the response from the AlertDialogFragment
      *
-     * @param titleInt - indicates which instance of the Alert Dialog Fragment is responding
+     * @param titleInt    - indicates which instance of the Alert Dialog Fragment is responding
      * @param whichButton - indicates which button has been pressed
      */
     @Override
@@ -120,14 +121,13 @@ public class ActivityInitialise extends Activity implements Communicator {
 
     public void createKeyStore(String name) throws IOException, GeneralSecurityException {
         KeyStore newKS = KeyStore.getInstance(KEYSTORE_TYPE);
+        //   FileOutputStream fos = openFileOutput(name, Context.MODE_PRIVATE);
+        File mFile = new File(getExternalFilesDir(null), name);
+        FileOutputStream fos = new FileOutputStream(mFile);
         newKS.load(null);
-
-    //    File file = new File(getExternalFilesDir(null), name);
-    //    FileOutputStream fos = new FileOutputStream(file);
-       FileOutputStream fos = openFileOutput(name, Context.MODE_PRIVATE);
         newKS.store(fos, appPwd.toCharArray());
         fos.close();
-       }
+    }
 
 
     public void showToast(String message) {
