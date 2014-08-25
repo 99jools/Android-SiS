@@ -21,12 +21,12 @@ import java.security.GeneralSecurityException;
 
 public class ActivityMain extends Activity  implements Communicator{
 
-    private static final int REQUEST_LINK_TO_DBX = 1111;
+private static final int REQUEST_LINK_TO_DBX = 1111;
     private static final int ENCRYPT_CHOSEN = 2222;
 
     private DbxAccountManager mDbxAcctMgr;
     private AppPwdObj apo;
-    private boolean pwdValid;
+    private boolean pwdValid=false;
     private int tries = 0;
 
     private FragmentManager fm = getFragmentManager();
@@ -35,7 +35,8 @@ public class ActivityMain extends Activity  implements Communicator{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+
+        Log.e("ActivityMain: ", "- am in the onCreate method");
         mDbxAcctMgr = new DropboxSetup(this.getApplicationContext()).getAccMgr();
         actionBar = getActionBar();
     }
@@ -53,17 +54,16 @@ public class ActivityMain extends Activity  implements Communicator{
         else mDbxAcctMgr.startLink(this, REQUEST_LINK_TO_DBX);
 
         //sort out password
-        apo = AppPwdObj.makeObj(this.getApplicationContext());
         if (apo.getValue()==null) {
             // get password from the user and set in AppPwdObj
             FragmentDialogUnlock dFragment = new FragmentDialogUnlock();
             dFragment.show(fm, "Dialog Fragment Unlock");
         }
-        showToast ("good to go");
+
 
         //once dropbox connected and keystore unlocked, attach titles fragment
 
-       FragmentTransaction fleft =fm.beginTransaction();
+        FragmentTransaction fleft =fm.beginTransaction();
         TitlesFragment titles = new TitlesFragment();
         fleft.replace(R.id.left,titles);
         fleft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
@@ -102,7 +102,7 @@ public class ActivityMain extends Activity  implements Communicator{
                    - something we seek to avoid!!
                  */
 
-               // Create the ACTION_GET_CONTENT Intent
+                // Create the ACTION_GET_CONTENT Intent
                 Intent getContentIntent = new Intent(Intent.ACTION_GET_CONTENT);
                 getContentIntent.setType("file/*");
                 startActivityForResult(getContentIntent, ENCRYPT_CHOSEN);
@@ -166,7 +166,7 @@ public class ActivityMain extends Activity  implements Communicator{
         AlertDialog alertDialog = ad.create();
         // show it
         alertDialog.show();
-     //   actionBar.setSubtitle("");
+        //   actionBar.setSubtitle("");
         Intent i = new Intent(this, ActivityMain.class);
         i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(i);
@@ -185,7 +185,8 @@ public class ActivityMain extends Activity  implements Communicator{
             }
         } else if (requestCode == ENCRYPT_CHOSEN) {
             if (resultCode == Activity.RESULT_OK) {
-//TODO need to sort out what happens when user selects file to be encrypted
+//TODO need to sort out what happens when user selects file to be
+
             }
         } else super.onActivityResult(requestCode, resultCode, data);
 
@@ -195,23 +196,41 @@ public class ActivityMain extends Activity  implements Communicator{
     public void alertDialogResponse(int title, int whichButton) {
     }
 
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+
+
     @Override
     public void onDialogResponse(String data) {
+        Log.e("at start of dialog response", pwdValid+"");
         pwdValid = apo.validate(data);
         Log.e("tries", " " + tries);
         //now check that this pwd provides access to the store
+
         if (!pwdValid) {
             if (tries < 2) showToast("The password entered is invalid - please retry");
             else {
                 if (tries == 2)
                     showToast("Password invalid - ONE MORE FAILURE WILL RESULT IN KEYSTORE BEING WIPED");
-                else showToast("Keystore wiped");
+                else {
+                    showToast("Keystore wiped");
+                    finish();
+                }
+
             }
             tries++;
             FragmentDialogUnlock dFragment = new FragmentDialogUnlock();
             dFragment.show(fm, "Dialog Fragment Unlock");
         }
     }
+
+
+
+
+
+
+
+
 
     public void showToast(String message) {
         Toast toast = Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG);

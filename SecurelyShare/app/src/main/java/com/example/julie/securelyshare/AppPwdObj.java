@@ -38,6 +38,7 @@ public class AppPwdObj {
         this.value = value;
         try {
             AppKeystore testKS = new AppKeystore();
+            //if able to construct - password must be OK
             return true;
         } catch (WrongPwdException e) {
             return false;
