@@ -62,19 +62,47 @@ public class AppKeystore {
             //           fis = context.openFileInput(KEYSTORE_NAME);
 
             //moved to external storage for testing and demo
-            fis = new FileInputStream(new File(context.getExternalFilesDir(null), KEYSTORE_NAME));
-            this.ks.load(fis, appPwdAsArray);
+            File file = new File(context.getExternalFilesDir(null), "SisKeyStore.ks");
+            KeyStore testks = null;
+
+                testks = KeyStore.getInstance("BKS");
+                FileInputStream fis2 = new FileInputStream(file);
+                testks.load(fis2, appPwd.toCharArray());
+Log.e("load complete","");
+            } catch (KeyStoreException e) {
+                e.printStackTrace();
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            } catch (NoSuchAlgorithmException e) {
+                e.printStackTrace();
+            } catch (CertificateException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+
+
+
+/*           this.ks.load(fis, appPwdAsArray);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        } catch (CertificateException e) {
+            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
-        } catch (GeneralSecurityException e) {
-            e.printStackTrace();
-        } finally {
+        }
+
+        {
             if (fis != null) try {
                 fis.close();
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
+        */
     }
 
     /**

@@ -4,7 +4,6 @@ import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -35,7 +34,7 @@ private static final int REQUEST_LINK_TO_DBX = 1111;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        apo = AppPwdObj.makeObj(this.getApplicationContext());
         Log.e("ActivityMain: ", "- am in the onCreate method");
         mDbxAcctMgr = new DropboxSetup(this.getApplicationContext()).getAccMgr();
         actionBar = getActionBar();
@@ -61,13 +60,6 @@ private static final int REQUEST_LINK_TO_DBX = 1111;
         }
 
 
-        //once dropbox connected and keystore unlocked, attach titles fragment
-
-        FragmentTransaction fleft =fm.beginTransaction();
-        TitlesFragment titles = new TitlesFragment();
-        fleft.replace(R.id.left,titles);
-        fleft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
-        fleft.commit();
 
     }
     @Override
@@ -222,6 +214,17 @@ private static final int REQUEST_LINK_TO_DBX = 1111;
             FragmentDialogUnlock dFragment = new FragmentDialogUnlock();
             dFragment.show(fm, "Dialog Fragment Unlock");
         }
+
+
+
+        /*once dropbox connected and keystore unlocked, attach titles fragment
+
+        FragmentTransaction fleft =fm.beginTransaction();
+        TitlesFragment titles = new TitlesFragment();
+        fleft.replace(R.id.left,titles);
+        fleft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+        fleft.commit();
+        */
     }
 
 
