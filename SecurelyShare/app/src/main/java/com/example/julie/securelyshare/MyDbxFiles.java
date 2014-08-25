@@ -34,7 +34,7 @@ public class MyDbxFiles {
     }
 
     public DbxFile getOutFile(String filename) throws IOException {
-        String savename = filename + ".txt.xps";
+        String savename = filename + ".xps";
         DbxPath savePath = new DbxPath(this.root, savename);
         // Create DbxFileSystem for synchronized file access and ensure first sync is complete.
         DbxFileSystem dbxFileSys = DbxFileSystem.forAccount(this.mDbxAcctMgr.getLinkedAccount());

@@ -67,16 +67,16 @@ public class ActivityCreate extends Activity {
 
         //get the filename
         EditText getFilename = (EditText) findViewById(R.id.text_filename);
-        String saveName = getFilename.getText().toString();
+
 
 
         //check that filename isn't empty
-        if (saveName.length()< 1){
+        if (getFilename.getText().toString().length()< 1){
               getFilename.setError( "Please enter a name for your file" );
         }
         else {
 
-
+            String saveName = getFilename.getText().toString() + ".txt";
             DbxFile dbxOut = new MyDbxFiles(this).getOutFile(saveName);
             FileOutputStream fos = dbxOut.getWriteStream();
 
@@ -94,30 +94,4 @@ public class ActivityCreate extends Activity {
         toast.show();
     }
 
-    /*
-     * @return returns a FileOutputStream initialised correctly for writing to Dropbox
-     */
-
-
- /*   private FileOutputStream getDbxOutputStream() throws IOException{
-
-        DbxPath dir = new DbxPath("/ShareInSecret");
-        DbxPath savePath = new DbxPath(dir, this.saveName);
-
-        FileOutputStream newFos=null;
-
-        // Create DbxFileSystem for synchronized file access and ensure first sync is complete.
-        DbxFileSystem dbxFileSys = DbxFileSystem.forAccount(this.mDbxAcctMgr.getLinkedAccount());
-        if ( !dbxFileSys.hasSynced())
-            dbxFileSys.awaitFirstSync();
-
-
-        // Create a test file only if it doesn't already exist.
-        if (!dbxFileSys.exists(savePath)) {
-            DbxFile newFile = dbxFileSys.create(savePath);
-            newFos = newFile.getWriteStream();
-
-        }
-        return newFos;
-    } */
 }
