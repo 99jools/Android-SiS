@@ -40,7 +40,8 @@ public class AppPwdObj {
             AppKeystore testKS = new AppKeystore();
             //if able to construct - password must be OK
             return true;
-        } catch (WrongPwdException e) {
+        } catch (KeystoreAccessException e) {
+            e.printStackTrace();
             return false;
         }
     }

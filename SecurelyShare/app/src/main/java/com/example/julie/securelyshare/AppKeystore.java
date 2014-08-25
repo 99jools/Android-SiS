@@ -47,63 +47,46 @@ public class AppKeystore {
     /**
      * AppKeystore constructor
      *
-     * @throws WrongPwdException if the password stored in AppPwdObj
+     * @throws KeystoreAccessException if the password stored in AppPwdObj
      *                           is null (as may have happened if object has been recreated)
      *                           or if it is incorrect and doesn't unlock the keystore
      */
-    public AppKeystore() throws WrongPwdException {
+    public AppKeystore() throws KeystoreAccessException {
         String appPwd = AppPwdObj.getInstance().getValue();
-        if (appPwd == null) throw new WrongPwdException();
+        if (appPwd == null) throw new KeystoreAccessException();
         //otherwise continue to load the keystore
         this.appPwdAsArray = appPwd.toCharArray();
         this.context = AppPwdObj.getInstance().getContext();
         FileInputStream fis = null;
         try {
-            //           fis = context.openFileInput(KEYSTORE_NAME);
-
+            this.ks = KeyStore.getInstance("BKS");
+            //fis = context.openFileInput(KEYSTORE_NAME);
             //moved to external storage for testing and demo
             File file = new File(context.getExternalFilesDir(null), "SisKeyStore.ks");
-            KeyStore testks = null;
-
-                testks = KeyStore.getInstance("BKS");
-                FileInputStream fis2 = new FileInputStream(file);
-                testks.load(fis2, appPwd.toCharArray());
-Log.e("load complete","");
-            } catch (KeyStoreException e) {
-                e.printStackTrace();
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
+            fis = new FileInputStream(file);
+            // need to handle exceptions from loading keystore separately as need to trap
+            // IO Exception caused by password problems
+            try {
+                ks.load(fis, appPwdAsArray);
+            } catch (IOException e) {
+                throw new KeystoreAccessException();
             } catch (NoSuchAlgorithmException e) {
                 e.printStackTrace();
             } catch (CertificateException e) {
                 e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
             }
-
-
-
-
-/*           this.ks.load(fis, appPwdAsArray);
+        } catch (KeyStoreException e) {
+            e.printStackTrace();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        } catch (CertificateException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        {
+        } finally {
             if (fis != null) try {
                 fis.close();
             } catch (IOException e) {
                 e.printStackTrace();
             }
-        }
-        */
-    }
+        }//end try catch finally
+    } //end constructor
 
     /**
      * Retrieves the key from the Keystore corresponding to the supplied alias and wraps it as SecretKeySpec
@@ -161,11 +144,11 @@ Log.e("load complete","");
      * *************************************************************************************************************
      * Lists all the groups in the keystore
      *
-     * @throws WrongPwdException
+     * @throws KeystoreAccessException
      * @throws GeneralSecurityException
      * @throws IOException
      */
-    public void listGroups() throws WrongPwdException, GeneralSecurityException, IOException {
+    public void listGroups() throws KeystoreAccessException, GeneralSecurityException, IOException {
         Enumeration<String> es = ks.aliases();
         for (String key : Collections.list(es)) {
             Log.e("key found", key);
@@ -183,7 +166,7 @@ Log.e("load complete","");
      * @throws IOException
      */
     private void writeKeyStore() throws GeneralSecurityException, IOException {
-  //      FileOutputStream fos = context.openFileOutput(KEYSTORE_NAME, Context.MODE_PRIVATE);
+        //      FileOutputStream fos = context.openFileOutput(KEYSTORE_NAME, Context.MODE_PRIVATE);
         FileOutputStream fos = new FileOutputStream(new File(context.getExternalFilesDir(null), KEYSTORE_NAME));
 
         try {

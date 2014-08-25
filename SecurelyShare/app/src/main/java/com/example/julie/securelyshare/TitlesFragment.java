@@ -201,7 +201,7 @@ public class TitlesFragment extends ListFragment {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
-        } catch (WrongPwdException e) {
+        } catch (KeystoreAccessException e) {
             e.printStackTrace();
         }
         // start new intent to open

@@ -117,7 +117,7 @@ private static final int REQUEST_LINK_TO_DBX = 1111;
 
                 try {
                     new AppKeystore().listGroups();
-                } catch (WrongPwdException e) {
+                } catch (KeystoreAccessException e) {
                     Log.e("listgroups", e.getMessage());
                 } catch (GeneralSecurityException e) {
                     Log.e("listgroups", e.getMessage());
@@ -196,7 +196,7 @@ private static final int REQUEST_LINK_TO_DBX = 1111;
     public void onDialogResponse(String data) {
         Log.e("at start of dialog response", pwdValid+"");
         pwdValid = apo.validate(data);
-        Log.e("tries", " " + tries);
+        Log.e("tries", ""+pwdValid);
         //now check that this pwd provides access to the store
 
         if (!pwdValid) {

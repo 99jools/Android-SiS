@@ -28,9 +28,9 @@ public class MyCipher {
     /**
      * this constructor used to create encryption cipher
      * @param groupID
-     * @throws WrongPwdException
+     * @throws KeystoreAccessException
      */
-    public MyCipher(String groupID) throws WrongPwdException {
+    public MyCipher(String groupID) throws KeystoreAccessException {
         try {
             AppKeystore aks = new AppKeystore();
             this.groupSKS = aks.getSKS(groupID);
@@ -47,9 +47,9 @@ public class MyCipher {
      * this constructor used to create decryption cipher
      * @param gaba
      * @param iv
-     * @throws WrongPwdException
+     * @throws KeystoreAccessException
      */
-    public MyCipher(byte[] gaba, byte[] iv ) throws WrongPwdException {
+    public MyCipher(byte[] gaba, byte[] iv ) throws KeystoreAccessException {
         try {
             AppKeystore aks = new AppKeystore();
             this.iv = iv;

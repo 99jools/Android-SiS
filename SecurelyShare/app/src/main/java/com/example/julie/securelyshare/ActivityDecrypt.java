@@ -77,7 +77,7 @@ public class ActivityDecrypt extends ListActivity {
 
                 } catch (GeneralSecurityException e) {
                     e.printStackTrace();
-                } catch (WrongPwdException e) {
+                } catch (KeystoreAccessException e) {
                     e.printStackTrace();
                 }
             }
@@ -102,7 +102,7 @@ public class ActivityDecrypt extends ListActivity {
         mAdapter.notifyDataSetChanged();
     }
 
-    private void doDecrypt(DbxFileInfo fileInfo) throws IOException, WrongPwdException, GeneralSecurityException {
+    private void doDecrypt(DbxFileInfo fileInfo) throws IOException, KeystoreAccessException, GeneralSecurityException {
         //open a file input stream with given path
         DbxFile dbxIn = mDbx.getInFile(fileInfo);
         FileInputStream fis = dbxIn.getReadStream();

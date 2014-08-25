@@ -24,7 +24,7 @@ public class FileCryptor {
 
 
     public static  void encryptFile(FileInputStream fis,FileOutputStream fos, String groupID)
-            throws WrongPwdException, IOException {
+            throws KeystoreAccessException, IOException {
 
         MyCipher encryptionCipher = new MyCipher(groupID);
 
@@ -49,7 +49,7 @@ public class FileCryptor {
 
 
     public static void encryptString(String plaintextAsString, FileOutputStream fos, String groupID)
-            throws WrongPwdException,GeneralSecurityException, IOException {
+            throws KeystoreAccessException,GeneralSecurityException, IOException {
 
         MyCipher encryptionCipher = new MyCipher(groupID);
 
@@ -73,12 +73,12 @@ public class FileCryptor {
      * @param fis
      * @param fos
      * @return
-     * @throws WrongPwdException
+     * @throws KeystoreAccessException
      * @throws GeneralSecurityException
      * @throws IOException
      */
 
-    public static String decryptFile(FileInputStream fis, FileOutputStream  fos) throws WrongPwdException {
+    public static String decryptFile(FileInputStream fis, FileOutputStream  fos) throws KeystoreAccessException {
         MyCipher decryptionCipher=null;
         // read meta data from input stream
 int b = 0;
