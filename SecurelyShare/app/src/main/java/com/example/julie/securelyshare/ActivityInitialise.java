@@ -117,7 +117,7 @@ public class ActivityInitialise extends Activity implements Communicator {
 
     @Override
     public void onDbxFileSelected(DbxFileInfo mDbxFileInfo) {
-
+        //not used
     }
 
     public void showConfirmDialog() {

@@ -21,7 +21,10 @@
     <string name="init_confirm">Initialisation Complete</string>
     <string name="confirm_msg">You have successfully initialised this application.  Click YES to proceed - you will be
     asked to re-enter your password at the next screen</string>
-
+    <string name="main_decrypt">Decryption Alert</string>
+    <string name="decrypt_msg">File is not a txt file or is too large to be displayed -
+                        do you wish to open the file with an app on your device?\n\nNOTE:
+        This requires the file being temporarily written to your external cache</string>
     <string name="init_submit">Submit</string>
 
 </resources>

@@ -3,6 +3,7 @@ package com.example.julie.securelyshare;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.DialogFragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.DialogInterface;
@@ -189,15 +190,30 @@ private static final int REQUEST_LINK_TO_DBX = 1111;
 
             }
         } else super.onActivityResult(requestCode, resultCode, data);
-
     }
 
+
+
+    /**
+     * Handles the response from the AlertDialogFragment
+     *
+     * @param titleInt    - indicates which instance of the Alert Dialog Fragment is responding
+     * @param whichButton - indicates which button has been pressed
+     */
     @Override
-    public void alertDialogResponse(int title, int whichButton) {
+    public void alertDialogResponse(int titleInt, int whichButton) {
+        switch (titleInt) {
+            case R.string.main_decrypt:
+                // this is a response from the decrypt alert dialog
+                if (whichButton == Communicator.POS_CLICK){
+                    showToast("User wants to proceed");
+                    doRightFrag();
+                 } else {
+                    showToast("You have chosen not to proceed - no files decrypted");
+                }
+                break;
+        }
     }
-
-
-//////////////////////////////////////////////////////////////////////////////////////////////////
 
 
     @Override
@@ -228,30 +244,35 @@ private static final int REQUEST_LINK_TO_DBX = 1111;
 
 
     private void doLeftFrag(){
-        showToast("In doLeftFrag");
         FragmentTransaction fLeft = fm.beginTransaction();
         FragmentFileList filesList = new FragmentFileList();
         fLeft.add(R.id.left, filesList);
         fLeft.commit();
     }
 
+    private void doRightFrag(){
+        showToast("In doRightFrag");
+        FragmentTransaction fRight = fm.beginTransaction();
+        FragmentDecrypt decryptFile = new FragmentDecrypt();
+        decryptFile.onDbxFileSelected();
+        fRight.add(R.id.right, decryptFile);
+        fRight.commit();
+    }
+
 
     @Override
     public void onDbxFileSelected(DbxFileInfo mDbxFileInfo) {
-     showToast("Files selected " + mDbxFileInfo.path.getName().toString());
+     showToast("Files selected " + mDbxFileInfo.path.getName());
         //check whether file is small enough and of right type to display
-        Boolean isTxt = mDbxFileInfo.path.getName().toString().endsWith(".txt.xps");
+        Boolean isTxt = mDbxFileInfo.path.getName().endsWith(".txt.xps");
         Boolean displayable = ( isTxt && (mDbxFileInfo.size < 2000000));  //this allows some room for manouvre
+        if (!displayable) {
+            //if not displayable, check with user whether they want to proceed
+            DialogFragment newFragment = FragmentAlertDialog
+                    .newInstance(R.string.main_decrypt, R.string.decrypt_msg);
 
-     //if not displayable, check with user whether they want to proceed
+        }    }
 
-        //check whether we are in portrait or landscape
-
-        //if portrait - start new activity to handle decryption
-
-
-        //otherwise - create new fragment to handle decryption and display results
-    }
 
 
 

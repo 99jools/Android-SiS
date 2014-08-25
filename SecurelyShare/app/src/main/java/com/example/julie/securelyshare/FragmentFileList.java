@@ -6,7 +6,6 @@ import android.app.ListFragment;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.dropbox.sync.android.DbxException;
 import com.dropbox.sync.android.DbxFileInfo;
@@ -59,14 +58,6 @@ public class FragmentFileList extends ListFragment {
         }
     }
 
-
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        Toast.makeText(getActivity(), "onSaveInstanceState",
-                Toast.LENGTH_LONG).show();
-        outState.putInt("curChoice", mCurCheckPosition);
-    }
 
     @Override
     public void onListItemClick(ListView parent, View v, int position, long id) {
