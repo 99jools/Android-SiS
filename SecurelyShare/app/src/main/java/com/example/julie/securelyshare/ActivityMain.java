@@ -8,6 +8,7 @@ import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -15,24 +16,30 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.dropbox.sync.android.DbxAccountManager;
+import com.dropbox.sync.android.DbxFile;
 import com.dropbox.sync.android.DbxFileInfo;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.security.GeneralSecurityException;
 
 
-public class ActivityMain extends Activity  implements Communicator{
+public class ActivityMain extends Activity implements Communicator {
 
-private static final int REQUEST_LINK_TO_DBX = 1111;
+    private static final int REQUEST_LINK_TO_DBX = 1111;
     private static final int ENCRYPT_CHOSEN = 2222;
 
     private DbxAccountManager mDbxAcctMgr;
     private AppPwdObj apo;
-    private boolean pwdValid=false;
+    private boolean pwdValid = false;
     private int tries = 0;
 
     private FragmentManager fm = getFragmentManager();
-    private ActionBar  actionBar;
+    private ActionBar actionBar;
+    private DbxFileInfo selectedDbxFileInfo;
+    private MyDbxFiles mDbx;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,23 +58,19 @@ private static final int REQUEST_LINK_TO_DBX = 1111;
 
         //sort out dropbox link
         if (mDbxAcctMgr.hasLinkedAccount()) {
-            if (mDbxAcctMgr.getLinkedAccount().getAccountInfo()!=null )
+            if (mDbxAcctMgr.getLinkedAccount().getAccountInfo() != null)
                 actionBar.setSubtitle(mDbxAcctMgr.getLinkedAccount().getAccountInfo().displayName);
-        }
-        else mDbxAcctMgr.startLink(this, REQUEST_LINK_TO_DBX);
-
+        } else mDbxAcctMgr.startLink(this, REQUEST_LINK_TO_DBX);
         //sort out password
-        if (apo.getValue()==null) {
+        if (apo.getValue() == null) {
             // get password from the user and set in AppPwdObj
             FragmentDialogUnlock dFragment = new FragmentDialogUnlock();
             dFragment.show(fm, "Dialog Fragment Unlock");
         } else {
             doLeftFrag();
         }
-
-
-
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar
@@ -76,14 +79,12 @@ private static final int REQUEST_LINK_TO_DBX = 1111;
         return true;
     }
 
-
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here - (Home/Up handled automatically based onManifest The action bar will
         Intent intent;
 
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case R.id.action_Create:
                 intent = new Intent(this, ActivityCreate.class);
                 startActivity(intent);
@@ -133,21 +134,17 @@ private static final int REQUEST_LINK_TO_DBX = 1111;
                     // TODO Auto-generated catch block
                     e.printStackTrace();
                 }
-
                 return true;
-
             case R.id.action_settings:
                 return true;
         }
         return super.onOptionsItemSelected(item);
-
-
     }
 
     /**
      * Unlinks the current Dropbox account, deletes local data and terminates the app
      */
-    private void doUnlink(){
+    private void doUnlink() {
         AlertDialog.Builder ad = new AlertDialog.Builder(this);
         ad.setMessage("This will unlink your dropbox account and delete all local copies of your data");
         ad.setTitle("Unlink from Dropbox");
@@ -157,7 +154,7 @@ private static final int REQUEST_LINK_TO_DBX = 1111;
                 mDbxAcctMgr.unlink();
             }
         });
-        ad.setNegativeButton("Cancel",new DialogInterface.OnClickListener() {
+        ad.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 recreate();
@@ -193,7 +190,6 @@ private static final int REQUEST_LINK_TO_DBX = 1111;
     }
 
 
-
     /**
      * Handles the response from the AlertDialogFragment
      *
@@ -204,11 +200,22 @@ private static final int REQUEST_LINK_TO_DBX = 1111;
     public void alertDialogResponse(int titleInt, int whichButton) {
         switch (titleInt) {
             case R.string.main_decrypt:
-                // this is a response from the decrypt alert dialog
-                if (whichButton == Communicator.POS_CLICK){
+                // this is a response from the decrypt alert dialog saying if user wants to proceed
+                if (whichButton == Communicator.POS_CLICK) {
                     showToast("User wants to proceed");
-                    doRightFrag();
-                 } else {
+                    try {
+                        decryptToIntent();
+                    } catch (IOException e) {
+                        // TODO Auto-generated catch block
+                        e.printStackTrace();
+                    } catch (KeystoreAccessException e) {
+                        // TODO Auto-generated catch block
+                        e.printStackTrace();
+                    } catch (GeneralSecurityException e) {
+                        // TODO Auto-generated catch block
+                        e.printStackTrace();
+                    }
+                } else {
                     showToast("You have chosen not to proceed - no files decrypted");
                 }
                 break;
@@ -230,58 +237,71 @@ private static final int REQUEST_LINK_TO_DBX = 1111;
                     showToast("Keystore wiped");
                     finish();
                 }
-
             }
             tries++;
             FragmentDialogUnlock dFragment = new FragmentDialogUnlock();
             dFragment.show(fm, "Dialog Fragment Unlock");
         } else {
-            //  dropbox connected and keystore unlocked, attach titles fragment
-          doLeftFrag();
-
+            doLeftFrag();
         } //end else
     }//end onDialogResponse
 
 
-    private void doLeftFrag(){
+    private void doLeftFrag() {
         FragmentTransaction fLeft = fm.beginTransaction();
         FragmentFileList filesList = new FragmentFileList();
         fLeft.add(R.id.left, filesList);
         fLeft.commit();
     }
 
-    private void doRightFrag(){
+    private void doRightFrag() {
         showToast("In doRightFrag");
         FragmentTransaction fRight = fm.beginTransaction();
         FragmentDecrypt decryptFile = new FragmentDecrypt();
-        decryptFile.onDbxFileSelected();
         fRight.add(R.id.right, decryptFile);
         fRight.commit();
     }
 
+    private void decryptToIntent()
+            throws IOException, KeystoreAccessException, GeneralSecurityException {
+        //open a file input stream with given path
+        DbxFile dbxIn = mDbx.getInFile(selectedDbxFileInfo);
+        FileInputStream fis = dbxIn.getReadStream();
+
+        File myPlaintextFile = getTempFos(selectedDbxFileInfo.path.getName());
+        FileOutputStream fos = new FileOutputStream(myPlaintextFile);
+        FileCryptor.decryptFile(fis, fos);
+        dbxIn.close();
+        // start new intent to open
+        Uri myUri = Uri.fromFile(myPlaintextFile);
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        intent.setData(myUri);
+        startActivity(intent);
+    }
+
+    private File getTempFos(String out) throws IOException {
+        //sort out filemame for decrypted file
+        out = out.substring(0, out.length() - 4);
+        return new File(getExternalCacheDir(),out);
+    } //end getTempFos
 
     @Override
     public void onDbxFileSelected(DbxFileInfo mDbxFileInfo) {
-     showToast("Files selected " + mDbxFileInfo.path.getName());
+        showToast("Files selected " + mDbxFileInfo.path.getName());
+        selectedDbxFileInfo = mDbxFileInfo;
         //check whether file is small enough and of right type to display
-        Boolean isTxt = mDbxFileInfo.path.getName().endsWith(".txt.xps");
-        Boolean displayable = ( isTxt && (mDbxFileInfo.size < 2000000));  //this allows some room for manouvre
+        Boolean isTxt = selectedDbxFileInfo.path.getName().endsWith(".txt.xps");
+        Boolean displayable = (isTxt && (selectedDbxFileInfo.size < 2000000));  //this allows some room for manouvre
         if (!displayable) {
             //if not displayable, check with user whether they want to proceed
             DialogFragment newFragment = FragmentAlertDialog
                     .newInstance(R.string.main_decrypt, R.string.decrypt_msg);
-
-        }    }
-
-
-
-
-
+        }
+    }
 
     public void showToast(String message) {
         Toast toast = Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG);
         toast.show();
     }
-
 }
 

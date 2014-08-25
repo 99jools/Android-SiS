@@ -5,6 +5,7 @@ package com.example.julie.securelyshare;
 import android.app.Activity;
 import android.app.Fragment;
 import android.os.Bundle;
+import android.widget.Toast;
 
 import com.dropbox.sync.android.DbxException;
 import com.dropbox.sync.android.DbxFileInfo;
@@ -14,7 +15,7 @@ import com.dropbox.sync.android.DbxFileInfo;
  * A simple {@link Fragment} subclass.
  *
  */
-public class FragmentDecrypt extends Fragment implements Communicator {
+public class FragmentDecrypt extends Fragment  {
 
     private MyDbxFiles mDbx;
     private Communicator communicator;
@@ -40,27 +41,13 @@ public class FragmentDecrypt extends Fragment implements Communicator {
 
     }
 
-
-
-    @Override
-    public void onDbxFileSelected(DbxFileInfo mDbxFileInfo) {
-
+    public void decryptAsString(DbxFileInfo mDbxFileInfo){
+        showToast("I am going to decrypt " + mDbxFileInfo.path.getName());
     }
 
-
-
-    @Override
-    public void alertDialogResponse(int title, int whichButton) {
+    public void showToast(String message) {
+        Toast toast = Toast.makeText(getActivity(), message, Toast.LENGTH_LONG);
+        toast.show();
     }
-
-    @Override
-    public void onDialogResponse(String data) {
-    }
-
-
-}
-
-
-
 
 }

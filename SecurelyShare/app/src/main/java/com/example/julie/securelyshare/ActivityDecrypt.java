@@ -109,8 +109,6 @@ public class ActivityDecrypt extends ListActivity {
 
         File myPlaintextFile  = getFos(fileInfo.path.getName());
         FileOutputStream fos = new FileOutputStream(myPlaintextFile);
-//      DbxFile myPlaintextFile  = getFos(fileInfo.path.getName());
-//      FileOutputStream fos = myPlaintextFile.getWriteStream();
         FileCryptor.decryptFile(fis, fos);
         dbxIn.close();
         // start new intent to open
