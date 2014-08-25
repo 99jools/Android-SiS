@@ -4,6 +4,7 @@ import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -35,7 +36,7 @@ private static final int REQUEST_LINK_TO_DBX = 1111;
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         apo = AppPwdObj.makeObj(this.getApplicationContext());
-        Log.e("ActivityMain: ", "- am in the onCreate method");
+        Log.d("ActivityMain: ", "- am in the onCreate method");
         mDbxAcctMgr = new DropboxSetup(this.getApplicationContext()).getAccMgr();
         actionBar = getActionBar();
     }
@@ -57,6 +58,8 @@ private static final int REQUEST_LINK_TO_DBX = 1111;
             // get password from the user and set in AppPwdObj
             FragmentDialogUnlock dFragment = new FragmentDialogUnlock();
             dFragment.show(fm, "Dialog Fragment Unlock");
+        } else {
+            doLeftFrag();
         }
 
 
@@ -118,11 +121,14 @@ private static final int REQUEST_LINK_TO_DBX = 1111;
                 try {
                     new AppKeystore().listGroups();
                 } catch (KeystoreAccessException e) {
-                    Log.e("listgroups", e.getMessage());
+                    // TODO Auto-generated catch block
+                    e.printStackTrace(); //TODO
                 } catch (GeneralSecurityException e) {
-                    Log.e("listgroups", e.getMessage());
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
                 } catch (IOException e) {
-                    Log.e("listgroups", e.getMessage());
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();   Log.e("listgroups", e.getMessage());
                 }
 
                 return true;
@@ -194,9 +200,7 @@ private static final int REQUEST_LINK_TO_DBX = 1111;
 
     @Override
     public void onDialogResponse(String data) {
-        Log.e("at start of dialog response", pwdValid+"");
         pwdValid = apo.validate(data);
-        Log.e("tries", ""+pwdValid);
         //now check that this pwd provides access to the store
 
         if (!pwdValid) {
@@ -213,21 +217,20 @@ private static final int REQUEST_LINK_TO_DBX = 1111;
             tries++;
             FragmentDialogUnlock dFragment = new FragmentDialogUnlock();
             dFragment.show(fm, "Dialog Fragment Unlock");
-        }
+        } else {
+            //  dropbox connected and keystore unlocked, attach titles fragment
+          doLeftFrag();
 
+        } //end else
+    }//end onDialogResponse
 
-
-        /*once dropbox connected and keystore unlocked, attach titles fragment
-
-        FragmentTransaction fleft =fm.beginTransaction();
+    private void doLeftFrag(){
+        showToast("In doLeftFrag");
+        FragmentTransaction fleft = fm.beginTransaction();
         TitlesFragment titles = new TitlesFragment();
-        fleft.replace(R.id.left,titles);
+        fleft.replace(R.id.left, titles);
         fleft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
-        fleft.commit();
-        */
     }
-
-
 
 
 
