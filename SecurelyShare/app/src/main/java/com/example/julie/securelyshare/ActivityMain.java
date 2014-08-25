@@ -14,6 +14,7 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.dropbox.sync.android.DbxAccountManager;
+import com.dropbox.sync.android.DbxFileInfo;
 
 import java.io.IOException;
 import java.security.GeneralSecurityException;
@@ -35,6 +36,7 @@ private static final int REQUEST_LINK_TO_DBX = 1111;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
         apo = AppPwdObj.makeObj(this.getApplicationContext());
         Log.d("ActivityMain: ", "- am in the onCreate method");
         mDbxAcctMgr = new DropboxSetup(this.getApplicationContext()).getAccMgr();
@@ -128,7 +130,7 @@ private static final int REQUEST_LINK_TO_DBX = 1111;
                     e.printStackTrace();
                 } catch (IOException e) {
                     // TODO Auto-generated catch block
-                    e.printStackTrace();   Log.e("listgroups", e.getMessage());
+                    e.printStackTrace();
                 }
 
                 return true;
@@ -224,15 +226,32 @@ private static final int REQUEST_LINK_TO_DBX = 1111;
         } //end else
     }//end onDialogResponse
 
+
     private void doLeftFrag(){
         showToast("In doLeftFrag");
-        FragmentTransaction fleft = fm.beginTransaction();
-        TitlesFragment titles = new TitlesFragment();
-        fleft.replace(R.id.left, titles);
-        fleft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+        FragmentTransaction fLeft = fm.beginTransaction();
+        FragmentFileList filesList = new FragmentFileList();
+        fLeft.add(R.id.left, filesList);
+        fLeft.commit();
     }
 
 
+    @Override
+    public void onDbxFileSelected(DbxFileInfo mDbxFileInfo) {
+     showToast("Files selected " + mDbxFileInfo.path.getName().toString());
+        //check whether file is small enough and of right type to display
+        Boolean isTxt = mDbxFileInfo.path.getName().toString().endsWith(".txt.xps");
+        Boolean displayable = ( isTxt && (mDbxFileInfo.size < 2000000));  //this allows some room for manouvre
+
+     //if not displayable, check with user whether they want to proceed
+
+        //check whether we are in portrait or landscape
+
+        //if portrait - start new activity to handle decryption
+
+
+        //otherwise - create new fragment to handle decryption and display results
+    }
 
 
 

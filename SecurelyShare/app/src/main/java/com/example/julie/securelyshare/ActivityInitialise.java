@@ -9,6 +9,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.dropbox.sync.android.DbxFileInfo;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -110,6 +112,11 @@ public class ActivityInitialise extends Activity implements Communicator {
          */
 //TODO import public-private keystore with Bouncy Castle
 
+
+    }
+
+    @Override
+    public void onDbxFileSelected(DbxFileInfo mDbxFileInfo) {
 
     }
 

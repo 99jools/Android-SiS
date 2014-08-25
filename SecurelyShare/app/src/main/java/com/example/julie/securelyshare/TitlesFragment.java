@@ -57,7 +57,7 @@ public class TitlesFragment extends ListFragment {
       Check that the second pane to put the details in in visible on
       the screen.
          */
-        View detailsFrame = getActivity().findViewById(R.id.details);
+        View detailsFrame = getActivity().findViewById(R.id.right);
         mDualPane = (detailsFrame != null) && (detailsFrame.getVisibility() == View.VISIBLE);
         if (savedInstanceState != null) {
             mCurCheckPosition = savedInstanceState.getInt("curChoice", 0);
@@ -125,7 +125,7 @@ public class TitlesFragment extends ListFragment {
             getListView().setBackgroundColor(Color.BLUE);
             // Check what fragment is currently shown, replace if needed.
             DetailsFragment details = (DetailsFragment) getFragmentManager()
-                    .findFragmentById(R.id.details);
+                    .findFragmentById(R.id.right);
             if (details == null || details.getShownIndex() != position) {
                 // Make new fragment to show this selection.
                 details = DetailsFragment.newInstance(position);
