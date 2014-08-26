@@ -123,7 +123,7 @@ public class OldActivityMain extends Activity implements Communicator {
             case R.id.action_listgroups:
 
                 try {
-                    new AppKeystore().listGroups();
+                    new AppKeystore().getGroups();
                 } catch (KeystoreAccessException e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace(); //TODO

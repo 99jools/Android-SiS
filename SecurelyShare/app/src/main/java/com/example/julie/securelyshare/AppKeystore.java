@@ -1,7 +1,6 @@
 package com.example.julie.securelyshare;
 
 import android.content.Context;
-import android.util.Log;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -140,19 +139,14 @@ public class AppKeystore {
     }
 
 
-    /**
-     * *************************************************************************************************************
-     * Lists all the groups in the keystore
-     *
-     * @throws KeystoreAccessException
-     * @throws GeneralSecurityException
-     * @throws IOException
-     */
-    public void listGroups() throws KeystoreAccessException, GeneralSecurityException, IOException {
+    public String[] getGroups() throws KeystoreAccessException, GeneralSecurityException, IOException {
         Enumeration<String> es = ks.aliases();
+        String[] groups = new String[ks.size()];
+        int index = 0;
         for (String key : Collections.list(es)) {
-            Log.e("key found", key);
+            groups[index++] = key;
         }
+        return groups;
     } //end listGroups
 
     //**********************************************************************************************************************************************

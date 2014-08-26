@@ -7,7 +7,6 @@ import android.app.FragmentManager;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -106,9 +105,8 @@ public class ActivityMain extends Activity implements Communicator {
         } else if (requestCode == ENCRYPT_CHOSEN) {
             if (resultCode == Activity.RESULT_OK) {
                 //put filename in intent and start encrypt activity
-                Log.e("result ", "file is " + data.getData().getPath());
                 Intent intent = new Intent(this, ActivityEncrypt.class);
-               intent.putExtra("filePath", data.getData().getPath());
+                intent.putExtra("filePath", data.getData().getPath());
                 startActivity(intent);
             }
         } else super.onActivityResult(requestCode, resultCode, data);
