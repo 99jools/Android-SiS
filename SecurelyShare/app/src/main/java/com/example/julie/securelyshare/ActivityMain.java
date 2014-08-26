@@ -69,7 +69,7 @@ public class ActivityMain extends Activity implements Communicator {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here - (Home/Up handled automatically based onManifest
-        View v=null; //dummy view to enable method reuse...
+        View v = null; //dummy view to enable method reuse...
         switch (item.getItemId()) {
             case R.id.action_Create:
                 doCreate(v);
@@ -113,12 +113,12 @@ public class ActivityMain extends Activity implements Communicator {
     }
 
 
-
     @Override
     public void onDialogResponse(String data) {
-        pwdValid = apo.validate(data);
+        if (data.length()<1) {
+            pwdValid = false;
+        } else pwdValid = apo.validate(data);
         //now check that this pwd provides access to the store
-
         if (!pwdValid) {
             if (tries < 2) showToast("The password entered is invalid - please retry");
             else {
@@ -132,40 +132,41 @@ public class ActivityMain extends Activity implements Communicator {
             tries++;
             FragmentDialogUnlock dFragment = new FragmentDialogUnlock();
             dFragment.show(fm, "Dialog Fragment Unlock");
-        } else {
-
-        } //end else
-    }//end onDialogResponse
+        }
+     }//end onDialogResponse
 
     @Override
-    public void onDbxFileSelected(DbxFileInfo mDbxFileInfo) { }
+    public void onDbxFileSelected(DbxFileInfo mDbxFileInfo) {
+    }
 
     @Override
-    public void alertDialogResponse(int title, int whichButton) { }
+    public void alertDialogResponse(int title, int whichButton) {
+    }
 
 
-    public void doCreate(View v){
+    public void doCreate(View v) {
         Intent intent = new Intent(this, ActivityCreate.class);
         startActivity(intent);
     }
 
 
-    public void doEncrypt(View v ){
+    public void doEncrypt(View v) {
         // Create the ACTION_GET_CONTENT Intent
         Intent getContentIntent = new Intent(Intent.ACTION_GET_CONTENT);
         getContentIntent.setType("file/*");
         startActivityForResult(getContentIntent, ENCRYPT_CHOSEN);
     }
 
-    public void doDecrypt(View v){
+    public void doDecrypt(View v) {
         Intent intent = new Intent(this, ActivityDecrypt.class);
         startActivity(intent);
     }
 
-    public void doGroups(View v){
+    public void doGroups(View v) {
         Intent intent = new Intent(this, ActivityAddGroup.class);
         startActivity(intent);
     }
+
     /**
      * Unlinks the current Dropbox account, deletes local data and terminates the app
      */
