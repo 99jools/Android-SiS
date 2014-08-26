@@ -1,5 +1,6 @@
 package com.example.julie.securelyshare;
 
+import android.app.Activity;
 import android.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -16,8 +17,13 @@ public  class FragmentDetails extends Fragment implements View.OnClickListener{
     // text at 'index'.
 
     public static FragmentDetails newInstance() {
-        FragmentDetails f = new FragmentDetails();
-             return f;
+       return new FragmentDetails();
+    }
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        communicator = (Communicator) activity;
     }
 
     @Override

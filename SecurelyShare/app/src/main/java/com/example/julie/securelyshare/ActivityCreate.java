@@ -30,13 +30,6 @@ public class ActivityCreate extends ActivityMain
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create);
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>
-                (this, android.R.layout.simple_spinner_dropdown_item, groups);
-        fileName = (EditText) findViewById(R.id.fileName);
-        spinner = (Spinner) findViewById(R.id.spinner);
-        spinner.setAdapter(adapter);
-        spinner.setOnItemSelectedListener(this);
-        View detailsFrame = findViewById(R.id.details);
         //populate alias array
         try {
             aks = new AppKeystore();
@@ -48,11 +41,19 @@ public class ActivityCreate extends ActivityMain
         } catch (IOException e) {
             e.printStackTrace();
         }
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>
+                (this, android.R.layout.simple_spinner_dropdown_item, groups);
+        fileName = (EditText) findViewById(R.id.fileName);
+        spinner = (Spinner) findViewById(R.id.spinner);
+        spinner.setAdapter(adapter);
+        spinner.setOnItemSelectedListener(this);
+        View detailsFrame = findViewById(R.id.details);
+
     }
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        String groupID = groups[position];
+        groupID = groups[position];
         showToast(groupID);
         // Check what fragment is currently shown, replace if needed.
         FragmentDetails details = (FragmentDetails) getFragmentManager()
@@ -105,8 +106,6 @@ public class ActivityCreate extends ActivityMain
             } catch (KeystoreAccessException e) {
                 e.printStackTrace();
             }
-
-
         }
     }
 
