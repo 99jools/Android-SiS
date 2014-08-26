@@ -92,9 +92,6 @@ int b = 0;
                    b=fis.read(initVector);
                    Log.e("metadata read", " ");
 
-
-
-
         //setup decryption
         decryptionCipher = new MyCipher(gaba, initVector);
 
@@ -103,13 +100,10 @@ int b = 0;
         //read and decrypt file
         byte[] block = new byte[MyCipher.AES_BLOCKSIZE];
         int bytesRead=0;
-        Log.e("bytes read",""+bytesRead);
         bytesRead = cis.read(block);
-        Log.e("bytes read",""+bytesRead);
         while (bytesRead != -1) {
             fos.write(block,0,bytesRead);
             bytesRead = cis.read(block);  //read next block
-            Log.e("bytes read",""+bytesRead);
         }
                    fos.close();
                    cis.close();

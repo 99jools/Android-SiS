@@ -124,11 +124,11 @@ public class TitlesFragment extends ListFragment {
             getListView().setItemChecked(position, true);
             getListView().setBackgroundColor(Color.BLUE);
             // Check what fragment is currently shown, replace if needed.
-            DetailsFragment details = (DetailsFragment) getFragmentManager()
+            FragmentDetails details = (FragmentDetails) getFragmentManager()
                     .findFragmentById(R.id.right);
-            if (details == null || details.getShownIndex() != position) {
+            if (details == null ) {
                 // Make new fragment to show this selection.
-                details = DetailsFragment.newInstance(position);
+     //           details = FragmentDetails.newInstance(position);
                 // Execute a transaction, replacing any existing fragment
                 // with this one inside the frame.
                 FragmentTransaction ft = getFragmentManager()

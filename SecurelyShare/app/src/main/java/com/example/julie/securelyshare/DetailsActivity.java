@@ -24,7 +24,7 @@ public  class DetailsActivity extends Activity {
         if (savedInstanceState == null) {
             // During initial setup, plug in the details fragment.
 
-            DetailsFragment details = new DetailsFragment();
+            FragmentDetails details = new FragmentDetails();
 
             // get and set the position input by user (i.e., "index")
             // which is the construction arguments for this fragment

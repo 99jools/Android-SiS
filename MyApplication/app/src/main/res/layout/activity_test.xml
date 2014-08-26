@@ -2,58 +2,58 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:baselineAligned="false"
-    android:orientation="horizontal" >
+    android:orientation="horizontal">
 
     <LinearLayout
-        android:orientation="vertical"
         android:layout_width="0px"
+        android:layout_height="fill_parent"
+        android:layout_weight="1"
         android:background="@android:color/darker_gray"
-    android:layout_height="fill_parent"
-        android:layout_weight="1">
-          <TextView
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:layout_marginBottom="10dp"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="Choose Destination Group"
-            android:id="@+id/textViewc1"
-              android:textColor="@android:color/white"
-              android:background="@android:color/black" />
-
-        <Spinner
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/spinner"
-            android:layout_marginBottom="20dp"
-            android:layout_gravity="center_horizontal" />
+        android:orientation="vertical">
 
         <TextView
+            android:id="@+id/textViewc1"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="20dp"
+            android:background="@android:color/black"
+            android:text="Choose Destination Group"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@android:color/white" />
+
+        <Spinner
+            android:id="@+id/spinner"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="20dp" />
+
+        <TextView
+            android:id="@+id/textViewc3"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="20dp"
             android:background="@android:color/background_dark"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="Enter File Name (without .txt)"
             android:hint="filename"
-            android:id="@+id/textViewc3"
+            android:text="Enter File Name (without .txt)"
+            android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="@android:color/holo_blue_light" />
 
         <EditText
+            android:id="@+id/fileName"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="Medium Text"
-            android:id="@+id/fileName" />
+            android:textAppearance="?android:attr/textAppearanceMedium" />
     </LinearLayout>
 
     <FrameLayout
         android:id="@+id/details"
         android:layout_width="0px"
         android:layout_height="match_parent"
-        android:layout_weight="1"
+        android:layout_weight="2"
         android:background="?android:attr/detailsElementBackground" />
-
 
 
 </LinearLayout>

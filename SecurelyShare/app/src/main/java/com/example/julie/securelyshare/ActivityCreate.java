@@ -1,11 +1,13 @@
 package com.example.julie.securelyshare;
 
+import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
-import android.widget.Toast;
+import android.widget.Spinner;
 
 import com.dropbox.sync.android.DbxFile;
 
@@ -13,60 +15,116 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.security.GeneralSecurityException;
 
-public class ActivityCreate extends ActivityMain {
+public class ActivityCreate extends ActivityMain
+        implements Communicator, AdapterView.OnItemSelectedListener {
+
+    private String[] groups;
+    private String groupID;
+    private Spinner spinner;
+    private AppKeystore aks;
+    String plaintextIn;
+
+    EditText fileName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>
+                (this, android.R.layout.simple_spinner_dropdown_item, groups);
+        fileName = (EditText) findViewById(R.id.fileName);
+        spinner = (Spinner) findViewById(R.id.spinner);
+        spinner.setAdapter(adapter);
+        spinner.setOnItemSelectedListener(this);
+        View detailsFrame = findViewById(R.id.details);
+        //populate alias array
+        try {
+            aks = new AppKeystore();
+            groups = aks.getGroups();
+        } catch (KeystoreAccessException e) {
+            e.printStackTrace();
+        } catch (GeneralSecurityException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        String groupID = groups[position];
+        showToast(groupID);
+        // Check what fragment is currently shown, replace if needed.
+        FragmentDetails details = (FragmentDetails) getFragmentManager()
+                .findFragmentById(R.id.details);
+        if (details == null) {
+            // Make new fragment to input data
+            details = FragmentDetails.newInstance();
+            // Execute a transaction, replacing any existing fragment
+            // with this one inside the frame.
+            FragmentTransaction ft = getFragmentManager()
+                    .beginTransaction();
+            ft.replace(R.id.details, details);
+            ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+            ft.commit();
+        }
+    }
 
+    @Override
+    public void onNothingSelected(AdapterView<?> adapterView) {
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.create, menu);
+        getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            return true;
+    public void onDialogResponse(String data) {
+        plaintextIn = data;
+        //validate date
+        if (fileName.getText().toString().length() < 1) {
+            fileName.setError("Please enter a name for your file");
+        } else {
+            String saveName = fileName.getText().toString() + ".txt";
+            DbxFile dbxOut = null;
+            try {
+                dbxOut = new MyDbxFiles(this).getGroupOutFile(saveName,groupID);
+                FileOutputStream fos = dbxOut.getWriteStream();
+                //encrypt file and write to Dropbox
+                FileCryptor.encryptString(plaintextIn, fos, groupID);
+                dbxOut.close();
+                showToast(saveName + " saved");
+                finish();
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (GeneralSecurityException e) {
+                e.printStackTrace();
+            } catch (KeystoreAccessException e) {
+                e.printStackTrace();
+            }
+
+
         }
-        return super.onOptionsItemSelected(item);
     }
 
-    /**
-     * called whenever the user clicks the Encrypt and Save button
-     */
-    public void onClickEncryptSave(View view) throws KeystoreAccessException,IOException, GeneralSecurityException{
-        //get the plaintext from the screen
-        EditText editText = (EditText) findViewById(R.id.plaintextIn);
-        String plaintextIn = editText.getText().toString();
-
-        //get the groupID
-        EditText getGroup = (EditText) findViewById(R.id.text_groupID);
-        String groupID = getGroup.getText().toString().trim();
-        //check that filename isn't empty
-        if (groupID.length()< 1){
-            getGroup.setError( "Please enter a group name for this file" );
-        }
-
-        //get the filename
-        EditText getFilename = (EditText) findViewById(R.id.text_filename);
 
 
 
+
+
+
+
+
+
+
+
+
+/*
+
+    private void onClickEncrypt(View view) throws KeystoreAccessException,IOException, GeneralSecurityException{
         //check that filename isn't empty
         if (getFilename.getText().toString().length()< 1){
               getFilename.setError( "Please enter a name for your file" );
@@ -90,5 +148,5 @@ public class ActivityCreate extends ActivityMain {
         Toast toast = Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT);
         toast.show();
     }
-
+*/
 }

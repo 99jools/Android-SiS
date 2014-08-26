@@ -51,10 +51,8 @@ public class TestActivity extends Activity implements AdapterView.OnItemSelected
             }
         }
 
-
     @Override
     public void onNothingSelected(AdapterView<?> adapterView) {
-
     }
 
     public void showToast(String message) {
