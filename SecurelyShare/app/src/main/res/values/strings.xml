@@ -19,6 +19,8 @@
     <string name="init_restore">Do you have a KeyStore backup you want to import?</string>
     <string name="unlock_keystore">Unlock KeyStore</string>
     <string name="init_confirm">Initialisation Complete</string>
+    <string name="delete_confirm">Delete Group</string>
+    <string name="delete_msg">Click YES to confirm deletion of Group Key from KeyStore</string>
     <string name="confirm_msg">You have successfully initialised this application.  Click YES to proceed - you will be
     asked to re-enter your password at the next screen</string>
     <string name="main_decrypt">Decryption Alert</string>
@@ -26,5 +28,6 @@
                         do you wish to open the file with an app on your device?\n\nNOTE:
         This requires the file being temporarily written to your external cache</string>
     <string name="init_submit">Submit</string>
+    <string name="title_activity_activity_groups">ActivityGroups</string>
 
 </resources>

@@ -61,11 +61,11 @@
             android:layout_marginRight="10dp"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="20dp"
-            android:text="Choose Existing File and Encrypt to Dropbox" />
+            android:text="Encrypt Existing File to Dropbox" />
 
         <Button
             android:id="@+id/button4"
-            android:onClick="doGroups"
+            android:onClick="doManageGroups"
             android:layout_width="0dp"
             android:layout_height="fill_parent"
             android:layout_weight="1"

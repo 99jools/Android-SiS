@@ -4,6 +4,7 @@ import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.FragmentManager;
+import android.app.ListActivity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -16,7 +17,7 @@ import com.dropbox.sync.android.DbxAccountManager;
 import com.dropbox.sync.android.DbxFileInfo;
 
 
-public class ActivityMain extends Activity implements Communicator {
+public class ActivityMain extends ListActivity implements Communicator {
 
     private static final int REQUEST_LINK_TO_DBX = 1111;
     private static final int ENCRYPT_CHOSEN = 2222;
@@ -74,17 +75,20 @@ public class ActivityMain extends Activity implements Communicator {
             case R.id.action_Create:
                 doCreate(v);
                 return true;
-            case R.id.action_Open:
+            case R.id.action_decrypt:
                 doDecrypt(v);
                 return true;
-            case R.id.action_Encrypt:
+            case R.id.action_encrypt:
                 doEncrypt(v);
                 return true;
-            case R.id.action_addgroup:
-                doGroups(v);
+            case R.id.action_managegroups:
+                doManageGroups(v);
                 return true;
             case R.id.action_Unlink:
                 doUnlink();
+                return true;
+            case R.id.action_addgroup:
+                doAddGroup(v);
                 return true;
             case R.id.action_settings:
                 return true;
@@ -162,7 +166,12 @@ public class ActivityMain extends Activity implements Communicator {
         startActivity(intent);
     }
 
-    public void doGroups(View v) {
+
+    public void doManageGroups(View v) {
+        Intent intent = new Intent(this, ActivityGroups.class);
+        startActivity(intent);
+    }
+    public void doAddGroup(View v) {
         Intent intent = new Intent(this, ActivityAddGroup.class);
         startActivity(intent);
     }

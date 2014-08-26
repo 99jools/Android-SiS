@@ -1,14 +1,12 @@
 package com.example.julie.securelyshare;
 
 
-import android.app.ListActivity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.dropbox.sync.android.DbxException;
 import com.dropbox.sync.android.DbxFile;
@@ -23,7 +21,7 @@ import java.security.GeneralSecurityException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ActivityDecrypt extends ListActivity {
+public class ActivityDecrypt extends ActivityMain {
 
     private MyDbxFiles mDbx;
     private DbxFileInfo mCurrentNode = null;
@@ -41,19 +39,14 @@ public class ActivityDecrypt extends ListActivity {
         setListAdapter(mAdapter);
 
         //get DbxFileSystem and root folders
-
         try {
             this.mDbx = new MyDbxFiles(this);
             fcFileInfo = mDbx.listRoot();
-
-
             refreshFileList();
         } catch (DbxException unauthorized) {
             unauthorized.printStackTrace();
         }
     }
-
-
 
     @Override
     public void onListItemClick(ListView parent, View v, int position, long id){
@@ -61,12 +54,10 @@ public class ActivityDecrypt extends ListActivity {
         try {
             if (position == 1) {
                 if (mCurrentNode.compareTo(mRootNode)!=0) {
-
                     DbxPath p = fileInfo.path.getParent();
                     mCurrentNode = mDbx.getFileInfo(p);
                 }
                 refreshFileList();
-
             } else {
                 if (fileInfo.isFolder) {
                     mCurrentNode = fileInfo;
@@ -74,7 +65,6 @@ public class ActivityDecrypt extends ListActivity {
                 } else
                 try{
                     doDecrypt(fileInfo);
-
                 } catch (GeneralSecurityException e) {
                     e.printStackTrace();
                 } catch (KeystoreAccessException e) {
@@ -84,7 +74,6 @@ public class ActivityDecrypt extends ListActivity {
         }catch (IOException e) {
             Log.e("decrypt file ", e.getMessage());
         }
-
     }
 
         // Need to add something to handle Failed or was cancelled by the user.
@@ -125,9 +114,4 @@ public class ActivityDecrypt extends ListActivity {
     } //end getFos
 
 
-
-    private void showToast(String message) {
-        Toast toast = Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT);
-        toast.show();
-    }
 }

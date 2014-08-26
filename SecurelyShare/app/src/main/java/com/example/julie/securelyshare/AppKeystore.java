@@ -138,7 +138,6 @@ public class AppKeystore {
 
     }
 
-
     public String[] getGroups() throws KeystoreAccessException, GeneralSecurityException, IOException {
         Enumeration<String> es = ks.aliases();
         String[] groups = new String[ks.size()];
@@ -227,9 +226,16 @@ public class AppKeystore {
 
         //update stored copy of keystore  (can just rewrite as adding a new group is a rare occurrence)
         writeKeyStore();
-
-
     } //end generateKey
+
+
+    public void deleteGroupKey(String groupID) throws IOException, GeneralSecurityException {
+        //delete from keystore
+        ks.deleteEntry(groupID);
+        //update stored copy of keystore  (
+        writeKeyStore();
+    } //end delete key
+
 
     public int getSize() {
         try {

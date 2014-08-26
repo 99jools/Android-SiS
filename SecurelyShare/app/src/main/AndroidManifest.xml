@@ -22,15 +22,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <activity
-            android:name=".ActivityInitialise" >
+        <activity android:name=".ActivityInitialise" >
         </activity>
-
-        <activity
-            android:name=".ActivityMain" >
+        <activity android:name=".ActivityMain" >
         </activity>
-
         <activity
             android:name=".ActivityCreate"
             android:parentActivityName=".ActivityMain" >
@@ -38,7 +33,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.julie.securelyshare.MainActivity" />
         </activity>
-
         <activity
             android:name=".ActivityDecrypt"
             android:parentActivityName=".ActivityMain" >
@@ -46,7 +40,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.julie.securelyshare.MainActivity" />
         </activity>
-
         <activity
             android:name=".ActivityEncrypt"
             android:parentActivityName=".ActivityMain" >
@@ -54,7 +47,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.julie.securelyshare.MainActivity" />
         </activity>
-
         <activity
             android:name=".ActivityAddGroup"
             android:parentActivityName=".ActivityMain" >
@@ -62,7 +54,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.julie.securelyshare.MainActivity" />
         </activity>
-
         <activity android:name="com.dropbox.sync.android.DbxAuthActivity" />
         <activity
             android:name="com.dropbox.client2.android.AuthActivity"
@@ -83,8 +74,15 @@
             android:exported="false"
             android:label="Dropbox Sync" />
 
+        <activity android:name=".DetailsActivity" >
+        </activity>
         <activity
-            android:name=".DetailsActivity" >
+            android:name=".ActivityGroups"
+            android:label="@string/title_activity_activity_groups"
+            android:parentActivityName=".ActivityMain" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.julie.securelyshare.ActivityMain" />
         </activity>
     </application>
 
