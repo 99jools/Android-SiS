@@ -3,27 +3,18 @@ package com.example.julie.securelyshare;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.DialogFragment;
 import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
 import com.dropbox.sync.android.DbxAccountManager;
-import com.dropbox.sync.android.DbxFile;
 import com.dropbox.sync.android.DbxFileInfo;
-
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.security.GeneralSecurityException;
 
 
 public class ActivityMain extends Activity implements Communicator {
@@ -46,7 +37,6 @@ public class ActivityMain extends Activity implements Communicator {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         apo = AppPwdObj.makeObj(this.getApplicationContext());
-        Log.d("ActivityMain: ", "- am in the onCreate method");
         mDbxAcctMgr = new DropboxSetup(this.getApplicationContext()).getAccMgr();
         actionBar = getActionBar();
     }
@@ -66,8 +56,6 @@ public class ActivityMain extends Activity implements Communicator {
             // get password from the user and set in AppPwdObj
             FragmentDialogUnlock dFragment = new FragmentDialogUnlock();
             dFragment.show(fm, "Dialog Fragment Unlock");
-        } else {
-            doLeftFrag();
         }
     }
 
@@ -81,59 +69,23 @@ public class ActivityMain extends Activity implements Communicator {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here - (Home/Up handled automatically based onManifest The action bar will
-        Intent intent;
-
+        // Handle action bar item clicks here - (Home/Up handled automatically based onManifest
+        View v=null; //dummy view to enable method reuse...
         switch (item.getItemId()) {
             case R.id.action_Create:
-                intent = new Intent(this, ActivityCreate.class);
-                startActivity(intent);
+                doCreate(v);
                 return true;
-
             case R.id.action_Open:
-                intent = new Intent(this, ActivityDecrypt.class);
-                startActivity(intent);
+                doDecrypt(v);
                 return true;
-
             case R.id.action_Encrypt:
-                /* This encrypts an existing file from the device.  This is
-                   not a main activity asit requres the file to be present in plaintext
-                   - something we seek to avoid!!
-                 */
-
-                // Create the ACTION_GET_CONTENT Intent
-                Intent getContentIntent = new Intent(Intent.ACTION_GET_CONTENT);
-                getContentIntent.setType("file/*");
-                startActivityForResult(getContentIntent, ENCRYPT_CHOSEN);
-                //put filename in intent and start encrypt activity
-
-                intent = new Intent(this, ActivityEncrypt.class);
-                startActivity(intent);
+                doEncrypt(v);
                 return true;
-
             case R.id.action_addgroup:
-                intent = new Intent(this, ActivityAddGroup.class);
-                startActivity(intent);
+                doGroups(v);
                 return true;
-
             case R.id.action_Unlink:
                 doUnlink();
-                return true;
-
-            case R.id.action_listgroups:
-
-                try {
-                    new AppKeystore().listGroups();
-                } catch (KeystoreAccessException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace(); //TODO
-                } catch (GeneralSecurityException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                }
                 return true;
             case R.id.action_settings:
                 return true;
@@ -141,6 +93,81 @@ public class ActivityMain extends Activity implements Communicator {
         return super.onOptionsItemSelected(item);
     }
 
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == REQUEST_LINK_TO_DBX) {
+            if (resultCode == Activity.RESULT_OK) {
+                //start next activity
+                showToast("Link to Dropbox complete");
+            } else {
+                showToast("Link to Dropbox failed or was cancelled by user.");
+            }
+        } else if (requestCode == ENCRYPT_CHOSEN) {
+            if (resultCode == Activity.RESULT_OK) {
+                //put filename in intent and start encrypt activity
+                Log.e("result ", "file is " + data.getData().getPath());
+                Intent intent = new Intent(this, ActivityEncrypt.class);
+               intent.putExtra("filePath", data.getData().getPath());
+                startActivity(intent);
+            }
+        } else super.onActivityResult(requestCode, resultCode, data);
+    }
+
+
+
+    @Override
+    public void onDialogResponse(String data) {
+        pwdValid = apo.validate(data);
+        //now check that this pwd provides access to the store
+
+        if (!pwdValid) {
+            if (tries < 2) showToast("The password entered is invalid - please retry");
+            else {
+                if (tries == 2)
+                    showToast("Password invalid - ONE MORE FAILURE WILL RESULT IN KEYSTORE BEING WIPED");
+                else {
+                    showToast("Keystore wiped");
+                    finish();
+                }
+            }
+            tries++;
+            FragmentDialogUnlock dFragment = new FragmentDialogUnlock();
+            dFragment.show(fm, "Dialog Fragment Unlock");
+        } else {
+
+        } //end else
+    }//end onDialogResponse
+
+    @Override
+    public void onDbxFileSelected(DbxFileInfo mDbxFileInfo) { }
+
+    @Override
+    public void alertDialogResponse(int title, int whichButton) { }
+
+
+    public void doCreate(View v){
+        Intent intent = new Intent(this, ActivityCreate.class);
+        startActivity(intent);
+    }
+
+
+    public void doEncrypt(View v ){
+        // Create the ACTION_GET_CONTENT Intent
+        Intent getContentIntent = new Intent(Intent.ACTION_GET_CONTENT);
+        getContentIntent.setType("file/*");
+        startActivityForResult(getContentIntent, ENCRYPT_CHOSEN);
+    }
+
+    public void doDecrypt(View v){
+        Intent intent = new Intent(this, ActivityDecrypt.class);
+        startActivity(intent);
+    }
+
+    public void doGroups(View v){
+        Intent intent = new Intent(this, ActivityAddGroup.class);
+        startActivity(intent);
+    }
     /**
      * Unlinks the current Dropbox account, deletes local data and terminates the app
      */
@@ -171,137 +198,10 @@ public class ActivityMain extends Activity implements Communicator {
         finish();
     }
 
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == REQUEST_LINK_TO_DBX) {
-            if (resultCode == Activity.RESULT_OK) {
-                //start next activity
-                showToast("Link to Dropbox complete");
-            } else {
-                showToast("Link to Dropbox failed or was cancelled by user.");
-            }
-        } else if (requestCode == ENCRYPT_CHOSEN) {
-            if (resultCode == Activity.RESULT_OK) {
-//TODO need to sort out what happens when user selects file to be
-
-            }
-        } else super.onActivityResult(requestCode, resultCode, data);
-    }
-
-
-    /**
-     * Handles the response from the AlertDialogFragment
-     *
-     * @param titleInt    - indicates which instance of the Alert Dialog Fragment is responding
-     * @param whichButton - indicates which button has been pressed
-     */
-    @Override
-    public void alertDialogResponse(int titleInt, int whichButton) {
-        switch (titleInt) {
-            case R.string.main_decrypt:
-                // this is a response from the decrypt alert dialog saying if user wants to proceed
-                if (whichButton == Communicator.POS_CLICK) {
-                    showToast("User wants to proceed");
-                    try {
-                        decryptToIntent();
-                    } catch (IOException e) {
-                        // TODO Auto-generated catch block
-                        e.printStackTrace();
-                    } catch (KeystoreAccessException e) {
-                        // TODO Auto-generated catch block
-                        e.printStackTrace();
-                    } catch (GeneralSecurityException e) {
-                        // TODO Auto-generated catch block
-                        e.printStackTrace();
-                    }
-                } else {
-                    showToast("You have chosen not to proceed - no files decrypted");
-                }
-                break;
-        }
-    }
-
-
-    @Override
-    public void onDialogResponse(String data) {
-        pwdValid = apo.validate(data);
-        //now check that this pwd provides access to the store
-
-        if (!pwdValid) {
-            if (tries < 2) showToast("The password entered is invalid - please retry");
-            else {
-                if (tries == 2)
-                    showToast("Password invalid - ONE MORE FAILURE WILL RESULT IN KEYSTORE BEING WIPED");
-                else {
-                    showToast("Keystore wiped");
-                    finish();
-                }
-            }
-            tries++;
-            FragmentDialogUnlock dFragment = new FragmentDialogUnlock();
-            dFragment.show(fm, "Dialog Fragment Unlock");
-        } else {
-            doLeftFrag();
-        } //end else
-    }//end onDialogResponse
-
-
-    private void doLeftFrag() {
-        FragmentTransaction fLeft = fm.beginTransaction();
-        FragmentFileList filesList = new FragmentFileList();
-        fLeft.add(R.id.left, filesList);
-        fLeft.commit();
-    }
-
-    private void doRightFrag() {
-        showToast("In doRightFrag");
-        FragmentTransaction fRight = fm.beginTransaction();
-        FragmentDecrypt decryptFile = new FragmentDecrypt();
-        fRight.add(R.id.right, decryptFile);
-        fRight.commit();
-    }
-
-    private void decryptToIntent()
-            throws IOException, KeystoreAccessException, GeneralSecurityException {
-        //open a file input stream with given path
-        DbxFile dbxIn = mDbx.getInFile(selectedDbxFileInfo);
-        FileInputStream fis = dbxIn.getReadStream();
-
-        File myPlaintextFile = getTempFos(selectedDbxFileInfo.path.getName());
-        FileOutputStream fos = new FileOutputStream(myPlaintextFile);
-        FileCryptor.decryptFile(fis, fos);
-        dbxIn.close();
-        // start new intent to open
-        Uri myUri = Uri.fromFile(myPlaintextFile);
-        Intent intent = new Intent(Intent.ACTION_VIEW);
-        intent.setData(myUri);
-        startActivity(intent);
-    }
-
-    private File getTempFos(String out) throws IOException {
-        //sort out filemame for decrypted file
-        out = out.substring(0, out.length() - 4);
-        return new File(getExternalCacheDir(),out);
-    } //end getTempFos
-
-    @Override
-    public void onDbxFileSelected(DbxFileInfo mDbxFileInfo) {
-        showToast("Files selected " + mDbxFileInfo.path.getName());
-        selectedDbxFileInfo = mDbxFileInfo;
-        //check whether file is small enough and of right type to display
-        Boolean isTxt = selectedDbxFileInfo.path.getName().endsWith(".txt.xps");
-        Boolean displayable = (isTxt && (selectedDbxFileInfo.size < 2000000));  //this allows some room for manouvre
-        if (!displayable) {
-            //if not displayable, check with user whether they want to proceed
-            DialogFragment newFragment = FragmentAlertDialog
-                    .newInstance(R.string.main_decrypt, R.string.decrypt_msg);
-        }
-    }
-
     public void showToast(String message) {
         Toast toast = Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG);
         toast.show();
     }
+
 }
 

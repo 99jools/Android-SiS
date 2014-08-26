@@ -1,9 +1,7 @@
 package com.example.julie.securelyshare;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -27,7 +25,18 @@ public class ActivityEncrypt extends ActivityMain {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_encrypt);
+        Intent intent = getIntent();
+        Bundle b = intent.getExtras();
+        if(b!=null)
+        {
+            //fill in the details on screen, and wait for the user to click the encrypt button
+            TextView getFilename = (TextView) findViewById(R.id.text_filename);
+            String path = b.getString("filePath");
+            getFilename.setText(path);
+            inFile = new File(path);
+        }
     }
+
 
     @Override
     protected void onResume() {
@@ -52,14 +61,14 @@ public class ActivityEncrypt extends ActivityMain {
         }
         return super.onOptionsItemSelected(item);
     }
-
+/*
     public void onClickChoose(View view){
         // Create the ACTION_GET_CONTENT Intent
         Intent getContentIntent = new Intent(Intent.ACTION_GET_CONTENT);
         getContentIntent.setType("file/*");
         startActivityForResult(getContentIntent, ENCRYPT_CHOOSER);
     }
-
+*/
     public void onClickOK(View view) throws KeystoreAccessException, IOException, GeneralSecurityException {
 
         //get the groupID
@@ -81,22 +90,6 @@ public class ActivityEncrypt extends ActivityMain {
         }
 
     }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == ENCRYPT_CHOOSER) {
-            if (resultCode == Activity.RESULT_OK) {
-                Log.e("result ", "file is " + data.getData().getPath());
-                //fill in the details on screen, and wait for the user to click the encrypt button
-                //get the filename
-                TextView getFilename = (TextView) findViewById(R.id.text_filename);
-                String path = (data.getData().getPath());
-                getFilename.setText(path);
-                inFile = new File(path);
-            }
-        }
-    }
-
 
     public void showToast(String message) {
         Toast toast = Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT);
