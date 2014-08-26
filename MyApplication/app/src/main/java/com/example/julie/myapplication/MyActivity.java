@@ -2,8 +2,10 @@ package com.example.julie.myapplication;
 
 import android.app.Activity;
 import android.app.FragmentManager;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.Toast;
 
 import java.io.File;
@@ -119,6 +121,12 @@ public class MyActivity extends Activity implements Communicator {
         toast.show();
     }
 
+
+    public void nextActivity(View view){
+        Intent intent = new Intent();
+        intent.setClass(this, TestActivity.class);
+        startActivity(intent);
+    }
 }
 
 

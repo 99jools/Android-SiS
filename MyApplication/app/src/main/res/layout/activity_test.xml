@@ -1,0 +1,59 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:baselineAligned="false"
+    android:orientation="horizontal" >
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="0px"
+        android:background="@android:color/darker_gray"
+    android:layout_height="fill_parent"
+        android:layout_weight="1">
+          <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="10dp"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Choose Destination Group"
+            android:id="@+id/textViewc1"
+              android:textColor="@android:color/white"
+              android:background="@android:color/black" />
+
+        <Spinner
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/spinner"
+            android:layout_marginBottom="20dp"
+            android:layout_gravity="center_horizontal" />
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:background="@android:color/background_dark"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Enter File Name (without .txt)"
+            android:hint="filename"
+            android:id="@+id/textViewc3"
+            android:textColor="@android:color/holo_blue_light" />
+
+        <EditText
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Medium Text"
+            android:id="@+id/fileName" />
+    </LinearLayout>
+
+    <FrameLayout
+        android:id="@+id/details"
+        android:layout_width="0px"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:background="?android:attr/detailsElementBackground" />
+
+
+
+</LinearLayout>

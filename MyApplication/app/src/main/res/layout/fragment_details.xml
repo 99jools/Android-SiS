@@ -1,0 +1,29 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.example.julie.myapplication.DetailsFragment">
+
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:inputType="textMultiLine"
+        android:ems="10"
+android:layout_weight="9"
+        android:gravity="top"
+        android:hint="enter your text here..."
+        android:id="@+id/editText"
+        android:layout_gravity="center_horizontal|top" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:text="Encrypt"
+        android:layout_weight="1"
+        android:layout_margin="10dp"
+        android:padding="5dp"
+        android:id="@+id/encrypt"
+        android:layout_gravity="center_horizontal|bottom" />
+</LinearLayout>

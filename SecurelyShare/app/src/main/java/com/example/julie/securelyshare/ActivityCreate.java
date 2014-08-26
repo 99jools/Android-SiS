@@ -1,6 +1,5 @@
 package com.example.julie.securelyshare;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -14,12 +13,10 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.security.GeneralSecurityException;
 
-public class ActivityCreate extends Activity {
+public class ActivityCreate extends ActivityMain {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
-//      Log.e("method call", "CreateActivity");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create);
     }
