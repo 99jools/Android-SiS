@@ -255,9 +255,27 @@ public void writeSKS(SecretKeySpec sks){
     } catch (IOException e) {
         e.printStackTrace();
     }
-
 }
+ public void testImport(String groupID, byte[] groupKey){
 
+     //add to key store
+     SecretKeySpec sks = new SecretKeySpec(groupKey, KEY_ALGORITHM);
+     KeyStore.SecretKeyEntry skEntry = new KeyStore.SecretKeyEntry(sks);
+     try {
+         ks.setEntry(groupID, skEntry, new KeyStore.PasswordProtection(appPwdAsArray));
+         writeKeyStore();
+     } catch (KeyStoreException e) {
+         e.printStackTrace();
+     } catch (GeneralSecurityException e) {
+         e.printStackTrace();
+     } catch (IOException e) {
+         e.printStackTrace();
+     }
+
+     //update stored copy of keystore  (can just rewrite as adding a new group is a rare occurrence)
+
+
+ }
 
 
 } //end AppKeystore

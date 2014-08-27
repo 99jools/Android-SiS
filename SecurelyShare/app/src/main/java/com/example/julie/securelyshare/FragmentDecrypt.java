@@ -10,29 +10,30 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.dropbox.sync.android.DbxException;
+import com.dropbox.sync.android.DbxFileInfo;
 
 
 /**
- * A simple {@link Fragment} subclass.
+ * A simple {@link android.app.Fragment} subclass.
  *
  */
-public class FragmentImport extends Fragment  {
+public class FragmentDecrypt extends Fragment  {
 
     private MyDbxFiles mDbx;
-    private Communicator communicator;
 
-    public FragmentImport() {
+
+    public FragmentDecrypt() {
         // Required empty public constructor
     }
-    public static FragmentImport newInstance() {
+    public static FragmentDecrypt newInstance() {
 
-        return new FragmentImport();
+        return new FragmentDecrypt();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
-        View view = inflater.inflate(R.layout.fragment_import, container, false);
+        View view = inflater.inflate(R.layout.fragment_decrypt, container, false);
         return view;
     }
 
@@ -46,6 +47,11 @@ public class FragmentImport extends Fragment  {
         }
 
     }
+
+    public void decryptAsString(DbxFileInfo mDbxFileInfo){
+        showToast("I am going to decrypt " + mDbxFileInfo.path.getName());
+    }
+
     public void showToast(String message) {
         Toast toast = Toast.makeText(getActivity(), message, Toast.LENGTH_LONG);
         toast.show();

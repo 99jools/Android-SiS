@@ -12,6 +12,7 @@ import android.widget.Toast;
 import com.dropbox.sync.android.DbxFileInfo;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.security.GeneralSecurityException;
@@ -28,30 +29,25 @@ public class ActivityInitialise extends Activity implements Communicator {
     public static final String KEYSTORE_TYPE = "BKS";
     public static final String KEYPAIR_ALGORITHM = "RSA";
     public static final int KEYPAIR_LENGTH = 1024;
+    private static final int CHOOSE_BACKUP = 9999;
 
     private Button mButtonContinue;
-    //   private Button mButtonCancel;
-    //  private EditText mEditPwd;
-    //  private EditText mEditPwd2;
-
     private FragmentManager fm = getFragmentManager();
     private String appPwd;
-
+    private String importPath = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_initialise);
         mButtonContinue = (Button) findViewById(R.id.button_continue);
-
     }
 
     /**
      * Shows the AlertDialog to ask whether user wants to import a keystore from backup
      * rather than creating a new one
      * This is th onClick method fr the "Continue" button on the initial screen
-     *
-     * @param view
+     * Response is handled in alertDialogResponse
      */
     public void showKeystoreDialog(View view) {
         DialogFragment newFragment = FragmentAlertDialog
@@ -71,9 +67,11 @@ public class ActivityInitialise extends Activity implements Communicator {
         switch (titleInt) {
             case R.string.init_keystore:
                 // this is a response from the Import Keystore dialog
-                if (whichButton == Communicator.POS_CLICK)
-                    showToast("Import Keystore functionality to be inserted here");
-                else {
+                if (whichButton == Communicator.POS_CLICK) {
+                    Intent getContentIntent = new Intent(Intent.ACTION_GET_CONTENT);
+                    getContentIntent.setType("file/*");
+                    startActivityForResult(getContentIntent, CHOOSE_BACKUP);
+                } else {
                     //new keystore setup is required
                     //show dialog to set up a master password
                     FragmentDialogPwd dFragment = new FragmentDialogPwd();
@@ -91,13 +89,26 @@ public class ActivityInitialise extends Activity implements Communicator {
     }
 
     @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == CHOOSE_BACKUP) {
+            if (resultCode == Activity.RESULT_OK) {
+                importPath = data.getData().getPath();
+                //show dialog to set up a master password
+                FragmentDialogPwd dFragment = new FragmentDialogPwd();
+                dFragment.show(fm, "Dialog Fragment Pwd");
+            }
+        } else super.onActivityResult(requestCode, resultCode, data);
+    }
+
+
+    @Override
     public void onDialogResponse(String data) {
         //this is from the password dialog and returns the chosen master password
         appPwd = data;
         showToast("Password set to " + appPwd);
         try {
-            createKeyStore(KEYSTORE_NAME);
-            createKeyStore(CERTIFICATE_FILE);
+            importKeyStore(KEYSTORE_NAME);
+//            importKeyStore(CERTIFICATE_FILE);
             showConfirmDialog();
         } catch (IOException e) {
             e.printStackTrace();
@@ -106,11 +117,14 @@ public class ActivityInitialise extends Activity implements Communicator {
         }
 
         /*set up public/private keypair and export certificate.
-         *NOTE: From API 19 it s possible to store this information in the system keystore
-         *      however, we are currently maintaining compatibility to API 17 hence a separate
-          *     keystore has to be created and will be stored in the app private storage.
+
+         *NOTE: From API 18 it s possible to store this information in the system keystore
+         *      and hence we would add functionality to generate the keys programmatically.
+         *      For demonstration purposes and since we are working with an API 17 device,
+         *      we will need to generate the private key/certificate pair using java sdk Keytool
+         *      and transfer manually - hence we will always select the option above to import
+         *      the keystore
          */
-//TODO import public-private keystore with Bouncy Castle
 
 
     }
@@ -129,6 +143,7 @@ public class ActivityInitialise extends Activity implements Communicator {
     public void createKeyStore(String name) throws IOException, GeneralSecurityException {
         KeyStore newKS = KeyStore.getInstance(KEYSTORE_TYPE);
         //   FileOutputStream fos = openFileOutput(name, Context.MODE_PRIVATE);
+        //this has been moved to external storage for testing and demonstration purposes
         File mFile = new File(getExternalFilesDir(null), name);
         FileOutputStream fos = new FileOutputStream(mFile);
         newKS.load(null);
@@ -136,6 +151,16 @@ public class ActivityInitialise extends Activity implements Communicator {
         fos.close();
     }
 
+    public void importKeyStore(String name) throws IOException, GeneralSecurityException {
+        KeyStore newKS = KeyStore.getInstance(KEYSTORE_TYPE);
+        File outFile = new File(getExternalFilesDir(null), name);
+        File inFile = new File(importPath);
+        FileOutputStream fos = new FileOutputStream(outFile);
+        FileInputStream fis = new FileInputStream(inFile);
+        newKS.load(fis, appPwd.toCharArray());
+        newKS.store(fos, appPwd.toCharArray());
+        fos.close();
+    }
 
     public void showToast(String message) {
         Toast toast = Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG);

@@ -12,14 +12,14 @@ Splash screen implementation based on code from http://www.androidhive.info/2013
 
 public class ActivitySplashScreen extends Activity {
     private static final int SHOW_SPLASH = 500;
-    public static final String CERTIFICATE_FILE = "SiSCert.ks";
+    public static final String KEYSTORE_NAME = "SiSKeyStore.ks";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash_screen);
 
-        // delayed start is done by using a Handler to add the Runnable to the message queueto run after delay period
+        // delayed start is done by using a Handler to add the Runnable to the message queue to run after delay period
         new Handler().postDelayed(new Runnable() {
 
             @Override
@@ -28,7 +28,7 @@ public class ActivitySplashScreen extends Activity {
                 //check if keystore exists
                 //            File mFile = getFileStreamPath(CERTIFICATE_FILE);
                 //moved to external storage for testing and demonstration purposes
-                File mFile = new File(getExternalFilesDir(null), CERTIFICATE_FILE);
+                File mFile = new File(getExternalFilesDir(null), KEYSTORE_NAME);
 
                 if (mFile.exists()) {
                     Intent i = new Intent(ActivitySplashScreen.this, ActivityMain.class);

@@ -3,16 +3,20 @@ package com.example.julie.securelyshare;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.app.ListActivity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.Toast;
 
 import com.dropbox.sync.android.DbxException;
+import com.dropbox.sync.android.DbxFile;
 import com.dropbox.sync.android.DbxFileInfo;
 import com.dropbox.sync.android.DbxPath;
 
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -61,11 +65,11 @@ public class ActivityImport extends ListActivity {
     }
 
     @Override
-    public void onListItemClick(ListView parent, View v, int position, long id){
+    public void onListItemClick(ListView parent, View v, int position, long id) {
         DbxFileInfo fileInfo = (DbxFileInfo) parent.getItemAtPosition(position);
         try {
             if (position == 1) {
-                if (mCurrentNode.compareTo(mRootNode)!=0) {
+                if (mCurrentNode.compareTo(mRootNode) != 0) {
                     DbxPath p = fileInfo.path.getParent();
                     mCurrentNode = mDbx.getFileInfo(p);
                 }
@@ -76,7 +80,7 @@ public class ActivityImport extends ListActivity {
                     refreshFileList();
                 } else importGroup(fileInfo);
             }
-        }catch (IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
@@ -95,16 +99,23 @@ public class ActivityImport extends ListActivity {
         mFiles.addAll(fcFileInfo);
         mAdapter.notifyDataSetChanged();
     }
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
-    }
 
-
-    public void importGroup(DbxFileInfo keyFile) {
-
+    public void importGroup(DbxFileInfo keyFileInfo) {
+        try {
+            DbxFile keyFile = mDbx.getInFile(keyFileInfo);
+            AppKeystore aks = new AppKeystore();
+            FileInputStream fis = keyFile.getReadStream();
+            byte[] key = new byte[aks.KEY_LENGTH / 8];
+            int r = fis.read(key);
+            aks.testImport("julie", key);
+            keyFile.close();
+        } catch (DbxException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (MyKeystoreAccessException e) {
+            e.printStackTrace();
+        }
         showToast("Import");
     }
 
@@ -124,8 +135,40 @@ public class ActivityImport extends ListActivity {
             ft.commit();
         }
     }
+
     public void showToast(String message) {
         Toast toast = Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG);
         toast.show();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.import_groups, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        Intent intent;
+        switch (item.getItemId()) {
+            case R.id.action_create:
+                intent = new Intent(this, ActivityCreate.class);
+                startActivity(intent);
+                return true;
+            case R.id.action_decrypt:
+                intent = new Intent(this, ActivityDecrypt.class);
+                startActivity(intent);
+                return true;
+            case R.id.action_import:
+                intent = new Intent(this, ActivityImport.class);
+                startActivity(intent);
+                return true;
+            case R.id.action_admin:
+                intent = new Intent(this, ActivityAdmin.class);
+                startActivity(intent);
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

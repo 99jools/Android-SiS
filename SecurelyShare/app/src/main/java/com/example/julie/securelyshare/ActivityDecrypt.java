@@ -6,7 +6,8 @@ import android.app.ListActivity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -42,11 +43,11 @@ public class ActivityDecrypt extends ListActivity {
         setListAdapter(mAdapter);
 
         // Check what fragment is currently shown, replace if needed.
-        FragmentImport fd = (FragmentImport) getFragmentManager()
+        FragmentDecrypt fd = (FragmentDecrypt) getFragmentManager()
                 .findFragmentById(R.id.right);
         if (fd == null) {
             // Make new fragment to input data
-            fd = FragmentImport.newInstance();
+            fd = FragmentDecrypt.newInstance();
             // Execute a transaction, replacing any existing fragment
             // with this one inside the frame.
             FragmentTransaction ft = getFragmentManager()
@@ -66,11 +67,11 @@ public class ActivityDecrypt extends ListActivity {
     }
 
     @Override
-    public void onListItemClick(ListView parent, View v, int position, long id){
+    public void onListItemClick(ListView parent, View v, int position, long id) {
         DbxFileInfo fileInfo = (DbxFileInfo) parent.getItemAtPosition(position);
         try {
             if (position == 1) {
-                if (mCurrentNode.compareTo(mRootNode)!=0) {
+                if (mCurrentNode.compareTo(mRootNode) != 0) {
                     DbxPath p = fileInfo.path.getParent();
                     mCurrentNode = mDbx.getFileInfo(p);
                 }
@@ -80,24 +81,22 @@ public class ActivityDecrypt extends ListActivity {
                     mCurrentNode = fileInfo;
                     refreshFileList();
                 } else
-                try{
-                    doDecrypt(fileInfo);
-                } catch (GeneralSecurityException e) {
-                    e.printStackTrace();
-                } catch (MyKeystoreAccessException e) {
-                    showToast(e.getMessage());
-                    finish();
-                } catch (MyMissingKeyException e) {
-                    showToast(e.getMessage());
-                    finish();
-                }
+                    try {
+                        doDecrypt(fileInfo);
+                    } catch (GeneralSecurityException e) {
+                        e.printStackTrace();
+                    } catch (MyKeystoreAccessException e) {
+                        showToast(e.getMessage());
+                        finish();
+                    } catch (MyMissingKeyException e) {
+                        showToast(e.getMessage());
+                        finish();
+                    }
             }
-        }catch (IOException e) {
-            Log.e("decrypt file ", e.getMessage());
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
-
-        // Need to add something to handle Failed or was cancelled by the user.
 
 
     private void refreshFileList() throws DbxException {
@@ -118,7 +117,7 @@ public class ActivityDecrypt extends ListActivity {
         DbxFile dbxIn = mDbx.getInFile(fileInfo);
         FileInputStream fis = dbxIn.getReadStream();
 
-        File myPlaintextFile  = getFos(fileInfo.path.getName());
+        File myPlaintextFile = getFos(fileInfo.path.getName());
         FileOutputStream fos = new FileOutputStream(myPlaintextFile);
         FileCryptor.decryptFile(fis, fos);
         dbxIn.close();
@@ -129,11 +128,42 @@ public class ActivityDecrypt extends ListActivity {
         startActivity(intent);
     }
 
-     private File getFos(String out) throws IOException {
+    private File getFos(String out) throws IOException {
         //sort out filemame for decrypted file
         out = out.substring(0, out.length() - 4);
-        return new File(getExternalCacheDir(),out);
+        return new File(getExternalCacheDir(), out);
     } //end getFos
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.import_groups, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        Intent intent;
+        switch (item.getItemId()) {
+            case R.id.action_create:
+                intent = new Intent(this, ActivityCreate.class);
+                startActivity(intent);
+                return true;
+            case R.id.action_decrypt:
+                intent = new Intent(this, ActivityDecrypt.class);
+                startActivity(intent);
+                return true;
+            case R.id.action_import:
+                intent = new Intent(this, ActivityImport.class);
+                startActivity(intent);
+                return true;
+            case R.id.action_admin:
+                intent = new Intent(this, ActivityAdmin.class);
+                startActivity(intent);
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 
     public void showToast(String message) {
         Toast toast = Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG);

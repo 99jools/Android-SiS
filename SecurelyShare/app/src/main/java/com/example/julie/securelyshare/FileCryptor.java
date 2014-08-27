@@ -1,8 +1,6 @@
 package com.example.julie.securelyshare;
 
 
-import android.util.Log;
-
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -91,7 +89,6 @@ int b = 0;
                    b=fis.read(gaba);
                    byte[] initVector = new byte[MyCipher.AES_BLOCKSIZE];
                    b=fis.read(initVector);
-                   Log.e("metadata read", " ");
 
         //setup decryption
         decryptionCipher = new MyCipher(gaba, initVector);
