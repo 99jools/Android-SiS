@@ -1,5 +1,6 @@
 package com.example.julie.securelyshare;
 
+import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.app.ListActivity;
 import android.os.Bundle;
@@ -30,21 +31,22 @@ public class ActivityImport extends ListActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_decrypt);
+        setContentView(R.layout.activity_import);
         mAdapter = new CustomAdapter(this, R.layout.list_row, mFiles);
         setListAdapter(mAdapter);
 
         // Check what fragment is currently shown, replace if needed.
-        FragmentDecrypt fd = (FragmentDecrypt) getFragmentManager()
-                .findFragmentById(R.id.right);
-        if (fd == null) {
+        FragmentManager fm = getFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
+
+        FragmentImport fi = (FragmentImport) fm.findFragmentById(R.id.import_right);
+        if (fi == null) {
             // Make new fragment to input data
-            fd = FragmentDecrypt.newInstance();
+            fi = FragmentImport.newInstance();
             // Execute a transaction, replacing any existing fragment
             // with this one inside the frame.
-            FragmentTransaction ft = getFragmentManager()
-                    .beginTransaction();
-            ft.add(R.id.right, fd);
+            ft = fm.beginTransaction();
+            ft.add(R.id.import_right, fi);
             ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
             ft.commit();
         }
