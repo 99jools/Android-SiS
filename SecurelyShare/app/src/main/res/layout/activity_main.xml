@@ -65,7 +65,7 @@
 
         <Button
             android:id="@+id/button4"
-            android:onClick="doManageGroups"
+            android:onClick="doImportKey"
             android:layout_width="0dp"
             android:layout_height="fill_parent"
             android:layout_weight="1"
@@ -74,7 +74,7 @@
             android:layout_marginRight="20dp"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="20dp"
-            android:text="Manage Groups"
+            android:text="Import Group Key"
             android:textColor="@android:color/holo_blue_dark" />
     </TableRow>
 

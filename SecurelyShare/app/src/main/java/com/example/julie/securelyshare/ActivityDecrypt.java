@@ -1,6 +1,7 @@
 package com.example.julie.securelyshare;
 
 
+import android.app.ListActivity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -21,7 +22,7 @@ import java.security.GeneralSecurityException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ActivityDecrypt extends ActivityMain {
+public class ActivityDecrypt extends ListActivity {
 
     private MyDbxFiles mDbx;
     private DbxFileInfo mCurrentNode = null;

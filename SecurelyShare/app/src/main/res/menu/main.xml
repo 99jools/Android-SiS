@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.example.jrs300.shareinsecrettest.MainActivity">
     <item
-        android:id="@+id/action_Create"
+        android:id="@+id/action_create"
         android:orderInCategory="10"
         android:showAsAction="ifRoom"
         android:title="Create"
@@ -20,22 +20,22 @@
         android:title="Encrypt"
         tools:ignore="AppCompatResource" />
     <item
-        android:id="@+id/action_managegroups"
+        android:id="@+id/action_import"
         android:orderInCategory="80"
         android:showAsAction="never"
-        android:title="Manage Groups"
+        android:title="Import new Group Key"
         tools:ignore="AppCompatResource" />
     <item
-        android:id="@+id/action_Unlink"
+        android:id="@+id/action_unlink"
         android:orderInCategory="90"
         android:showAsAction="never"
         android:title="Unlink from Dropbox"
         tools:ignore="AppCompatResource" />
     <item
-        android:id="@+id/action_addgroup"
+        android:id="@+id/action_admin"
         android:orderInCategory="95"
         android:showAsAction="never"
-        android:title="Add group"
+        android:title="Admin Only"
         tools:ignore="AppCompatResource" />
     <item
         android:id="@+id/action_settings"

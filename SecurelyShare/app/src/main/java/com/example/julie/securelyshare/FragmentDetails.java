@@ -13,8 +13,6 @@ public  class FragmentDetails extends Fragment implements View.OnClickListener{
     Button mContinue;
     EditText mPlaintext;
     Communicator communicator;
-    // Create a new instance of FragmentDetails, initialized to show the
-    // text at 'index'.
 
     public static FragmentDetails newInstance() {
        return new FragmentDetails();

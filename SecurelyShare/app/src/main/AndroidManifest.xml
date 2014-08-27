@@ -48,7 +48,7 @@
                 android:value="com.example.julie.securelyshare.MainActivity" />
         </activity>
         <activity
-            android:name=".ActivityAddGroup"
+            android:name=".ActivityAdmin"
             android:parentActivityName=".ActivityMain" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -77,7 +77,7 @@
         <activity android:name=".DetailsActivity" >
         </activity>
         <activity
-            android:name=".ActivityGroups"
+            android:name=".ActivityImport"
             android:label="@string/title_activity_activity_groups"
             android:parentActivityName=".ActivityMain" >
             <meta-data

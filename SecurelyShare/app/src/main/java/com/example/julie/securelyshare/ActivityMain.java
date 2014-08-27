@@ -4,7 +4,6 @@ import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.FragmentManager;
-import android.app.ListActivity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -17,14 +16,13 @@ import com.dropbox.sync.android.DbxAccountManager;
 import com.dropbox.sync.android.DbxFileInfo;
 
 
-public class ActivityMain extends ListActivity implements Communicator {
+public class ActivityMain extends Activity implements Communicator {
 
     private static final int REQUEST_LINK_TO_DBX = 1111;
     private static final int ENCRYPT_CHOSEN = 2222;
 
     private DbxAccountManager mDbxAcctMgr;
     private AppPwdObj apo;
-    private boolean pwdValid = false;
     private int tries = 0;
 
     private FragmentManager fm = getFragmentManager();
@@ -72,7 +70,7 @@ public class ActivityMain extends ListActivity implements Communicator {
         // Handle action bar item clicks here - (Home/Up handled automatically based onManifest
         View v = null; //dummy view to enable method reuse...
         switch (item.getItemId()) {
-            case R.id.action_Create:
+            case R.id.action_create:
                 doCreate(v);
                 return true;
             case R.id.action_decrypt:
@@ -81,14 +79,14 @@ public class ActivityMain extends ListActivity implements Communicator {
             case R.id.action_encrypt:
                 doEncrypt(v);
                 return true;
-            case R.id.action_managegroups:
-                doManageGroups(v);
+            case R.id.action_import:
+                doImportKey(v);
                 return true;
-            case R.id.action_Unlink:
+            case R.id.action_unlink:
                 doUnlink();
                 return true;
-            case R.id.action_addgroup:
-                doAddGroup(v);
+            case R.id.action_admin:
+                doAdmin(v);
                 return true;
             case R.id.action_settings:
                 return true;
@@ -119,6 +117,7 @@ public class ActivityMain extends ListActivity implements Communicator {
 
     @Override
     public void onDialogResponse(String data) {
+        boolean pwdValid;
         if (data.length()<1) {
             pwdValid = false;
         } else pwdValid = apo.validate(data);
@@ -167,12 +166,12 @@ public class ActivityMain extends ListActivity implements Communicator {
     }
 
 
-    public void doManageGroups(View v) {
-        Intent intent = new Intent(this, ActivityGroups.class);
+    public void doImportKey(View v) {
+        Intent intent = new Intent(this, ActivityImport.class);
         startActivity(intent);
     }
-    public void doAddGroup(View v) {
-        Intent intent = new Intent(this, ActivityAddGroup.class);
+    public void doAdmin(View v) {
+        Intent intent = new Intent(this, ActivityAdmin.class);
         startActivity(intent);
     }
 
