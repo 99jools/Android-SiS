@@ -18,6 +18,7 @@ import java.security.UnrecoverableKeyException;
 import java.security.cert.CertificateException;
 import java.security.cert.CertificateFactory;
 import java.security.cert.X509Certificate;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Enumeration;
 
@@ -46,13 +47,13 @@ public class AppKeystore {
     /**
      * AppKeystore constructor
      *
-     * @throws KeystoreAccessException if the password stored in AppPwdObj
+     * @throws MyKeystoreAccessException if the password stored in AppPwdObj
      *                           is null (as may have happened if object has been recreated)
      *                           or if it is incorrect and doesn't unlock the keystore
      */
-    public AppKeystore() throws KeystoreAccessException {
+    public AppKeystore() throws MyKeystoreAccessException {
         String appPwd = AppPwdObj.getInstance().getValue();
-        if (appPwd == null) throw new KeystoreAccessException();
+        if (appPwd == null) throw new MyKeystoreAccessException();
         //otherwise continue to load the keystore
         this.appPwdAsArray = appPwd.toCharArray();
         this.context = AppPwdObj.getInstance().getContext();
@@ -68,7 +69,7 @@ public class AppKeystore {
             try {
                 ks.load(fis, appPwdAsArray);
             } catch (IOException e) {
-                throw new KeystoreAccessException();
+                throw new MyKeystoreAccessException();
             } catch (NoSuchAlgorithmException e) {
                 e.printStackTrace();
             } catch (CertificateException e) {
@@ -93,12 +94,12 @@ public class AppKeystore {
      * @param alias
      * @return KeySpec for the retrieved key
      */
-    public SecretKeySpec getSKS(String alias) {
+    public SecretKeySpec getSKS(String alias) throws MyMissingKeyException {
         try {
             if (ks.containsAlias(alias)) {
                 Key groupKey = ks.getKey(alias, appPwdAsArray);
                 return new SecretKeySpec(groupKey.getEncoded(), KEY_ALGORITHM);
-            }
+            } else throw new MyMissingKeyException();
         } catch (KeyStoreException e) {
             e.printStackTrace();
         } catch (NoSuchAlgorithmException e) {
@@ -138,13 +139,14 @@ public class AppKeystore {
 
     }
 
-    public String[] getGroups() throws KeystoreAccessException, GeneralSecurityException, IOException {
+    public String[] getGroups() throws MyKeystoreAccessException, GeneralSecurityException, IOException {
         Enumeration<String> es = ks.aliases();
         String[] groups = new String[ks.size()];
         int index = 0;
         for (String key : Collections.list(es)) {
             groups[index++] = key;
         }
+        Arrays.sort(groups);
         return groups;
     } //end listGroups
 
@@ -224,6 +226,9 @@ public class AppKeystore {
         KeyStore.SecretKeyEntry skEntry = new KeyStore.SecretKeyEntry(newSecretKeySpec);
         ks.setEntry(groupID, skEntry, new KeyStore.PasswordProtection(appPwdAsArray));
 
+        //TODO REMOVE AFTER TESTING
+        writeSKS(newSecretKeySpec);
+
         //update stored copy of keystore  (can just rewrite as adding a new group is a rare occurrence)
         writeKeyStore();
     } //end generateKey
@@ -237,14 +242,22 @@ public class AppKeystore {
     } //end delete key
 
 
-    public int getSize() {
-        try {
-            return ks.size();
-        } catch (KeyStoreException e) {
-            e.printStackTrace();
-        }
-        return 99;
+public void writeSKS(SecretKeySpec sks){
+    byte[] mykey = sks.getEncoded();
+    File mFile = new File(context.getExternalFilesDir(null), "julie.xeb");
+    FileOutputStream fos = null;
+    try {
+        fos = new FileOutputStream(mFile);
+        fos.write(mykey);
+        fos.close();
+    } catch (FileNotFoundException e) {
+        e.printStackTrace();
+    } catch (IOException e) {
+        e.printStackTrace();
     }
+
+}
+
 
 
 } //end AppKeystore

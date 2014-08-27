@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.dropbox.sync.android.DbxException;
 import com.dropbox.sync.android.DbxFile;
@@ -41,11 +42,11 @@ public class ActivityDecrypt extends ListActivity {
         setListAdapter(mAdapter);
 
         // Check what fragment is currently shown, replace if needed.
-        FragmentDecrypt fd = (FragmentDecrypt) getFragmentManager()
+        FragmentImport fd = (FragmentImport) getFragmentManager()
                 .findFragmentById(R.id.right);
         if (fd == null) {
             // Make new fragment to input data
-            fd = FragmentDecrypt.newInstance();
+            fd = FragmentImport.newInstance();
             // Execute a transaction, replacing any existing fragment
             // with this one inside the frame.
             FragmentTransaction ft = getFragmentManager()
@@ -83,8 +84,12 @@ public class ActivityDecrypt extends ListActivity {
                     doDecrypt(fileInfo);
                 } catch (GeneralSecurityException e) {
                     e.printStackTrace();
-                } catch (KeystoreAccessException e) {
-                    e.printStackTrace();
+                } catch (MyKeystoreAccessException e) {
+                    showToast(e.getMessage());
+                    finish();
+                } catch (MyMissingKeyException e) {
+                    showToast(e.getMessage());
+                    finish();
                 }
             }
         }catch (IOException e) {
@@ -107,7 +112,8 @@ public class ActivityDecrypt extends ListActivity {
         mAdapter.notifyDataSetChanged();
     }
 
-    private void doDecrypt(DbxFileInfo fileInfo) throws IOException, KeystoreAccessException, GeneralSecurityException {
+    private void doDecrypt(DbxFileInfo fileInfo) throws IOException, MyKeystoreAccessException,
+            GeneralSecurityException, MyMissingKeyException {
         //open a file input stream with given path
         DbxFile dbxIn = mDbx.getInFile(fileInfo);
         FileInputStream fis = dbxIn.getReadStream();
@@ -129,5 +135,8 @@ public class ActivityDecrypt extends ListActivity {
         return new File(getExternalCacheDir(),out);
     } //end getFos
 
-
+    public void showToast(String message) {
+        Toast toast = Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG);
+        toast.show();
+    }
 }

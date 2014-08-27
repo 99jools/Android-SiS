@@ -43,7 +43,7 @@ public class ActivityEncrypt extends ActivityMain implements AdapterView.OnItemS
         try {
             aks = new AppKeystore();
             groups = aks.getGroups();
-        } catch (KeystoreAccessException e) {
+        } catch (MyKeystoreAccessException e) {
             e.printStackTrace();
         } catch (GeneralSecurityException e) {
             e.printStackTrace();
@@ -71,7 +71,8 @@ public class ActivityEncrypt extends ActivityMain implements AdapterView.OnItemS
         showToast(groupID);
     }
 
-    public void onClickOK(View view) throws KeystoreAccessException, IOException, GeneralSecurityException {
+    public void onClickOK(View view) throws MyKeystoreAccessException,
+            IOException, GeneralSecurityException, MyMissingKeyException {
         FileInputStream fis = new FileInputStream(inFile);
         DbxFile dbxOut = new MyDbxFiles(this).getGroupOutFile(inFile.getName(), groupID);
         FileOutputStream fos = dbxOut.getWriteStream();

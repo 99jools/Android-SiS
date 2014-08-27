@@ -34,7 +34,7 @@ public class ActivityCreate extends ActivityMain
         try {
             aks = new AppKeystore();
             groups = aks.getGroups();
-        } catch (KeystoreAccessException e) {
+        } catch (MyKeystoreAccessException e) {
             e.printStackTrace();
         } catch (GeneralSecurityException e) {
             e.printStackTrace();
@@ -103,7 +103,9 @@ public class ActivityCreate extends ActivityMain
                 e.printStackTrace();
             } catch (GeneralSecurityException e) {
                 e.printStackTrace();
-            } catch (KeystoreAccessException e) {
+            } catch (MyKeystoreAccessException e) {
+                e.printStackTrace();
+            } catch (MyMissingKeyException e) {
                 e.printStackTrace();
             }
         }
@@ -123,7 +125,7 @@ public class ActivityCreate extends ActivityMain
 
 /*
 
-    private void onClickEncrypt(View view) throws KeystoreAccessException,IOException, GeneralSecurityException{
+    private void onClickEncrypt(View view) throws MyKeystoreAccessException,IOException, GeneralSecurityException{
         //check that filename isn't empty
         if (getFilename.getText().toString().length()< 1){
               getFilename.setError( "Please enter a name for your file" );

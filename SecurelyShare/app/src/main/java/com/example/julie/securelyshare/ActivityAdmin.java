@@ -30,7 +30,7 @@ public class ActivityAdmin extends ActivityMain {
                 e.printStackTrace();
             } catch (IOException e) {
                 e.printStackTrace();
-            } catch (KeystoreAccessException e) {
+            } catch (MyKeystoreAccessException e) {
                 e.printStackTrace();
             }
 
@@ -54,7 +54,7 @@ public class ActivityAdmin extends ActivityMain {
                 e.printStackTrace();
             } catch (IOException e) {
                 e.printStackTrace();
-            } catch (KeystoreAccessException e) {
+            } catch (MyKeystoreAccessException e) {
                 e.printStackTrace();
             }
 

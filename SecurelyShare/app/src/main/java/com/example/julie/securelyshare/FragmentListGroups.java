@@ -29,7 +29,7 @@ public class FragmentListGroups extends ListFragment {
         try {
             aks = new AppKeystore();
             groups = aks.getGroups();
-        } catch (KeystoreAccessException e) {
+        } catch (MyKeystoreAccessException e) {
             e.printStackTrace();
         } catch (GeneralSecurityException e) {
             e.printStackTrace();
@@ -73,7 +73,7 @@ private AppKeystore aks;
         try {
             aks = new AppKeystore();
             groups = aks.getGroups();
-        } catch (KeystoreAccessException e) {
+        } catch (MyKeystoreAccessException e) {
             e.printStackTrace();
         } catch (GeneralSecurityException e) {
             e.printStackTrace();

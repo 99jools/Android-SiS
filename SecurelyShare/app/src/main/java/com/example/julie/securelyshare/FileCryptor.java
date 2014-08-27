@@ -24,7 +24,7 @@ public class FileCryptor {
 
 
     public static  void encryptFile(FileInputStream fis,FileOutputStream fos, String groupID)
-            throws KeystoreAccessException, IOException {
+            throws MyKeystoreAccessException, IOException, MyMissingKeyException {
 
         MyCipher encryptionCipher = new MyCipher(groupID);
 
@@ -49,7 +49,7 @@ public class FileCryptor {
 
 
     public static void encryptString(String plaintextAsString, FileOutputStream fos, String groupID)
-            throws KeystoreAccessException,GeneralSecurityException, IOException {
+            throws MyKeystoreAccessException, GeneralSecurityException, IOException, MyMissingKeyException {
 
         MyCipher encryptionCipher = new MyCipher(groupID);
 
@@ -73,12 +73,13 @@ public class FileCryptor {
      * @param fis
      * @param fos
      * @return
-     * @throws KeystoreAccessException
+     * @throws MyKeystoreAccessException
      * @throws GeneralSecurityException
      * @throws IOException
      */
 
-    public static String decryptFile(FileInputStream fis, FileOutputStream  fos) throws KeystoreAccessException {
+    public static String decryptFile(FileInputStream fis, FileOutputStream  fos)
+            throws MyKeystoreAccessException, MyMissingKeyException {
         MyCipher decryptionCipher=null;
         // read meta data from input stream
 int b = 0;
