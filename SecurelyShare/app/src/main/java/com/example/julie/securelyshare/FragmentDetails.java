@@ -15,7 +15,7 @@ public  class FragmentDetails extends Fragment implements View.OnClickListener{
     Communicator communicator;
 
     public static FragmentDetails newInstance() {
-       return new FragmentDetails();
+        return new FragmentDetails();
     }
 
     @Override

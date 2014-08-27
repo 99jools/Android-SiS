@@ -1,6 +1,7 @@
 package com.example.julie.securelyshare;
 
 
+import android.app.FragmentTransaction;
 import android.app.ListActivity;
 import android.content.Intent;
 import android.net.Uri;
@@ -35,10 +36,24 @@ public class ActivityDecrypt extends ListActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_file_chooser);
+        setContentView(R.layout.activity_decrypt);
         mAdapter = new CustomAdapter(this, R.layout.list_row, mFiles);
         setListAdapter(mAdapter);
 
+        // Check what fragment is currently shown, replace if needed.
+        FragmentDecrypt fd = (FragmentDecrypt) getFragmentManager()
+                .findFragmentById(R.id.right);
+        if (fd == null) {
+            // Make new fragment to input data
+            fd = FragmentDecrypt.newInstance();
+            // Execute a transaction, replacing any existing fragment
+            // with this one inside the frame.
+            FragmentTransaction ft = getFragmentManager()
+                    .beginTransaction();
+            ft.add(R.id.right, fd);
+            ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+            ft.commit();
+        }
         //get DbxFileSystem and root folders
         try {
             this.mDbx = new MyDbxFiles(this);

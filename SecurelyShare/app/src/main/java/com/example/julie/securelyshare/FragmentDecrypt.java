@@ -2,9 +2,11 @@ package com.example.julie.securelyshare;
 
 
 
-import android.app.Activity;
 import android.app.Fragment;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.dropbox.sync.android.DbxException;
@@ -23,11 +25,16 @@ public class FragmentDecrypt extends Fragment  {
     public FragmentDecrypt() {
         // Required empty public constructor
     }
+    public static FragmentDecrypt newInstance() {
+
+        return new FragmentDecrypt();
+    }
 
     @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-        communicator = (Communicator) activity;
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        super.onCreateView(inflater, container, savedInstanceState);
+        View view = inflater.inflate(R.layout.fragment_decrypt, container, false);
+        return view;
     }
 
     @Override
