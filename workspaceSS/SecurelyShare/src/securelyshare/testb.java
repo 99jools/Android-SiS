@@ -16,12 +16,17 @@ public class testb {
 
 			// initialise AppPwdObj
 			AppPwdObj apo = AppPwdObj.makeObj();
-			apo.setValue("password");
+			apo.setValue("admin");
 			aks = new AppKeystore();
 			
 //			SecretKeySpec insks = 	aks.addGroupKey("julie", new File("/home/students/jrs300/AndroidStudioProjects/workspaceP/shareinsecrettest/rsacert.cert"), 	new File("/home/students/jrs300/AndroidStudioProjects/workspaceP/shareinsecrettest/rsaencryptedAESkey.enc"));
-//			FileCryptor.encryptFile(new FileInputStream("/home/students/jrs300/dream-speech.pdf"), new FileOutputStream("/home/students/jrs300/Dropbox/ShareInSecret/test/dream-speech.pdf.xps"), "julie");
-			FileCryptor.decryptFile(new FileInputStream("/home/students/jrs300/Dropbox/ShareInSecret/test/dream-speech.pdf.xps"), new FileOutputStream("/home/students/jrs300/AndroidStudioProjects/workspaceP/shareinsecrettest/decrypted.pdf"));
+		FileCryptor.encryptFile(new FileInputStream("/home/students/jrs300/dream-speech.pdf"),
+						new FileOutputStream("/home/students/jrs300/Dropbox/SecurelyShare/GroupZ/dream-speech.pdf.xps"), "GroupZ");
+			
+		
+		
+		
+//		FileCryptor.decryptFile(new FileInputStream("/home/students/jrs300/Dropbox/ShareInSecret/test/dream-speech.pdf.xps"), new FileOutputStream("/home/students/jrs300/AndroidStudioProjects/workspaceP/shareinsecrettest/decrypted.pdf"));
 //			SecretKeySpec sks = aks.importGroupKey("julie", new File("/home/students/jrs300/AndroidStudioProjects/workspaceP/shareinsecrettest/rsaencryptedAESkey.enc"));
 			
 			

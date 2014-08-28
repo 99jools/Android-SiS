@@ -28,7 +28,7 @@ public class ActivityInitialise extends Activity implements Communicator {
     public static final String KEYSTORE_NAME = "SiSKeyStore.ks";
     public static final String KEYSTORE_TYPE = "BKS";
     public static final String KEYPAIR_ALGORITHM = "RSA";
-    public static final int KEYPAIR_LENGTH = 1024;
+    public static final int RSA_LENGTH = 2048;
     private static final int CHOOSE_BACKUP = 9999;
 
     private Button mButtonContinue;
