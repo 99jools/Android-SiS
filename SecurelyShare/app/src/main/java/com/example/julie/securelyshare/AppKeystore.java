@@ -37,8 +37,8 @@ public class AppKeystore {
     public static final String KEYPAIR_ALGORITHM = "RSA";
     public static final int KEY_LENGTH = 128;
     public static final int RSA_LENGTH = 2048;
-    public static final String KEYSTORE_NAME = "SiSKeyStore.ks";
-    public static final String CERTIFICATE_FILE = "SiSCert.ks";
+    public static final String KEYSTORE_NAME = "SiSKeyStore.bks";
+    public static final String CERTIFICATE_FILE = "SiSCert.bks";
     public static final String KEYSTORE_TYPE = "BKS";
     Context context;
     private char[] appPwdAsArray;
@@ -126,7 +126,7 @@ public class AppKeystore {
     /**
      * with reference to code from http://www.macs.hw.ac.uk/~ml355/lore/pkencryption.htm
      */
-    public void importGroupKey(String groupID, File groupKeyFile) throws GeneralSecurityException, IOException {
+    public void importGroupKey(String groupID, FileInputStream fis) throws GeneralSecurityException, IOException {
         // get private key to decrypt key file
         PrivateKey privateKey = getPrivateKey();
 
@@ -136,7 +136,6 @@ public class AppKeystore {
 
         //read and decrypt encoded group key from file
         byte[] groupKey = new byte[KEY_LENGTH / 8];   //need to convert to bytes
-        FileInputStream fis = new FileInputStream(groupKeyFile);
 
         CipherInputStream cis = new CipherInputStream(fis, deCipher);
         cis.read(groupKey);
@@ -186,7 +185,8 @@ public class AppKeystore {
     private PrivateKey getPrivateKey() {
         PrivateKey key = null;
         try {
-            key = (PrivateKey) cs.getKey("rsassokey", appPwdAsArray);
+   //         key = (PrivateKey) cs.getKey("rsassokey", appPwdAsArray);
+            key = (PrivateKey) cs.getKey("rsassokey");
         } catch (UnrecoverableKeyException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
