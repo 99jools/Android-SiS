@@ -27,8 +27,8 @@ public class ActivityMain extends Activity implements Communicator {
 
     private FragmentManager fm = getFragmentManager();
     private ActionBar actionBar;
-    private DbxFileInfo selectedDbxFileInfo;
-    private MyDbxFiles mDbx;
+ //   private DbxFileInfo selectedDbxFileInfo;
+ //   private MyDbxFiles mDbx;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -117,14 +117,11 @@ public class ActivityMain extends Activity implements Communicator {
 
     @Override
     public void onDialogResponse(String data) {
-
-
         boolean pwdValid;
-
         if (data==null){
 
             //user has pressed cancel
-            showToast("It is not possible to use this app without supplying the Master Password - Securely SHare has terminated");
+            showToast("It is not possible to use this app without supplying the Master Password - Securely Share has terminated");
             finish();
 
         } else {
