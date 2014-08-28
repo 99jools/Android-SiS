@@ -1,2 +1,37 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<qualifiedTypeNameHistroy/>
+<qualifiedTypeNameHistroy>
+<fullyQualifiedTypeName name="java.security.SecureRandom"/>
+<fullyQualifiedTypeName name="javax.crypto.KeyGenerator"/>
+<fullyQualifiedTypeName name="java.io.FileOutputStream"/>
+<fullyQualifiedTypeName name="java.security.Key"/>
+<fullyQualifiedTypeName name="javax.crypto.SecretKey"/>
+<fullyQualifiedTypeName name="java.security.KeyStore.PasswordProtection"/>
+<fullyQualifiedTypeName name="java.io.FileInputStream"/>
+<fullyQualifiedTypeName name="java.util.Map"/>
+<fullyQualifiedTypeName name="java.util.Scanner"/>
+<fullyQualifiedTypeName name="java.io.BufferedReader"/>
+<fullyQualifiedTypeName name="java.io.FileReader"/>
+<fullyQualifiedTypeName name="java.io.FileNotFoundException"/>
+<fullyQualifiedTypeName name="java.io.IOException"/>
+<fullyQualifiedTypeName name="java.util.HashMap"/>
+<fullyQualifiedTypeName name="crypto.AppPwdObj"/>
+<fullyQualifiedTypeName name="crypto.SharedPrefs"/>
+<fullyQualifiedTypeName name="java.io.FileWriter"/>
+<fullyQualifiedTypeName name="java.io.PrintStream"/>
+<fullyQualifiedTypeName name="java.security.KeyFactory"/>
+<fullyQualifiedTypeName name="java.security.spec.X509EncodedKeySpec"/>
+<fullyQualifiedTypeName name="java.security.PublicKey"/>
+<fullyQualifiedTypeName name="java.io.File"/>
+<fullyQualifiedTypeName name="javax.crypto.Cipher"/>
+<fullyQualifiedTypeName name="javax.crypto.CipherOutputStream"/>
+<fullyQualifiedTypeName name="java.security.cert.CertificateFactory"/>
+<fullyQualifiedTypeName name="java.security.cert.X509Certificate"/>
+<fullyQualifiedTypeName name="java.security.spec.PKCS8EncodedKeySpec"/>
+<fullyQualifiedTypeName name="java.security.spec.KeySpec"/>
+<fullyQualifiedTypeName name="java.security.PrivateKey"/>
+<fullyQualifiedTypeName name="javax.crypto.CipherInputStream"/>
+<fullyQualifiedTypeName name="java.security.KeyPairGenerator"/>
+<fullyQualifiedTypeName name="java.security.KeyPair"/>
+<fullyQualifiedTypeName name="javax.crypto.spec.SecretKeySpec"/>
+<fullyQualifiedTypeName name="java.lang.System"/>
+</qualifiedTypeNameHistroy>

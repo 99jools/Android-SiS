@@ -36,7 +36,7 @@ public class ActivitySplashScreen extends Activity {
                 } else {
 
                     Intent i = new Intent(ActivitySplashScreen.this, ActivityInitialise.class);
-                    i.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+         //           i.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
                     startActivity(i);
                 }
 

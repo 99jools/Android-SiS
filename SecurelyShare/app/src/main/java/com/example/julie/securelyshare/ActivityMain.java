@@ -117,6 +117,8 @@ public class ActivityMain extends Activity implements Communicator {
 
     @Override
     public void onDialogResponse(String data) {
+
+
         boolean pwdValid;
         if (data.length()<1) {
             pwdValid = false;

@@ -71,6 +71,7 @@ public class ActivityInitialise extends Activity implements Communicator {
                     Intent getContentIntent = new Intent(Intent.ACTION_GET_CONTENT);
                     getContentIntent.setType("file/*");
                     startActivityForResult(getContentIntent, CHOOSE_BACKUP);
+
                 } else {
                     //new keystore setup is required
                     //show dialog to set up a master password
@@ -83,6 +84,7 @@ public class ActivityInitialise extends Activity implements Communicator {
                 if (whichButton == Communicator.POS_CLICK) {
                     Intent intent = new Intent(this, ActivityMain.class);
                     startActivity(intent);
+                    finish();
                 } else finish();   // user has chosen not to proceed;
                 break;
         }
@@ -107,8 +109,13 @@ public class ActivityInitialise extends Activity implements Communicator {
         appPwd = data;
         showToast("Password set to " + appPwd);
         try {
-            importKeyStore(KEYSTORE_NAME);
-//            importKeyStore(CERTIFICATE_FILE);
+
+
+         createKeyStore(KEYSTORE_NAME);
+ //          importKeyStore(KEYSTORE_NAME);
+         importKeyStore(CERTIFICATE_FILE);
+
+
             showConfirmDialog();
         } catch (IOException e) {
             e.printStackTrace();
