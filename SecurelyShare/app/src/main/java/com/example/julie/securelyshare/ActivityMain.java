@@ -120,23 +120,32 @@ public class ActivityMain extends Activity implements Communicator {
 
 
         boolean pwdValid;
-        if (data.length()<1) {
-            pwdValid = false;
-        } else pwdValid = apo.validate(data);
-        //now check that this pwd provides access to the store
-        if (!pwdValid) {
-            if (tries < 2) showToast("The password entered is invalid - please retry");
-            else {
-                if (tries == 2)
-                    showToast("Password invalid - ONE MORE FAILURE WILL RESULT IN KEYSTORE BEING WIPED");
+
+        if (data==null){
+
+            //user has pressed cancel
+            showToast("It is not possible to use this app without supplying the Master Password - Securely SHare has terminated");
+            finish();
+
+        } else {
+            if (data.length() < 1) {
+                pwdValid = false;
+            } else pwdValid = apo.validate(data);
+            //now check that this pwd provides access to the store
+            if (!pwdValid) {
+                if (tries < 2) showToast("The password entered is invalid - please retry");
                 else {
-                    showToast("Keystore wiped");
-                    finish();
+                    if (tries == 2)
+                        showToast("Password invalid - ONE MORE FAILURE WILL RESULT IN KEYSTORE BEING WIPED");
+                    else {
+                        showToast("Keystore wiped");
+                        finish();
+                    }
                 }
+                tries++;
+                FragmentDialogUnlock dFragment = new FragmentDialogUnlock();
+                dFragment.show(fm, "Dialog Fragment Unlock");
             }
-            tries++;
-            FragmentDialogUnlock dFragment = new FragmentDialogUnlock();
-            dFragment.show(fm, "Dialog Fragment Unlock");
         }
      }//end onDialogResponse
 
