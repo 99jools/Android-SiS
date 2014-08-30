@@ -26,7 +26,8 @@
             android:layout_marginTop="20dp"
             android:layout_marginBottom="10dp"
             android:text="Decrypt File from your Dropbox Folder"
-            android:background="@android:color/holo_blue_light" />
+            android:background="@android:color/holo_blue_dark"
+            android:textColor="@android:color/background_dark" />
 
         <Button
             android:id="@+id/button2"
@@ -40,8 +41,8 @@
             android:layout_marginTop="20dp"
             android:layout_marginBottom="10dp"
             android:text="Create Text File and Encrypt to Dropbox"
-            android:background="@android:color/holo_blue_light"
-            android:textColor="@android:color/white" />
+            android:background="@android:color/holo_blue_dark"
+            android:textColor="@android:color/background_dark" />
     </TableRow>
 
     <TableRow
@@ -61,7 +62,9 @@
             android:layout_marginRight="10dp"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="20dp"
-            android:text="Encrypt Existing File to Dropbox" />
+            android:text="Encrypt Existing File to Dropbox"
+            android:textColor="@android:color/background_dark"
+            android:background="@android:color/holo_blue_dark" />
 
         <Button
             android:id="@+id/button4"
@@ -75,7 +78,8 @@
             android:layout_marginTop="10dp"
             android:layout_marginBottom="20dp"
             android:text="Import Group Key"
-            android:textColor="@android:color/holo_blue_dark" />
+            android:textColor="@android:color/background_dark"
+            android:background="@android:color/holo_blue_dark" />
     </TableRow>
 
 </TableLayout>

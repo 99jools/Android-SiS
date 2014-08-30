@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<workbench progressCount="15" version="2.0">
+<workbench progressCount="20" version="2.0">
 <workbenchAdvisor/>
-<window height="1041" width="3462" x="378" y="0">
+<window height="1041" width="3117" x="723" y="0">
 <fastViewData fastViewLocation="1024"/>
 <perspectiveBar>
 <itemSize x="160"/>
@@ -30,33 +30,20 @@
 <presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory">
 <part id="0"/>
 <part id="1"/>
-<part id="2"/>
-<part id="3"/>
 </presentation>
 </folder>
 </info>
 </editorArea>
-<editor activePart="true" focus="true" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="testb.java" partName="testb.java" path="/home/students/jrs300/AndroidStudioProjects/workspaceSS/SecurelyShare/src/securelyshare/testb.java" title="testb.java" tooltip="SecurelyShare/src/securelyshare/testb.java" workbook="DefaultEditorWorkbook">
-<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/SecurelyShare/src/securelyshare/testb.java"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="884" selectionTopPixel="0"/>
+<editor activePart="true" focus="true" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="TestMain.java" partName="TestMain.java" path="/home/students/jrs300/AndroidStudioProjects/workspaceSS/SecurelyShare/Test/src/securelyshare/TestMain.java" title="TestMain.java" tooltip="SecurelyShare/Test/src/securelyshare/TestMain.java" workbook="DefaultEditorWorkbook">
+<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/SecurelyShare/Test/src/securelyshare/TestMain.java"/>
+<editorState selectionHorizontalPixel="0" selectionLength="616" selectionOffset="0" selectionTopPixel="0"/>
 </editor>
-<editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="AdminMain.java" partName="AdminMain.java" path="/home/students/jrs300/AndroidStudioProjects/workspaceSS/SecurelyShare/src/securelyshare/AdminMain.java" title="AdminMain.java" tooltip="SecurelyShare/src/securelyshare/AdminMain.java" workbook="DefaultEditorWorkbook">
-<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/SecurelyShare/src/securelyshare/AdminMain.java"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="616" selectionTopPixel="0"/>
-</editor>
-<editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="AppKeystore.java" partName="AppKeystore.java" path="/home/students/jrs300/AndroidStudioProjects/workspaceSS/SecurelyShare/src/securelyshare/AppKeystore.java" title="AppKeystore.java" tooltip="SecurelyShare/src/securelyshare/AppKeystore.java" workbook="DefaultEditorWorkbook">
-<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/SecurelyShare/src/securelyshare/AppKeystore.java"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="1043" selectionTopPixel="396"/>
-</editor>
-<editor id="org.eclipse.jdt.ui.ClassFileEditor" name="KeyStore.class" partName="KeyStore.class" title="KeyStore.class" tooltip="java.security.KeyStore" workbook="DefaultEditorWorkbook">
-<input factoryID="org.eclipse.jdt.ui.ClassFileEditorInputFactory" org.eclipse.jdt.ui.ClassFileIdentifier="=SecurelyShare/\/usr\/java\/jdk1.7.0\/jre\/lib\/rt.jar&lt;java.security(KeyStore.class"/>
-<editorState selectionHorizontalPixel="0" selectionLength="66" selectionOffset="35195" selectionTopPixel="21252"/>
+<editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="AdminMain.java" partName="AdminMain.java" path="/home/students/jrs300/AndroidStudioProjects/workspaceSS/SecurelyShare/Test/src/securelyshare/AdminMain.java" title="AdminMain.java" tooltip="SecurelyShare/Test/src/securelyshare/AdminMain.java" workbook="DefaultEditorWorkbook">
+<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/SecurelyShare/Test/src/securelyshare/AdminMain.java"/>
+<editorState selectionHorizontalPixel="0" selectionLength="2" selectionOffset="22" selectionTopPixel="0"/>
 </editor>
 </editors>
 <views>
-<view id="org.eclipse.ui.navigator.ProjectExplorer" partName="Project Explorer">
-<viewState CommonNavigator.LINKING_ENABLED="0" org.eclipse.ui.navigator.resources.workingSets.showTopLevelWorkingSets="0"/>
-</view>
 <view id="org.eclipse.jdt.junit.ResultView" partName="JUnit">
 <viewState failuresOnly="false" layout="1" orientation="2" ratio="329" scroll="false" time="true"/>
 </view>
@@ -65,8 +52,7 @@
 </view>
 <view id="org.eclipse.ui.views.ProblemView" partName="Problems">
 <viewState PRIMARY_SORT_FIELD="org.eclipse.ui.ide.severityAndDescriptionField" categoryGroup="org.eclipse.ui.ide.severity" markerContentGenerator="org.eclipse.ui.ide.problemsGenerator" partName="Problems">
-<expanded>
-<category IMemento.internal.id="Warnings"/>
+<expanded>&#x0A;<category IMemento.internal.id="Warnings"/>
 </expanded>
 <columnWidths org.eclipse.ui.ide.locationField="103" org.eclipse.ui.ide.markerType="857" org.eclipse.ui.ide.pathField="203" org.eclipse.ui.ide.resourceField="153" org.eclipse.ui.ide.severityAndDescriptionField="500"/>
 <visible IMemento.internal.id="org.eclipse.ui.ide.severityAndDescriptionField"/>
@@ -75,6 +61,9 @@
 <visible IMemento.internal.id="org.eclipse.ui.ide.locationField"/>
 <visible IMemento.internal.id="org.eclipse.ui.ide.markerType"/>
 </viewState>
+</view>
+<view id="org.eclipse.ui.console.ConsoleView" partName="Console">
+<viewState/>
 </view>
 <view id="org.eclipse.jdt.ui.PackageExplorer" partName="Package Explorer">
 <viewState group_libraries="1" layout="2" linkWithEditor="0" rootMode="1" workingSetName="">
@@ -105,13 +94,7 @@
 </customFilters>
 </viewState>
 </view>
-<view id="org.eclipse.ui.console.ConsoleView" partName="Console">
-<viewState/>
-</view>
 <view id="org.eclipse.debug.ui.BreakpointView" partName="Breakpoints">
-<viewState/>
-</view>
-<view id="org.eclipse.debug.ui.VariableView" partName="Variables">
 <viewState/>
 </view>
 <view id="org.eclipse.ui.views.TaskList" partName="Tasks">
@@ -162,48 +145,33 @@
 <perspective_action id="org.eclipse.team.ui.TeamSynchronizingPerspective"/>
 <hide_toolbar_item_id id="org.eclipse.jdt.ui.actions.OpenProjectWizard"/>
 <hide_toolbar_item_id id="org.eclipse.ui.edit.text.toggleShowSelectedElementOnly"/>
-<fastViewBars>
-<fastViewBar fastViewLocation="16384" id="bottomLeft" orientation="256" selectedTabId="org.eclipse.ui.views.ContentOutline" style="1">
-<fastViews>
-<view id="org.eclipse.ui.views.ContentOutline" ratio="0.3"/>
+<fastViewBars>&#x0A;<fastViewBar fastViewLocation="16384" id="bottomLeft" orientation="256" selectedTabId="org.eclipse.ui.views.ContentOutline" style="1">&#x0A;<fastViews>&#x0A;<view id="org.eclipse.ui.views.ContentOutline" ratio="0.3"/>
 </fastViews>
 </fastViewBar>
-<fastViewBar fastViewLocation="131072" id="bottomRight" orientation="256" selectedTabId="org.eclipse.ui.console.ConsoleView" style="1">
-<fastViews>
-<view id="org.eclipse.ui.views.TaskList" ratio="0.3"/>
+<fastViewBar fastViewLocation="131072" id="bottomRight" orientation="256" selectedTabId="org.eclipse.ui.console.ConsoleView" style="1">&#x0A;<fastViews>&#x0A;<view id="org.eclipse.ui.views.TaskList" ratio="0.3"/>
 <view id="org.eclipse.jdt.junit.ResultView" ratio="0.4"/>
 <view id="org.eclipse.ui.console.ConsoleView" ratio="0.3"/>
 </fastViews>
 </fastViewBar>
-<fastViewBar fastViewLocation="16384" id="topLeft" orientation="256" selectedTabId="org.eclipse.ui.navigator.ProjectExplorer" style="1">
-<fastViews>
-<view id="org.eclipse.ui.navigator.ProjectExplorer" ratio="0.3"/>
+<fastViewBar fastViewLocation="16384" id="topLeft" orientation="256" selectedTabId="org.eclipse.ui.navigator.ProjectExplorer" style="1">&#x0A;<fastViews>&#x0A;<view id="org.eclipse.ui.navigator.ProjectExplorer" ratio="0.3"/>
 </fastViews>
 </fastViewBar>
 </fastViewBars>
-<layout>
-<mainWindow>
-<info folder="true" part="topLeft">
-<folder appearance="2" expanded="0">
-<page content="org.eclipse.ui.navigator.ProjectExplorer" label="LabelNotFound"/>
+<layout>&#x0A;<mainWindow>&#x0A;<info folder="true" part="topLeft">&#x0A;<folder appearance="2" expanded="0">&#x0A;<page content="org.eclipse.ui.navigator.ProjectExplorer" label="LabelNotFound"/>
 <page content="org.eclipse.ui.views.BookmarkView" label="LabelNotFound"/>
 <page content="org.eclipse.ui.views.ResourceNavigator" label="LabelNotFound"/>
 <page content="org.eclipse.team.ccvs.ui.RepositoriesView" label="LabelNotFound"/>
 <presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory"/>
 </folder>
 </info>
-<info folder="true" part="org.eclipse.ui.internal.ViewStack@49ef4c3f" ratio="0.7495049" ratioLeft="757" ratioRight="253" relationship="2" relative="topLeft">
-<folder appearance="2" expanded="2">
-<page content="org.eclipse.help.ui.HelpView" label="LabelNotFound"/>
+<info folder="true" part="org.eclipse.ui.internal.ViewStack@49ef4c3f" ratio="0.7495049" ratioLeft="757" ratioRight="253" relationship="2" relative="topLeft">&#x0A;<folder appearance="2" expanded="2">&#x0A;<page content="org.eclipse.help.ui.HelpView" label="LabelNotFound"/>
 <page content="org.eclipse.ui.internal.introview" label="LabelNotFound"/>
 <page content="org.eclipse.ui.cheatsheets.views.CheatSheetView" label="LabelNotFound"/>
 <presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory"/>
 </folder>
 </info>
 <info part="org.eclipse.gef.ui.palette_view" ratio="0.44731435" ratioLeft="1524" ratioRight="1883" relationship="2" relative="topLeft"/>
-<info folder="true" part="bottomRight" ratio="0.8158192" ratioLeft="722" ratioRight="163" relationship="4" relative="org.eclipse.gef.ui.palette_view">
-<folder appearance="2" expanded="0">
-<page content="org.eclipse.ui.views.TaskList" label="LabelNotFound"/>
+<info folder="true" part="bottomRight" ratio="0.8158192" ratioLeft="722" ratioRight="163" relationship="4" relative="org.eclipse.gef.ui.palette_view">&#x0A;<folder appearance="2" expanded="0">&#x0A;<page content="org.eclipse.ui.views.TaskList" label="LabelNotFound"/>
 <page content="org.eclipse.jdt.junit.ResultView" label="LabelNotFound"/>
 <page content="org.eclipse.ui.console.ConsoleView" label="LabelNotFound"/>
 <page content="org.eclipse.team.ui.GenericHistoryView" label="LabelNotFound"/>
@@ -211,9 +179,7 @@
 </folder>
 </info>
 <info part="org.eclipse.ui.editorss" ratio="0.1590909" ratioLeft="119" ratioRight="629" relationship="2" relative="org.eclipse.gef.ui.palette_view"/>
-<info folder="true" part="bottomLeft" ratio="0.5" ratioLeft="316" ratioRight="316" relationship="4" relative="topLeft">
-<folder appearance="2" expanded="0">
-<page content="org.eclipse.ui.views.ContentOutline" label="LabelNotFound"/>
+<info folder="true" part="bottomLeft" ratio="0.5" ratioLeft="316" ratioRight="316" relationship="4" relative="topLeft">&#x0A;<folder appearance="2" expanded="0">&#x0A;<page content="org.eclipse.ui.views.ContentOutline" label="LabelNotFound"/>
 <page content="org.eclipse.ant.ui.views.AntView" label="LabelNotFound"/>
 <presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory"/>
 </folder>
@@ -271,8 +237,8 @@
 <hide_toolbar_item_id id="org.eclipse.jdt.ui.actions.OpenProjectWizard"/>
 <hide_toolbar_item_id id="org.eclipse.ui.edit.text.toggleShowSelectedElementOnly"/>
 <view id="org.eclipse.jdt.ui.PackageExplorer"/>
-<view id="org.eclipse.jdt.junit.ResultView"/>
 <view id="org.eclipse.ui.views.ContentOutline"/>
+<view id="org.eclipse.jdt.junit.ResultView"/>
 <view id="org.eclipse.ui.views.ProblemView"/>
 <view id="org.eclipse.jdt.ui.JavadocView"/>
 <view id="org.eclipse.jdt.ui.SourceView"/>
@@ -281,7 +247,7 @@
 <layout>
 <mainWindow>
 <info folder="true" part="left">
-<folder activePageID="org.eclipse.jdt.junit.ResultView" appearance="2" expanded="2">
+<folder activePageID="org.eclipse.jdt.ui.PackageExplorer" appearance="2" expanded="2">
 <page content="org.eclipse.jdt.ui.PackageExplorer" label="Package Explorer"/>
 <page content="org.eclipse.ui.views.ContentOutline" label="Outline"/>
 <page content="org.eclipse.jdt.junit.ResultView" label="JUnit"/>
@@ -302,7 +268,7 @@
 <page content="org.eclipse.ui.cheatsheets.views.CheatSheetView" label="LabelNotFound"/>
 </folder>
 </info>
-<info part="org.eclipse.ui.editorss" ratio="0.5045019" ratioLeft="1737" ratioRight="1706" relationship="2" relative="left"/>
+<info part="org.eclipse.ui.editorss" ratio="0.38637832" ratioLeft="1197" ratioRight="1901" relationship="2" relative="left"/>
 <info folder="true" part="bottom" ratio="0.74973375" ratioLeft="704" ratioRight="235" relationship="4" relative="org.eclipse.ui.editorss">
 <folder activePageID="org.eclipse.ui.console.ConsoleView" appearance="2" expanded="2">
 <page content="org.eclipse.ui.views.ProblemView" label="Problems"/>
@@ -365,7 +331,6 @@
 <view id="org.eclipse.ui.console.ConsoleView"/>
 <view id="org.eclipse.ui.views.TaskList"/>
 <view id="org.eclipse.debug.ui.DebugView"/>
-<view id="org.eclipse.debug.ui.VariableView"/>
 <view id="org.eclipse.debug.ui.BreakpointView"/>
 <fastViewBars/>
 <layout>
@@ -412,14 +377,13 @@
 </folder>
 </info>
 <info folder="true" part="org.eclipse.debug.internal.ui.ToolsFolderView" ratio="0.5776343" ratioLeft="1968" ratioRight="1439" relationship="2" relative="org.eclipse.debug.internal.ui.NavigatorFolderView">
-<folder activePageID="org.eclipse.debug.ui.VariableView" appearance="2" expanded="2">
-<page content="org.eclipse.debug.ui.VariableView" label="Variables"/>
+<folder activePageID="org.eclipse.debug.ui.BreakpointView" appearance="2" expanded="2">
 <page content="org.eclipse.debug.ui.BreakpointView" label="Breakpoints"/>
+<page content="org.eclipse.debug.ui.VariableView" label="LabelNotFound"/>
 <page content="org.eclipse.debug.ui.ExpressionView" label="LabelNotFound"/>
 <page content="org.eclipse.debug.ui.RegisterView" label="LabelNotFound"/>
 <presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory">
 <part id="0"/>
-<part id="1"/>
 </presentation>
 </folder>
 </info>
@@ -432,105 +396,16 @@
 <editors>
 <editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/SecurelyShare/src/securelyshare/AdminMain.java"/>
 <editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/SecurelyShare/src/securelyshare/AppKeystore.java"/>
-<editor factoryID="org.eclipse.jdt.ui.ClassFileEditorInputFactory" id="org.eclipse.jdt.ui.ClassFileEditor" org.eclipse.jdt.ui.ClassFileIdentifier="=SecurelyShare/\/usr\/java\/jdk1.7.0\/jre\/lib\/rt.jar&lt;java.security(KeyStore.class"/>
-<editor factoryID="org.eclipse.jdt.ui.ClassFileEditorInputFactory" id="org.eclipse.jdt.ui.ClassFileEditor" org.eclipse.jdt.ui.ClassFileIdentifier="=SecurelyShare/\/usr\/java\/jdk1.7.0\/jre\/lib\/rt.jar&lt;java.security(Security.class"/>
-<editor factoryID="org.eclipse.jdt.ui.ClassFileEditorInputFactory" id="org.eclipse.jdt.ui.ClassFileEditor" org.eclipse.jdt.ui.ClassFileIdentifier="=SecurelyShare/\/usr\/java\/jdk1.7.0\/jre\/lib\/rt.jar&lt;java.util.concurrent(ConcurrentHashMap.class"/>
-<editor factoryID="org.eclipse.jdt.ui.ClassFileEditorInputFactory" id="org.eclipse.jdt.ui.ClassFileEditor" org.eclipse.jdt.ui.ClassFileIdentifier="=SecurelyShare/\/usr\/java\/jdk1.7.0\/jre\/lib\/rt.jar&lt;java.lang(String.class"/>
 <editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/SecurelyShare/src/securelyshare/testb.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/SecurelyShare/Test/src/TestProg.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/SecurelyShare/Test/src/securelyshare/AppKeystore.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/SecurelyShare/Test/src/securelyshare/testb.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/SecurelyShare/Test/src/securelyshare/AdminMain.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/SecurelyShare/src/securelyshare/TestMain.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/SecurelyShare/src/securelyshare/AppKeystore.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/SecurelyShare/Test/src/securelyshare/TestMain.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/SecurelyShare/Test/src/securelyshare/AdminMain.java"/>
 </editors>
-<item historyLabel="AppKeystore.java" index="1">
-<position info="not_deleted" x="1241" y="13"/>
-</item>
-<item historyLabel="AppKeystore.java" index="1">
-<position info="not_deleted" x="4564" y="13"/>
-</item>
-<item historyLabel="AppKeystore.java" index="1">
-<position info="not_deleted" x="4536" y="0"/>
-</item>
-<item historyLabel="AdminMain.java" index="0">
-<position info="not_deleted" x="616" y="0"/>
-</item>
-<item historyLabel="AppKeystore.java" index="1">
-<position info="not_deleted" x="4637" y="0"/>
-</item>
-<item historyLabel="KeyStore.class" index="2">
-<position info="not_deleted" x="20467" y="0"/>
-</item>
-<item historyLabel="Security.class" index="3">
-<position info="not_deleted" x="26438" y="0"/>
-</item>
-<item historyLabel="Security.class" index="3">
-<position info="not_deleted" x="26470" y="0"/>
-</item>
-<item historyLabel="Security.class" index="3">
-<position info="not_deleted" x="25515" y="0"/>
-</item>
-<item historyLabel="ConcurrentHashMap.class" index="4">
-<position info="not_deleted" x="37849" y="0"/>
-</item>
-<item historyLabel="ConcurrentHashMap.class" index="4">
-<position info="not_deleted" x="11729" y="0"/>
-</item>
-<item historyLabel="ConcurrentHashMap.class" index="4">
-<position info="not_deleted" x="11756" y="0"/>
-</item>
-<item historyLabel="ConcurrentHashMap.class" index="4">
-<position info="not_deleted" x="11878" y="0"/>
-</item>
-<item historyLabel="String.class" index="5">
-<position info="not_deleted" x="57089" y="0"/>
-</item>
-<item historyLabel="String.class" index="5">
-<position info="not_deleted" x="57111" y="0"/>
-</item>
-<item historyLabel="String.class" index="5">
-<position info="not_deleted" x="57322" y="0"/>
-</item>
-<item historyLabel="ConcurrentHashMap.class" index="4">
-<position info="not_deleted" x="11878" y="0"/>
-</item>
-<item historyLabel="AppKeystore.java" index="1">
-<position info="not_deleted" x="4637" y="0"/>
-</item>
-<item historyLabel="ConcurrentHashMap.class" index="4">
-<position info="not_deleted" x="12036" y="0"/>
-</item>
-<item historyLabel="ConcurrentHashMap.class" index="4">
-<position info="not_deleted" x="12074" y="0"/>
-</item>
-<item historyLabel="ConcurrentHashMap.class" index="4">
-<position info="not_deleted" x="37849" y="0"/>
-</item>
-<item historyLabel="Security.class" index="3">
-<position info="not_deleted" x="25515" y="0"/>
-</item>
-<item historyLabel="Security.class" index="3">
-<position info="not_deleted" x="26470" y="0"/>
-</item>
-<item historyLabel="KeyStore.class" index="2">
-<position info="not_deleted" x="20467" y="0"/>
-</item>
-<item historyLabel="AppKeystore.java" index="1">
-<position info="not_deleted" x="4637" y="0"/>
-</item>
-<item historyLabel="AppKeystore.java" index="1">
-<position info="not_deleted" x="4705" y="0"/>
-</item>
-<item historyLabel="AdminMain.java" index="0">
-<position info="not_deleted" x="616" y="0"/>
-</item>
-<item historyLabel="AppKeystore.java" index="1">
-<position info="not_deleted" x="892" y="0"/>
-</item>
-<item historyLabel="AdminMain.java" index="0">
-<position info="not_deleted" x="616" y="0"/>
-</item>
-<item historyLabel="KeyStore.class" index="2">
-<position info="not_deleted" x="35195" y="66"/>
-</item>
-<item historyLabel="AppKeystore.java" index="1">
-<position info="not_deleted" x="6008" y="49"/>
-</item>
 <item historyLabel="AppKeystore.java" index="1">
 <position info="not_deleted" x="1212" y="0"/>
 </item>
@@ -585,8 +460,101 @@
 <item historyLabel="AppKeystore.java" index="1">
 <position info="not_deleted" x="1043" y="0"/>
 </item>
-<item active="true" historyLabel="testb.java" index="6">
-<position info="not_deleted" x="495" y="26"/>
+<item historyLabel="testb.java" index="2">
+<position info="not_deleted" x="884" y="0"/>
+</item>
+<item historyLabel="TestProg.java" index="3">
+<position/>
+</item>
+<item historyLabel="testb.java" index="2">
+<position info="not_deleted" x="884" y="0"/>
+</item>
+<item historyLabel="AppKeystore.java" index="4">
+<position info="not_deleted" x="0" y="0"/>
+</item>
+<item historyLabel="TestProg.java" index="3">
+<position info="not_deleted" x="0" y="0"/>
+</item>
+<item historyLabel="AppKeystore.java" index="4">
+<position info="not_deleted" x="0" y="0"/>
+</item>
+<item historyLabel="testb.java" index="5">
+<position info="not_deleted" x="0" y="0"/>
+</item>
+<item historyLabel="AppKeystore.java" index="4">
+<position info="not_deleted" x="0" y="0"/>
+</item>
+<item historyLabel="AppKeystore.java" index="4">
+<position info="not_deleted" x="9293" y="14"/>
+</item>
+<item historyLabel="AppKeystore.java" index="4">
+<position info="not_deleted" x="8765" y="0"/>
+</item>
+<item historyLabel="testb.java" index="5">
+<position info="not_deleted" x="1281" y="0"/>
+</item>
+<item historyLabel="AdminMain.java" index="6">
+<position info="not_deleted" x="0" y="0"/>
+</item>
+<item historyLabel="TestMain.java" index="7">
+<position info="not_deleted" x="0" y="0"/>
+</item>
+<item historyLabel="AdminMain.java" index="6">
+<position info="not_deleted" x="162" y="600"/>
+</item>
+<item historyLabel="TestMain.java" index="7">
+<position info="not_deleted" x="331" y="0"/>
+</item>
+<item historyLabel="AppKeystore.java" index="4">
+<position info="not_deleted" x="8765" y="0"/>
+</item>
+<item historyLabel="AppKeystore.java" index="4">
+<position info="not_deleted" x="8654" y="0"/>
+</item>
+<item historyLabel="AppKeystore.java" index="8">
+<position info="not_deleted" x="1212" y="0"/>
+</item>
+<item historyLabel="TestMain.java" index="7">
+<position info="not_deleted" x="331" y="0"/>
+</item>
+<item historyLabel="AppKeystore.java" index="8">
+<position info="not_deleted" x="1212" y="0"/>
+</item>
+<item historyLabel="AppKeystore.java" index="4">
+<position info="not_deleted" x="8654" y="0"/>
+</item>
+<item historyLabel="TestMain.java" index="9">
+<position info="not_deleted" x="28" y="48"/>
+</item>
+<item historyLabel="AdminMain.java" index="10">
+<position info="not_deleted" x="0" y="0"/>
+</item>
+<item historyLabel="TestMain.java" index="9">
+<position info="not_deleted" x="28" y="48"/>
+</item>
+<item historyLabel="AdminMain.java" index="10">
+<position info="not_deleted" x="0" y="0"/>
+</item>
+<item historyLabel="TestMain.java" index="9">
+<position info="not_deleted" x="28" y="48"/>
+</item>
+<item historyLabel="AdminMain.java" index="10">
+<position info="not_deleted" x="0" y="0"/>
+</item>
+<item historyLabel="TestMain.java" index="9">
+<position info="not_deleted" x="304" y="0"/>
+</item>
+<item historyLabel="AdminMain.java" index="10">
+<position info="not_deleted" x="0" y="0"/>
+</item>
+<item historyLabel="TestMain.java" index="9">
+<position info="not_deleted" x="304" y="0"/>
+</item>
+<item historyLabel="AdminMain.java" index="10">
+<position info="not_deleted" x="22" y="2"/>
+</item>
+<item active="true" historyLabel="TestMain.java" index="9">
+<position info="not_deleted" x="0" y="0"/>
 </item>
 </navigationHistory>
 <input factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/" type="8"/>
@@ -594,13 +562,6 @@
 <workbenchWindowAdvisor/>
 <actionBarAdvisor/>
 <trimLayout>
-<trimArea IMemento.internal.id="16384">
-<trimItem IMemento.internal.id="topLeft"/>
-<trimItem IMemento.internal.id="bottomLeft"/>
-</trimArea>
-<trimArea IMemento.internal.id="131072">
-<trimItem IMemento.internal.id="bottomRight"/>
-</trimArea>
 <trimArea IMemento.internal.id="128">
 <trimItem IMemento.internal.id="org.eclipse.ui.internal.WorkbenchWindow.topBar"/>
 </trimArea>
@@ -612,11 +573,29 @@
 </trimLayout>
 </window>
 <mruList>
-<file factoryID="org.eclipse.jdt.ui.ClassFileEditorInputFactory" id="org.eclipse.jdt.ui.ClassFileEditor" name="KeyStore.class" tooltip="java.security.KeyStore">
-<persistable org.eclipse.jdt.ui.ClassFileIdentifier="=SecurelyShare/\/usr\/java\/jdk1.7.0\/jre\/lib\/rt.jar&lt;java.security(KeyStore.class"/>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="AdminMain.java" tooltip="SecurelyShare/Test/src/securelyshare/AdminMain.java">
+<persistable path="/SecurelyShare/Test/src/securelyshare/AdminMain.java"/>
+</file>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="TestMain.java" tooltip="SecurelyShare/Test/src/securelyshare/TestMain.java">
+<persistable path="/SecurelyShare/Test/src/securelyshare/TestMain.java"/>
 </file>
 <file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="AppKeystore.java" tooltip="SecurelyShare/src/securelyshare/AppKeystore.java">
 <persistable path="/SecurelyShare/src/securelyshare/AppKeystore.java"/>
+</file>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="TestMain.java" tooltip="SecurelyShare/src/securelyshare/TestMain.java">
+<persistable path="/SecurelyShare/src/securelyshare/TestMain.java"/>
+</file>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="testb.java" tooltip="SecurelyShare/Test/src/securelyshare/testb.java">
+<persistable path="/SecurelyShare/Test/src/securelyshare/testb.java"/>
+</file>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="TestProg.java" tooltip="SecurelyShare/Test/src/TestProg.java">
+<persistable path="/SecurelyShare/Test/src/TestProg.java"/>
+</file>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="AppKeystore.java" tooltip="SecurelyShare/Test/src/securelyshare/AppKeystore.java">
+<persistable path="/SecurelyShare/Test/src/securelyshare/AppKeystore.java"/>
+</file>
+<file factoryID="org.eclipse.jdt.ui.ClassFileEditorInputFactory" id="org.eclipse.jdt.ui.ClassFileEditor" name="KeyStore.class" tooltip="java.security.KeyStore">
+<persistable org.eclipse.jdt.ui.ClassFileIdentifier="=SecurelyShare/\/usr\/java\/jdk1.7.0\/jre\/lib\/rt.jar&lt;java.security(KeyStore.class"/>
 </file>
 <file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="AppPwdObj.java" tooltip="SecurelyShare/src/securelyshare/AppPwdObj.java">
 <persistable path="/SecurelyShare/src/securelyshare/AppPwdObj.java"/>

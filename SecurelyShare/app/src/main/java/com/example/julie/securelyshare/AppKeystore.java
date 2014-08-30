@@ -1,6 +1,7 @@
 package com.example.julie.securelyshare;
 
 import android.content.Context;
+import android.util.Log;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -126,9 +127,9 @@ public class AppKeystore {
     /**
      * with reference to code from http://www.macs.hw.ac.uk/~ml355/lore/pkencryption.htm
      */
-    public void importGroupKey(String groupID, File groupKeyFile) throws GeneralSecurityException, IOException {
+    public void importGroupKey(String groupID, FileInputStream fis) throws GeneralSecurityException, IOException {
         // get private key to decrypt key file
-        PrivateKey privateKey = getPrivateKey();
+        PrivateKey privateKey = getMyPrivateKey();
 
         //set up Cipher to decrypt groupKeyFile
         Cipher deCipher = Cipher.getInstance(KEYPAIR_ALGORITHM);
@@ -136,7 +137,6 @@ public class AppKeystore {
 
         //read and decrypt encoded group key from file
         byte[] groupKey = new byte[KEY_LENGTH / 8];   //need to convert to bytes
-        FileInputStream fis = new FileInputStream(groupKeyFile);
 
         CipherInputStream cis = new CipherInputStream(fis, deCipher);
         cis.read(groupKey);
@@ -183,9 +183,11 @@ public class AppKeystore {
         }
     } //end writeKeyStore
 
-    private PrivateKey getPrivateKey() {
+    private PrivateKey getMyPrivateKey() {
         PrivateKey key = null;
         try {
+            Log.e("Private Key", ""+cs.isKeyEntry("rsassokey"));
+
             key = (PrivateKey) cs.getKey("rsassokey", appPwdAsArray);
         } catch (UnrecoverableKeyException e) {
             // TODO Auto-generated catch block

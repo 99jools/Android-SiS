@@ -18,6 +18,7 @@ import com.dropbox.sync.android.DbxPath;
 
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.security.GeneralSecurityException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -105,9 +106,8 @@ public class ActivityImport extends ListActivity {
             DbxFile keyFile = mDbx.getInFile(keyFileInfo);
             AppKeystore aks = new AppKeystore();
             FileInputStream fis = keyFile.getReadStream();
-            byte[] key = new byte[aks.KEY_LENGTH / 8];
-            int r = fis.read(key);
-            aks.testImport("julie", key);
+
+            aks.importGroupKey("Grouptest", fis);
             keyFile.close();
         } catch (DbxException e) {
             e.printStackTrace();
@@ -115,8 +115,10 @@ public class ActivityImport extends ListActivity {
             e.printStackTrace();
         } catch (MyKeystoreAccessException e) {
             e.printStackTrace();
+        } catch (GeneralSecurityException e) {
+            e.printStackTrace();
         }
-        showToast("Import");
+
     }
 
     public void listGroups(View view) {
