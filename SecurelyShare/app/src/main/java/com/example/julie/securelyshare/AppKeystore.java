@@ -185,8 +185,8 @@ public class AppKeystore {
     private PrivateKey getPrivateKey() {
         PrivateKey key = null;
         try {
-   //         key = (PrivateKey) cs.getKey("rsassokey", appPwdAsArray);
-            key = (PrivateKey) cs.getKey("rsassokey");
+        key = (PrivateKey) cs.getKey("rsassokey", appPwdAsArray);
+
         } catch (UnrecoverableKeyException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
