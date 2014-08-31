@@ -112,8 +112,9 @@ public class ActivityInitialise extends Activity implements Communicator {
 
 
          createKeyStore(KEYSTORE_NAME);
+         createKeyStore(CERTIFICATE_FILE);
  //          importKeyStore(KEYSTORE_NAME);
-         importKeyStore(CERTIFICATE_FILE);
+ //        importKeyStore(CERTIFICATE_FILE);
 
 
             showConfirmDialog();

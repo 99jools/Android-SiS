@@ -40,7 +40,7 @@ public class AppKeystore {
     public static final String KEYSTORE_NAME = "SiSKeyStore.bks";
     public static final String CERTIFICATE_FILE = "SiSCert.bks";
     public static final String KEYSTORE_TYPE = "BKS";
-    Context context;
+    private Context context;
     private char[] appPwdAsArray;
     private KeyStore ks;
     private KeyStore cs;
