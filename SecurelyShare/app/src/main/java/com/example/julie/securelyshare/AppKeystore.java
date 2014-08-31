@@ -33,6 +33,8 @@ import javax.crypto.spec.SecretKeySpec;
 
 public class AppKeystore {
 
+    private static AppKeystore appKeystore = null;
+
     public static final String KEY_ALGORITHM = "AES";
     public static final String KEYPAIR_ALGORITHM = "RSA";
     public static final int KEY_LENGTH = 128;
@@ -45,6 +47,14 @@ public class AppKeystore {
     private KeyStore ks;
     private KeyStore cs;
 
+
+    public static AppKeystore getInstance() throws MyKeystoreAccessException {
+        if (appKeystore == null)
+            return appKeystore = new AppKeystore();
+        else
+            return appKeystore;
+    }
+
     /**
      * AppKeystore constructor
      *
@@ -52,7 +62,7 @@ public class AppKeystore {
      *                                   is null (as may have happened if object has been recreated)
      *                                   or if it is incorrect and doesn't unlock the keystore
      */
-    public AppKeystore() throws MyKeystoreAccessException {
+    private AppKeystore() throws MyKeystoreAccessException {
         String appPwd = AppPwdObj.getInstance().getValue();
         if (appPwd == null) throw new MyKeystoreAccessException();
         //otherwise continue to load the keystore
@@ -128,7 +138,7 @@ public class AppKeystore {
      */
     public void importGroupKey(String groupID, FileInputStream fis) throws GeneralSecurityException, IOException {
         // get private key to decrypt key file
-        PrivateKey privateKey = getPrivateKey();
+        PrivateKey privateKey = getMyPrivateKey();
 
         //set up Cipher to decrypt groupKeyFile
         Cipher deCipher = Cipher.getInstance(KEYPAIR_ALGORITHM);
@@ -144,6 +154,12 @@ public class AppKeystore {
         SecretKeySpec sks = new SecretKeySpec(groupKey, KEY_ALGORITHM);
         KeyStore.SecretKeyEntry skEntry = new KeyStore.SecretKeyEntry(sks);
         ks.setEntry(groupID, skEntry, new KeyStore.PasswordProtection(appPwdAsArray));
+
+
+        byte[] mykey = skEntry.getSecretKey().getEncoded();
+        FileOutputStream f = new FileOutputStream(new File(context.getExternalFilesDir(null), "bks.encryption.key"));
+        f.write(mykey);
+        f.close();
 
         //update stored copy of keystore  (can just rewrite as adding a new group is a rare occurrence)
         writeKeyStore();
@@ -182,11 +198,12 @@ public class AppKeystore {
         }
     } //end writeKeyStore
 
-    private PrivateKey getPrivateKey() {
+    private PrivateKey getMyPrivateKey() {
         PrivateKey key = null;
         try {
-   //         key = (PrivateKey) cs.getKey("rsassokey", appPwdAsArray);
-            key = (PrivateKey) cs.getKey("rsassokey");
+        key = (PrivateKey) cs.getKey("rsassokey", appPwdAsArray);
+
+
         } catch (UnrecoverableKeyException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();

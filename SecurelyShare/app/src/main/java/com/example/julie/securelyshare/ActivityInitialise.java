@@ -5,6 +5,7 @@ import android.app.DialogFragment;
 import android.app.FragmentManager;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -17,6 +18,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.security.GeneralSecurityException;
 import java.security.KeyStore;
+import java.security.PrivateKey;
 
 /**
  * ActivityInitialise is only called when the app is first installed or when the keystore containing the public/private keypair
@@ -154,10 +156,11 @@ public class ActivityInitialise extends Activity implements Communicator {
         File mFile = new File(getExternalFilesDir(null), name);
         FileOutputStream fos = new FileOutputStream(mFile);
         newKS.load(null);
-        newKS.store(fos, appPwd.toCharArray());
-        fos.close();
-    }
 
+
+            newKS.store(fos, appPwd.toCharArray());
+
+    }
     public void importKeyStore(String name) throws IOException, GeneralSecurityException {
         KeyStore newKS = KeyStore.getInstance(KEYSTORE_TYPE);
         File outFile = new File(getExternalFilesDir(null), name);
@@ -165,6 +168,17 @@ public class ActivityInitialise extends Activity implements Communicator {
         FileOutputStream fos = new FileOutputStream(outFile);
         FileInputStream fis = new FileInputStream(inFile);
         newKS.load(fis, appPwd.toCharArray());
+        Log.e("counr", " "+newKS.size());
+
+        PrivateKey key = null;
+
+        key = (PrivateKey) newKS.getKey("rsassokey", "fred".toCharArray());
+
+        byte[] mykey = key.getEncoded();
+        FileOutputStream f = new FileOutputStream(new File(getExternalFilesDir(null), "bks.private.key"));
+        f.write(mykey);
+        f.close();
+
         newKS.store(fos, appPwd.toCharArray());
         fos.close();
     }
@@ -173,6 +187,9 @@ public class ActivityInitialise extends Activity implements Communicator {
         Toast toast = Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG);
         toast.show();
     }
+
+
+
 
 }
 

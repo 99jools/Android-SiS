@@ -41,7 +41,7 @@ public class ActivityEncrypt extends ActivityMain implements AdapterView.OnItemS
 
         //populate alias array
         try {
-            aks = new AppKeystore();
+            aks = AppKeystore.getInstance();
             groups = aks.getGroups();
         } catch (MyKeystoreAccessException e) {
             e.printStackTrace();

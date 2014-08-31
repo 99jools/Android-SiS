@@ -13,6 +13,7 @@ Splash screen implementation based on code from http://www.androidhive.info/2013
 public class ActivitySplashScreen extends Activity {
     private static final int SHOW_SPLASH = 500;
     public static final String KEYSTORE_NAME = "SiSKeyStore.ks";
+    public static final String CERTIFICATE_FILE = "SiSCert.ks";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,9 +27,9 @@ public class ActivitySplashScreen extends Activity {
             public void run() {
 
                 //check if keystore exists
-                //            File mFile = getFileStreamPath(CERTIFICATE_FILE);
+        //       File mFile = getFileStreamPath(CERTIFICATE_FILE);
                 //moved to external storage for testing and demonstration purposes
-                File mFile = new File(getExternalFilesDir(null), KEYSTORE_NAME);
+         File mFile = new File(getExternalFilesDir(null), CERTIFICATE_FILE);
 
                 if (mFile.exists()) {
                     Intent i = new Intent(ActivitySplashScreen.this, ActivityMain.class);

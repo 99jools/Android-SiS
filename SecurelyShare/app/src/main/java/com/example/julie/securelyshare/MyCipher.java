@@ -32,7 +32,7 @@ public class MyCipher {
      */
     public MyCipher(String groupID) throws MyKeystoreAccessException, MyMissingKeyException {
         try {
-            AppKeystore aks = new AppKeystore();
+            AppKeystore aks = AppKeystore.getInstance();
             this.groupSKS = aks.getSKS(groupID);
             this.groupID = groupID;
             this.mCipher = Cipher.getInstance(CIPHER_ALGORITHM);
@@ -51,7 +51,7 @@ public class MyCipher {
      */
     public MyCipher(byte[] gaba, byte[] iv ) throws MyKeystoreAccessException, MyMissingKeyException {
         try {
-            AppKeystore aks = new AppKeystore();
+            AppKeystore aks = AppKeystore.getInstance();
             this.iv = iv;
             IvParameterSpec ips =  new IvParameterSpec(iv);
             this.groupID = new String(gaba, "UTF-8");
