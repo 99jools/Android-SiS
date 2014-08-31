@@ -37,7 +37,7 @@ public class AppPwdObj {
     public boolean validate(String value){
         this.value = value;
         try {
-            AppKeystore testKS = new AppKeystore();
+            AppKeystore testKS = AppKeystore.getInstance();
             //if able to construct - password must be OK
             return true;
         } catch (MyKeystoreAccessException e) {

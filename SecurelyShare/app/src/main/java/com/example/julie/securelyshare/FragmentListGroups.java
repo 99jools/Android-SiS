@@ -27,7 +27,7 @@ public class FragmentListGroups extends ListFragment {
         super.onActivityCreated(savedInstanceState);
         //populate alias array
         try {
-            aks = new AppKeystore();
+            aks = AppKeystore.getInstance();
             groups = aks.getGroups();
         } catch (MyKeystoreAccessException e) {
             e.printStackTrace();

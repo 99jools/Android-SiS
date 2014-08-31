@@ -33,6 +33,7 @@ import javax.crypto.spec.SecretKeySpec;
 
 public class AppKeystore {
 
+    private static AppKeystore appKeystore = null;
     public static final String KEY_ALGORITHM = "AES";
     public static final String KEYPAIR_ALGORITHM = "RSA";
     public static final int KEY_LENGTH = 128;
@@ -44,6 +45,14 @@ public class AppKeystore {
     private KeyStore ks;
     Context context;
 
+    public static AppKeystore getInstance() throws MyKeystoreAccessException {
+        if (appKeystore == null)
+            return appKeystore = new AppKeystore();
+        else
+            return appKeystore;
+    }
+
+
     /**
      * AppKeystore constructor
      *
@@ -51,7 +60,7 @@ public class AppKeystore {
      *                           is null (as may have happened if object has been recreated)
      *                           or if it is incorrect and doesn't unlock the keystore
      */
-    public AppKeystore() throws MyKeystoreAccessException {
+    private AppKeystore() throws MyKeystoreAccessException {
         String appPwd = AppPwdObj.getInstance().getValue();
         if (appPwd == null) throw new MyKeystoreAccessException();
         //otherwise continue to load the keystore

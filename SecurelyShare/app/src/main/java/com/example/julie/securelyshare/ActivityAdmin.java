@@ -25,7 +25,7 @@ public class ActivityAdmin extends ActivityMain {
             getGroupID.setError("Group name can't be blank");
         } else {
             try {
-                new AppKeystore().addGroupKey(groupID);
+                AppKeystore.getInstance().addGroupKey(groupID);
             } catch (GeneralSecurityException e) {
                 e.printStackTrace();
             } catch (IOException e) {
@@ -49,7 +49,7 @@ public class ActivityAdmin extends ActivityMain {
 
 
             try {
-                new AppKeystore().deleteGroupKey(groupID);
+                AppKeystore.getInstance().deleteGroupKey(groupID);
             } catch (GeneralSecurityException e) {
                 e.printStackTrace();
             } catch (IOException e) {

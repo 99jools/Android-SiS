@@ -32,7 +32,7 @@ public class ActivityCreate extends ActivityMain
         setContentView(R.layout.activity_create);
         //populate alias array
         try {
-            aks = new AppKeystore();
+            aks = AppKeystore.getInstance();
             groups = aks.getGroups();
         } catch (MyKeystoreAccessException e) {
             e.printStackTrace();
