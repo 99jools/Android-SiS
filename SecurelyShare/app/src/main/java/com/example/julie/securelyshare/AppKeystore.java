@@ -36,21 +36,20 @@ public class AppKeystore {
     public static final String KEY_ALGORITHM = "AES";
     public static final String KEYPAIR_ALGORITHM = "RSA";
     public static final int KEY_LENGTH = 128;
-    public static final int RSA_LENGTH = 2048;
-    public static final String KEYSTORE_NAME = "SiSKeyStore.bks";
-    public static final String CERTIFICATE_FILE = "SiSCert.bks";
+    public static final int KEYPAIR_LENGTH = 1024;
+    public static final String KEYSTORE_NAME = "SiSKeyStore.ks";
     public static final String KEYSTORE_TYPE = "BKS";
-    private Context context;
+
     private char[] appPwdAsArray;
     private KeyStore ks;
-    private KeyStore cs;
+    Context context;
 
     /**
      * AppKeystore constructor
      *
      * @throws MyKeystoreAccessException if the password stored in AppPwdObj
-     *                                   is null (as may have happened if object has been recreated)
-     *                                   or if it is incorrect and doesn't unlock the keystore
+     *                           is null (as may have happened if object has been recreated)
+     *                           or if it is incorrect and doesn't unlock the keystore
      */
     public AppKeystore() throws MyKeystoreAccessException {
         String appPwd = AppPwdObj.getInstance().getValue();
@@ -59,21 +58,16 @@ public class AppKeystore {
         this.appPwdAsArray = appPwd.toCharArray();
         this.context = AppPwdObj.getInstance().getContext();
         FileInputStream fis = null;
-        FileInputStream fiscert = null;
         try {
             this.ks = KeyStore.getInstance("BKS");
-            this.cs = KeyStore.getInstance("BKS");
             //fis = context.openFileInput(KEYSTORE_NAME);
             //moved to external storage for testing and demo
-            File file = new File(context.getExternalFilesDir(null), KEYSTORE_NAME);
+            File file = new File(context.getExternalFilesDir(null), "SisKeyStore.ks");
             fis = new FileInputStream(file);
-            File filecert = new File(context.getExternalFilesDir(null), CERTIFICATE_FILE);
-            fiscert = new FileInputStream(filecert);
             // need to handle exceptions from loading keystore separately as need to trap
             // IO Exception caused by password problems
             try {
                 ks.load(fis, appPwdAsArray);
-                cs.load(fiscert, appPwdAsArray);
             } catch (IOException e) {
                 throw new MyKeystoreAccessException();
             } catch (NoSuchAlgorithmException e) {
@@ -86,12 +80,6 @@ public class AppKeystore {
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } finally {
-            if (fis != null) try {
-                fis.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
             if (fis != null) try {
                 fis.close();
             } catch (IOException e) {
@@ -126,7 +114,7 @@ public class AppKeystore {
     /**
      * with reference to code from http://www.macs.hw.ac.uk/~ml355/lore/pkencryption.htm
      */
-    public void importGroupKey(String groupID, FileInputStream fis) throws GeneralSecurityException, IOException {
+    public void importGroupKey(String groupID, File groupKeyFile) throws GeneralSecurityException, IOException {
         // get private key to decrypt key file
         PrivateKey privateKey = getPrivateKey();
 
@@ -136,6 +124,7 @@ public class AppKeystore {
 
         //read and decrypt encoded group key from file
         byte[] groupKey = new byte[KEY_LENGTH / 8];   //need to convert to bytes
+        FileInputStream fis = new FileInputStream(groupKeyFile);
 
         CipherInputStream cis = new CipherInputStream(fis, deCipher);
         cis.read(groupKey);
@@ -185,8 +174,7 @@ public class AppKeystore {
     private PrivateKey getPrivateKey() {
         PrivateKey key = null;
         try {
-        key = (PrivateKey) cs.getKey("rsassokey", appPwdAsArray);
-
+            key = (PrivateKey) ks.getKey("rsasso", appPwdAsArray);
         } catch (UnrecoverableKeyException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -254,7 +242,7 @@ public class AppKeystore {
     } //end delete key
 
 
-    public void writeSKS(SecretKeySpec sks) {
+    public void writeSKS(SecretKeySpec sks){
         byte[] mykey = sks.getEncoded();
         File mFile = new File(context.getExternalFilesDir(null), "julie.xeb");
         FileOutputStream fos = null;
@@ -268,8 +256,7 @@ public class AppKeystore {
             e.printStackTrace();
         }
     }
-
-    public void testImport(String groupID, byte[] groupKey) {
+    public void testImport(String groupID, byte[] groupKey){
 
         //add to key store
         SecretKeySpec sks = new SecretKeySpec(groupKey, KEY_ALGORITHM);
