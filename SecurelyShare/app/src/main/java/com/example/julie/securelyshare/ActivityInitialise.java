@@ -150,6 +150,7 @@ public class ActivityInitialise extends Activity implements Communicator {
 
     public void createKeyStore(String name) throws IOException, GeneralSecurityException {
         KeyStore newKS = KeyStore.getInstance(KEYSTORE_TYPE);
+
         //   FileOutputStream fos = openFileOutput(name, Context.MODE_PRIVATE);
         //this has been moved to external storage for testing and demonstration purposes
         File mFile = new File(getExternalFilesDir(null), name);
@@ -161,6 +162,9 @@ public class ActivityInitialise extends Activity implements Communicator {
 
     public void importKeyStore(String name) throws IOException, GeneralSecurityException {
         KeyStore newKS = KeyStore.getInstance(KEYSTORE_TYPE);
+
+        KeyStore jks = KeyStore.getInstance("PKCS#12");
+
         File outFile = new File(getExternalFilesDir(null), name);
         File inFile = new File(importPath);
         FileOutputStream fos = new FileOutputStream(outFile);
