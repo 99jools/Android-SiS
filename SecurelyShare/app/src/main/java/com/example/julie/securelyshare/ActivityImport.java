@@ -108,18 +108,11 @@ public class ActivityImport extends ListActivity {
             FileInputStream fis = keyFile.getReadStream();
 
 
-
-            aks.importGroupKey("MondayOne", fis);
-
-
-
-/*            byte[] key = new byte[aks.KEY_LENGTH / 8];
-                   int r = fis.read(key);
-                      aks.testImport("julie", key);
-
-*/
-
+            String groupID = keyFileInfo.path.getParent().getParent().getName();
+            aks.importGroupKey(groupID, fis);
             keyFile.close();
+            finish();
+
         } catch (DbxException e) {
             e.printStackTrace();
         } catch (IOException e) {
