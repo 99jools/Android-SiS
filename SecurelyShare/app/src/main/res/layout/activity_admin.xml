@@ -13,7 +13,7 @@
         android:focusable="false"
         android:layout_above="@+id/text_groupID"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="70dp" />
+        android:layout_marginBottom="20dp" />
 
     <Button
         android:id="@+id/button_Create"
@@ -23,17 +23,17 @@
         android:text="CREATE"
         android:onClick="onClickCreate"
         android:layout_toStartOf="@+id/text_groupID"
-        android:layout_marginBottom="70dp"
-        android:layout_alignParentBottom="true" />
+        android:layout_below="@id/text_groupID"
+ />
     <Button
         android:id="@+id/button_delete"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="70dp"
+        android:gravity="center_vertical"
         android:text="DELETE"
         android:onClick="onClickDelete"
-        android:layout_gravity="center_vertical"
-        android:layout_alignParentBottom="true"
+        android:layout_below="@id/text_groupID"
+
         android:layout_toEndOf="@+id/textView2" />
 
     <EditText
@@ -41,6 +41,7 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:hint=" enter group ID"
+        android:layout_marginBottom="20dp"
         android:background="@android:color/holo_blue_light"
         android:textCursorDrawable="@null"
         android:id="@+id/text_groupID"

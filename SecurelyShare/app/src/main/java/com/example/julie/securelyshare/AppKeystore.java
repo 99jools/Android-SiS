@@ -154,21 +154,14 @@ public class AppKeystore {
         byte[] groupKey = new byte[KEY_LENGTH / 8];   //need to convert to bytes
 
 //PrintPrivateKey.printEncrypted(context, fis);
-
-
-
-
-        CipherInputStream cis = new CipherInputStream(fis, deCipher);
+ CipherInputStream cis = new CipherInputStream(fis, deCipher);
         cis.read(groupKey);
-
-
-
-        //add to key store
+     //add to key store
         SecretKeySpec sks = new SecretKeySpec(groupKey, KEY_ALGORITHM);
         KeyStore.SecretKeyEntry skEntry = new KeyStore.SecretKeyEntry(sks);
         ks.setEntry(groupID, skEntry, new KeyStore.PasswordProtection(appPwdAsArray));
 
- PrintPrivateKey.printSymK(context, groupKey);
+ //PrintPrivateKey.printSymK(context, groupKey);
 
         //update stored copy of keystore  (can just rewrite as adding a new group is a rare occurrence)
         writeKeyStore();
