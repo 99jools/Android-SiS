@@ -33,6 +33,20 @@ public class ActivityCreate extends ActivityMain
         //populate alias array
         try {
             aks = AppKeystore.getInstance();
+    //        groups = aks.getGroups();
+        } catch (MyKeystoreAccessException e) {
+            e.printStackTrace();
+        }
+
+        View detailsFrame = findViewById(R.id.details);
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        try {
             groups = aks.getGroups();
         } catch (MyKeystoreAccessException e) {
             e.printStackTrace();
@@ -47,14 +61,16 @@ public class ActivityCreate extends ActivityMain
         spinner = (Spinner) findViewById(R.id.spinner);
         spinner.setAdapter(adapter);
         spinner.setOnItemSelectedListener(this);
-        View detailsFrame = findViewById(R.id.details);
+
+
+
+
 
     }
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         groupID = groups[position];
-        showToast(groupID);
         // Check what fragment is currently shown, replace if needed.
         FragmentDetails details = (FragmentDetails) getFragmentManager()
                 .findFragmentById(R.id.details);
