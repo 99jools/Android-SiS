@@ -24,8 +24,8 @@ import java.security.KeyStore;
  */
 public class ActivityInitialise extends Activity implements Communicator {
 
-    public static final String CERTIFICATE_FILE = "SiSCert.ks";
-    public static final String KEYSTORE_NAME = "SiSKeyStore.ks";
+    public static final String CERTIFICATE_FILE = "SiSCert.bks";
+    public static final String KEYSTORE_NAME = "SiSKeyStore.bks";
     public static final String KEYSTORE_TYPE = "BKS";
     public static final String KEYPAIR_ALGORITHM = "RSA";
     public static final int RSA_LENGTH = 2048;
@@ -112,8 +112,9 @@ public class ActivityInitialise extends Activity implements Communicator {
 
 
          createKeyStore(KEYSTORE_NAME);
+//         createKeyStore(CERTIFICATE_FILE);
  //          importKeyStore(KEYSTORE_NAME);
-         importKeyStore(CERTIFICATE_FILE);
+        importKeyStore(CERTIFICATE_FILE);
 
 
             showConfirmDialog();
@@ -149,6 +150,7 @@ public class ActivityInitialise extends Activity implements Communicator {
 
     public void createKeyStore(String name) throws IOException, GeneralSecurityException {
         KeyStore newKS = KeyStore.getInstance(KEYSTORE_TYPE);
+
         //   FileOutputStream fos = openFileOutput(name, Context.MODE_PRIVATE);
         //this has been moved to external storage for testing and demonstration purposes
         File mFile = new File(getExternalFilesDir(null), name);
@@ -160,12 +162,14 @@ public class ActivityInitialise extends Activity implements Communicator {
 
     public void importKeyStore(String name) throws IOException, GeneralSecurityException {
         KeyStore newKS = KeyStore.getInstance(KEYSTORE_TYPE);
+
         File outFile = new File(getExternalFilesDir(null), name);
         File inFile = new File(importPath);
         FileOutputStream fos = new FileOutputStream(outFile);
         FileInputStream fis = new FileInputStream(inFile);
         newKS.load(fis, appPwd.toCharArray());
         newKS.store(fos, appPwd.toCharArray());
+
         fos.close();
     }
 

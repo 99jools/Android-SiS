@@ -104,10 +104,21 @@ public class ActivityImport extends ListActivity {
     public void importGroup(DbxFileInfo keyFileInfo) {
         try {
             DbxFile keyFile = mDbx.getInFile(keyFileInfo);
-            AppKeystore aks = new AppKeystore();
+            AppKeystore aks = AppKeystore.getInstance();
             FileInputStream fis = keyFile.getReadStream();
 
-            aks.importGroupKey("Grouptest", fis);
+
+
+            aks.importGroupKey("MondayOne", fis);
+
+
+
+/*            byte[] key = new byte[aks.KEY_LENGTH / 8];
+                   int r = fis.read(key);
+                      aks.testImport("julie", key);
+
+*/
+
             keyFile.close();
         } catch (DbxException e) {
             e.printStackTrace();

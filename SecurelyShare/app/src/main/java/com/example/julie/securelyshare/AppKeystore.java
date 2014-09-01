@@ -1,7 +1,6 @@
 package com.example.julie.securelyshare;
 
 import android.content.Context;
-import android.util.Log;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -28,23 +27,34 @@ import javax.crypto.CipherInputStream;
 import javax.crypto.KeyGenerator;
 import javax.crypto.spec.SecretKeySpec;
 
-/**
- * Created by jrs300 on 01/08/14.
- */
 
 public class AppKeystore {
+
+    private static AppKeystore appKeystore = null;
 
     public static final String KEY_ALGORITHM = "AES";
     public static final String KEYPAIR_ALGORITHM = "RSA";
     public static final int KEY_LENGTH = 128;
     public static final int RSA_LENGTH = 2048;
-    public static final String KEYSTORE_NAME = "SiSKeyStore.ks";
-    public static final String CERTIFICATE_FILE = "SiSCert.ks";
+    public static final String KEYSTORE_NAME = "SiSKeyStore.bks";
+    public static final String CERTIFICATE_FILE = "SiSCert.bks";
     public static final String KEYSTORE_TYPE = "BKS";
     Context context;
     private char[] appPwdAsArray;
     private KeyStore ks;
     private KeyStore cs;
+
+
+
+    public KeyStore getCs(){ return this.cs;}
+
+
+    public static AppKeystore getInstance() throws MyKeystoreAccessException {
+        if (appKeystore == null)
+            return appKeystore = new AppKeystore();
+        else
+            return appKeystore;
+    }
 
     /**
      * AppKeystore constructor
@@ -53,7 +63,7 @@ public class AppKeystore {
      *                                   is null (as may have happened if object has been recreated)
      *                                   or if it is incorrect and doesn't unlock the keystore
      */
-    public AppKeystore() throws MyKeystoreAccessException {
+    private AppKeystore() throws MyKeystoreAccessException {
         String appPwd = AppPwdObj.getInstance().getValue();
         if (appPwd == null) throw new MyKeystoreAccessException();
         //otherwise continue to load the keystore
@@ -93,8 +103,8 @@ public class AppKeystore {
                 e.printStackTrace();
             }
 
-            if (fis != null) try {
-                fis.close();
+            if (fiscert != null) try {
+                fiscert.close();
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -131,6 +141,11 @@ public class AppKeystore {
         // get private key to decrypt key file
         PrivateKey privateKey = getMyPrivateKey();
 
+
+//PrintPrivateKey.printPK(context, cs);
+
+
+
         //set up Cipher to decrypt groupKeyFile
         Cipher deCipher = Cipher.getInstance(KEYPAIR_ALGORITHM);
         deCipher.init(Cipher.DECRYPT_MODE, privateKey);
@@ -138,13 +153,22 @@ public class AppKeystore {
         //read and decrypt encoded group key from file
         byte[] groupKey = new byte[KEY_LENGTH / 8];   //need to convert to bytes
 
+//PrintPrivateKey.printEncrypted(context, fis);
+
+
+
+
         CipherInputStream cis = new CipherInputStream(fis, deCipher);
         cis.read(groupKey);
+
+
 
         //add to key store
         SecretKeySpec sks = new SecretKeySpec(groupKey, KEY_ALGORITHM);
         KeyStore.SecretKeyEntry skEntry = new KeyStore.SecretKeyEntry(sks);
         ks.setEntry(groupID, skEntry, new KeyStore.PasswordProtection(appPwdAsArray));
+
+ PrintPrivateKey.printSymK(context, groupKey);
 
         //update stored copy of keystore  (can just rewrite as adding a new group is a rare occurrence)
         writeKeyStore();
@@ -162,7 +186,7 @@ public class AppKeystore {
         return groups;
     } //end listGroups
 
-    //**********************************************************************************************************************************************
+//**********************************************************************************************************************************************
 
 
     /**
@@ -186,9 +210,9 @@ public class AppKeystore {
     private PrivateKey getMyPrivateKey() {
         PrivateKey key = null;
         try {
-            Log.e("Private Key", ""+cs.isKeyEntry("rsassokey"));
-
             key = (PrivateKey) cs.getKey("rsassokey", appPwdAsArray);
+
+
         } catch (UnrecoverableKeyException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
