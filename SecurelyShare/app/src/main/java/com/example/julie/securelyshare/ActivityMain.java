@@ -24,6 +24,7 @@ public class ActivityMain extends Activity implements Communicator {
     private DbxAccountManager mDbxAcctMgr;
     private AppPwdObj apo;
     private int tries = 0;
+    private boolean flag = true;
 
     private FragmentManager fm = getFragmentManager();
     private ActionBar actionBar;
@@ -50,7 +51,8 @@ public class ActivityMain extends Activity implements Communicator {
                 actionBar.setSubtitle(mDbxAcctMgr.getLinkedAccount().getAccountInfo().displayName);
         } else mDbxAcctMgr.startLink(this, REQUEST_LINK_TO_DBX);
         //sort out password
-        if (apo.getValue() == null) {
+        if ((apo.getValue() == null) && (flag) ) {
+            flag = false;
             // get password from the user and set in AppPwdObj
             FragmentDialogUnlock dFragment = new FragmentDialogUnlock();
             dFragment.show(fm, "Dialog Fragment Unlock");
@@ -117,6 +119,7 @@ public class ActivityMain extends Activity implements Communicator {
 
     @Override
     public void onDialogResponse(String data) {
+        flag = true;
         boolean pwdValid;
         if (data==null){
 
