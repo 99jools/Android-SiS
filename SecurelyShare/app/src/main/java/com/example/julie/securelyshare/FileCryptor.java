@@ -33,7 +33,7 @@ public class FileCryptor {
 
         //wrap fos in cipherstream to encrypt remaining blocks
         CipherOutputStream cos = new CipherOutputStream(fos, encryptionCipher.getmCipher());
-        byte[] block = new byte[MyCipher.AES_BLOCKSIZE];
+        byte[] block = new byte[1024*MyCipher.AES_BLOCKSIZE];
         int bytesRead = fis.read(block);
 
         //write data to output file and read next block
@@ -72,8 +72,6 @@ public class FileCryptor {
      * @param fos
      * @return
      * @throws MyKeystoreAccessException
-     * @throws GeneralSecurityException
-     * @throws IOException
      */
 
     public static String decryptFile(FileInputStream fis, FileOutputStream  fos)
@@ -96,7 +94,7 @@ int b = 0;
         CipherInputStream cis = new CipherInputStream(fis,decryptionCipher.getmCipher() );
 
         //read and decrypt file
-        byte[] block = new byte[MyCipher.AES_BLOCKSIZE];
+        byte[] block = new byte[1024*MyCipher.AES_BLOCKSIZE];
         int bytesRead=0;
         bytesRead = cis.read(block);
         while (bytesRead != -1) {
