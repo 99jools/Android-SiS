@@ -92,7 +92,7 @@ public class ActivityMain extends Activity implements Communicator {
             case R.id.action_admin:
                 doAdmin(v);
                 return true;
-          
+
         }
         return super.onOptionsItemSelected(item);
     }

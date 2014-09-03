@@ -137,7 +137,7 @@ public class ActivityDecrypt extends ListActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.import_groups, menu);
+        getMenuInflater().inflate(R.menu.activity_decrypt, menu);
         return true;
     }
 
@@ -147,10 +147,6 @@ public class ActivityDecrypt extends ListActivity {
         switch (item.getItemId()) {
             case R.id.action_create:
                 intent = new Intent(this, ActivityCreate.class);
-                startActivity(intent);
-                return true;
-            case R.id.action_decrypt:
-                intent = new Intent(this, ActivityDecrypt.class);
                 startActivity(intent);
                 return true;
             case R.id.action_import:

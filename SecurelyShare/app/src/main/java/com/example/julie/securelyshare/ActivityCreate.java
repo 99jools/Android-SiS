@@ -127,43 +127,4 @@ public class ActivityCreate extends ActivityMain
         }
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-/*
-
-    private void onClickEncrypt(View view) throws MyKeystoreAccessException,IOException, GeneralSecurityException{
-        //check that filename isn't empty
-        if (getFilename.getText().toString().length()< 1){
-              getFilename.setError( "Please enter a name for your file" );
-        }
-        else {
-
-            String saveName = getFilename.getText().toString() + ".txt";
-            DbxFile dbxOut = new MyDbxFiles(this).getOutFile(saveName);
-            FileOutputStream fos = dbxOut.getWriteStream();
-
-            //encrypt file and write to Dropbox
-            FileCryptor.encryptString(plaintextIn, fos, groupID);
-            dbxOut.close();
-            showToast(saveName + " saved");
-            finish();
-        }
-
-    }
-
-    public void showToast(String message) {
-        Toast toast = Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT);
-        toast.show();
-    }
-*/
 }

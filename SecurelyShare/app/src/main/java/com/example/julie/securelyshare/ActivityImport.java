@@ -9,7 +9,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.dropbox.sync.android.DbxException;
 import com.dropbox.sync.android.DbxFile;
@@ -142,10 +141,6 @@ public class ActivityImport extends ListActivity {
         }
     }
 
-    public void showToast(String message) {
-        Toast toast = Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG);
-        toast.show();
-    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -164,10 +159,6 @@ public class ActivityImport extends ListActivity {
                 return true;
             case R.id.action_decrypt:
                 intent = new Intent(this, ActivityDecrypt.class);
-                startActivity(intent);
-                return true;
-            case R.id.action_import:
-                intent = new Intent(this, ActivityImport.class);
                 startActivity(intent);
                 return true;
             case R.id.action_admin:
