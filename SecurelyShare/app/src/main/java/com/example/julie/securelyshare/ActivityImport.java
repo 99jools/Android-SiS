@@ -9,6 +9,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.dropbox.sync.android.DbxException;
 import com.dropbox.sync.android.DbxFile;
@@ -110,6 +111,7 @@ public class ActivityImport extends ListActivity {
             String groupID = keyFileInfo.path.getParent().getParent().getName();
             aks.importGroupKey(groupID, fis);
             keyFile.close();
+            showToast("Encryption key for group " + groupID + " added to KeyStore");
             finish();
 
         } catch (DbxException e) {
@@ -167,5 +169,10 @@ public class ActivityImport extends ListActivity {
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    public void showToast(String message) {
+        Toast toast = Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG);
+        toast.show();
     }
 }
