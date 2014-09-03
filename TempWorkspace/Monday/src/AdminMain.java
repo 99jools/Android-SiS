@@ -1,5 +1,6 @@
 
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -19,12 +20,13 @@ public class AdminMain {
 		try {
 			apo.setValue("admin");
 			aks = new AppKeystore();
-//			aks.newGroupKey("MondayOne", "/home/students/jrs300/Dropbox/SecurelyShare/MondayOne/Encryption_Keys/");
+		Boolean success = new File("/home/students/jrs300/Dropbox/SecurelyShare/GroupM/Encryption_Keys").mkdirs();
+
+			aks.newGroupKey("GroupM", "/home/students/jrs300/Dropbox/SecurelyShare/GroupM/Encryption_Keys/");
 			
 			
-			FileCryptor.encryptFile(new FileInputStream("/media/348C-C649/Beginning.txt"),
-						new FileOutputStream("/home/students/jrs300/Dropbox/SecurelyShare/MondayOne/Beginning.txt.xps"), "MondayOne");
-			
+		FileCryptor.encryptFile(new FileInputStream("/media/348C-C649/Beginning.txt"),	new FileOutputStream("/home/students/jrs300/Dropbox/SecurelyShare/GroupM/Beginning.txt.xps"), "GroupM");
+		FileCryptor.encryptFile(new FileInputStream("/media/348C-C649/TaleofTwoCities.txt"),	new FileOutputStream("/home/students/jrs300/Dropbox/SecurelyShare/GroupM/TaleofTwoCities.txt.xps"), "GroupM");		
 			
 			
 		} catch (MissingPwdException e) {
@@ -34,10 +36,12 @@ public class AdminMain {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		
-		}
+		} catch (GeneralSecurityException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 		}
 		
 		
 
 	}
 
-}

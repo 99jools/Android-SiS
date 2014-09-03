@@ -18,7 +18,6 @@ import java.security.UnrecoverableKeyException;
 import java.security.cert.CertificateException;
 import java.security.cert.CertificateFactory;
 import java.security.cert.X509Certificate;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Enumeration;
 
@@ -175,7 +174,7 @@ public class AppKeystore {
         for (String key : Collections.list(es)) {
             groups[index++] = key;
         }
-        Arrays.sort(groups);
+
         return groups;
     } //end listGroups
 

@@ -185,14 +185,14 @@ public class AppKeystore {
         
         
     	
-        FileOutputStream fospk = new FileOutputStream(new File(savePath+ "SymmetricKey.sym"));          	
+/*        FileOutputStream fospk = new FileOutputStream(new File(savePath+ "SymmetricKey.sym"));          	
     	// encrypt group key and write to file
     	byte[] groupKey = sks.getEncoded();
     
     	fospk.write(groupKey);
     	fospk.close();        	
                 	
-                	
+*/                	
                 	
                 	
                 	
@@ -234,7 +234,8 @@ public class AppKeystore {
         	Cipher enCipher = Cipher.getInstance(KEYPAIR_ALGORITHM, PROVIDER);
         	
         	//create fileoutputstream
-        	FileOutputStream fos = new FileOutputStream(new File(savePath+ user +".xeb"));
+        	File f = new File(savePath+ user +".xeb");
+        	FileOutputStream fos = new FileOutputStream(f);
      	
         	//extract public key from certificate
         	Certificate cert = cs.getCertificate(user);
