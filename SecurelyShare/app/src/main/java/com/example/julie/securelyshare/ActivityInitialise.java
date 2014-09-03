@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
 
 import com.dropbox.sync.android.DbxFileInfo;
 
@@ -27,8 +26,6 @@ public class ActivityInitialise extends Activity implements Communicator {
     public static final String CERTIFICATE_FILE = "SiSCert.bks";
     public static final String KEYSTORE_NAME = "SiSKeyStore.bks";
     public static final String KEYSTORE_TYPE = "BKS";
-    public static final String KEYPAIR_ALGORITHM = "RSA";
-    public static final int RSA_LENGTH = 2048;
     private static final int CHOOSE_BACKUP = 9999;
 
     private Button mButtonContinue;
@@ -71,7 +68,6 @@ public class ActivityInitialise extends Activity implements Communicator {
                     Intent getContentIntent = new Intent(Intent.ACTION_GET_CONTENT);
                     getContentIntent.setType("file/*");
                     startActivityForResult(getContentIntent, CHOOSE_BACKUP);
-
                 } else {
                     //new keystore setup is required
                     //show dialog to set up a master password
@@ -107,16 +103,10 @@ public class ActivityInitialise extends Activity implements Communicator {
     public void onDialogResponse(String data) {
         //this is from the password dialog and returns the chosen master password
         appPwd = data;
-        showToast("Password set to " + appPwd);
         try {
-
-
-         createKeyStore(KEYSTORE_NAME);
+            createKeyStore(KEYSTORE_NAME);
 //         createKeyStore(CERTIFICATE_FILE);
- //          importKeyStore(KEYSTORE_NAME);
-        importKeyStore(CERTIFICATE_FILE);
-
-
+            importKeyStore(CERTIFICATE_FILE);
             showConfirmDialog();
         } catch (IOException e) {
             e.printStackTrace();
@@ -124,8 +114,7 @@ public class ActivityInitialise extends Activity implements Communicator {
             e.printStackTrace();
         }
 
-        /*set up public/private keypair and export certificate.
-
+        /*
          *NOTE: From API 18 it s possible to store this information in the system keystore
          *      and hence we would add functionality to generate the keys programmatically.
          *      For demonstration purposes and since we are working with an API 17 device,
@@ -133,8 +122,6 @@ public class ActivityInitialise extends Activity implements Communicator {
          *      and transfer manually - hence we will always select the option above to import
          *      the keystore
          */
-
-
     }
 
     @Override
@@ -151,7 +138,7 @@ public class ActivityInitialise extends Activity implements Communicator {
     public void createKeyStore(String name) throws IOException, GeneralSecurityException {
         KeyStore newKS = KeyStore.getInstance(KEYSTORE_TYPE);
 
-        //   FileOutputStream fos = openFileOutput(name, Context.MODE_PRIVATE);
+        //FileOutputStream fos = openFileOutput(name, Context.MODE_PRIVATE);
         //this has been moved to external storage for testing and demonstration purposes
         File mFile = new File(getExternalFilesDir(null), name);
         FileOutputStream fos = new FileOutputStream(mFile);
@@ -162,22 +149,14 @@ public class ActivityInitialise extends Activity implements Communicator {
 
     public void importKeyStore(String name) throws IOException, GeneralSecurityException {
         KeyStore newKS = KeyStore.getInstance(KEYSTORE_TYPE);
-
         File outFile = new File(getExternalFilesDir(null), name);
         File inFile = new File(importPath);
         FileOutputStream fos = new FileOutputStream(outFile);
         FileInputStream fis = new FileInputStream(inFile);
         newKS.load(fis, appPwd.toCharArray());
         newKS.store(fos, appPwd.toCharArray());
-
         fos.close();
     }
-
-    public void showToast(String message) {
-        Toast toast = Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG);
-        toast.show();
-    }
-
 }
 
 

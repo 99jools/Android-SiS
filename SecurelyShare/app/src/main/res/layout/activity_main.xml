@@ -6,7 +6,7 @@
     android:paddingRight="30dip"
     android:paddingTop="30dip"
     android:paddingBottom="30dip"
-    >
+      >
 
     <TableRow
         android:id="@+id/tableRow1"

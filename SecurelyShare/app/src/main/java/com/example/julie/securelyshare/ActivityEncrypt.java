@@ -19,12 +19,10 @@ import java.io.IOException;
 import java.security.GeneralSecurityException;
 
 public class ActivityEncrypt extends ActivityMain implements AdapterView.OnItemSelectedListener {
-    private static final int ENCRYPT_CHOOSER = 1111;
+
     private File inFile;
     private String[] groups;
     private String groupID;
-    private Spinner spinner;
-    private AppKeystore aks;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,8 +39,9 @@ public class ActivityEncrypt extends ActivityMain implements AdapterView.OnItemS
 
         //populate alias array
         try {
-            aks = AppKeystore.getInstance();
+            AppKeystore aks = AppKeystore.getInstance();
             groups = aks.getGroups();
+
         } catch (MyKeystoreAccessException e) {
             e.printStackTrace();
         } catch (GeneralSecurityException e) {
@@ -50,11 +49,19 @@ public class ActivityEncrypt extends ActivityMain implements AdapterView.OnItemS
         } catch (IOException e) {
             e.printStackTrace();
         }
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>
-                (this, android.R.layout.simple_spinner_dropdown_item, groups);
-        spinner = (Spinner) findViewById(R.id.spinner);
-        spinner.setAdapter(adapter);
-        spinner.setOnItemSelectedListener(this);
+
+        if (groups.length < 1){
+            showToast("Please import at least one group encryption key to begin");
+            finish();
+
+        } else {
+            ArrayAdapter<String> adapter = new ArrayAdapter<String>
+                    (this, android.R.layout.simple_spinner_dropdown_item, groups);
+            Spinner spinner = (Spinner) findViewById(R.id.spinner);
+            spinner.setAdapter(adapter);
+            spinner.setOnItemSelectedListener(this);
+        }
+
     }
 
 
