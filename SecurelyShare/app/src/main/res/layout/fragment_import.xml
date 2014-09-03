@@ -3,7 +3,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/import_frag"
-    tools:context="com.example.julie.securelyshare.FragmentImport">
+    tools:context="com.example.julie.securelyshare.FragmentImport"
+    android:background="@android:color/holo_blue_light"
+
+    >
 
 
     <TextView
@@ -13,5 +16,6 @@
         android:text="Navigate to Key File to begin Import"
         android:id="@+id/import_text"
         android:layout_gravity="center"
-        android:textColor="@android:color/holo_blue_light" />
+        android:textColor="@android:color/background_dark"
+        />
 </FrameLayout>

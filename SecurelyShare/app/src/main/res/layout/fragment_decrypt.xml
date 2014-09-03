@@ -2,15 +2,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.julie.securelyshare.FragmentImport">
+    tools:context="com.example.julie.securelyshare.FragmentImport"
+    android:background="@android:color/holo_blue_light">
 
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Navigate to .xps file to begin decryption"
+        android:text="Navigate to your chosen .xps file to begin decryption"
         android:id="@+id/textView"
         android:layout_gravity="center"
-        android:textColor="@android:color/holo_blue_light" />
+        android:textColor="@android:color/background_dark" />
 </FrameLayout>

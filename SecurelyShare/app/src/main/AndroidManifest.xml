@@ -28,7 +28,8 @@
         </activity>
         <activity
             android:name=".ActivityCreate"
-            android:parentActivityName=".ActivityMain" >
+            android:parentActivityName=".ActivityMain"
+            android:windowSoftInputMode="adjustResize">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.julie.securelyshare.MainActivity" />
