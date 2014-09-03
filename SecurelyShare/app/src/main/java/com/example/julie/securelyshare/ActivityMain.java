@@ -14,7 +14,9 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.dropbox.sync.android.DbxAccountManager;
+import com.dropbox.sync.android.DbxException;
 import com.dropbox.sync.android.DbxFileInfo;
+import com.dropbox.sync.android.DbxFileSystem;
 
 
 public class ActivityMain extends Activity implements Communicator {
@@ -87,14 +89,10 @@ public class ActivityMain extends Activity implements Communicator {
             case R.id.action_import:
                 doImportKey(v);
                 return true;
-            case R.id.action_unlink:
-                doUnlink();
-                return true;
             case R.id.action_admin:
                 doAdmin(v);
                 return true;
-            case R.id.action_settings:
-                return true;
+          
         }
         return super.onOptionsItemSelected(item);
     }
@@ -104,7 +102,11 @@ public class ActivityMain extends Activity implements Communicator {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_LINK_TO_DBX) {
             if (resultCode == Activity.RESULT_OK) {
-                //start next activity
+                try {
+                    DbxFileSystem.forAccount(mDbxAcctMgr.getLinkedAccount());
+                } catch (DbxException e) {
+                    showToast("Link to Dropbox failed or was cancelled by user.");
+                }
                 showToast("Link to Dropbox complete");
             } else {
                 showToast("Link to Dropbox failed or was cancelled by user.");

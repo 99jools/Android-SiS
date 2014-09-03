@@ -1,45 +1,40 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
-    <item
-        android:id="@+id/action_create"
-        android:orderInCategory="10"
-        android:showAsAction="ifRoom"
-        android:title="Create"
-        tools:ignore="AppCompatResource" />
+
     <item
         android:id="@+id/action_decrypt"
-        android:orderInCategory="20"
+        android:orderInCategory="10"
         android:showAsAction="ifRoom"
         android:title="Decrypt"
         tools:ignore="AppCompatResource" />
+
+    <item
+        android:id="@+id/action_create"
+        android:orderInCategory="20"
+        android:showAsAction="ifRoom"
+        android:title="Create"
+        tools:ignore="AppCompatResource" />
+
+    <item
+        android:id="@+id/action_import"
+        android:orderInCategory="30"
+        android:showAsAction="ifRoom"
+        android:title="Import Group Key"
+        tools:ignore="AppCompatResource" />
+
+
     <item
         android:id="@+id/action_encrypt"
         android:orderInCategory="70"
         android:showAsAction="never"
         android:title="Encrypt"
         tools:ignore="AppCompatResource" />
-    <item
-        android:id="@+id/action_import"
-        android:orderInCategory="80"
-        android:showAsAction="never"
-        android:title="Import new Group Key"
-        tools:ignore="AppCompatResource" />
-    <item
-        android:id="@+id/action_unlink"
-        android:orderInCategory="90"
-        android:showAsAction="never"
-        android:title="Unlink from Dropbox"
-        tools:ignore="AppCompatResource" />
+
     <item
         android:id="@+id/action_admin"
-        android:orderInCategory="95"
+        android:orderInCategory="80"
         android:showAsAction="never"
         android:title="Admin Only"
         tools:ignore="AppCompatResource" />
-    <item
-        android:id="@+id/action_settings"
-        android:orderInCategory="100"
-        android:showAsAction="never"
-        android:title="@string/action_settings"
-        tools:ignore="AppCompatResource" />
+
 </menu>
