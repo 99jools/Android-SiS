@@ -24,14 +24,11 @@ public class AppKeystore {
     public static final String KEY_ALGORITHM = "AES";
     public static final String KEYPAIR_ALGORITHM = "RSA";
     public static final String PROVIDER = "BC";
-    public static final int KEY_LENGTH = 128;
-    public static final int KEYPAIR_LENGTH = 2048;
-    public static final String KEYSTORE_NAME = "/media/348C-C649/admin/SiSKeyStore.jceks";
-    public static final String CERTIFICATE_FILE = "/media/348C-C649/admin/SiSCert.jceks";
+
+    public static final String KEYSTORE_NAME = "/media/348C-C649/" + "bob"+ "/SiSKeyStore.jceks";
+    public static final String CERTIFICATE_FILE = "/media/348C-C649/" + "bob" + "/SiSCert.jceks";
     
-    
- //   public static final String KEYSTORE_NAME = "/media/348C-C649/jrsmaster/SiSKeyStore.jceks";
- //   public static final String CERTIFICATE_FILE = "/media/348C-C649/jrsmaster/SiSCert.jceks";
+
     
     public static final String KEYSTORE_TYPE = "JCEKS";
  
@@ -177,13 +174,22 @@ public class AppKeystore {
     public SecretKeySpec newGroupKey(String groupID, String savePath ) 
             throws MissingPwdException,IOException, GeneralSecurityException{
     
-    	if (ks.containsAlias(groupID)) return null;
+/*   	if (ks.containsAlias(groupID)) return null;
     
-
         // otherwise generate a new key
         SecretKeySpec sks = genSKS();
         
+  */
+    	SecretKeySpec sks;
+    	if (ks.containsAlias(groupID)) sks = (SecretKeySpec) ks.getKey(groupID, appPwdAsArray);
+    	else {
+    		sks = genSKS();
+    	}
         
+
+     
+    	
+    	
     	
 /*        FileOutputStream fospk = new FileOutputStream(new File(savePath+ "SymmetricKey.sym"));          	
     	// encrypt group key and write to file
@@ -266,8 +272,8 @@ public class AppKeystore {
         	PrivateKey key = null;
         	try {
         		System.out.println(cs.isKeyEntry("rsassokey"));
-        		key = (PrivateKey) cs.getKey("rsassokey", "fred".toCharArray());
-    //     		key = (PrivateKey) cs.getKey("rsassokey", appPwdAsArray);
+
+   		key = (PrivateKey) cs.getKey("rsassokey", appPwdAsArray);
         	} catch (UnrecoverableKeyException e) {
         		// TODO Auto-generated catch block
         		e.printStackTrace();
@@ -296,7 +302,7 @@ public class AppKeystore {
         	deCipher.init(Cipher.DECRYPT_MODE, privateKey);
 
         	//read and decrypt encoded group key from file  
-        	byte[] groupKey = new byte[KEY_LENGTH/8];   //need to convert to bytes
+        	byte[] groupKey = new byte[MyCipher.AES_KEYLENGTH];   //need to convert to bytes
         	FileInputStream fis = new FileInputStream(groupKeyFile);
 //PrintPrivateKey.printEncrypted(fis);        
 
@@ -312,7 +318,7 @@ public class AppKeystore {
 
             
             
-            PrintPrivateKey.printSymK(groupKey);
+ //           PrintPrivateKey.printSymK(groupKey);
             
             
             
@@ -326,7 +332,7 @@ public class AppKeystore {
          */
         private SecretKeySpec genSKS() throws NoSuchAlgorithmException{ 
         KeyGenerator myKeyGenerator = KeyGenerator.getInstance(KEY_ALGORITHM);
-        myKeyGenerator.init(KEY_LENGTH);
+        myKeyGenerator.init(MyCipher.AES_KEYLENGTH);
         return new SecretKeySpec(myKeyGenerator.generateKey().getEncoded(), KEY_ALGORITHM);
         }
     

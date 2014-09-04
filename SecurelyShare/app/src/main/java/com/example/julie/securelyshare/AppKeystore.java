@@ -33,19 +33,16 @@ public class AppKeystore {
 
     public static final String KEY_ALGORITHM = "AES";
     public static final String KEYPAIR_ALGORITHM = "RSA";
-    public static final int KEY_LENGTH = 128;
-    public static final int RSA_LENGTH = 2048;
     public static final String KEYSTORE_NAME = "SiSKeyStore.bks";
     public static final String CERTIFICATE_FILE = "SiSCert.bks";
     public static final String KEYSTORE_TYPE = "BKS";
-    Context context;
+
+    private Context context;
     private char[] appPwdAsArray;
     private KeyStore ks;
     private KeyStore cs;
 
 
-
-    public KeyStore getCs(){ return this.cs;}
 
 
     public static AppKeystore getInstance() throws MyKeystoreAccessException {
@@ -110,6 +107,16 @@ public class AppKeystore {
         }//end try catch finally
     } //end constructor
 
+
+
+
+    public KeyStore getCs(){
+        return this.cs;
+    }
+
+
+
+
     /**
      * Retrieves the key from the Keystore corresponding to the supplied alias and wraps it as SecretKeySpec
      *
@@ -150,7 +157,7 @@ public class AppKeystore {
         deCipher.init(Cipher.DECRYPT_MODE, privateKey);
 
         //read and decrypt encoded group key from file
-        byte[] groupKey = new byte[KEY_LENGTH / 8];   //need to convert to bytes
+        byte[] groupKey = new byte[MyCipher.AES_KEYLENGTH / 8];   //need to convert to bytes
 
 //PrintPrivateKey.printEncrypted(context, fis);
  CipherInputStream cis = new CipherInputStream(fis, deCipher);
@@ -248,7 +255,7 @@ public class AppKeystore {
     public void addGroupKey(String groupID) throws IOException, GeneralSecurityException {
         //generate key
         KeyGenerator myKeyGenerator = KeyGenerator.getInstance(KEY_ALGORITHM);
-        myKeyGenerator.init(KEY_LENGTH);
+        myKeyGenerator.init(MyCipher.AES_KEYLENGTH);
         SecretKeySpec newSecretKeySpec =
                 new SecretKeySpec(myKeyGenerator.generateKey().getEncoded(), KEY_ALGORITHM);
 

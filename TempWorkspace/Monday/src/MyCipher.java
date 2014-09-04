@@ -21,7 +21,7 @@ public class MyCipher {
     public static final String CIPHER_ALGORITHM = "AES/CBC/PKCS5Padding";
     public static final String PROVIDER = "BC";
     public static final int AES_BLOCKSIZE = 16;   //16 bytes = 128 bits
-    public static final int AES_KEYLENGTH = 256;  //may decide to make this a user option later
+    public static final int AES_KEYLENGTH = 128;  //may decide to make this a user option later
 
     private SecretKeySpec groupSKS;
     private String groupID;

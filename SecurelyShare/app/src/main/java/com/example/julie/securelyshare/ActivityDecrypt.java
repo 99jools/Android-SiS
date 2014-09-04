@@ -33,7 +33,7 @@ public class ActivityDecrypt extends ListActivity {
     private List<DbxFileInfo> fcFileInfo;
     private ArrayList<DbxFileInfo> mFiles = new ArrayList<DbxFileInfo>();
     private CustomAdapter mAdapter = null;
-
+    private DbxFile dbxIn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,9 +87,11 @@ public class ActivityDecrypt extends ListActivity {
                         e.printStackTrace();
                     } catch (MyKeystoreAccessException e) {
                         showToast(e.getMessage());
+                        dbxIn.close();
                         finish();
                     } catch (MyMissingKeyException e) {
                         showToast(e.getMessage());
+                        dbxIn.close();
                         finish();
                     }
             }
@@ -114,7 +116,7 @@ public class ActivityDecrypt extends ListActivity {
     private void doDecrypt(DbxFileInfo fileInfo) throws IOException, MyKeystoreAccessException,
             GeneralSecurityException, MyMissingKeyException {
         //open a file input stream with given path
-        DbxFile dbxIn = mDbx.getInFile(fileInfo);
+        dbxIn = mDbx.getInFile(fileInfo);
         FileInputStream fis = dbxIn.getReadStream();
 
         File myPlaintextFile = getFos(fileInfo.path.getName());
