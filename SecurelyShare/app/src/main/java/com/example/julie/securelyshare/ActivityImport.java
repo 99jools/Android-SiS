@@ -102,8 +102,9 @@ public class ActivityImport extends ListActivity {
     }
 
     public void importGroup(DbxFileInfo keyFileInfo) {
+        DbxFile keyFile = null;
         try {
-            DbxFile keyFile = mDbx.getInFile(keyFileInfo);
+            keyFile = mDbx.getInFile(keyFileInfo);
             AppKeystore aks = AppKeystore.getInstance();
             FileInputStream fis = keyFile.getReadStream();
 
@@ -122,6 +123,8 @@ public class ActivityImport extends ListActivity {
             e.printStackTrace();
         } catch (GeneralSecurityException e) {
             e.printStackTrace();
+        } finally{
+            keyFile.close();
         }
 
     }

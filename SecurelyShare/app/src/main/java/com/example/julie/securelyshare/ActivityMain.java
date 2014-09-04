@@ -7,7 +7,6 @@ import android.app.FragmentManager;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -37,7 +36,7 @@ public class ActivityMain extends Activity implements Communicator {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.e("onCreate", ""+flag);
+
         setContentView(R.layout.activity_main);
         apo = AppPwdObj.makeObj(this.getApplicationContext());
         mDbxAcctMgr = new DropboxSetup(this.getApplicationContext()).getAccMgr();
@@ -48,7 +47,7 @@ public class ActivityMain extends Activity implements Communicator {
     @Override
     protected void onResume() {
         super.onResume();
-        Log.e("onResume", ""+flag);
+
         //sort out dropbox link
         if (mDbxAcctMgr.hasLinkedAccount()) {
             if (mDbxAcctMgr.getLinkedAccount().getAccountInfo() != null)
@@ -58,7 +57,7 @@ public class ActivityMain extends Activity implements Communicator {
         if ((apo.getValue() == null) && (flag) ) {
             flag = false;
             // get password from the user and set in AppPwdObj
-            Log.e("do dialog", ""+flag);
+
             FragmentDialogUnlock dFragment = new FragmentDialogUnlock();
             dFragment.show(fm, "Dialog Fragment Unlock");
         }
