@@ -22,7 +22,7 @@ public class AdminNewKey {
 			aks = new AppKeystore();
 
 			aks.newGroupKey("demo", "/home/students/jrs300/Dropbox/SecurelyShare/demo/Encryption_Keys/");
-//			aks.newGroupKey("anothergroup", "/home/students/jrs300/Dropbox/SecurelyShare/anothergroup/Encryption_Keys/");
+			aks.newGroupKey("anothergroup", "/home/students/jrs300/Dropbox/SecurelyShare/anothergroup/Encryption_Keys/");
 		
 		} catch (MissingPwdException e) {
 			// TODO Auto-generated catch block

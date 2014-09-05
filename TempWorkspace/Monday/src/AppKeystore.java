@@ -164,7 +164,7 @@ public class AppKeystore {
      * 
      * THIS CODE IS ONLY APPLICABLE TO JAVA VERSION - does not apply to Android version
      * 
-     * Generates a new group encryption key for AES encryption using 256 bit key and stores in KeyStore
+     * Generates a new group encryption key for AES encryption and stores in KeyStore
      * @param groupID
          * @return
      * @throws MissingPwdException

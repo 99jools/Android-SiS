@@ -1,0 +1,91 @@
+#LyX 1.6.10 created this file. For more info see http://www.lyx.org/
+\lyxformat 345
+\begin_document
+\begin_header
+\textclass article
+\use_default_options true
+\language english
+\inputencoding auto
+\font_roman default
+\font_sans default
+\font_typewriter default
+\font_default_family sfdefault
+\font_sc false
+\font_osf false
+\font_sf_scale 100
+\font_tt_scale 100
+
+\graphics default
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize a4paper
+\use_geometry true
+\use_amsmath 1
+\use_esint 1
+\cite_engine basic
+\use_bibtopic false
+\paperorientation portrait
+\leftmargin 3cm
+\topmargin 3cm
+\rightmargin 3cm
+\bottommargin 3cm
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation skip
+\defskip medskip
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\author "" 
+\author "" 
+\end_header
+
+\begin_body
+
+\begin_layout Standard
+Project Meeting - 25th June 2014
+\end_layout
+
+\begin_layout Standard
+Mobile devices don't tend ot have a static IP so peer-to-peer communication
+ is not feasible
+\end_layout
+
+\begin_layout Standard
+Can assume disk encryption to protect against losing the device - why is
+ this necessary if files always held encrypted
+\end_layout
+
+\begin_layout Standard
+Apache web server - may add later (start with standard java server)
+\end_layout
+
+\begin_layout Standard
+Desirable functionality - transport of encrypted blobs between tablets such
+ they can only be read by user of target device and not any attacher
+\end_layout
+
+\begin_layout Standard
+Assume that mechanisms for authenticating the user to the tablet are sufficientl
+y robust that if you are able to access the device and open the app then
+ you have access to the decryption keys.
+ No need to implement further user authentication at this point
+\end_layout
+
+\begin_layout Standard
+Need to authenticate devices to server at registration - assume this is
+ set up by chairman
+\end_layout
+
+\begin_layout Standard
+IMEI - assume this is sufficiently random that it can't be guessed with
+ limited attempts (lock access for 10 minutes after 3 failed login attempts
+ for example0
+\end_layout
+
+\end_body
+\end_document

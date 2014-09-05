@@ -33,7 +33,7 @@ public class FileCryptor {
 
         //wrap fos in cipherstream to encrypt remaining blocks
         CipherOutputStream cos = new CipherOutputStream(fos, encryptionCipher.getmCipher());
-        byte[] block = new byte[1024*MyCipher.AES_BLOCKSIZE];
+        byte[] block = new byte[MyCipher.AES_BLOCKSIZE];
         int bytesRead = fis.read(block);
 
         //write data to output file and read next block
@@ -102,7 +102,7 @@ int b = 0;
         CipherInputStream cis = new CipherInputStream(fis,decryptionCipher.getmCipher() );
 
         //read and decrypt file
-        byte[] block = new byte[1024*MyCipher.AES_BLOCKSIZE];
+        byte[] block = new byte[MyCipher.AES_BLOCKSIZE];
         int bytesRead;
         bytesRead = cis.read(block);
         while (bytesRead != -1) {

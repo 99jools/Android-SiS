@@ -1,0 +1,1587 @@
+#LyX 1.6.10 created this file. For more info see http://www.lyx.org/
+\lyxformat 345
+\begin_document
+\begin_header
+\textclass article
+\use_default_options true
+\language english
+\inputencoding auto
+\font_roman default
+\font_sans default
+\font_typewriter default
+\font_default_family sfdefault
+\font_sc false
+\font_osf false
+\font_sf_scale 100
+\font_tt_scale 100
+
+\graphics default
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize a4paper
+\use_geometry true
+\use_amsmath 1
+\use_esint 1
+\cite_engine basic
+\use_bibtopic false
+\paperorientation portrait
+\leftmargin 2cm
+\topmargin 2cm
+\rightmargin 2cm
+\bottommargin 2cm
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation skip
+\defskip medskip
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\author "" 
+\author "" 
+\end_header
+
+\begin_body
+
+\begin_layout Part
+What have I accomplished so far?
+\end_layout
+
+\begin_layout Section
+Action Bar
+\end_layout
+
+\begin_layout Standard
+Icon
+\end_layout
+
+\begin_layout Standard
+Up button
+\end_layout
+
+\begin_layout Standard
+Menu items
+\end_layout
+
+\begin_layout Standard
+Unlink from Dropbox
+\end_layout
+
+\begin_layout Section
+Settings Menu
+\end_layout
+
+\begin_layout Standard
+Currently connected account
+\end_layout
+
+\begin_layout Standard
+AES key length
+\end_layout
+
+\begin_layout Standard
+Create new group
+\end_layout
+
+\begin_layout Section
+Activities
+\end_layout
+
+\begin_layout Subsection
+Main
+\end_layout
+
+\begin_layout Subsection
+Chooser
+\end_layout
+
+\begin_layout Standard
+Not currently used
+\end_layout
+
+\begin_layout Subsection
+Create
+\end_layout
+
+\begin_layout Standard
+Allows for entering text into a window and saving to dropbox as encrypted
+ file with specified name
+\end_layout
+
+\begin_layout Description
+Calls: FileCryptor.encryptString(plaintextIn, fos, groupID ,prefs)
+\end_layout
+
+\begin_layout Subsection
+Download
+\end_layout
+
+\begin_layout Standard
+Downloads and decrypts a file from dropbox apps folder
+\end_layout
+
+\begin_layout Subsection
+DropboxComms
+\end_layout
+
+\begin_layout Standard
+Not currently used
+\end_layout
+
+\begin_layout Subsection
+FileChooserActivity (extends ListActivity)
+\end_layout
+
+\begin_layout Standard
+NOTE: the code fol the file chooser is based on code taken from 
+\begin_inset CommandInset href
+LatexCommand href
+target "http://www.techrepublic.com/blog/software-engineer/android-coders-guide-to-browsing-external-storage/ "
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Allows user to select a file from Dropbox and then decrypts this.
+ 
+\end_layout
+
+\begin_layout Standard
+
+\color red
+CURRENTLY THE RESULTING PLAINTEXT IS SAVED TO DROPBOX - THIS NEEDS TO BE
+ CHANGED
+\end_layout
+
+\begin_layout Description
+Calls: FileCryptor.decryptFile(fis, fos, prefs)
+\end_layout
+
+\begin_layout Section
+Background classes
+\end_layout
+
+\begin_layout Subsection
+AppKeystore
+\end_layout
+
+\begin_layout Standard
+private static void writeKeyStore(KeyStore ks, char[] pwd) throws GeneralSecurit
+yException, IOException
+\end_layout
+
+\begin_layout Subsection
+AppPwdObj
+\end_layout
+
+\begin_layout Subsection
+DropboxComms
+\end_layout
+
+\begin_layout Subsection
+DropboxSetup
+\end_layout
+
+\begin_layout Subsection
+FileCryptor
+\end_layout
+
+\begin_layout Subsection
+MissingPwdException
+\end_layout
+
+\begin_layout Standard
+Creates a custom exception for if the password to unlock the keystore is
+ null.
+ (This should only be able to happen if something has gone wrong or if object
+ has been recreated by operating system).
+ Don't quite understand how this works but exceptions should be handled
+ by activity doing showToast to begin with so that we can see hwat is going
+ on
+\end_layout
+
+\begin_layout Subsection
+SharedPrefs
+\end_layout
+
+\begin_layout Section
+Things to test
+\end_layout
+
+\begin_layout Itemize
+what happens if dropbox isn't installed on device
+\end_layout
+
+\begin_layout Itemize
+do shared folders work
+\end_layout
+
+\begin_layout Itemize
+what happens if a user switches apps or rotates screen when file is decrypting
+ in main thread
+\end_layout
+
+\begin_layout Itemize
+need to test this with much larger files - is it possible to always write
+ a dummy key to keystore so that one is available for testing until functionalit
+y works?
+\end_layout
+
+\begin_layout Section
+Things still needing implementing
+\end_layout
+
+\begin_layout Itemize
+ability to select and work with folders within dropbox app
+\end_layout
+
+\begin_layout Itemize
+file list not refreshing when new files added to dropbox
+\end_layout
+
+\begin_layout Itemize
+Listener to sort out when DbxAccountInfo is available
+\end_layout
+
+\begin_layout Itemize
+Change home screen to an app login screen
+\end_layout
+
+\begin_layout Itemize
+Notify user when file will be overwritten in create activity/upload
+\end_layout
+
+\begin_layout Itemize
+Dropbox synchronisation
+\end_layout
+
+\begin_layout Itemize
+Keystore stuff
+\end_layout
+
+\begin_layout Itemize
+Only display files with .enc extension
+\end_layout
+
+\begin_layout Itemize
+Create new app on dropbox - SecurelyShare and apply for restriction to files
+ with.xcp extension
+\end_layout
+
+\begin_layout Itemize
+Refactor classes to change how input/output streams are managed so that
+ method takes input stream and returns output stream
+\end_layout
+
+\begin_layout Itemize
+What to do if key not retrieved from keystore
+\end_layout
+
+\begin_layout Itemize
+GENERAL REVIEW/CLEANUP OF ERROR HANDLING
+\end_layout
+
+\begin_layout Itemize
+Ability for user to select which group they are wanting to encrypt for (may
+ just be by typing groupname at this stage rather than selection) - this
+ could be added as a further feature
+\end_layout
+
+\begin_layout Itemize
+Ability to create new group key - maybe put this in dropdown menu 
+\color red
+(See SO link in bookmarks
+\color inherit
+)
+\end_layout
+
+\begin_layout Itemize
+change keystore password - sort out how this can be done by user on android
+ (view terminal in Linux)
+\end_layout
+
+\begin_layout Itemize
+Implement custom list adapter to allow use of icons (only if time) although
+ really needed if folders used
+\end_layout
+
+\begin_layout Section
+Aims
+\end_layout
+
+\begin_layout Standard
+No unencrypted files saved to device or Dropbox
+\end_layout
+
+\begin_layout Standard
+Minimise amount of trust placed in server or third parties
+\end_layout
+
+\begin_layout Subsubsection
+Stuff to consider
+\end_layout
+
+\begin_layout Itemize
+Man-in-the-middle
+\end_layout
+
+\begin_layout Itemize
+replay
+\end_layout
+
+\begin_layout Itemize
+cold boot
+\end_layout
+
+\begin_layout Itemize
+evil old maid
+\end_layout
+
+\begin_layout Itemize
+forward secrecy
+\end_layout
+
+\begin_layout Itemize
+reverse secrecy
+\end_layout
+
+\begin_layout Section
+Assumptions or things I have decided not to implement
+\end_layout
+
+\begin_layout Itemize
+Folder management - creation and sharing will be done in native dropbox
+\end_layout
+
+\begin_layout Itemize
+Storing a file in a shared dropbox folder implies that everyone with access
+ to that folder has legitimate access to the files contained there (although
+ access to the key to decrypt them will be managed separately to protect
+ from mistakes) - would this achieve aim that users can't see documents
+ to which they are not authenticated
+\end_layout
+
+\begin_layout Itemize
+Dropbox app_key and app_secret are currently hard coded in source - these
+ could be moved out if time
+\end_layout
+
+\begin_layout Itemize
+A single password will be used for the app rather than one per group or
+ per 
+\end_layout
+
+\begin_layout Itemize
+IMEI is not easily guessable
+\end_layout
+
+\begin_layout Itemize
+no static IP so peer-to-peer is not an option
+\end_layout
+
+\begin_layout Itemize
+disc encryption used on device
+\end_layout
+
+\begin_layout Itemize
+main file creation done elsewhere and encrypted blobs uploaded to dropbox
+ - functionality to encrypt and upload from device is included for completeness
+ but if unencrypted file is stored on device is contravenes one of the main
+ aims.
+ Therefore choosing file to upload is not included in app - file selection
+ is done by 3rd part file manager and called with an implicit intent.
+ If the user doesn't have a suitable app on their device, the operating
+ system will invite them to install one.
+\end_layout
+
+\begin_layout Itemize
+No fragments as simple app so using XML rather than code for on click listeners
+ etc
+\end_layout
+
+\begin_layout Itemize
+Only testing on specific device and developing for limited range of versions
+ of android - minSDK 17, compile SDK 19
+\end_layout
+
+\begin_layout Itemize
+Wherever there is an obvious way of limiting background activity or allowing
+ storage to be released (no running unnecessary listeners, closing files,
+ etc.) this option has been used but overall battery life, storage, speed
+ has not been a priority for this app
+\end_layout
+
+\begin_layout Itemize
+NOTE: challenges of agile methodology when learning new language/operating
+ system.
+ Learn lots of things thatare then not needed in later iterations
+\end_layout
+
+\begin_layout Itemize
+Keystore aliases can not be assumed to be case sensitive (although this
+ is implementation depended no safer to assume no)
+\end_layout
+
+\begin_layout Itemize
+
+\color blue
+Lots of complexity with garbage collection and object persistance - have
+ decided to write in more imperative style following advice from Tom.
+ Also storage is an issue and objects use space
+\end_layout
+
+\begin_layout Itemize
+Time restrictions have meant that some of the user input validation and
+ ability to change or delete groups, passwords etc will have to be left
+ out of the prototype
+\end_layout
+
+\begin_layout Section
+Things to think about some more
+\end_layout
+
+\begin_layout Itemize
+
+\color red
+How to share keys - asynchronous key exchange
+\end_layout
+
+\begin_layout Itemize
+
+\color red
+how to pass file to app for editing without storing externally
+\end_layout
+
+\begin_layout Itemize
+How to import keys
+\end_layout
+
+\begin_layout Itemize
+whether it is ok to have passwords stored as variables whilst app is running
+ - at what point should they be reentered (Constant Value: "android.intent.action.U
+SER_PRESENT" ??)
+\end_layout
+
+\begin_layout Itemize
+what should I do with group key after I have retrieved from keystore and
+ used (should I remove it from storage and how) - store passwords etc in
+ char[] and zero out after use 
+\end_layout
+
+\begin_layout Itemize
+cleaning up
+\end_layout
+
+\begin_layout Itemize
+check whether there are any particular security issues relating to android
+ implementation of AES
+\end_layout
+
+\begin_layout Itemize
+Do I need to protect agains Mallory being able to upload forged documents
+ - may have to remain unimplemented due to time
+\end_layout
+
+\begin_layout Itemize
+Do I need to move decryption out into its own thread or is it OK to make
+ user wait? Would need to implement progress bar in real app but probably
+ no time in this implementation
+\end_layout
+
+\begin_layout Itemize
+implementing onPause and whether files need to be released, etc.
+ What happens if user switches apps while a file is decrypting?
+\end_layout
+
+\begin_layout Itemize
+Consider doing a Class diagram??
+\end_layout
+
+\begin_layout Section
+Things to confirm with Eike
+\end_layout
+
+\begin_layout Subsection
+Crypto implementation
+\end_layout
+
+\begin_layout Itemize
+Sort out whether OK to use default randomness in keygen algorithm
+\end_layout
+
+\begin_layout Itemize
+decide whether it is necessary to incorporate a check for weak keys
+\end_layout
+
+\begin_layout Itemize
+decide whether it is necessary to incorporate a check for weak keys
+\end_layout
+
+\begin_layout Itemize
+find out how often I need to change seed in pseudo random generator
+\end_layout
+
+\begin_layout Subsection
+Other
+\end_layout
+
+\begin_layout Itemize
+QUESTION: ensure cleaning up of temporary files and storage - why necessary
+ if device secure?
+\end_layout
+
+\begin_layout Itemize
+is it OK to write groupID in plain at start of file to assist in selecting
+ correct key - would we need to use hash of groupID as alias rather than
+ groupID to ensure that it is fixed length or just use padding...
+\end_layout
+
+\begin_layout Itemize
+Android Keystore
+\end_layout
+
+\begin_layout Itemize
+Do I need to think about security of holding passwords and encryption keys
+ in memory? i.e.
+ getting them from store at point at which object is instantiated
+\end_layout
+
+\begin_layout Subsubsection*
+AddGroupActivity
+\end_layout
+
+\begin_layout Itemize
+onCreate onCreateOptionsMenu onOptionsItemSelected onClickCreate
+\end_layout
+
+\begin_layout Subsubsection*
+AppKeystore
+\end_layout
+
+\begin_layout Itemize
+AppKeystore getSKS importGroupKey listGroups getKey writeKeyStore loadKeyStore
+ getPrivateKey getPublicKey validate
+\end_layout
+
+\begin_layout Subsubsection*
+AppPwdObj
+\end_layout
+
+\begin_layout Itemize
+AppPwdObj 
+\end_layout
+
+\begin_layout Itemize
+makeObj 
+\end_layout
+
+\begin_layout Itemize
+getInstance 
+\end_layout
+
+\begin_layout Itemize
+getValue 
+\end_layout
+
+\begin_layout Itemize
+setValue 
+\end_layout
+
+\begin_layout Itemize
+getContext
+\end_layout
+
+\begin_layout Subsubsection*
+ChooserActivity
+\end_layout
+
+\begin_layout Itemize
+onCreate 
+\end_layout
+
+\begin_layout Itemize
+onCreateOptionsMenu 
+\end_layout
+
+\begin_layout Itemize
+onOptionsItemSelected 
+\end_layout
+
+\begin_layout Itemize
+createNewDoc 
+\end_layout
+
+\begin_layout Itemize
+chooseFromDropbox 
+\end_layout
+
+\begin_layout Itemize
+onActivityResult 
+\end_layout
+
+\begin_layout Itemize
+decryptFile 
+\end_layout
+
+\begin_layout Subsubsection*
+CreateActivty
+\end_layout
+
+\begin_layout Itemize
+onCreate 
+\end_layout
+
+\begin_layout Itemize
+onResume
+\end_layout
+
+\begin_layout Itemize
+onCreateOptionsMenu 
+\end_layout
+
+\begin_layout Itemize
+onOptionsItemSelected 
+\end_layout
+
+\begin_layout Itemize
+onClickEncryptSave 
+\end_layout
+
+\begin_layout Subsubsection*
+CustomAdapter
+\end_layout
+
+\begin_layout Itemize
+CustomAdapter 
+\end_layout
+
+\begin_layout Itemize
+getView
+\end_layout
+
+\begin_layout Subsubsection*
+DecryptActivity
+\end_layout
+
+\begin_layout Itemize
+onCreate 
+\end_layout
+
+\begin_layout Itemize
+onCreateOptionsMenu 
+\end_layout
+
+\begin_layout Itemize
+onOptionsItemSelected 
+\end_layout
+
+\begin_layout Itemize
+onListItemClick 
+\end_layout
+
+\begin_layout Itemize
+refreshFileList 
+\end_layout
+
+\begin_layout Itemize
+getFos 
+\end_layout
+
+\begin_layout Itemize
+decryptFile
+\end_layout
+
+\begin_layout Subsubsection*
+DropboxSetup
+\end_layout
+
+\begin_layout Itemize
+DropboxSetup 
+\end_layout
+
+\begin_layout Itemize
+getAccMgr 
+\end_layout
+
+\begin_layout Itemize
+getAccount
+\end_layout
+
+\begin_layout Itemize
+getChooser 
+\end_layout
+
+\begin_layout Itemize
+getFileSystem
+\end_layout
+
+\begin_layout Subsubsection*
+EncryptActivity
+\end_layout
+
+\begin_layout Itemize
+onCreate 
+\end_layout
+
+\begin_layout Itemize
+onResume 
+\end_layout
+
+\begin_layout Itemize
+onCreateOptionsMenu
+\end_layout
+
+\begin_layout Itemize
+onOptionsItemSelected 
+\end_layout
+
+\begin_layout Itemize
+onClickChoose 
+\end_layout
+
+\begin_layout Itemize
+onClickOK 
+\end_layout
+
+\begin_layout Itemize
+onActivityResult
+\end_layout
+
+\begin_layout Subsubsection*
+Filecryptor
+\end_layout
+
+\begin_layout Itemize
+encryptFile 
+\end_layout
+
+\begin_layout Itemize
+encryptString 
+\end_layout
+
+\begin_layout Itemize
+decryptFile
+\end_layout
+
+\begin_layout Subsubsection*
+MainActivity
+\end_layout
+
+\begin_layout Itemize
+onCreate 
+\end_layout
+
+\begin_layout Itemize
+onResume 
+\end_layout
+
+\begin_layout Itemize
+onCreateOptionsMenu 
+\end_layout
+
+\begin_layout Itemize
+onOptionsItemSelected 
+\end_layout
+
+\begin_layout Itemize
+onProceed 
+\end_layout
+
+\begin_layout Itemize
+onClickPwd 
+\end_layout
+
+\begin_layout Itemize
+onClickUnlink 
+\end_layout
+
+\begin_layout Itemize
+processLinked 
+\end_layout
+
+\begin_layout Itemize
+processUnlinked 
+\end_layout
+
+\begin_layout Itemize
+onActivityResult 
+\end_layout
+
+\begin_layout Itemize
+methodA 
+\end_layout
+
+\begin_layout Itemize
+methodB
+\end_layout
+
+\begin_layout Subsubsection*
+MyCipher
+\end_layout
+
+\begin_layout Itemize
+MyCipher 
+\end_layout
+
+\begin_layout Itemize
+MyCipher 
+\end_layout
+
+\begin_layout Itemize
+getmCipher 
+\end_layout
+
+\begin_layout Itemize
+getGroupID 
+\end_layout
+
+\begin_layout Itemize
+getIv 
+\end_layout
+
+\begin_layout Itemize
+getGroupAsByteArray 
+\end_layout
+
+\begin_layout Itemize
+getGroupSKS 
+\end_layout
+
+\begin_layout Itemize
+getGroupLength
+\end_layout
+
+\begin_layout Subsubsection*
+MyDbxFiles
+\end_layout
+
+\begin_layout Itemize
+MyDbxFiles 
+\end_layout
+
+\begin_layout Itemize
+getRoot 
+\end_layout
+
+\begin_layout Itemize
+getOutFile 
+\end_layout
+
+\begin_layout Itemize
+getOutFile 
+\end_layout
+
+\begin_layout Itemize
+getInFile 
+\end_layout
+
+\begin_layout Itemize
+listRoot 
+\end_layout
+
+\begin_layout Itemize
+listFolder 
+\end_layout
+
+\begin_layout Itemize
+getFileInfo
+\end_layout
+
+\begin_layout Standard
+Initial Project Proposal
+\end_layout
+
+\begin_layout Section
+Demonstration Slide Content
+\end_layout
+
+\begin_layout Itemize
+Introduction to the scenario and the challenges it presents
+\end_layout
+
+\begin_layout Itemize
+Overview of the project and its objectives 
+\end_layout
+
+\begin_layout Itemize
+Presentation of the solution – its theory and practical implementation 
+\end_layout
+
+\begin_layout Itemize
+From prototype to production –review & next steps 
+\end_layout
+
+\begin_layout Itemize
+Demonstration
+\end_layout
+
+\begin_layout Subsection
+The Scenario
+\end_layout
+
+\begin_layout Subsection
+Key Challenges
+\end_layout
+
+\begin_layout Subsubsection*
+Project challenges
+\end_layout
+
+\begin_layout Itemize
+secure data exchange is a non-trivial problem – particularly against active
+ attacker 
+\end_layout
+
+\begin_layout Itemize
+mobile devices have inherent security risks which adds additional complication
+\end_layout
+
+\begin_layout Subsubsection
+Personal learning curve 
+\end_layout
+
+\begin_layout Itemize
+zero knowledge starting point 
+\end_layout
+
+\begin_layout Itemize
+Android is a whole new operating system not just ‘Java with extra bits’
+\end_layout
+
+\begin_layout Itemize
+Unfamiliar API’s operating in a sub-optimal environment 
+\end_layout
+
+\begin_layout Subsection
+The Project & Objectives
+\end_layout
+
+\begin_layout Itemize
+To develop overall scheme for secure sharing of data with mobile access
+ 
+\end_layout
+
+\begin_layout Itemize
+To develop a prototype application for an android tablet 
+\end_layout
+
+\begin_layout Itemize
+Minimise trust to be placed in 3rd parties 
+\end_layout
+
+\begin_layout Itemize
+No proprietary cryptography N
+\end_layout
+
+\begin_layout Itemize
+o transmission of unprotected data
+\end_layout
+
+\begin_layout Subsection
+The Solution
+\end_layout
+
+\begin_layout Itemize
+Dropbox used for all exchanging of files 
+\end_layout
+
+\begin_layout Itemize
+Public key cryptography (RSA) for exchanging group encryption keys 
+\end_layout
+
+\begin_layout Itemize
+No transmission or storage of plaintext AES Encryption with CBC used for
+ data encryption (currently with 128 bit key) 
+\end_layout
+
+\begin_layout Itemize
+All key information held in encrypted KeyStores
+\end_layout
+
+\begin_layout Subsection
+The Prototype
+\end_layout
+
+\begin_layout Itemize
+Is designed as a “proof of concept”
+\end_layout
+
+\begin_layout Itemize
+Aspires to use “best practice” within the code 
+\end_layout
+
+\begin_layout Itemize
+Uses well-tested cryptographic techniques and standard libraries
+\end_layout
+
+\begin_layout Itemize
+Adheres to the stated security requirements 
+\end_layout
+
+\begin_layout Itemize
+… is totally lacking in visual appeal or in any application of HC
+\end_layout
+
+\begin_layout Subsection
+Review
+\end_layout
+
+\begin_layout Itemize
+What works well
+\end_layout
+
+\begin_layout Itemize
+From prototype to production - next steps
+\end_layout
+
+\begin_layout Section
+Brain dump from project logbook
+\end_layout
+
+\begin_layout Subsubsection*
+Additional complexity for smartphone - need to think about (although may
+ make a conscious decision to ignore)
+\end_layout
+
+\begin_layout Itemize
+large files
+\end_layout
+
+\begin_layout Itemize
+network connectivity
+\end_layout
+
+\begin_layout Itemize
+battery life
+\end_layout
+
+\begin_layout Itemize
+small memory
+\end_layout
+
+\begin_layout Itemize
+multithreading for gui
+\end_layout
+
+\begin_layout Subsubsection*
+Design decisions
+\end_layout
+
+\begin_layout Itemize
+where to encrypt
+\end_layout
+
+\begin_layout Itemize
+model to use for file distribution and storage
+\end_layout
+
+\begin_layout Itemize
+key sharing
+\end_layout
+
+\begin_layout Standard
+User authentication and need to block after failed attempts
+\end_layout
+
+\begin_layout Standard
+See Android Data Encryption Saud Alharbi Sept 2010 which covers issues to
+ do with key generation
+\end_layout
+
+\begin_layout Standard
+Aim to share files between collaborators from displarate organisations not
+ physically co-located
+\end_layout
+
+\begin_layout Subsubsection*
+Attacks and issues to consider
+\end_layout
+
+\begin_layout Itemize
+anonymity
+\end_layout
+
+\begin_layout Itemize
+forward secrecy
+\end_layout
+
+\begin_layout Itemize
+revokation
+\end_layout
+
+\begin_layout Itemize
+man-in-middle
+\end_layout
+
+\begin_layout Standard
+Original plan to use web server, then basic client/server - final design
+ involved more sophisticated key sharing so that cloud storage can be used
+\end_layout
+
+\begin_layout Standard
+Original aim for data not to be stored anywhere in plaintext - had to compromise
+ on that due to time limitation but still included in security design
+\end_layout
+
+\begin_layout Standard
+Assumption that encrypted blobs are probably also created on PC - simple
+ PC version of program developed to address this, although no gui developed
+\end_layout
+
+\begin_layout Standard
+Assumption - no static IP so peer to perr sharing is not possible
+\end_layout
+
+\begin_layout Subsubsection*
+Early design considerations 
+\end_layout
+
+\begin_layout Itemize
+who generates keys
+\end_layout
+
+\begin_layout Itemize
+how are keys generated
+\end_layout
+
+\begin_layout Itemize
+how are keys distributed
+\end_layout
+
+\begin_layout Itemize
+how are users/tablets identified
+\end_layout
+
+\begin_layout Itemize
+is there a need to use IMEI
+\end_layout
+
+\begin_layout Itemize
+issue with public key - how would we stop Mallory uploading bogus documents
+\end_layout
+
+\begin_layout Itemize
+issue with where to place trust
+\end_layout
+
+\begin_layout Itemize
+how to manage letting decryption know group - flirted with shared preferences
+\end_layout
+
+\begin_layout Itemize
+use of xml rather than java for managing onClick - why was this done and
+ when is it not applicable
+\end_layout
+
+\begin_layout Itemize
+decision to ignore considerations like battery life and 
+\end_layout
+
+\begin_layout Subsubsection*
+Dropbox issues
+\end_layout
+
+\begin_layout Itemize
+dbx stuff does not implement serializable or parcelable
+\end_layout
+
+\begin_layout Itemize
+Dropbox synchronisation issues - developed everythng using App specific
+ access then discovered that this doesn't allow any use of shared folders
+ so had to redesign 
+\end_layout
+
+\begin_layout Itemize
+FIles not being closed when app crashes
+\end_layout
+
+\begin_layout Section
+Project diary
+\end_layout
+
+\begin_layout Standard
+Meeting dates:
+\end_layout
+
+\begin_layout Itemize
+18th June
+\end_layout
+
+\begin_layout Itemize
+20th June
+\end_layout
+
+\begin_layout Itemize
+25th June
+\end_layout
+
+\begin_layout Itemize
+24th July
+\end_layout
+
+\begin_layout Itemize
+31st July
+\end_layout
+
+\begin_layout Subsection*
+Week 1
+\end_layout
+
+\begin_layout Standard
+Worked on background reading
+\end_layout
+
+\begin_layout Standard
+Looked at examples of other projects
+\end_layout
+
+\begin_layout Subsection*
+Week 2
+\end_layout
+
+\begin_layout Subsection*
+Week 3 
+\end_layout
+
+\begin_layout Subsection*
+Week 4
+\end_layout
+
+\begin_layout Subsection*
+Week 5
+\end_layout
+
+\begin_layout Subsection*
+Week 6
+\end_layout
+
+\begin_layout Subsection*
+Week 7
+\end_layout
+
+\begin_layout Subsection*
+Week 8
+\end_layout
+
+\begin_layout Subsection*
+Week 9
+\end_layout
+
+\begin_layout Section
+Things to draw out in report
+\end_layout
+
+\begin_layout Standard
+Separation between design and what is implemented in prototype - all design
+ elements are needed for security.
+ 
+\end_layout
+
+\begin_layout Standard
+Can I separate security design and actual implementation in prototype in
+ order to evaluate them separately
+\end_layout
+
+\begin_layout Standard
+Lots of issues at the start with ensuring that it remained a project about
+ crypto - kept coming up with design solutions that simply turned it into
+ an exercise in access control
+\end_layout
+
+\begin_layout Standard
+Planned to uses SSL to encrypt in transit for protection agains replay attacks-
+ use of Dropbox Sync API made this unnecessary as everything was handled
+ by that
+\end_layout
+
+\begin_layout Standard
+Did not implement signing in prototype as largely meaningless with self-signed
+ certificates.
+ Purchase of appropriate certificates for authentication of signatures would
+ be required for a complete solution
+\end_layout
+
+\begin_layout Standard
+Althou prototype allows for encryption of files stored on the device, in
+ practice the very fact that there are files on the device that the user
+ wants to encrypt violates our central tenet that plaintext should never
+ be stored to disc.
+ 
+\end_layout
+
+\begin_layout Standard
+Android has inherent protection by sandboxing apps so files in internal
+ storage have extra protection.
+ FOr the purposes of development and testing, files written to app protected
+ external storage so that they can be inspected with a file manager without
+ the need to root the device
+\end_layout
+
+\begin_layout Standard
+Performance problem - introduced buffering
+\end_layout
+
+\begin_layout Standard
+When app is deleted, files should be deleted so keystore would be removed
+ from device
+\end_layout
+
+\begin_layout Standard
+Splash screen and initialisation
+\end_layout
+
+\begin_layout Standard
+use of .xps, .xeb
+\end_layout
+
+\begin_layout Standard
+use of bundle for passing data between activities
+\end_layout
+
+\begin_layout Standard
+use of interface for passind data back from dialog
+\end_layout
+
+\begin_layout Standard
+didn't use onStoreState etc - didn't worry about restoring exact user position
+ as prototype and system stores gui stuff
+\end_layout
+
+\begin_layout Standard
+major challenge of the fact that android is an operating system not a programmin
+g language - event driven programming
+\end_layout
+
+\begin_layout Standard
+shared preferences - implemented during one of the iterations but ultimately
+ abandoned for a simpler model
+\end_layout
+
+\begin_layout Standard
+decision not to implement threads at this stage
+\end_layout
+
+\begin_layout Standard
+Challenges of Agile methodology when using a new language or API - lot of
+ time spent learning how to implement stuff that ended up not being needed.
+\end_layout
+
+\begin_layout Standard
+Talk about decision not to implemenmt passing decrypted data directly to
+ another app without needing to write to external storage
+\end_layout
+
+\begin_layout Standard
+
+\color red
+TODO checkout understanding of callback
+\end_layout
+
+\begin_layout Standard
+Major issues with keystore, certificates and default providers.
+\end_layout
+
+\begin_layout Standard
+Use of Java program running on PC to develop encryption to begin with
+\end_layout
+
+\begin_layout Standard
+Challenge of absence of built in file manager
+\end_layout
+
+\begin_layout Standard
+No ability to recover keys if app gets deleted - could re download from
+ dropbox as long as private key and certificate backed up.
+ 
+\end_layout
+
+\begin_layout Standard
+For improvement, use custom file extension registered with Dropbox then
+ would only ever see encrypted files
+\end_layout
+
+\begin_layout Standard
+Folder management and sharing done outside of app - could easily be added
+ 
+\end_layout
+
+\begin_layout Standard
+
+\color red
+TODO decide why I didn't use the encrypted folder approach like many ot=f
+ the other apps
+\end_layout
+
+\begin_layout Standard
+Don't zero out passwords after use
+\end_layout
+
+\begin_layout Standard
+Decision to use same password for keystore and aliases - trade off of added
+ security against temptation for users to use insecure passwords or write
+ them down
+\end_layout
+
+\begin_layout Standard
+USe of singleton
+\end_layout
+
+\begin_layout Standard
+No ability to change passwords etc added at present
+\end_layout
+
+\begin_layout Standard
+Fragments
+\end_layout
+
+\begin_layout Standard
+Make sure I write about admin process
+\end_layout
+
+\begin_layout Standard
+Key generation and sharing currently done from PC rather than android device
+ - what do we think of this as an idea?
+\end_layout
+
+\begin_layout Standard
+No implementation of digital signatires so vulneranble to man-in-middle
+\end_layout
+
+\begin_layout Standard
+Means of distributing certificates is outside of scope - as tese are public,
+ any means will do.
+\end_layout
+
+\begin_layout Standard
+Write about issues to do with public key distribution and the need for signing
+\end_layout
+
+\begin_layout Standard
+CHallenge of unavailability of BKS on pcs in school
+\end_layout
+
+\begin_layout Standard
+No access to keytool in android
+\end_layout
+
+\begin_layout Standard
+o
+\color red
+ut of bounds channel - side channel attack
+\end_layout
+
+\begin_layout Standard
+Include information about algorithms and keylengths
+\end_layout
+
+\begin_layout Standard
+No GUI for admin - out of scope
+\end_layout
+
+\begin_layout Standard
+Talk about the android apps I reviewd - boxcryptor, Cryptonite, EDS lite
+\end_layout
+
+\begin_layout Standard
+Issue: if generate [rivate key on device, it is device specific - ability
+ to import would allow same keystores to be used on multiple devices for4
+ same user
+\end_layout
+
+\begin_layout Standard
+
+\color red
+nelenkov.blogspot.co.uk - credential storage enhancements in Android 4.3
+\end_layout
+
+\begin_layout Standard
+Write about how p[rotocols as as important as implementation - need to support
+ this view from academic papers
+\end_layout
+
+\begin_layout Standard
+Talk about why it doesn't matter that encrypted copies of group key are
+ available on dropbox
+\end_layout
+
+\begin_layout Standard
+Issue - dependent on exactly correct alias for groupid and folder name
+\end_layout
+
+\begin_layout Section
+Notes from meeting with Eike about report
+\end_layout
+
+\begin_layout Standard
+Testing - it is ok to say that I tested by inspection
+\end_layout
+
+\begin_layout Standard
+Explain why unit testing is not meaningful
+\end_layout
+
+\begin_layout Subsubsection*
+Intro
+\end_layout
+
+\begin_layout Itemize
+statement of the problem
+\end_layout
+
+\begin_layout Itemize
+statement of the threat model we are trying to secure against
+\end_layout
+
+\begin_layout Subsubsection*
+Analysis, Evaluation and Conclusion
+\end_layout
+
+\begin_layout Standard
+Explain how well solution meets objectives -
+\end_layout
+
+\begin_layout Standard
+Maybe argue whyu solution is secure here
+\end_layout
+
+\begin_layout Standard
+What you have learned - why android development was a challenge
+\end_layout
+
+\begin_layout Standard
+Further work
+\end_layout
+
+\begin_layout Standard
+Write as though you are porviding a basisi for a good cs graduate to continue
+ the work - assume they have already done some android development
+\end_layout
+
+\begin_layout Subsubsection*
+Middle - substantiate claims
+\end_layout
+
+\begin_layout Standard
+explain all major decisions
+\end_layout
+
+\begin_layout Standard
+Mention papers I read
+\end_layout
+
+\begin_layout Standard
+Talk about TPM
+\end_layout
+
+\begin_layout Standard
+Reasons why didn't choose ID based cryptography or password based solution
+ - aim is to use simplest solution that works
+\end_layout
+
+\end_body
+\end_document
