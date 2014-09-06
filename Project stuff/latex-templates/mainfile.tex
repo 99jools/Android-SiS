@@ -1,0 +1,119 @@
+% Created:  Sun 15 Jun 2014 04:15 pm
+% @author Josh Wainwright
+% File name : mainfile.tex
+
+\documentclass[a4paper,11pt,twoside]{report}
+\usepackage[utf8]{inputenc}
+
+%%% PAGE DIMENSIONS ------------------------------------------------------------
+\usepackage[
+	top=3.5cm,
+	right=3.5cm,
+	left=4cm,
+	bottom=3cm]{geometry}
+% \usepackage[top=3cm,
+% 	bottom=2cm,
+% 	left=1.5cm,
+% 	right=1.5cm]{geometry}
+\usepackage[parfill]{parskip}
+\setlength{\columnsep}{1.5em}
+
+%%% SECTION TITLE APPEARANCE ---------------------------------------------------
+
+%%% PACKAGES -------------------------------------------------------------------
+\usepackage{subcaption}
+\captionsetup{subrefformat=parens,width=8.8cm}
+
+\usepackage[pdftex]{graphicx}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{longtable}
+\usepackage{tabu} % \tabulinesep=1.2mm
+\usepackage{listings}
+\usepackage[table]{xcolor}
+\usepackage{amsmath}
+\usepackage[inline]{enumitem}
+\usepackage{url}
+
+%% CODE STYLING ----------------------------------------------------------------
+
+\definecolor{grey}{HTML}{555753}
+\definecolor{purple}{HTML}{75507b}
+\definecolor{blue}{HTML}{3465a4}
+
+\definecolor{dkred}{HTML}{a40000}
+\definecolor{dkgreen}{HTML}{4e9a06}
+\definecolor{dkblue}{HTML}{204a87}
+\definecolor{dkorange}{HTML}{8F5902}
+
+\definecolor{lyellow}{HTML}{FCE94F}
+\definecolor{lorange}{HTML}{FCAF3E}
+\definecolor{lbrown}{HTML}{E9B96E}
+\definecolor{lgreen}{HTML}{8AE234}
+\definecolor{lblue}{HTML}{729FCF}
+\definecolor{lpurple}{HTML}{AD7FA8}
+\definecolor{lred}{HTML}{EF2929}
+\definecolor{silver}{HTML}{D3D7CF}
+\definecolor{lgrey}{HTML}{888A85}
+
+\lstset{frame=tb,
+	language=Java,
+	aboveskip=3mm,
+	belowskip=3mm,
+	showstringspaces=false,
+	captionpos=b,
+	columns=flexible,
+	basicstyle={\small\ttfamily},
+	keywordstyle=\color{blue},
+	commentstyle=\color{dkorange},
+	stringstyle=\color{purple},
+	breaklines=true,
+	breakatwhitespace=true,
+	tabsize=3,
+}
+
+%% BIBIOGRAPHY -----------------------------------------------------------------
+\usepackage{cite}
+
+%%% ToC (table of contents) APPEARANCE -----------------------------------------
+\renewcommand{\contentsname}{Table of Contents}
+% \setcounter{tocdepth}{2}
+
+%%% HEADERS & FOOTERS ----------------------------------------------------------
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[LE,RO]{\thepage}
+\fancyhead[RE,LO]{\textit{\nouppercase{\leftmark}}}
+\fancyfoot[CE,CO]{}
+\fancyfoot[LE,RO]{}
+
+%%% PDF LINKS AND STYLE --------------------------------------------------------
+\usepackage[bookmarks=true]{hyperref}
+% \hypersetup{%
+% 	colorlinks=true, % false: boxed links; true: colored links
+% 	linkcolor=black, % color of internal links (change box color with linkbordercolor)
+% 	citecolor=black, % color of links to bibliography
+% 	filecolor=black, % color of file links
+% 	urlcolor=black   % color of external links
+% }
+\hypersetup{pdftitle={TITLE},
+	pdfauthor={AUTHOR}}
+
+\newcommand*\rfrac[2]{{}^{#1}\!/_{#2}}
+\newcommand\blue[1]{\textcolor{dkblue}{#1}}
+\newcommand\green[1]{\textcolor{dkgreen}{#1}}
+\newcommand\red[1]{\textcolor{dkred}{#1}}
+
+%*******************************************************************************
+%******************************** END HEADER ***********************************
+%*******************************************************************************
+
+\begin{document}
+
+\tableofcontents
+\input{folder/file.tex}
+\bibliographystyle{apalike}
+\bibliography{references}
+
+\end{document}
