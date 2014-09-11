@@ -1,0 +1,98 @@
+% Created:  Sat 06 Sep 2014 05:08 PM
+% Author:   Josh Wainwright
+% Filename: file.tex
+
+\chapter{Chapter Heading}
+\label{cha:chapter_heading}
+
+\section{Section Heading}
+\label{sec:section_heading}
+
+\subsection{SubSection Heading}
+\label{sub:subsection_heading}
+
+\subsubsection{SubSubSection Heading}
+\label{ssub:SubSubSection Heading}
+
+\paragraph{Paragraph Heading}
+\label{par:paragraph_heading}
+
+with some text after
+
+\begin{itemize}
+	\item Itemize
+	\item One
+	\item Two
+\end{itemize}
+
+\begin{enumerate}
+	\item Enumerate
+	\item One
+	\item Two
+\end{enumerate}
+
+\begin{description}
+	\item[Description] Description
+	\item[One] First
+	\item[Two] Second
+\end{description}
+
+\begin{center}
+\begin{tabu}{r l c}
+	\toprule
+	Table & Headers & here \\
+	\midrule
+	Lots of & rows & go here \\
+	Right Aligned & Left aligned & Centered \\
+	\bottomrule
+\end{tabu}
+\end{center}
+
+\begin{center}
+\begin{tabu}{c X}
+	\toprule
+	Table & Paragraph \\
+	\midrule
+	Small header & lots of writing that can turn into a paragraph and will take
+	up all of the remaining space in the page. \\
+	This & Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
+	eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
+	minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex
+	ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
+	velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
+	cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id
+	est laborum. \\
+	\bottomrule
+\end{tabu}
+\end{center}
+
+\cite{rasband1997imagej} \\
+\cite{fang2005sub} \\
+\cite{williamson2011pre} \\
+\cite{rust2006sub} \\
+\cite{owen2010palm} \\
+
+\green{This is a sentence in green} \\
+\red{This is in red} \\
+\blue{This should be blue.} \\
+
+`\textbackslash\textbackslash' above means \texttt{newline}. Repeated white
+space is always treated as a single whitespace---space, tab, newline.
+
+Paragraphs are separated by a blank line.
+
+\begin{itemize}
+	\item \texttt{Typewritter font}
+	\item \emph{Emphasised is better than bold/italics with \emph{emph} inside}
+	\item \textbf{Bold font with \emph{emph inside}}
+\end{itemize}
+
+\begin{lstlisting}[caption={This is the caption}]
+public void javaMethod() {
+	doSomething();
+	if (happy) {
+		clap(hands);
+	}
+	return new String("Really want to show it.");
+}
+\end{lstlisting}

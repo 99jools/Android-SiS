@@ -1,21 +1,29 @@
-#LyX 1.6.10 created this file. For more info see http://www.lyx.org/
-\lyxformat 345
+#LyX 2.0 created this file. For more info see http://www.lyx.org/
+\lyxformat 413
 \begin_document
 \begin_header
-\textclass article
+\textclass report
 \use_default_options true
+\maintain_unincluded_children false
 \language english
+\language_package default
 \inputencoding auto
+\fontencoding global
 \font_roman default
 \font_sans default
 \font_typewriter default
 \font_default_family sfdefault
+\use_non_tex_fonts false
 \font_sc false
 \font_osf false
 \font_sf_scale 100
 \font_tt_scale 100
 
 \graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
 \paperfontsize default
 \spacing single
 \use_hyperref false
@@ -23,9 +31,18 @@
 \use_geometry true
 \use_amsmath 1
 \use_esint 1
+\use_mhchem 1
+\use_mathdots 1
 \cite_engine basic
 \use_bibtopic false
+\use_indices false
 \paperorientation portrait
+\suppress_date false
+\use_refstyle 0
+\index Index
+\shortcut idx
+\color #008000
+\end_index
 \leftmargin 2cm
 \topmargin 2cm
 \rightmargin 2cm
@@ -40,76 +57,67 @@
 \paperpagestyle default
 \tracking_changes false
 \output_changes false
-\author "" 
-\author "" 
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
 \end_header
 
 \begin_body
 
-\begin_layout Standard
-Title page, including title, author, degree (BEng in Computer Science/Software
- Engineering, BSc in Artificial Intelligence & Computer Science, MSc in
- Computer Science, etc.), name of supervisor, name of institution ('School
- of Computer Science, University of Birmingham'), date.
+\begin_layout Chapter
+Introduction
 \end_layout
 
 \begin_layout Section
-Preamble, including 
-\end_layout
-
-\begin_layout Enumerate
-Table of Contents; 
-\end_layout
-
-\begin_layout Enumerate
-Abstract/synopsis (suggested length: half a page); 
-\end_layout
-
-\begin_layout Enumerate
-Acknowledgements.
-\end_layout
-
-\begin_layout Section
-Introduction:
-\end_layout
-
-\begin_layout Standard
-In this section, you should describe the motivation for the project.
- Explain whatever background the reader will need in order to understand
- your contribution.
- Include a clear and detailed statement of the project aims.
- Describe the requirement that your software is fulfilling.
- Explain exactly what your software does; what input or data it requires,
- and what output or results it delivers, or how it interacts with the user.
- Concentrate on what your software does; the question of how it does it
- will be dealt with in later sections.
-\end_layout
-
-\begin_layout Standard
-Conventionally, the last part of the introduction outlines the remainder
- of the dissertation, explaining what comes in each section.
-\end_layout
-
-\begin_layout Subsection
-Aims
-\end_layout
-
-\begin_layout Subsection
 Motivation
 \end_layout
 
 \begin_layout Section
-Background
+Aims and Objectives
 \end_layout
 
-\begin_layout Standard
-Further background material.
- If your project is in a specialised area, it might be appropriate to provide
- more information than was given in your Introduction.
- Try to limit yourself just to what the reader needs to know to understand
- your contribution in the project.
- Put your work in the context of related existing work, commercial products,
- and research papers (if relevant).
+\begin_layout Section
+Scope
+\end_layout
+
+\begin_layout Section
+Overview of Report
+\end_layout
+
+\begin_layout Itemize
+statement of the problem
+\end_layout
+
+\begin_layout Itemize
+statement of the threat model we are trying to secure against
+\end_layout
+
+\begin_layout Chapter
+Further Background Material
+\end_layout
+
+\begin_layout Section
+Preliminary research
+\end_layout
+
+\begin_layout Section
+Things you need to know about security
+\end_layout
+
+\begin_layout Section
+Analysis of other available solutions
+\end_layout
+
+\begin_layout Subsection
+related work
+\end_layout
+
+\begin_layout Subsection
+commercial products
+\end_layout
+
+\begin_layout Subsection
+research papers
 \end_layout
 
 \begin_layout Section
@@ -117,9 +125,20 @@ Analysis and Specification
 \end_layout
 
 \begin_layout Standard
+
+\color red
 How you analysed the problem, including user requirements.
  Give an appropriate specification of the solution (note that you are not
  expected to produce a requirements specification to industrial standards).
+ 
+\end_layout
+
+\begin_layout Subsection
+Security Requirements
+\end_layout
+
+\begin_layout Subsection
+Android Prototype Requirements
 \end_layout
 
 \begin_layout Section
@@ -127,6 +146,8 @@ Solution Design
 \end_layout
 
 \begin_layout Standard
+
+\color red
 Design.
  A high-level account of the structure of your software and how it works.
  What algorithms does it use? How do these compare with alternatives? What
@@ -138,6 +159,8 @@ Implementation & Testing
 \end_layout
 
 \begin_layout Standard
+
+\color red
 Implementation and testing.
  A detailed account of the implementation and testing of your software.
  Explain what data structures you used, and how the algorithms were implemented.
@@ -147,8 +170,45 @@ Implementation and testing.
  
 \end_layout
 
+\begin_layout Standard
+Testing - it is ok to say that I tested by inspection
+\end_layout
+
+\begin_layout Standard
+Explain why unit testing is not meaningful
+\end_layout
+
 \begin_layout Section
 Evaluation
+\end_layout
+
+\begin_layout Standard
+Achievements
+\end_layout
+
+\begin_layout Standard
+Future Work
+\end_layout
+
+\begin_layout Standard
+Explain how well solution meets objectives -
+\end_layout
+
+\begin_layout Standard
+Maybe argue whyu solution is secure here
+\end_layout
+
+\begin_layout Standard
+What you have learned - why android development was a challenge
+\end_layout
+
+\begin_layout Standard
+Further work
+\end_layout
+
+\begin_layout Standard
+Write as though you are porviding a basisi for a good cs graduate to continue
+ the work - assume they have already done some android development
 \end_layout
 
 \begin_layout Section
@@ -156,6 +216,8 @@ Summary/conclusions
 \end_layout
 
 \begin_layout Standard
+
+\color red
 Conclusions.
  Here you will summarise your achievements and also the deficiencies of
  your project.
@@ -164,56 +226,565 @@ Conclusions.
  It is important to be completely honest about the deficiencies and inadequacies
  of your work, such as they are.
  Part of your aim is to demonstrate your ability to recognise problems that
- remain.
+ remain
 \end_layout
 
-\begin_layout Section
-Structure
-\end_layout
-
-\begin_layout Standard
-User interface.
- If the interface forms a substantial part of your project (e.g.
- an HCI project), you will wish to include quite a lot of detail and explanation.
- In other projects the interface may be less of an important focus.
- Project management.
- How have you managed the writing of a substantial piece of software? Discuss
- the appropriateness of your methods in the light of your experience on
- the project.
- Results.
- You may have produced experimental results or other kinds of results during
- the course of your project.
- Appraisal.
- You should assess the success of your software.
- How does it compare with the original specification? How reliable is it?
- How have you tested it? Comment on its robustness (e.g., to unexpected data),
- performance (e.g., response times or processing times in different situations),
- etc.
+\begin_layout Chapter
+Stuff
 \end_layout
 
 \begin_layout Standard
-References and/or bibliography.
- List any books, articles, lecture notes, conference proceedings, manuals
- or other documents that you refer to in the dissertation and/or that were
- important in your work.
- Look in any published book for how to do this.
- Cite at least the authors, the title, the date and the publication details
- of each document.
+explain all major decisions
 \end_layout
 
 \begin_layout Standard
-Appendices.
- The dissertation must contain an appendix explaining file structure on
- the data CD submitted with it.
- The appendix must also contain an information on how the code should be
- run.
- Other appendices may include documents such as: the project proposal; a
- selection of experimental data; schedules; testing strategy; risk management
- plans; glossary; manual; etc.
- Don't include the source code as an appendix (submit it on CD; see below).
- Don't include voluminous appendices (these should also be submitted on
- a CD).
+Mention papers I read
+\end_layout
+
+\begin_layout Standard
+Talk about TPM
+\end_layout
+
+\begin_layout Standard
+Reasons why didn't choose ID based cryptography or password based solution
+ - aim is to use simplest solution that works
+\end_layout
+
+\begin_layout Standard
+Separation between design and what is implemented in prototype - all design
+ elements are needed for security.
  
+\end_layout
+
+\begin_layout Standard
+Can I separate security design and actual implementation in prototype in
+ order to evaluate them separately
+\end_layout
+
+\begin_layout Standard
+Lots of issues at the start with ensuring that it remained a project about
+ crypto - kept coming up with design solutions that simply turned it into
+ an exercise in access control
+\end_layout
+
+\begin_layout Standard
+Planned to uses SSL to encrypt in transit for protection agains replay attacks-
+ use of Dropbox Sync API made this unnecessary as everything was handled
+ by that
+\end_layout
+
+\begin_layout Standard
+Did not implement signing in prototype as largely meaningless with self-signed
+ certificates.
+ Purchase of appropriate certificates for authentication of signatures would
+ be required for a complete solution
+\end_layout
+
+\begin_layout Standard
+Althou prototype allows for encryption of files stored on the device, in
+ practice the very fact that there are files on the device that the user
+ wants to encrypt violates our central tenet that plaintext should never
+ be stored to disc.
+ 
+\end_layout
+
+\begin_layout Standard
+Android has inherent protection by sandboxing apps so files in internal
+ storage have extra protection.
+ FOr the purposes of development and testing, files written to app protected
+ external storage so that they can be inspected with a file manager without
+ the need to root the device
+\end_layout
+
+\begin_layout Standard
+Performance problem - introduced buffering
+\end_layout
+
+\begin_layout Standard
+When app is deleted, files should be deleted so keystore would be removed
+ from device
+\end_layout
+
+\begin_layout Standard
+Splash screen and initialisation
+\end_layout
+
+\begin_layout Standard
+use of .xps, .xeb
+\end_layout
+
+\begin_layout Standard
+use of bundle for passing data between activities
+\end_layout
+
+\begin_layout Standard
+use of interface for passind data back from dialog
+\end_layout
+
+\begin_layout Standard
+didn't use onStoreState etc - didn't worry about restoring exact user position
+ as prototype and system stores gui stuff
+\end_layout
+
+\begin_layout Standard
+major challenge of the fact that android is an operating system not a programmin
+g language - event driven programming
+\end_layout
+
+\begin_layout Standard
+shared preferences - implemented during one of the iterations but ultimately
+ abandoned for a simpler model
+\end_layout
+
+\begin_layout Standard
+decision not to implement threads at this stage
+\end_layout
+
+\begin_layout Standard
+Challenges of Agile methodology when using a new language or API - lot of
+ time spent learning how to implement stuff that ended up not being needed.
+\end_layout
+
+\begin_layout Standard
+Talk about decision not to implemenmt passing decrypted data directly to
+ another app without needing to write to external storage
+\end_layout
+
+\begin_layout Standard
+
+\color red
+TODO checkout understanding of callback
+\end_layout
+
+\begin_layout Standard
+Major issues with keystore, certificates and default providers.
+\end_layout
+
+\begin_layout Standard
+Use of Java program running on PC to develop encryption to begin with
+\end_layout
+
+\begin_layout Standard
+Challenge of absence of built in file manager
+\end_layout
+
+\begin_layout Standard
+No ability to recover keys if app gets deleted - could re download from
+ dropbox as long as private key and certificate backed up.
+ 
+\end_layout
+
+\begin_layout Standard
+For improvement, use custom file extension registered with Dropbox then
+ would only ever see encrypted files
+\end_layout
+
+\begin_layout Standard
+Folder management and sharing done outside of app - could easily be added
+ 
+\end_layout
+
+\begin_layout Standard
+
+\color red
+TODO decide why I didn't use the encrypted folder approach like many ot=f
+ the other apps
+\end_layout
+
+\begin_layout Standard
+Don't zero out passwords after use
+\end_layout
+
+\begin_layout Standard
+Decision to use same password for keystore and aliases - trade off of added
+ security against temptation for users to use insecure passwords or write
+ them down
+\end_layout
+
+\begin_layout Standard
+USe of singleton
+\end_layout
+
+\begin_layout Standard
+No ability to change passwords etc added at present
+\end_layout
+
+\begin_layout Standard
+Fragments
+\end_layout
+
+\begin_layout Standard
+Make sure I write about admin process
+\end_layout
+
+\begin_layout Standard
+Key generation and sharing currently done from PC rather than android device
+ - what do we think of this as an idea?
+\end_layout
+
+\begin_layout Standard
+No implementation of digital signatires so vulneranble to man-in-middle
+\end_layout
+
+\begin_layout Standard
+Means of distributing certificates is outside of scope - as tese are public,
+ any means will do.
+\end_layout
+
+\begin_layout Standard
+Write about issues to do with public key distribution and the need for signing
+\end_layout
+
+\begin_layout Standard
+CHallenge of unavailability of BKS on pcs in school
+\end_layout
+
+\begin_layout Standard
+No access to keytool in android
+\end_layout
+
+\begin_layout Standard
+o
+\color red
+ut of bounds channel - side channel attack
+\end_layout
+
+\begin_layout Standard
+Include information about algorithms and keylengths
+\end_layout
+
+\begin_layout Standard
+No GUI for admin - out of scope
+\end_layout
+
+\begin_layout Standard
+Talk about the android apps I reviewd - boxcryptor, Cryptonite, EDS lite
+\end_layout
+
+\begin_layout Standard
+Issue: if generate [rivate key on device, it is device specific - ability
+ to import would allow same keystores to be used on multiple devices for4
+ same user
+\end_layout
+
+\begin_layout Standard
+
+\color red
+nelenkov.blogspot.co.uk - credential storage enhancements in Android 4.3
+\end_layout
+
+\begin_layout Standard
+Write about how p[rotocols as as important as implementation - need to support
+ this view from academic papers
+\end_layout
+
+\begin_layout Standard
+Talk about why it doesn't matter that encrypted copies of group key are
+ available on dropbox
+\end_layout
+
+\begin_layout Standard
+IssueDemonstration Slide Content
+\end_layout
+
+\begin_layout Itemize
+Introduction to the scenario and the challenges it presents
+\end_layout
+
+\begin_layout Itemize
+Overview of the project and its objectives 
+\end_layout
+
+\begin_layout Itemize
+Presentation of the solution – its theory and practical implementation 
+\end_layout
+
+\begin_layout Itemize
+From prototype to production –review & next steps 
+\end_layout
+
+\begin_layout Itemize
+Demonstration
+\end_layout
+
+\begin_layout Subsection
+The Scenario
+\end_layout
+
+\begin_layout Subsection
+Key Challenges
+\end_layout
+
+\begin_layout Subsubsection*
+Project challenges
+\end_layout
+
+\begin_layout Itemize
+secure data exchange is a non-trivial problem – particularly against active
+ attacker 
+\end_layout
+
+\begin_layout Itemize
+mobile devices have inherent security risks which adds additional complication
+\end_layout
+
+\begin_layout Subsubsection
+Personal learning curve 
+\end_layout
+
+\begin_layout Itemize
+zero knowledge starting point 
+\end_layout
+
+\begin_layout Itemize
+Android is a whole new operating system not just ‘Java with extra bits’
+\end_layout
+
+\begin_layout Itemize
+Unfamiliar API’s operating in a sub-optimal environment 
+\end_layout
+
+\begin_layout Subsection
+The Project & Objectives
+\end_layout
+
+\begin_layout Itemize
+To develop overall scheme for secure sharing of data with mobile access
+ 
+\end_layout
+
+\begin_layout Itemize
+To develop a prototype application for an android tablet 
+\end_layout
+
+\begin_layout Itemize
+Minimise trust to be placed in 3rd parties 
+\end_layout
+
+\begin_layout Itemize
+No proprietary cryptography N
+\end_layout
+
+\begin_layout Itemize
+o transmission of unprotected data
+\end_layout
+
+\begin_layout Subsection
+The Solution
+\end_layout
+
+\begin_layout Itemize
+Dropbox used for all exchanging of files 
+\end_layout
+
+\begin_layout Itemize
+Public key cryptography (RSA) for exchanging group encryption keys 
+\end_layout
+
+\begin_layout Itemize
+No transmission or storage of plaintext AES Encryption with CBC used for
+ data encryption (currently with 128 bit key) 
+\end_layout
+
+\begin_layout Itemize
+All key information held in encrypted KeyStores
+\end_layout
+
+\begin_layout Subsection
+The Prototype
+\end_layout
+
+\begin_layout Itemize
+Is designed as a “proof of concept”
+\end_layout
+
+\begin_layout Itemize
+Aspires to use “best practice” within the code 
+\end_layout
+
+\begin_layout Itemize
+Uses well-tested cryptographic techniques and standard libraries
+\end_layout
+
+\begin_layout Itemize
+Adheres to the stated security requirements 
+\end_layout
+
+\begin_layout Itemize
+… is totally lacking in visual appeal or in any application of HC
+\end_layout
+
+\begin_layout Subsection
+Review
+\end_layout
+
+\begin_layout Itemize
+What works well
+\end_layout
+
+\begin_layout Itemize
+From prototype to production - next steps
+\end_layout
+
+\begin_layout Standard
+- dependent on exactly correct alias for groupid and folder name
+\end_layout
+
+\begin_layout Subsubsection*
+Additional complexity for smartphone - need to think about (although may
+ make a conscious decision to ignore)
+\end_layout
+
+\begin_layout Itemize
+large files
+\end_layout
+
+\begin_layout Itemize
+network connectivity
+\end_layout
+
+\begin_layout Itemize
+battery life
+\end_layout
+
+\begin_layout Itemize
+small memory
+\end_layout
+
+\begin_layout Itemize
+multithreading for gui
+\end_layout
+
+\begin_layout Subsubsection*
+Design decisions
+\end_layout
+
+\begin_layout Itemize
+where to encrypt
+\end_layout
+
+\begin_layout Itemize
+model to use for file distribution and storage
+\end_layout
+
+\begin_layout Itemize
+key sharing
+\end_layout
+
+\begin_layout Standard
+User authentication and need to block after failed attempts
+\end_layout
+
+\begin_layout Standard
+See Android Data Encryption Saud Alharbi Sept 2010 which covers issues to
+ do with key generation
+\end_layout
+
+\begin_layout Standard
+Aim to share files between collaborators from displarate organisations not
+ physically co-located
+\end_layout
+
+\begin_layout Subsubsection*
+Dropbox issues
+\end_layout
+
+\begin_layout Itemize
+dbx stuff does not implement serializable or parcelable
+\end_layout
+
+\begin_layout Itemize
+Dropbox synchronisation issues - developed everythng using App specific
+ access then discovered that this doesn't allow any use of shared folders
+ so had to redesign 
+\end_layout
+
+\begin_layout Itemize
+FIles not being closed when app crashes
+\end_layout
+
+\begin_layout Subsubsection*
+Early design considerations 
+\end_layout
+
+\begin_layout Itemize
+who generates keys
+\end_layout
+
+\begin_layout Itemize
+how are keys generated
+\end_layout
+
+\begin_layout Itemize
+how are keys distributed
+\end_layout
+
+\begin_layout Itemize
+how are users/tablets identified
+\end_layout
+
+\begin_layout Itemize
+is there a need to use IMEI
+\end_layout
+
+\begin_layout Itemize
+issue with public key - how would we stop Mallory uploading bogus documents
+\end_layout
+
+\begin_layout Itemize
+issue with where to place trust
+\end_layout
+
+\begin_layout Itemize
+how to manage letting decryption know group - flirted with shared preferences
+\end_layout
+
+\begin_layout Itemize
+use of xml rather than java for managing onClick - why was this done and
+ when is it not applicable
+\end_layout
+
+\begin_layout Itemize
+decision to ignore considerations like battery life and 
+\end_layout
+
+\begin_layout Subsubsection*
+Attacks and issues to consider
+\end_layout
+
+\begin_layout Itemize
+anonymity
+\end_layout
+
+\begin_layout Itemize
+forward secrecy
+\end_layout
+
+\begin_layout Itemize
+revokation
+\end_layout
+
+\begin_layout Itemize
+man-in-middle
+\end_layout
+
+\begin_layout Standard
+Original plan to use web server, then basic client/server - final design
+ involved more sophisticated key sharing so that cloud storage can be used
+\end_layout
+
+\begin_layout Standard
+Original aim for data not to be stored anywhere in plaintext - had to compromise
+ on that due to time limitation but still included in security design
+\end_layout
+
+\begin_layout Standard
+Assumption that encrypted blobs are probably also created on PC - simple
+ PC version of program developed to address this, although no gui developed
+\end_layout
+
+\begin_layout Standard
+Assumption - no static IP so peer to perr sharing is not possible
 \end_layout
 
 \end_body

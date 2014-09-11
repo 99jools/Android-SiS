@@ -47,55 +47,173 @@
 \begin_body
 
 \begin_layout Standard
-Intoduction:
+Title page, including title, author, degree (BEng in Computer Science/Software
+ Engineering, BSc in Artificial Intelligence & Computer Science, MSc in
+ Computer Science, etc.), name of supervisor, name of institution ('School
+ of Computer Science, University of Birmingham'), date.
+\end_layout
+
+\begin_layout Section
+Preamble, including 
+\end_layout
+
+\begin_layout Enumerate
+Table of Contents; 
+\end_layout
+
+\begin_layout Enumerate
+Abstract/synopsis (suggested length: half a page); 
+\end_layout
+
+\begin_layout Enumerate
+Acknowledgements.
+\end_layout
+
+\begin_layout Section
+Introduction:
 \end_layout
 
 \begin_layout Standard
+In this section, you should describe the motivation for the project.
+ Explain whatever background the reader will need in order to understand
+ your contribution.
+ Include a clear and detailed statement of the project aims.
+ Describe the requirement that your software is fulfilling.
+ Explain exactly what your software does; what input or data it requires,
+ and what output or results it delivers, or how it interacts with the user.
+ Concentrate on what your software does; the question of how it does it
+ will be dealt with in later sections.
+\end_layout
+
+\begin_layout Standard
+Conventionally, the last part of the introduction outlines the remainder
+ of the dissertation, explaining what comes in each section.
+\end_layout
+
+\begin_layout Subsection
 Aims
 \end_layout
 
-\begin_layout Standard
+\begin_layout Subsection
 Motivation
 \end_layout
 
-\begin_layout Standard
+\begin_layout Section
 Background
 \end_layout
 
 \begin_layout Standard
-Research
+Further background material.
+ If your project is in a specialised area, it might be appropriate to provide
+ more information than was given in your Introduction.
+ Try to limit yourself just to what the reader needs to know to understand
+ your contribution in the project.
+ Put your work in the context of related existing work, commercial products,
+ and research papers (if relevant).
+\end_layout
+
+\begin_layout Section
+Analysis and Specification
 \end_layout
 
 \begin_layout Standard
-Literature review
+How you analysed the problem, including user requirements.
+ Give an appropriate specification of the solution (note that you are not
+ expected to produce a requirements specification to industrial standards).
 \end_layout
 
-\begin_layout Standard
-Project spec
-\end_layout
-
-\begin_layout Standard
-Aproblem Analysis
-\end_layout
-
-\begin_layout Standard
+\begin_layout Section
 Solution Design
 \end_layout
 
 \begin_layout Standard
-Implementation
+Design.
+ A high-level account of the structure of your software and how it works.
+ What algorithms does it use? How do these compare with alternatives? What
+ were the main design decisions you took, and their justifications? 
+\end_layout
+
+\begin_layout Section
+Implementation & Testing
 \end_layout
 
 \begin_layout Standard
-Testing
+Implementation and testing.
+ A detailed account of the implementation and testing of your software.
+ Explain what data structures you used, and how the algorithms were implemented.
+ What implementation decisions did you take, and why? There is no need to
+ list every little function and procedure and explain its working in elaborate
+ detail; use your judgement on what is appropriate to include.
+ 
 \end_layout
 
-\begin_layout Standard
+\begin_layout Section
 Evaluation
 \end_layout
 
-\begin_layout Standard
+\begin_layout Section
 Summary/conclusions
+\end_layout
+
+\begin_layout Standard
+Conclusions.
+ Here you will summarise your achievements and also the deficiencies of
+ your project.
+ You can also say what you would or could have done, if you had had more
+ time or if things had worked out differently.
+ It is important to be completely honest about the deficiencies and inadequacies
+ of your work, such as they are.
+ Part of your aim is to demonstrate your ability to recognise problems that
+ remain.
+\end_layout
+
+\begin_layout Section
+Structure
+\end_layout
+
+\begin_layout Standard
+User interface.
+ If the interface forms a substantial part of your project (e.g.
+ an HCI project), you will wish to include quite a lot of detail and explanation.
+ In other projects the interface may be less of an important focus.
+ Project management.
+ How have you managed the writing of a substantial piece of software? Discuss
+ the appropriateness of your methods in the light of your experience on
+ the project.
+ Results.
+ You may have produced experimental results or other kinds of results during
+ the course of your project.
+ Appraisal.
+ You should assess the success of your software.
+ How does it compare with the original specification? How reliable is it?
+ How have you tested it? Comment on its robustness (e.g., to unexpected data),
+ performance (e.g., response times or processing times in different situations),
+ etc.
+\end_layout
+
+\begin_layout Standard
+References and/or bibliography.
+ List any books, articles, lecture notes, conference proceedings, manuals
+ or other documents that you refer to in the dissertation and/or that were
+ important in your work.
+ Look in any published book for how to do this.
+ Cite at least the authors, the title, the date and the publication details
+ of each document.
+\end_layout
+
+\begin_layout Standard
+Appendices.
+ The dissertation must contain an appendix explaining file structure on
+ the data CD submitted with it.
+ The appendix must also contain an information on how the code should be
+ run.
+ Other appendices may include documents such as: the project proposal; a
+ selection of experimental data; schedules; testing strategy; risk management
+ plans; glossary; manual; etc.
+ Don't include the source code as an appendix (submit it on CD; see below).
+ Don't include voluminous appendices (these should also be submitted on
+ a CD).
+ 
 \end_layout
 
 \end_body
