@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.4-1.40.13 (MiKTeX 2.9 64-bit) (preloaded format=pdflatex 2013.11.10)  9 SEP 2014 12:10
+This is pdfTeX, Version 3.1415926-2.4-1.40.13 (MiKTeX 2.9 64-bit) (preloaded format=pdflatex 2013.11.10)  22 SEP 2014 12:16
 entering extended mode
 **mainfile.tex
 
@@ -817,9 +817,19 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
 Chapter 2.
 [4
 
-])
+]
+Underfull \hbox (badness 10000) in paragraph at lines 26--27
+
+ []
+
+)
 ("D:\Users\Julie\Documents\GitHub\Android-SiS\Project stuff\Report-latex\folder
-/background.tex" [5]
+/background.tex"
+Underfull \hbox (badness 10000) in paragraph at lines 31--4
+
+ []
+
+[5]
 Chapter 3.
 )
 ("D:\Users\Julie\Documents\GitHub\Android-SiS\Project stuff\Report-latex\folder
@@ -858,7 +868,7 @@ le.aux")
 Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 128.
 Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 128.
 Package rerunfilecheck Info: File `mainfile.out' has not changed.
-(rerunfilecheck)             Checksum: 08E76D6BD79EC2472E1F0F6EC2DB3A8F;732.
+(rerunfilecheck)             Checksum: 8510B99C4CC8A9663C61D7F349EA1763;672.
 
 
 LaTeX Warning: There were undefined references.
@@ -866,13 +876,13 @@ LaTeX Warning: There were undefined references.
 Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 128.
  ) 
 Here is how much of TeX's memory you used:
- 10968 strings out of 493921
- 159708 string characters out of 3145276
- 261226 words of memory out of 3000000
- 14078 multiletter control sequences out of 15000+200000
+ 10965 strings out of 493921
+ 159669 string characters out of 3145276
+ 261187 words of memory out of 3000000
+ 14076 multiletter control sequences out of 15000+200000
  10824 words of font info for 39 fonts, out of 3000000 for 9000
  841 hyphenation exceptions out of 8191
- 42i,14n,43p,686b,1194s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 42i,14n,43p,713b,1194s stack positions out of 5000i,500n,10000p,200000b,50000s
 <D:/Test Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmbx10.pfb><
 D:/Test Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmbx12.pfb><D:/
 Test Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmbxti10.pfb><D:/T
@@ -880,9 +890,9 @@ est Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr10.pfb><D:/Test
 Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy10.pfb><D:/Test Pro
 gram Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmti10.pfb><D:/Test Progra
 m Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmtt10.pfb>
-Output written on mainfile.pdf (10 pages, 125571 bytes).
+Output written on mainfile.pdf (10 pages, 126741 bytes).
 PDF statistics:
- 166 PDF objects out of 1000 (max. 8388607)
- 38 named destinations out of 1000 (max. 500000)
- 105 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 161 PDF objects out of 1000 (max. 8388607)
+ 37 named destinations out of 1000 (max. 500000)
+ 97 words of extra memory for PDF output out of 10000 (max. 10000000)
 

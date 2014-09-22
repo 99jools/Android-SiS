@@ -6,39 +6,26 @@
 \label{cha:introduction}
 \section{Motivation}
 \label{sec:motivation}
-As the popularity of mobile devices increases, there is an increasing tendency to use these as a convenient means of reviewing and revising documents on-the-move. Where these documents are of a confidential nature, particular attention must be paid to the fact that mobile devices are much more subject to compromise that traditional desktops, which are usually more extensively protected by the security measures implemented as part of an organisation's internal network. 
+As the popularity of mobile communications devices increases, there is a growing tendency to use these as a convenient means of reviewing and revising documents on-the-move. Where these documents are of a confidential nature, particular attention must be paid to the fact that mobile devices are more vulnerable to compromise that traditional desktops, which are usually more extensively protected by the security measures implemented as part of an organization's internal network. 
 
-One solution to this is the storing of documents in encrypted format. However, where there is a requirement for collaborative working across more than one organisation, this introduces the additional problem of group key control and distribution in order to mediate access to the documents in question.
+There are multiple mechanisms for keeping files secure on company servers whilst allowing employees the necessary permissions to work collaboratively with sensitive data as required.  As the mobile device culture becomes more prevalent in the workplace, the addition of Mobile Device Management (MDM) applications empowers users to also access corporate data via their mobile devices whilst still allowing IT departments to retain a degree of control over data security.  
 
-\section{Aims and Objectives}
-\label{sec:aims-obj}
+Thus, it is acknowledged that maintaining the security of confidential documents can be challenging, even with the weight of a corporate IT infrastructure behind it.  In this project, we seek to address the issue of allowing groups of users from different organizations (i.e. with no shared IT infrastructure) to collaborate securely on confidential documents and furthermore, to access these documents via a smartphone or tablet computer whilst minimizing the risk of exposing sensitive information to a potential attacker.
 
+
+\section{Project Aims}
+\label{sec:aims}
+The primary aim of this project was to implement a scheme for the secure sharing of confidential documents between small (typically < 15) groups of collaborators, subject to the following constraints:-
 \begin{itemize}
-\item The primary objective of this project was to implement a scheme for the secure sharing of confidential documents within the context of a mobile device which is running the Android operating system.
-
-
-\item The intention is to produce a prototype android app which will serve as a platform to implement and evaluate the various security features. As such, it is anticipated that the app may appear somewhat utilitarian; any additional capacity within the development phase will be channelled into improving functionality and enhancing cryptographic security mechanisms rather than developing a sophisticated graphical user interface.
+\item Groups are self-organizing and represent multiple organizations, hence they cannot draw on the support of any central IT services.
+\item The documents involved are confidential in nature and hence should be encrypted both in transit and at rest.
+\item Group members wish to be able to access documents on a mobile device which is running the Android operating system.
+\item The solution devised should use only well-tested cryptographic techniques and standard libraries and should minimize the amount of trust to be placed in a third-party.
 \end{itemize}
 
-\section{Scope}
-\label{sec:scope}
-
-
-Shared files are held on a secure web server. Since the web server is not part of the trusted group, it should hold no unencrypted files and no ability to perform decryption.
-
-Any database used for performing user authentication, etc. is deemed to be secure.
-
-Any attacker inserting malware onto the mobile device may be able to access files stored on that device but would not be able to access that data whilst held in the device memory.
-
-The requirement to maintain security of documents at all times is such that the processing overhead associated with key management and encryption/decryption is deemed acceptable.
-
-For the purposes of this application, it is not necessary to consider performance and battery usage issues associated with the use of the mobile device, as it is deemed that the application will be run relatively infrequently.
-
-Limitations
-
-In order to protect from active attackers, the initial intention is to ensure that documents are not saved to disk in unencrypted format - an unencrypted document will be held in memory and a simple rich text editor will be implemented within the application to allow reading and editing. It is acknowledged that a fully developed app would need to provide integration with existing 3rd-party document-handling applications. This would require further work and also involve use of secure hardware to ensure that security is maintained at all stages. Currently it is anticipated that such features will be beyond the scope of this project.
-
-It is anticipated that, in a fully-developed system, initial creation of documents would take place in a desktop environment; therefore, implementation of a suitable desktop client is outside the scope of this application.
+\green{ In pursuit of these aims we developed a solution called Securely Share, consisting of a detailed design of the security components of the system and a prototype android application (SecurelyShare) to provide a platform on which to implement and evaluate the various security features.  It was acknowledged that, in a live setting, documents would usually originate on a PC rather than on a tablet device and thus the system would also need to a PC-based component.  However, within the time constraints of the project it was considered infeasible to develop a fully featured system; our solution is submitted rather as a 'proof of concept'.}\\
 
 \section{Overview of Report}
 \label{sec:overview}
+
+The subsequent chapters of this report will deal with the design, implementation and evaluation of the project.  Chapter 2 introduces some of the background material on key technologies used and presents an overview of the android applications reviewed as part of our preliminary research.  In the light of this research, Chapter 3 presents a detailed analysis of the problem and expands the aims outlined in TODO into a more complete project specification, including details of the threat model against which we are attempting to defend. Chapters 3 and 4 deal with the solution design and implementation \red{Need detail of rest of chapters here}\\
