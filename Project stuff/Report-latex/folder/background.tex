@@ -17,20 +17,20 @@ ANDROID PERMISSIONS
 \label{sec:dropbox}
 Dropbox is a cloud storage service that also offers users  automatic backup facilities, file synchronization across devices, and the ability to share files with other users.  It provides multi-platform client applications plus a series of public APIs that enable different subsets of the Dropbox functionality to be integrated into third-party applications.  
 
-On the Android platform, Dropbox offers three APIs:
+On the Android platform, Dropbox offers three APIs, described on its website as follows:-:
 \begin{description}
-	\item[Core] The Core API provides a flexible way to read and write to Dropbox. It includes support for advanced functionality like search, revisions, and restoring files. While Drop-ins and the Sync API are simpler to integrate and use, the Core API can be a better fit for server-based apps.
-	\item[Datastore] With the Datastore API, structured data like contacts, to-do items, and game state can be synced effortlessly across devices.
-	\item[Sync] The Sync API is like having a private filesystem for your app with its very own Dropbox client running in the background. Your app can read, create, and modify files using familiar filesystem-like calls. Behind the scenes, the Sync API takes care of syncing changes to Dropbox and notifying your app when changes are made in Dropbox, so you can update your UI instantly.
+	\item[Core] The Core API includes the most comprehensive functionality including features such as search, file restore, etc. Although more complex than either of the other two to implement, it is often more suitable when developing server-based apps.
+	\item[Datastore] The Datastore API provides a means of storing and synchronizing structured data like contacts, to-do items, and game states across  all the user's devices.
+	\item[Sync] The Sync API provides a file system for accessing and writing files to the user's Dropbox.  The Sync API manages the process of synchronizing file changes to Dropbox and can also provide the app with notification when changes are made to files stored on the server.
 \end{description}
 
-For the purposes of the SecurelyShare app, the Dropbox Sync API was deemed most appropriate.  
+For the purposes of the SecurelyShare app, although it offers the most basic interface to the Dropbox server, the Sync API was deemed to support both the functionality required for the prototype and some additional facilities which could be implemented at a later date in order to improve the overall user experience.
 
-When you start building an app on the Dropbox Platform, you'll need to create a Dropbox app in the App Console. As part of the process, you'll need to choose the right permission for your app. Your app's permission (sometimes referred to as access type in the documentation) determines what data your app can access in a user's Dropbox.  For the Sync API, three levels of permission were applicable:
+Each app on the Dropbox Platform needs to be registered in the App Console and the developer needs to select which permissions the app requires. These permissions determine the type of data that the app can access in the user's Dropbox.  For the Sync API, three levels of permission were applicable:
 \begin{itemize}
-\item App folder
-\item File type
-\item Full Dropbox
+\item App folder:  this creates a folder in the user's Dropbox with the same name as the app, all files relating to the app are kept here and access is restricted to this folder and its subfolders.
+\item File type: the app is given access to the user's entire Dropbox but is restricted only to seeing files of certain types (documents, images, ebooks, etc.)  
+\item Full Dropbox:  the app is given unrestricted access to the user's Dropbox
 
 \end{itemize}
 
