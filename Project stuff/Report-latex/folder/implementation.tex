@@ -4,4 +4,31 @@
 
 \chapter{Implementation}
 \label{cha:imp}
+Implementation and testing. A detailed account of the implementation and testing of your software. Explain what data structures you used, and how the algorithms were implemented. What implementation decisions did you take, and why? There is no need to list every little function and procedure and explain its working in elaborate detail; use your judgement on what is appropriate to include. 
+use of .xps, .xeb
+For improvement, use custom file extension registered with Dropbox then would only ever see encrypted files
+use of bundle for passing data between activities
+use of interface for passing data back from dialog
+Performance problem - introduced buffering
+Splash screen and initialization
+didn't use onStoreState etc. - didn't worry about restoring exact user position as prototype and system stores GUI stuff
+Use of singleton
+Keystores moved to external storage for testing and demonstration purposes.  In a production app, these should be moved back to internal storage in order to take advantage of the additional protection afforded by android’s inbuilt security mechanisms
+Removal of keystores upon 3 successive failed password attempts – al present it just shows a message saying that the keystores have been deleted but doesn’t actually remove them from the device.  In a live system this would need to be implemented.
+• use of xml rather than java for managing onClick - why was this done and when is it not applicable
+Major issues with keystore, certificates and default providers.
+Challenge of absence of built in file manager
+DROPBOX ISSUES
+• dbx stuff does not implement serialisable or parcelable
+• Dropbox synchronization issues - developed everything using App specific access then discovered that this doesn't allow any use of shared folders so had to redesign 
+Challenge of unavailability of BKS on pcs in school
+No access to key tool in android
+Include information about algorithms and key lengths
+Fragments
+TESTING
+Testing - it is ok to say that I tested by inspection
+Explain why unit testing is not meaningful
 
+Issue: if generate [private key on device, it is device specific - ability to import would allow same keystores to be used on multiple devices for4 same user
+
+Assumption that encrypted blobs are probably also created on PC - simple PC version of program developed to address this, although no gui developed

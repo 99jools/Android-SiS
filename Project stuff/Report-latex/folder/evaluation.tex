@@ -1,6 +1,60 @@
-% Created:  
+% Created:  23rd September 2014
 % Author:   Julie Sewards
 % Filename: introduction.tex
 
 \chapter{Evaluation}
 \label{cha:evaluation}
+
+ACHIEVEMENTS
+• What works well
+EXPLAIN HOW WELL SOLUTION MEETS OBJECTIVES -
+WHAT YOU HAVE LEARNED - WHY ANDROID DEVELOPMENT WAS A CHALLENGE
+major challenge of the fact that android is an operating system not a programming language - event driven programming
+FURTHER WORK
+• From prototype to production - next steps
+Write as though you are porviding a basisi for a good cs graduate to continue the work - assume they have already done some android development
+SECURITY EVALUATION
+Did not implement signing in prototype as largely meaningless with self-signed certificates. Purchase of appropriate certificates for authentication of signatures would be required for a complete solution
+Attacks and issues to consider
+• anonymity
+• forward secrecy
+• revokation
+• man-in-middle
+Delete keys after failed password attempts
+Write about how p[rotocols as as important as implementation - need to support this view from academic papers
+Talk about why it doesn't matter that encrypted copies of group key are available on dropbox
+nelenkov.blogspot.co.uk - credential storage enhancements in Android 4.3
+out of bounds channel - side channel attack
+Write about issues to do with public key distribution and the need for signing
+Talk about decision not to implemenmt passing decrypted data directly to another app without needing to write to external storage
+Don't zero out passwords after use
+No implementation of digital signatures so vulnerable to man-in-middle
+Decision to use same password for keystore and aliases - trade off of added security against temptation for users to use insecure passwords or write them down
+
+
+
+
+Group needs admin, although any group member can serve in this role.  It is also possible to delegate this to an administrator who is not part of the group without giving them access to the group encryption key.  However, if the admin was corrupt, the fact that they had access to the private key for signing the encrypted group key would still be a problem.. Useful phrase “a more sophisticated attacker”
+
+Threats:
+•	Malware on device
+•	Attacker snooping around external storage but not one with root access
+•	Lost device with app open (minimal protection) but can unlink from dropbox remotely so would only have a very small window of opportunity to decrypt files currently stored on devicewhilst keystore is unlocked
+•	Could have had different password for each group
+•	Could make user re-enter password for each file – trade off between added security in event of lost device and templtation for user to choose a weaker password
+
+Maybe argue why solution is secure here
+PROTOTYPE EVALUATION
+dependent on exactly correct alias for groupid and folder name
+• Is designed as a “proof of concept”
+• Aspires to use “best practice” within the code 
+• Uses well-tested cryptographic techniques and standard libraries
+• Adheres to the stated security requirements 
+No ability to change passwords etc added at present
+
+EVALUATION OF PERSONAL LEARNING 
+• zero knowledge starting point 
+• Android is a whole new operating system not just ‘Java with extra bits’
+• Unfamiliar API’s operating in a sub-optimal environment 
+
+
