@@ -5,3 +5,24 @@
 \chapter{Analysis and Specification}
 \label{cha:asis-spec}
 
+Key generation and sharing currently done from PC rather than android device 
+Folder management and sharing done outside of app - could be added but may require switching to a more complex dropbox api.  Cost-benefit analysis
+
+Early design considerations 
+• who generates keys
+• how are keys generated
+• how are keys distributed
+• issue with public key - how would we stop Mallory uploading bogus documents
+• issue with where to place trust
+• how to manage letting decryption know group - flirted with shared preferences
+Issue: if generate [rivate key on device, it is device specific - ability to import would allow same keystores to be used on multiple devices for4 same user
+• decision to ignore considerations like battery life and 
+User authentication and need to block after failed attempts
+• large files
+• network connectivity
+• battery life
+• small memory
+• multithreading for gui
+• where to encrypt
+• model to use for file distribution and storage
+Means of distributing certificates is outside of scope - as these are public, any means will do.

@@ -5,8 +5,12 @@
 \BOOKMARK [1][-]{section.2.1}{Motivation}{chapter.2}% 5
 \BOOKMARK [1][-]{section.2.2}{Project Aims}{chapter.2}% 6
 \BOOKMARK [1][-]{section.2.3}{Overview of Report}{chapter.2}% 7
-\BOOKMARK [0][-]{chapter.3}{Background}{}% 8
-\BOOKMARK [0][-]{chapter.4}{Analysis and Specification}{}% 9
-\BOOKMARK [0][-]{chapter.5}{Solution Design}{}% 10
-\BOOKMARK [0][-]{chapter.6}{Implementation}{}% 11
-\BOOKMARK [0][-]{chapter.7}{Evaluation}{}% 12
+\BOOKMARK [0][-]{chapter.3}{Background Material}{}% 8
+\BOOKMARK [1][-]{section.3.1}{Android Architecture and Security Features}{chapter.3}% 9
+\BOOKMARK [2][-]{subsection.3.1.1}{Android Components}{section.3.1}% 10
+\BOOKMARK [2][-]{subsection.3.1.2}{Android Permissions}{section.3.1}% 11
+\BOOKMARK [1][-]{section.3.2}{Dropbox API}{chapter.3}% 12
+\BOOKMARK [0][-]{chapter.4}{Analysis and Specification}{}% 13
+\BOOKMARK [0][-]{chapter.5}{Solution Design}{}% 14
+\BOOKMARK [0][-]{chapter.6}{Implementation}{}% 15
+\BOOKMARK [0][-]{chapter.7}{Evaluation}{}% 16

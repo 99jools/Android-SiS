@@ -13,7 +13,33 @@ In this chapter we will introduce some key aspects of the android architecture a
 
 ANDROID COMPONENTS
 ANDROID PERMISSIONS
-DROPBOX API
+\section{Dropbox API}
+\label{sec:dropbox}
+Dropbox is a cloud storage service that also offers users  automatic backup facilities, file synchronization across devices, and the ability to share files with other users.  It provides multi-platform client applications plus a series of public APIs that enable different subsets of the Dropbox functionality to be integrated into third-party applications.  
+
+On the Android platform, Dropbox offers three APIs:
+\begin{description}
+	\item[Core] The Core API provides a flexible way to read and write to Dropbox. It includes support for advanced functionality like search, revisions, and restoring files. While Drop-ins and the Sync API are simpler to integrate and use, the Core API can be a better fit for server-based apps.
+	\item[Datastore] With the Datastore API, structured data like contacts, to-do items, and game state can be synced effortlessly across devices.
+	\item[Sync] The Sync API is like having a private filesystem for your app with its very own Dropbox client running in the background. Your app can read, create, and modify files using familiar filesystem-like calls. Behind the scenes, the Sync API takes care of syncing changes to Dropbox and notifying your app when changes are made in Dropbox, so you can update your UI instantly.
+\end{description}
+
+For the purposes of the SecurelyShare app, the Dropbox Sync API was deemed most appropriate.  
+
+When you start building an app on the Dropbox Platform, you'll need to create a Dropbox app in the App Console. As part of the process, you'll need to choose the right permission for your app. Your app's permission (sometimes referred to as access type in the documentation) determines what data your app can access in a user's Dropbox.  For the Sync API, three levels of permission were applicable:
+\begin{itemize}
+\item App folder
+\item File type
+\item Full Dropbox
+
+\end{itemize}
+
+
 TPM?
 REVIEW OF OTHER AVAILABLE APPLICATIONS
+\hyperref[label_name]{''http://source.android.com/devices/tech/security/system-and-kernel-level-security"}
+
+
+
+\hyperref[label_name2]{"http://link.springer.com/book/10.1007/978-1-4302-4063-1page-1"}
 
