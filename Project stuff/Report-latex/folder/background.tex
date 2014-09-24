@@ -7,7 +7,38 @@
 
 In this chapter we will introduce some key aspects of the android architecture and its security features.  We will also examine the features offered by the Dropbox API and finally we will look briefly at some of the commercial applications which were reviewed as part of our initial research and which offer some features similar to Securely Share.
 
-\section{Android Architecture and Security Features}
+\section{Android Security Features}
+
+Android provides an open source platform and application environment for mobile devices.  It has a layer based architecture whose foundational component  is the Android Operating System.  Based on the tried and tested Linux 2.6 kernel and modified by Google to include some additional features, it is the comprehensive user permissions model inherent in Linux that is responsible for providing the separation between applications that is a key feature of Android security.  At installation time, each application is assigned a unique user ID (UID);at runtime each application is run as a separate process an as a separate user with its given UID. This create an Application Sandbox, protecting any resources belonging to that application (memory space, files, etc.) from being accessed by another application unless specifically permitted to do so by the developer.
+
+
+
+
+
+
+
+Cryptography
+Android provides a set of cryptographic APIs for use by applications. 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 \subsection{Android Components}
 \subsection{Android Permissions}
 
@@ -19,9 +50,9 @@ Dropbox is a cloud storage service that also offers users  automatic backup faci
 
 On the Android platform, Dropbox offers three APIs, described on its website as follows:-:
 \begin{description}
-	\item[Core] The Core API includes the most comprehensive functionality including features such as search, file restore, etc. Although more complex than either of the other two to implement, it is often more suitable when developing server-based apps.
-	\item[Datastore] The Datastore API provides a means of storing and synchronizing structured data like contacts, to-do items, and game states across  all the user's devices.
-	\item[Sync] The Sync API provides a file system for accessing and writing files to the user's Dropbox.  The Sync API manages the process of synchronizing file changes to Dropbox and can also provide the app with notification when changes are made to files stored on the server.
+	\item[Core]The Core API includes the most comprehensive functionality including features such as search, file restore, etc. Although more complex than either of the other two to implement, it is often more suitable when developing server-based apps.
+	\item[Datastore]The Datastore API provides a means of storing and synchronizing structured data like contacts, to-do items, and game states across  all the user's devices.
+	\item[Sync]The Sync API provides a file system for accessing and writing files to the user's Dropbox.  The Sync API manages the process of synchronizing file changes to Dropbox and can also provide the app with notification when changes are made to files stored on the server.
 \end{description}
 
 For the purposes of the SecurelyShare app, although it offers the most basic interface to the Dropbox server, the Sync API was deemed to support both the functionality required for the prototype and some additional facilities which could be implemented at a later date in order to improve the overall user experience.
@@ -36,7 +67,16 @@ Each app on the Dropbox Platform needs to be registered in the App Console and t
 
 
 TPM?
-REVIEW OF OTHER AVAILABLE APPLICATIONS
+\section{Review of Similar Applications}
+
+One of the security claims of cloud storage provider, Dropbox, is that user data stored on their servers is  fragmented and encrypted using 256-bit AES.  However, although users may feel reassured by these claims, it is also to be noted that since this encryption is applied server-side, the servers also have access to the keys required to decrypt this information.  Furthermore, the   Dropbox privacy policy states that,  
+\begin{quotation}
+"We may disclose your information to third parties if we determine that such disclosure is reasonably necessary to (a) comply with the law; (b) protect any person from death or serious bodily injury; (c) prevent fraud or abuse of Dropbox or our users; or (d) protect Dropbox's property rights. 
+\end{quotation} 
+
+It may therefore come as little surprise that there are a number of Android apps available that claim to integrate with Dropbox and other similar cloud services, offering  client-side encryption to ensure that even if files were disclosed, the organisations concerned would have no access to decryption keys.
+Android apps offering file encryption in conjunction with cloud storage integration.  
+
 \hyperref[label_name]{''http://source.android.com/devices/tech/security/system-and-kernel-level-security"}
 
 

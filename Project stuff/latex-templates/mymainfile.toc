@@ -1,5 +1,0 @@
-\contentsline {chapter}{\numberline {1}Chapter Heading}{2}{chapter.1}
-\contentsline {section}{\numberline {1.1}Section Heading}{2}{section.1.1}
-\contentsline {subsection}{\numberline {1.1.1}SubSection Heading}{2}{subsection.1.1.1}
-\contentsline {subsubsection}{SubSubSection Heading}{2}{section*.2}
-\contentsline {paragraph}{Paragraph Heading}{2}{section*.3}
