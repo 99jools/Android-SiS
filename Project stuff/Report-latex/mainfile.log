@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.4-1.40.13 (MiKTeX 2.9 64-bit) (preloaded format=pdflatex 2013.11.10)  24 SEP 2014 22:48
+This is pdfTeX, Version 3.1415926-2.4-1.40.13 (MiKTeX 2.9 64-bit) (preloaded format=pdflatex 2013.11.10)  25 SEP 2014 01:04
 entering extended mode
 **mainfile.tex
 
@@ -817,48 +817,48 @@ Chapter 3.
 
 ] [7]
 
-LaTeX Warning: Hyper reference `label_name' on page 8 undefined on input line 7
-9.
+LaTeX Warning: Hyper reference `label_name' on page 8 undefined on input line 1
+13.
 
 
-Overfull \hbox (47.90533pt too wide) in paragraph at lines 79--80
+Overfull \hbox (47.90533pt too wide) in paragraph at lines 113--114
 []\OT1/cmr/m/n/10.95 ''http://source.android.com/devices/tech/security/system-a
 nd-kernel-level-security" 
  []
 
 
 LaTeX Warning: Hyper reference `label_name2' on page 8 undefined on input line 
-83.
+117.
 
 )
 ("D:\Users\Julie\Documents\GitHub\Android-SiS\Project stuff\Report-latex\folder
-/analysis-and-spec.tex" [8]
+/analysis-and-spec.tex" [8] [9]
 Chapter 4.
 )
 ("D:\Users\Julie\Documents\GitHub\Android-SiS\Project stuff\Report-latex\folder
-/solution-design.tex" [9
+/solution-design.tex" [10
 
 ]
 Chapter 5.
 )
 ("D:\Users\Julie\Documents\GitHub\Android-SiS\Project stuff\Report-latex\folder
-/implementation.tex" [10
+/implementation.tex" [11
 
 ]
 Chapter 6.
 )
 ("D:\Users\Julie\Documents\GitHub\Android-SiS\Project stuff\Report-latex\folder
-/evaluation.tex" [11
+/evaluation.tex" [12
 
 ]
 Chapter 7.
-[12
+[13
 
 ])
 ("D:\Users\Julie\Documents\GitHub\Android-SiS\Project stuff\Report-latex\mainfi
-le.bbl" [13])
+le.bbl" [14])
 Package atveryend Info: Empty hook `BeforeClearDocument' on input line 128.
- [14
+ [15
 
 ]
 Package atveryend Info: Empty hook `AfterLastShipout' on input line 128.
@@ -876,13 +876,13 @@ LaTeX Warning: There were undefined references.
 Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 128.
  ) 
 Here is how much of TeX's memory you used:
- 10991 strings out of 493921
- 160150 string characters out of 3145276
- 261414 words of memory out of 3000000
- 14085 multiletter control sequences out of 15000+200000
+ 10994 strings out of 493921
+ 160192 string characters out of 3145276
+ 261451 words of memory out of 3000000
+ 14086 multiletter control sequences out of 15000+200000
  10824 words of font info for 39 fonts, out of 3000000 for 9000
  841 hyphenation exceptions out of 8191
- 42i,14n,43p,911b,1194s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 42i,14n,43p,1453b,1194s stack positions out of 5000i,500n,10000p,200000b,50000s
 <D:/Test Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmbx10.pfb><
 D:/Test Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmbx12.pfb><D:/
 Test Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmbxti10.pfb><D:/T
@@ -890,9 +890,9 @@ est Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr10.pfb><D:/Test
 Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy10.pfb><D:/Test Pro
 gram Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmti10.pfb><D:/Test Progra
 m Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmtt10.pfb>
-Output written on mainfile.pdf (14 pages, 152898 bytes).
+Output written on mainfile.pdf (15 pages, 156612 bytes).
 PDF statistics:
- 220 PDF objects out of 1000 (max. 8388607)
- 52 named destinations out of 1000 (max. 500000)
+ 226 PDF objects out of 1000 (max. 8388607)
+ 54 named destinations out of 1000 (max. 500000)
  137 words of extra memory for PDF output out of 10000 (max. 10000000)
 

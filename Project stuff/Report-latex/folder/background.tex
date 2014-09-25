@@ -67,15 +67,48 @@ Each app on the Dropbox Platform needs to be registered in the App Console and t
 
 
 TPM?
-\section{Review of Similar Applications}
+\section{Review of Related Products}
 
 One of the security claims of cloud storage provider, Dropbox, is that user data stored on their servers is  fragmented and encrypted using 256-bit AES.  However, although users may feel reassured by these claims, it is also to be noted that since this encryption is applied server-side, the servers also have access to the keys required to decrypt this information.  Furthermore, the   Dropbox privacy policy states that,  
 \begin{quotation}
 "We may disclose your information to third parties if we determine that such disclosure is reasonably necessary to (a) comply with the law; (b) protect any person from death or serious bodily injury; (c) prevent fraud or abuse of Dropbox or our users; or (d) protect Dropbox's property rights. 
 \end{quotation} 
 
-It may therefore come as little surprise that there are a number of Android apps available that claim to integrate with Dropbox and other similar cloud services, offering  client-side encryption to ensure that even if files were disclosed, the organisations concerned would have no access to decryption keys.
-Android apps offering file encryption in conjunction with cloud storage integration.  
+It may therefore come as little surprise that there are an increasing  number of client-side encryption applications available that  integrate with Dropbox and other similar cloud services  to ensure that, even if files are disclosed, the organisations concerned would have no access to decryption keys.
+
+Although there are a significant number of encryption applications available, our research was not able to identify any robust security comparison of the various products on offer.  We decided to consider two commercially produced applications, Boxcryptor and SafeMonk 
+
+When trying to evaluate these products there appeared to be a paucity of robust reviews from respected members of the security fraternity and many of the review that were available seemed to focus more on the usability of applications rather than on their security features.  One of the only ways that a security application can truly be evaluated is if the source code is available for community scrutiny as security flaws often fail to come to light just from using the product.  Most of the products we looked at seemed to be designed primarily for personal file protect - some professed to offer sharing although some of the less polished versions required manual sharing of encryption keys.  Some of them were unforthcoming about exactly how they work
+
+Two products that we examined in greater details, partly because they seemedto be higher profile products although that may simply be due to the fact that they were commercial products with a paid version as well as the free version that we tested and hence had larger marketing budgets.  It may also be because they had more security credibility however there was a common trend among the examined applications to use AES for encryption of the actual files themselves and some implementation of RSA to manage the key exchange,  In all the cases that we examined there was a central server that was used for key management, although both Boxcryptor and Safemonk were keen to strees that they were "tapproof" or "zero-knowledge" servers and had no access to key material that would enable them to decrypt user files.  There justification for storing the user's private key on the server was that it would allow the user to install the application on multiple devices and they both used password-based encryption (PBE) in order to secure the key on the server.  Although the servers use key-stretching algorithms to derive the encryption keys, we should always be aware that users can be very poor at choosing strong passwords and at keeping them secure. (In a study of password reuse, Bonneau \cite{das2014tangled} observed that 43 percent of  users reused a password across multiple sites)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 \hyperref[label_name]{''http://source.android.com/devices/tech/security/system-and-kernel-level-security"}
 

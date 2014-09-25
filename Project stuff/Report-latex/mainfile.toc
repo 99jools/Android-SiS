@@ -13,7 +13,7 @@
 \contentsline {subsection}{\numberline {3.1.2}Android Permissions}{6}{subsection.3.1.2}
 \contentsline {section}{\numberline {3.2}Dropbox API}{7}{section.3.2}
 \contentsline {section}{\numberline {3.3}Review of Similar Applications}{7}{section.3.3}
-\contentsline {chapter}{\numberline {4}Analysis and Specification}{9}{chapter.4}
-\contentsline {chapter}{\numberline {5}Solution Design}{10}{chapter.5}
-\contentsline {chapter}{\numberline {6}Implementation}{11}{chapter.6}
-\contentsline {chapter}{\numberline {7}Evaluation}{12}{chapter.7}
+\contentsline {chapter}{\numberline {4}Analysis and Specification}{10}{chapter.4}
+\contentsline {chapter}{\numberline {5}Solution Design}{11}{chapter.5}
+\contentsline {chapter}{\numberline {6}Implementation}{12}{chapter.6}
+\contentsline {chapter}{\numberline {7}Evaluation}{13}{chapter.7}
