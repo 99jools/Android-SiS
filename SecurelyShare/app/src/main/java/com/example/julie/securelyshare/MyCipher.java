@@ -18,8 +18,8 @@ import javax.crypto.spec.SecretKeySpec;
 public class MyCipher {
     public static final String CIPHER_ALGORITHM = "AES/CBC/PKCS5Padding";
     public static final int AES_BLOCKSIZE = 16;   //16 bytes = 128 bits
-    public static final int AES_KEYLENGTH = 128;  //in bits
-    // this could be changed to 192 or 256 but not all android devices support larger keys
+    public static final int AES_KEYLENGTH = 256;  //in bits
+    //may decide to make this a user option later
 
     private SecretKeySpec groupSKS;
     private String groupID;

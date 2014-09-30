@@ -6,7 +6,7 @@
 \label{cha:security}
 The issue with our solution scalability is just the admin tsat of setting up the dropbox folder, adding all the users and getting all the certificate and importing into the keystore in order to run the initial key generation.  In our solution it is possiblethat this function could be delegated tosomeone who isn’t part of the trusted group and they would never have any access to the shared secret.  However it is important that they are honest at the initial setup phase or it would be possible for them to insert Mallory’s certificate into the keystore and hence they would generate a copy of the encryption key for Mallory.  However, as long as they are honest at the outset, there would be no opportunity for Mallory to subvert them at a later stage as being able to get access to the keystore containing all the certificates wouln’t give any advantage.  Gaining access to the Dropbox forlder would enable Mallory to see what files were in there but without private keys he woulnt be able to decrypt anything.
 
-
+The tasks involved in setting up a new group could be completed by a member of the group or delegated to administrator. The relative merits of each approach and any modifications required to the code are discussed in Chapter \ref{cha:security} 
 
 With our scheme, if delegating the admin function it is important that the membership of the group is known at the outset as the encryption key is ephemeral, however it could be the subject of further work to extend the android application to permit the Android application to include the capacity to share the group key with a new user.  This would need to be considered carefully as it would provide an additional means of Mallory getting access to the key, even if he only had temporary access to the device whilst the application was unlocked.  There is currently no means of revoking a key, however the fact that we are also making use of the access control afforded by Dropbox would also give some protection in the event that a member left the group as their access to the Dbx folder could be revoked.  This is one of the reasons why we suggest our solution my not be scalable to large groups as in this instance the membership is much more likely to be volatile.  It could be the subject of further work consider alternative key sharing mechanisms to see whether improvement could be achieved here without introducing the requirement for a central key management server.
 
@@ -30,6 +30,8 @@ public wifi and know that data remains secure at all times
  
  
  specifically designed to avoid central server for key management.  Essential to avoid running our own and placing trust in 3rd party.  Our solution is similar to commercial ones - they make much of being zero-knowledge but't  essentially this is a matter of trust as can't examine their code.
+ 
+ Problem with API meant that we had to generate keystore for private key and corresponding certificate chain manually.  Further work would be to redesign this part of the app using the additional ffeatures offered in Android 4.3.  Currently consider this to be one of the weakest parts of the design - by the time I realised that this could have been done better, it was too late to go back and change it.
  
  
  

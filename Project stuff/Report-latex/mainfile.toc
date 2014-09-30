@@ -5,16 +5,17 @@
 \contentsline {chapter}{\numberline {2}Background Material}{4}{chapter.2}
 \contentsline {section}{\numberline {2.1}Android Security Features}{4}{section.2.1}
 \contentsline {section}{\numberline {2.2}Dropbox API}{4}{section.2.2}
-\contentsline {section}{\numberline {2.3}Review of Related Products}{5}{section.2.3}
+\contentsline {section}{\numberline {2.3}Review of Related Work }{5}{section.2.3}
+\contentsline {section}{\numberline {2.4}Review of Other Products}{5}{section.2.4}
 \contentsline {chapter}{\numberline {3}Analysis and Design}{7}{chapter.3}
-\contentsline {section}{\numberline {3.1}Problem Analysis}{7}{section.3.1}
-\contentsline {subsection}{\numberline {3.1.1}Assumptions}{7}{subsection.3.1.1}
-\contentsline {subsection}{\numberline {3.1.2}Threat and Trust Model}{8}{subsection.3.1.2}
-\contentsline {section}{\numberline {3.2}Document Storage}{9}{section.3.2}
-\contentsline {section}{\numberline {3.3}Cryptograpic Design}{9}{section.3.3}
-\contentsline {section}{\numberline {3.4}Group Administration}{10}{section.3.4}
-\contentsline {section}{\numberline {3.5}Prototype Design}{10}{section.3.5}
+\contentsline {section}{\numberline {3.1}Overview}{7}{section.3.1}
+\contentsline {section}{\numberline {3.2}Problem Analysis}{7}{section.3.2}
+\contentsline {section}{\numberline {3.3}Document Storage}{9}{section.3.3}
+\contentsline {section}{\numberline {3.4}Cryptographic Design}{9}{section.3.4}
+\contentsline {section}{\numberline {3.5}Group Administration}{10}{section.3.5}
+\contentsline {section}{\numberline {3.6}Prototype Design}{10}{section.3.6}
 \contentsline {chapter}{\numberline {4}Implementation}{11}{chapter.4}
 \contentsline {chapter}{\numberline {5}Project Management}{13}{chapter.5}
 \contentsline {chapter}{\numberline {6}Security}{15}{chapter.6}
 \contentsline {chapter}{\numberline {7}Evaluation}{17}{chapter.7}
+\contentsline {chapter}{\numberline {8}Conclusion}{19}{chapter.8}
