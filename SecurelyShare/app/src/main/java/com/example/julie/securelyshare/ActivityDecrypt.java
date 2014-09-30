@@ -6,6 +6,7 @@ import android.app.ListActivity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -113,6 +114,8 @@ public class ActivityDecrypt extends ListActivity {
         mAdapter.notifyDataSetChanged();
     }
 
+
+
     private void doDecrypt(DbxFileInfo fileInfo) throws IOException, MyKeystoreAccessException,
             GeneralSecurityException, MyMissingKeyException {
         //open a file input stream with given path
@@ -122,13 +125,17 @@ public class ActivityDecrypt extends ListActivity {
         File myPlaintextFile = getFos(fileInfo.path.getName());
         FileOutputStream fos = new FileOutputStream(myPlaintextFile);
         FileCryptor.decryptFile(fis, fos);
-        dbxIn.close();
+
         // start new intent to open
         Uri myUri = Uri.fromFile(myPlaintextFile);
         Intent intent = new Intent(Intent.ACTION_VIEW);
         intent.setData(myUri);
+        dbxIn.close();
         startActivity(intent);
+
     }
+
+
 
     private File getFos(String out) throws IOException {
         //sort out filemame for decrypted file
@@ -162,6 +169,28 @@ public class ActivityDecrypt extends ListActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+Log.e("Destroy", " am in onDestroy method");
+        try {
+            File dir = getExternalCacheDir();
+            String[] tempFiles = dir.list();
+            for (int i = 0; i < tempFiles.length; i++) {
+                File f = new File(dir+"/"+ tempFiles[i]);
+                        f.delete();
+            }
+
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
+    }
+
+
+
 
     public void showToast(String message) {
         Toast toast = Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG);
