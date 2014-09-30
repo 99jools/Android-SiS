@@ -2,11 +2,57 @@
 % Author:   Julie Sewards
 % Filename: analysis-and-spec.tex
 
-\chapter{Analysis and Specification}
+\chapter{Analysis and Design}
 \label{cha:analysis}
 
-Key generation and sharing currently done from PC rather than android device 
-Folder management and sharing done outside of app - could be added but may require switching to a more complex dropbox api.  Cost-benefit analysis
+In this chapter we will present some some of the salient points from our initial analysis of the problem, detail the threat model against which we are trying to protect and any significant assumptions made which influenced our design decisions, and finally outline our solution design.  It should be noted at this point that we had abolutely no prior experience of developing for (or even using) an Android device, therefore this phase was highly iterative.  As our familiarilty and understanding of the capabilities of Android platform increased and as the design evolved, we were able to revisit these assumptions and the threat model in order to strengthen the security of the overall system. It is for this reason that we feel that presenting this materal in a single chapter is more reflective of the underlying process.
+
+At the outset, the following key areas were identified that would need further research:
+\begin{itemize}
+\item finalisation of the threat model and main assumptions
+\item mechanism to be used for storage and distribution of shared documents
+\item security design, including any key generation and distribution schemes
+\item processes involved in setting up or managing groups
+\item design of the prototype application, including any steps required to protect sensitive key material
+\end{itemize}
+
+
+\section{Problem Analysis}
+\subsection{Assumptions}
+
+As outlined in the introduction, Securely Share is intended for use by small (typically of the order of 3-15 members), autonomous groups, with a largely static membership.  This facor was significant in enabling us to discard a number of complex key distribution protocols which were designed for much larger or more volatile groups.  It was also envisaged that groups would have lifetime measured in months, rather than days, hence a small administrative overhead in setting up the group could be considered acceptable in terms of the group duration. 
+
+For practical purposes, it is likely that origination of sensitive documents would be carried out on a PC, as much for the practicality of typing as for any security reasons.  Therefore we are aware that one or more desktop client applications would be required for any fully-implemented solution.  For the purposes of this "proof of concept" project, it was decided that an outline version would be created in Java in order to verify the cryptography, but that time would not permit this to be deveoped and tested to a level where it could be submitted as part of the finished product.  
+
+As discussed in section \ref{sec:crypto} the decision was made to use digital signatures as part of the security design. This generates the requirement for every group member to have a certificate that can be used for authentication. It is left to the discretion of each group to determine  whether this should be issued from a recognised Certificate Authority or whether self-signed certificates are to be allowed.  (For small groups, the process of manually confirmiing the certificate fingerprint by telephone may be acceptable, for example.) 
+
+A final assumption was that the user acknowledges the sensitivity of his data and has taken reasonable steps to protect it, including the deployment of a device locking code and strong passwords.
+
+\subsection{Threat and Trust Model}
+For the purposes of this project, the following assumption regarding the threat model were made:-
+\begin{itemize}
+\item a group member may consider all other group members as trusted.
+\item the Certificate Authority may be considered as trusted.  
+\item all data in transit or at rest on a third-party server is considered to be exposed to an attacker.
+\item the prototype Android application should aim to protect against an attacker accessing the device's external storage.  
+\item  where an attacker is able to gain root access to the device, a casual attacker would then be able to access the application's protected internal storage and the prototype should take measures to protect against this.  The prototype is not required to implement software protection against a more sophisticated attacker with root access, however we are aware that the use of hardware-based cryptography via a Trusted PlatformModule (TPM) would ameliorate the effect of this type of attack
+\end{itemize}
+
+
+\section{Document Storage}
+
+need to paste the stuff about why we implemented dropbox and not a custom server
+
+Following initial analysis of the problem it was decided that the best solution, rather than trying to implement a custom server, would be to leverage the facilities already available via one of the widely used cloud storage services.  Dropbox, Google Drive, OneDrive and Box were considered.  Initially the plan was to allow the user to have the choice of which service they wished to use as a number of personal encryption apps have this facility.  It quickly became apparent that accommodating all of the different APIs was going to be beyond the scope of our prototype and so we decided to select just one.  We chose Dropbox because it was already familiar, it has good cross-platform support including a Linux client which was important as this was the development and testing environment being used.  Although in the production level design it would be desirable to allow the user to choose which cloud storage service they wished to use, clearly to implement for multiple systems was infeasible within the scope of this project it was decided that a single API would be used for the purposes of the prototype as we were attempting proof of concept and this would be substantially the same whichever API was used.
+
+Client server model was considered but has an IT overhead and , would need to ensure communications are secure.  Could use server just to create and distribute keys but requires trusting server and needs user to authenticate to server
+Working on the basis that we wanted the simplest viable solution, looked at using existing cloud services that offer an android API
+
+Intended to provide the user with a choice of which online file server to use but having begun the implementation using Dropbox, it quickly became apparent that attempting to design for multiple APIs was not realistic within the available timeframe, hence it was decided to develop the prototype with Dropbox initially as this is widely used and is well supported in both Windows and Linux environments. 
+\section{Cryptograpic Design}
+
+Reasons why didn't choose ID based cryptography or password based solution - aim is to use simplest solution that works.  Refer to examples which use PBE.  Happy to use it for protection od key material on device as even with password, attacker would have to have access to device or would requre more sophisticated remote attack which is out of our scope.  
+
 
 Early design considerations 
 • who generates keys
@@ -14,15 +60,26 @@ Early design considerations
 • how are keys distributed
 • issue with public key - how would we stop Mallory uploading bogus documents
 • issue with where to place trust
+
+\section{Group Administration}
+manual processes as well as design of java application
+
+Admin - could be done by group member or delegated to administrator. Relative merits of each approach and any modifications required to the code are discussed in Chapter \ref{cha:security} 
+
+include details of manual admin tasks and screenshot of folder structure.
+
+Folder management and sharing done outside of app - could be added but may require switching to a more complex dropbox api.  Cost-benefit analysis
+
+\section{Prototype Design}
+
+
+Althou prototype allows for encryption of files stored on the device, in practice the very fact that there are files on the device that the user wants to encrypt violates our central tenet that plaintext should never be stored to disc. 
+
+
 • how to manage letting decryption know group - flirted with shared preferences
 Issue: if generate [rivate key on device, it is device specific - ability to import would allow same keystores to be used on multiple devices for4 same user
-• decision to ignore considerations like battery life and 
-User authentication and need to block after failed attempts
-• large files
-• network connectivity
-• battery life
-• small memory
-• multithreading for gui
-• where to encrypt
-• model to use for file distribution and storage
-Means of distributing certificates is outside of scope - as these are public, any means will do.
+
+
+
+This was a hybrid project so the design was just as important as the actual implementation.  Since at the outset we had no experience of developing for the Android platform and little experience of developing security applications the design process was itself an iterative one
+

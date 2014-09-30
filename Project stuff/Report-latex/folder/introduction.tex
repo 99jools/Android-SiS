@@ -19,13 +19,15 @@ The primary aim of this project was to implement a scheme to facilitate secure s
 \begin{itemize}
 \item Groups are self-organizing and represent multiple organizations, hence they cannot draw on the support of any central IT services.
 \item The documents involved are confidential in nature and hence should be encrypted both in transit and at rest.
-\item Group members wish to be able to access documents on a mobile device which is running the Android operating system.
+\item Group members wish to be able to access documents on a mobile device running the Android operating system (which may involve use of public wifi) without compromising security 
 \item The solution devised should use only well-tested cryptographic techniques and standard libraries and should minimize the amount of trust to be placed in a third-party.
 \end{itemize}
+
+Our secondary objective was to gain an understanding of the basic features of the Android platform, explore some of the techniques involved in developing  for mobile devices and some of the challenges encountered in working in this type of event-drivent environment.
 
 \green{ In pursuit of these aims we developed a solution called Securely Share, consisting of a detailed design of the security components of the system and a prototype android application (SecurelyShare) to provide a platform on which to implement and evaluate the various security features.  It was acknowledged that, in a live setting, documents would usually originate on a PC rather than on a tablet device and thus the system would also need to a PC-based component.  However, within the time constraints of the project it was considered infeasible to develop a fully featured system; our solution is submitted rather as a 'proof of concept'.}\\
 
 \section{Overview of Report}
 \label{sec:overview}
 
-The subsequent chapters of this report will deal with the design, implementation and evaluation of the project.  Chapter \ref{cha:background} introduces some of the background material on key technologies used and presents an overview of the android applications reviewed as part of our preliminary research.  In the light of this research, Chapter \ref{cha:analysis} presents a detailed analysis of the problem and expands the aims outlined in TODO into a more complete project specification, including details of the threat model against which we are attempting to defend. Chapters \ref{cha:design} and \ref{cha:imp}  deal with the solution design and implementation \red{Need detail of rest of chapters here}\\
+The subsequent chapters of this report will deal with the design, implementation and evaluation of the project.  Chapter \ref{cha:background} introduces some of the background material on key technologies used and presents an overview of the Android applications reviewed as part of our preliminary research.  In the light of this research, Chapter \ref{cha:analysis} presents a detailed analysis of the problem, defines the threat model against which we are attempting to defend, and provides an outline of the final solution design. Chapters \ref{cha:imp} and \ref{cha:mgt} provides details of the implementation, testing and management of the project, Chapter \ref{cha:security} reviews the security features and finally Chapter \ref{cha:eval} presents and evaluation of overall success of project and gives recommendations for future work.

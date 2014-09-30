@@ -25,6 +25,15 @@ Challenge of unavailability of BKS on pcs in school
 No access to key tool in android
 Include information about algorithms and key lengths
 Fragments
+
+User authentication and need to block after failed attempts
+• large files
+• network connectivity
+• battery life
+• small memory
+• multithreading for gui
+• where to encrypt
+• model to use for file distribution and storage
 TESTING
 Testing - it is ok to say that I tested by inspection
 Explain why unit testing is not meaningful
@@ -32,3 +41,25 @@ Explain why unit testing is not meaningful
 Issue: if generate [private key on device, it is device specific - ability to import would allow same keystores to be used on multiple devices for4 same user
 
 Assumption that encrypted blobs are probably also created on PC - simple PC version of program developed to address this, although no gui developed
+
+There were a number of design decision points where it was possible to do something in the prototype, it was possible that the user may want to do it infrequently but it was perfectly possible to do it from elsewhere, for example there are perfectly good mechanisms for creating and sharing Dbx folder  -and at present there is no means of sharing folders within the Sync API so there seemed little point in introducing the complexity of switching to a more complex API just for functionality that is easily done elsewhere and would only be required infrequently (it is really only a task required ast group setup and our view is that a group would be likely to have a lifetime of months
+
+Use of Java program running on PC to develop encryption to begin with
+No ability to recover keys if app gets deleted - could re download from Dropbox as long as private key and certificate backed up. 
+
+3 parts
+
+Admin system – basic with no front end.  Designed to run on system with Dropbox installed and running so files uploaded to dropbox simply by saving them in the correct location rather than worrying about using Dropbox API within program.
+
+	Android prototype
+	PC version in java that just does basic encryption/decryption.  Used primarily for intial development and testing of encryption mechanisms. Single username hardcoded for testing. Fully developed application with user interface outside of scope of this project.
+	
+	Android has inherent protection by sandboxing apps so files in internal storage have extra protection. FOr the purposes of development and testing, files written to app protected external storage so that they can be inspected with a file manager without the need to root the device
+
+decision not to implement threads at this stage
+
+When app is deleted, files should be deleted so keystore would be removed from device
+
+I would develop prototype for a single API and test on one device – no backwards compatibility hence no need to use compatibility libraries eg for Action Bar
+
+Write about choice of device
