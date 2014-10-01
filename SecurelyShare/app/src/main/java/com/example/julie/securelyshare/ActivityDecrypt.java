@@ -4,7 +4,6 @@ package com.example.julie.securelyshare;
 import android.app.FragmentTransaction;
 import android.app.ListActivity;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -124,12 +123,16 @@ public class ActivityDecrypt extends ListActivity {
 
         File myPlaintextFile = getFos(fileInfo.path.getName());
         FileOutputStream fos = new FileOutputStream(myPlaintextFile);
-        FileCryptor.decryptFile(fis, fos);
+//        FileCryptor.decryptFile(fis, fos);
+        String myText = FileCryptor.decryptToString(fis);
 
         // start new intent to open
-        Uri myUri = Uri.fromFile(myPlaintextFile);
-        Intent intent = new Intent(Intent.ACTION_VIEW);
-        intent.setData(myUri);
+//        Uri myUri = Uri.fromFile(myPlaintextFile);
+//        Intent intent = new Intent(Intent.ACTION_VIEW);
+//        intent.setData(myUri);
+        Intent intent = new Intent(this, ActivityCreate.class);
+        intent.putExtra("myText", myText);
+ fos.close();
         dbxIn.close();
         startActivity(intent);
 

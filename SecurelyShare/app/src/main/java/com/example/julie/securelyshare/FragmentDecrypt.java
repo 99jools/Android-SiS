@@ -10,7 +10,6 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.dropbox.sync.android.DbxException;
-import com.dropbox.sync.android.DbxFileInfo;
 
 
 /**
@@ -48,11 +47,7 @@ public class FragmentDecrypt extends Fragment  {
 
     }
 
-    public void decryptAsString(DbxFileInfo mDbxFileInfo){
-        showToast("I am going to decrypt " + mDbxFileInfo.path.getName());
-    }
-
-    public void showToast(String message) {
+     public void showToast(String message) {
         Toast toast = Toast.makeText(getActivity(), message, Toast.LENGTH_LONG);
         toast.show();
     }

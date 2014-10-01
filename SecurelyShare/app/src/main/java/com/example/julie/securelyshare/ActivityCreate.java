@@ -22,7 +22,7 @@ public class ActivityCreate extends ActivityMain
     private String groupID;
     private Spinner spinner;
     private AppKeystore aks;
-    String plaintextIn;
+    String plaintextIn = "";
 
     EditText fileName;
 
@@ -37,9 +37,11 @@ public class ActivityCreate extends ActivityMain
         } catch (MyKeystoreAccessException e) {
             e.printStackTrace();
         }
-
         View detailsFrame = findViewById(R.id.details);
-
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            plaintextIn = extras.getString("myText");
+        }
     }
 
     @Override
@@ -62,10 +64,6 @@ public class ActivityCreate extends ActivityMain
         spinner.setAdapter(adapter);
         spinner.setOnItemSelectedListener(this);
 
-
-
-
-
     }
 
     @Override
@@ -76,7 +74,7 @@ public class ActivityCreate extends ActivityMain
                 .findFragmentById(R.id.details);
         if (details == null) {
             // Make new fragment to input data
-            details = FragmentDetails.newInstance();
+            details = FragmentDetails.newInstance(plaintextIn);
             // Execute a transaction, replacing any existing fragment
             // with this one inside the frame.
             FragmentTransaction ft = getFragmentManager()

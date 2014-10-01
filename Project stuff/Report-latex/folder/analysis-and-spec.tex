@@ -102,7 +102,7 @@ The use of digital signatures is required for each user to be able to validate t
 
 Since tablet devices are ideally suited for reading documents, the major requirement of this app is that it is able to take encrypted documents stored in the user's Dropbox,  decrypt them with the appropriate symmetric key and present the original text to the user in a readable format.
 
-As outlined in the Problem Analysis  (\ref{sec:prob}), it is unlikely that large documents will be originated from within SecurelyShare so our design just included a simple  edit window for text input which can then be saved to Dropbox as an encrypted file.  For completeness, and to aid testing, we also included the ability to encrypt a file which already exists on the device ( although this should not really be necessary as the existence of such files  violates our central tenet that plaintext should never be stored to disc). 
+As outlined in the Problem Analysis  (\ref{sec:prob}), it is unlikely that large documents will be originated from within SecurelyShare so our design just included a simple  edit window for text input which can then be saved to Dropbox as an encrypted file.  For completeness, and to aid testing, we also included the ability to encrypt a file which already exists on the device (although this is not to be encouraged as such files may have been exposed to an attacker prior to encryption).
 
 \subsection*{Design}
 

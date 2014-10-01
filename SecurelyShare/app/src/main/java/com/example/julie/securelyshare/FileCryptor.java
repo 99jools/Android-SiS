@@ -112,6 +112,49 @@ int b = 0;
 
 
 
+
+
+    public static String decryptToString(FileInputStream fis)
+            throws MyKeystoreAccessException, MyMissingKeyException {
+        MyCipher decryptionCipher=null;
+        String outString = "";
+        // read meta data from input stream
+        int b = 0;
+        byte [] bytes = new byte[4];
+        try {
+            b=fis.read(bytes);
+            int len = ByteBuffer.wrap(bytes).getInt();
+            byte[] gaba = new byte[len];
+            b=fis.read(gaba);
+            byte[] initVector = new byte[MyCipher.AES_BLOCKSIZE];
+            b=fis.read(initVector);
+
+            //setup decryption
+            decryptionCipher = new MyCipher(gaba, initVector);
+
+            CipherInputStream cis = new CipherInputStream(fis,decryptionCipher.getmCipher() );
+
+            //read and decrypt file
+            byte[] block = new byte[1024*MyCipher.AES_BLOCKSIZE];
+            int bytesRead=0;
+            bytesRead = cis.read(block);
+
+
+            while (bytesRead != -1) {
+                outString = outString + new String(block, "UTF-8");
+
+                bytesRead = cis.read(block);  //read next block
+            }
+
+            cis.close();
+            fis.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return outString;
+    } //end decryptFile
+
 } //end FileCryptor
 
 
