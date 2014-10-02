@@ -13,9 +13,11 @@
 \BOOKMARK [1][-]{section.3.3}{Document Storage}{chapter.3}% 13
 \BOOKMARK [1][-]{section.3.4}{Cryptographic Design}{chapter.3}% 14
 \BOOKMARK [1][-]{section.3.5}{Group Administration}{chapter.3}% 15
-\BOOKMARK [1][-]{section.3.6}{Prototype Design}{chapter.3}% 16
+\BOOKMARK [1][-]{section.3.6}{Android Prototype }{chapter.3}% 16
 \BOOKMARK [0][-]{chapter.4}{Implementation}{}% 17
-\BOOKMARK [0][-]{chapter.5}{Project Management}{}% 18
-\BOOKMARK [0][-]{chapter.6}{Security}{}% 19
-\BOOKMARK [0][-]{chapter.7}{Evaluation}{}% 20
-\BOOKMARK [0][-]{chapter.8}{Conclusion}{}% 21
+\BOOKMARK [1][-]{section.4.1}{Development Environment}{chapter.4}% 18
+\BOOKMARK [1][-]{section.4.2}{Testing}{chapter.4}% 19
+\BOOKMARK [0][-]{chapter.5}{Project Management}{}% 20
+\BOOKMARK [0][-]{chapter.6}{Security}{}% 21
+\BOOKMARK [0][-]{chapter.7}{Evaluation}{}% 22
+\BOOKMARK [0][-]{chapter.8}{Conclusion}{}% 23

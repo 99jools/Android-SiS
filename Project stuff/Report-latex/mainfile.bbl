@@ -1,8 +1,14 @@
-\begin{thebibliography}{1}
+\begin{thebibliography}{}
 
-\bibitem{das2014tangled}
-Anupam Das, Joseph Bonneau, Matthew Caesar, Nikita Borisov, and XiaoFeng Wang.
+\bibitem[Das et~al., 2014]{das2014tangled}
+Das, A., Bonneau, J., Caesar, M., Borisov, N., and Wang, X. (2014).
 \newblock The tangled web of password reuse.
-\newblock In {\em Proceedings of NDSS}, 2014.
+\newblock In {\em Proceedings of NDSS}.
+
+\bibitem[Schneier, 1998]{schneier1998security}
+Schneier, B. (1998).
+\newblock Security pitfalls in cryptography.
+\newblock In {\em EDI FORUM-OAK PARK-}, volume~11, pages 65--69. THE EDI GROUP,
+  LTD.
 
 \end{thebibliography}

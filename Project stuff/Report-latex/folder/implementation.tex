@@ -4,67 +4,74 @@
 
 \chapter{Implementation}
 \label{cha:imp}
-Implementation and testing. A detailed account of the implementation and testing of your software. Explain what data structures you used, and how the algorithms were implemented. What implementation decisions did you take, and why? There is no need to list every little function and procedure and explain its working in elaborate detail; use your judgement on what is appropriate to include. 
-use of .xps, .xeb
+\section{Development Environment}
+An early challenge encountered in this project was setting up a suitable development environment.  Initially the intention was to use the Android Development Tools plug-in for Eclipse, as this was an extension to an already familiar IDE, however, difficukties were encoulntered with the school computers and finally we elected to switch to Android Studio (Beta) as suggested on the Android Developers website \cite{android_dev}.  
+
+Since the main rationale for the Android application was to allow users to read documents away fro the PC, we felt that the application should be optimised for use on a tablet.  As difficulty was encountered getting the device emulators to work on Linux, it became necessary to purchase a physical device for the purposes of the project.  As budget was a significant consideration, the device chosen was a Hudl 7" tablet running the Android 4.2.2 Jelly Bean operating system.  For the purposes of this project, it was decided that we would develop and test for this device.  This meant that we were restricted to API 17, which eliminated the need to include any backward compatibility but also precluded using features of the latest Android releases as it transpired that there was no upgrade path available for this device.  This fact turned out to be highly significant in a later stage of the project.  
+
+\section{Initial Development}
+As we had no previous experience of developing for the Android platform, it was felt wise to develop a very simple application in order to gain some familiarity with the complexities of the Android architecture and its API. This initial application enabled us to input some text, encrypt it (using a simple "convert to upper case" as a place-holder for encryption) and write it to the application storage.  
+
+The next stage was to introduce real encryption, for which we needed to investigate the Java Cryptography Architecture(JCA).  Although the choice of algorithm was determined as part of the design, we were mindful of the fact that  many security weaknesses are introduced by poor implementation. As \citet{schneier1998security} states,
+\begin{quotation}
+And just as it's possible to build a weak structure using strong materials, it's possible to build a weak cryptographic system using strong algorithms and protocols 
+\end{quotation}  
+For this reason we decided that we would initially develop and test the  Java classes to be used for encryption and decryption in the more familiar Linux environment before porting to Android.  Linux also provides a simple command line interface which was valuable for inspecting the binary (or hex) content of encrypted files to aid debugging.
+
+
+
+
+
+DROPBOX
 For improvement, use custom file extension registered with Dropbox then would only ever see encrypted files
+GOOD PRACTICE
 use of bundle for passing data between activities
 use of interface for passing data back from dialog
-Performance problem - introduced buffering
-Splash screen and initialization
-didn't use onStoreState etc. - didn't worry about restoring exact user position as prototype and system stores GUI stuff
 Use of singleton
-Keystores moved to external storage for testing and demonstration purposes.  In a production app, these should be moved back to internal storage in order to take advantage of the additional protection afforded by android’s inbuilt security mechanisms
-Removal of keystores upon 3 successive failed password attempts – al present it just shows a message saying that the keystores have been deleted but doesn’t actually remove them from the device.  In a live system this would need to be implemented.
-• use of xml rather than java for managing onClick - why was this done and when is it not applicable
+
+
+
+ANDROID FEATURES
+Splash screen and initialization
+Fragments
+Implemented with algorithms as static variables so that easy to amend if standards change
+CRYPTOGRAPHY
+
+
+
+CHALLENGES
 Major issues with keystore, certificates and default providers.
-Challenge of absence of built in file manager
-DROPBOX ISSUES
-• dbx stuff does not implement serialisable or parcelable
-• Dropbox synchronization issues - developed everything using App specific access then discovered that this doesn't allow any use of shared folders so had to redesign 
+dbx stuff does not implement serialisable or parcelable
+Dropbox synchronization issues - developed everything using App specific access then discovered that this doesn't allow any use of shared folders so had to redesign 
 Challenge of unavailability of BKS on pcs in school
 No access to key tool in android
-Include information about algorithms and key lengths
-Fragments
-
-User authentication and need to block after failed attempts
-• large files
-• network connectivity
-• battery life
-• small memory
-• multithreading for gui
-• where to encrypt
-• model to use for file distribution and storage
-TESTING
-Testing - it is ok to say that I tested by inspection
-Explain why unit testing is not meaningful
-
 Issue: if generate [private key on device, it is device specific - ability to import would allow same keystores to be used on multiple devices for4 same user
 
-Assumption that encrypted blobs are probably also created on PC - simple PC version of program developed to address this, although no gui developed
+how to manage letting decryption know group - flirted with shared preferences
+Issue: if generate [rivate key on device, it is device specific - ability to import would allow same keystores to be used on multiple devices for4 same user
 
-There were a number of design decision points where it was possible to do something in the prototype, it was possible that the user may want to do it infrequently but it was perfectly possible to do it from elsewhere, for example there are perfectly good mechanisms for creating and sharing Dbx folder  -and at present there is no means of sharing folders within the Sync API so there seemed little point in introducing the complexity of switching to a more complex API just for functionality that is easily done elsewhere and would only be required infrequently (it is really only a task required ast group setup and our view is that a group would be likely to have a lifetime of months
+THINGS NOT INCLUDED
+However, as will be discussed in Chapter \ref{cha:imp}, due to some of the challenges encountered during the implementation phase, we were not able to implement this aspect of our design fully in the prototype. (digital signatures)
 
-Use of Java program running on PC to develop encryption to begin with
-No ability to recover keys if app gets deleted - could re download from Dropbox as long as private key and certificate backed up. 
+custom pdf reader
 
-3 parts
+OPTIMIZATION
+buffering
+decision not to implement threads at this stage
+Did not optimize for battery and memory
+
+
 
 Admin system – basic with no front end.  Designed to run on system with Dropbox installed and running so files uploaded to dropbox simply by saving them in the correct location rather than worrying about using Dropbox API within program.
 
-	Android prototype
-	PC version in java that just does basic encryption/decryption.  Used primarily for intial development and testing of encryption mechanisms. Single username hardcoded for testing. Fully developed application with user interface outside of scope of this project.
-	
-	Android has inherent protection by sandboxing apps so files in internal storage have extra protection. FOr the purposes of development and testing, files written to app protected external storage so that they can be inspected with a file manager without the need to root the device
+Android prototype
 
-decision not to implement threads at this stage
+PC version in java that just does basic encryption/decryption.  Used primarily for intial development and testing of encryption mechanisms. Single username hardcoded for testing. Fully developed application with user interface outside of scope of this project. Assumption that encrypted blobs are probably also created on PC - simple PC version of program developed to address this, although no gui developed
+\section{Testing}
 
-When app is deleted, files should be deleted so keystore would be removed from device
+The encryption and decryption elements of our prototype were largely testing by inspection - known texts were encrypted, the files were checked to ensure that they were not leaking any of the plaintext, and these were in turn decrypted and compared with the original.   In general, the nature of encryption means that the main body of a file either decrypts completely or not at all, however particular attention must be paid to the very beginning and end of a file, as incorrect use of the API can lead to errors here.  As our project was aimed at document encryption, we tested using a mixture of text (.txt files) and PDFs (although we did also confirm that our processes generalised to other file types).  Since randomness plays a significant role in ensuring  semantic security  for symmetric encryption schemes, this made any sort on unit testing extremely difficult.  At the outset we considered using fixed initialisation vectors and encryption keys to make our tests repeatable.  However, on closer consideration this involved making some significant changes to the program logic relating to the use of the cryptography APIs and so was considered to make this sort of testing meaningless.  
 
-I would develop prototype for a single API and test on one device – no backwards compatibility hence no need to use compatibility libraries eg for Action Bar
+Other aspects of the user interface were tested manually, trying to make sure that a range of user inputs and behaviour were covered.  However, it should be noted that the prototype was not designed to be releasable code and therefore did not include comprehensive validation of user input. Although certain common scenarios were handled (for example, the user is informed if trying to decrypt a document without first importing the appropriate group key), it was deemed that for the purposes of this prototype it was acceptable that other less common behaviours should be permitted to cause the app to terminate (e.g. if the app permission is revoked via the Dropbox website whilst the app is running).  
 
-Write about choice of device
+When a user shifts focus away from the current activity, the activity is kept in memory but is switched into the background.  Such processes can be killed at any time by the system in order to reclaim memory.  In this event, when the user returns to the activity, it is recreated by the system - this may cause some expected results if not designed for properly.  Since this process is managed by the operating system and is determined by a number of external factors, it can prove difficult to test.  If testing in an emulated environment, it is possibly to simulate an artificially small device memory to encourage this behaviour to be triggered.  However, as previously mentioned, this option was not available to us so a similar effect was created by rotating the device, which also causes an activity to be recreated.  Although not identical, it proved quite an effective substitute in our testing.
 
-However, as will be discussed in Chapter \ref{cha:imp}, due to some of the challenges encountered during the implementation phase, we were not able to implement this aspect of our design fully in the prototype.
-
-• how to manage letting decryption know group - flirted with shared preferences
-Issue: if generate [rivate key on device, it is device specific - ability to import would allow same keystores to be used on multiple devices for4 same user

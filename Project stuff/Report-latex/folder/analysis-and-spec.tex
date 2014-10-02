@@ -27,17 +27,17 @@ For practical purposes, it is likely that origination of sensitive documents wou
 
 As discussed in section \ref{sec:crypto} the decision was made to use digital signatures as part of the security design. This generates the requirement for every group member to have a certificate that can be used for authentication. It is left to the discretion of each group to determine  whether this should be issued from a recognised Certificate Authority or whether self-signed certificates are to be allowed.  (For small groups, the process of manually confirming the certificate fingerprint by telephone may be acceptable, for example.)  In order to contain the scope of this project it was necessary to assume that each user either had, or was able to generate a public/private key pair and the associated certificate.  
 
-A final assumption was that the user acknowledges the sensitivity of his data and has taken reasonable steps to protect it, including the deployment of a device locking code and strong passwords.
+Finally, it was assumed that the user acknowledges the sensitivity of his data and has taken reasonable steps to protect it, including the deployment of a device locking code and strong passwords.  
 
 \subsection*{Threat and Trust Model}
 For the purposes of this project, the following assumption regarding the threat and trust model were made:-
-\begin{itemize}
+\begin{enumerate}[itemsep=3pt]
 \item a group member may consider all other group members as trusted.
 \item the Certificate Authority may be considered as trusted.  
 \item all data in transit or at rest on a third-party server is considered to be exposed to an attacker.
-\item the prototype Android application should aim to protect against an attacker accessing the device's external storage.  
-\item  where an attacker is able to gain root access to the device, a casual attacker would then be able to access the application's protected internal storage and the prototype should take measures to protect against this.  The prototype is not required to implement software protection against a more sophisticated attacker with root access, however we are aware that the use of hardware-based cryptography via a Trusted Platform Module (TPM) would ameliorate the effect of this type of attack
-\end{itemize}
+\item data at rest on the external storage of the device should always be considered as vulnerable to attack 
+\item  data at rest within the application's internal storage is protected to some extent by the platform's in-built security mechanisms, although this should still be encrypted to protect against a casual attacker who is able to gain root access for the purposes of snooping in storage.  The prototype is not required to implement software protection against a more sophisticated attacker, however we are aware that the use of hardware-based cryptography via a Trusted Platform Module (TPM) would ameliorate the effect of this type of attack.
+\end{enumerate} 
 
 
 \section{Document Storage}
@@ -66,8 +66,8 @@ As one of the central assumptions is that any third-party server cannot be trust
 
 By their nature, symmetric  schemes require that all parties are in possession of the key, as the same key is used for both encryption and decryption.  Where we are just sharing a key between two parties, methods such as the Diffie-Hellman key exchange protocol \cite{dh1976}  are widely used.  However, the problem of group key distribution is much more challenging and has been the subject of multiple research papers (see  \ref{sec:agke})
 
-
-
+Include information about algorithms and key lengths
+File meta data
 
 
 \red{Reasons why didn't choose ID based cryptography or password based solution - aim is to use simplest solution that works.  Refer to examples which use PBE.  Happy to use it for protection of key material on device as even with password, attacker would have to have access to device or would require more sophisticated remote attack which is out of our scope.  }\\
@@ -97,15 +97,25 @@ The use of digital signatures is required for each user to be able to validate t
 
 
 \section{Android Prototype }
-\subsection*{Target Device}
-\subsection*{Requirements}
 
-Since tablet devices are ideally suited for reading documents, the major requirement of this app is that it is able to take encrypted documents stored in the user's Dropbox,  decrypt them with the appropriate symmetric key and present the original text to the user in a readable format.
+I would develop prototype for a single API and test on one device – no backwards compatibility hence no need to use compatibility libraries eg for Action Bar
 
+
+\subsection*{Encryption }
 As outlined in the Problem Analysis  (\ref{sec:prob}), it is unlikely that large documents will be originated from within SecurelyShare so our design just included a simple  edit window for text input which can then be saved to Dropbox as an encrypted file.  For completeness, and to aid testing, we also included the ability to encrypt a file which already exists on the device (although this is not to be encouraged as such files may have been exposed to an attacker prior to encryption).
 
-\subsection*{Design}
 
 
+\subsection*{Decryption }
+Since tablet devices are ideally suited for reading documents, the major requirement of this app is that it is able to take encrypted documents stored in the user's Dropbox,  decrypt them with the appropriate symmetric key and present the original text to the user in a readable format.  Our requirements necessitated that this should be accomplished without the need to save the plaintext to disk on the device.  Initially this seemed as though it would be achievable as the Android platform provides mechanisms for one application to provide data to another
+
+
+can open a viewer via an Intent but then required to return a link to a file.  Considered offering decryption as a Service, but this would still require modification of the calling app in order to persuade it to request decryption.  A number of ways of modifying our design in order to overcome this challenge but eventually it was decided that we had to weaken our requirements or risk jeopardising the entire project time scale.  Consequently we decided that we could achieve our objective for simple text files by displaying the decrypted data in one of the Android-supplied Edittext widgets,which would enable it to be read and, if required, edited and resaved in encrypted format.  For files requiring a more complex viewing and editing environment, for example those in Portable Document Format (PDF), we currently have write these temporarily to the external cache before broadcasting an Intent with the appropriate URI in order to allow the user to open this temporary file with one of the PDF readers installed on their device.  The security implications and requirements for future work are discussed further in Chapter \ref{cha:security}.
+
+
+
+
+\subsection*{Key Management }
+No ability to recover keys if app gets deleted - could re download from Dropbox as long as private key and certificate backed up. 
 
 

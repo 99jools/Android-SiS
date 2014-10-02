@@ -2,14 +2,25 @@
 % @author Josh Wainwright
 % File name : mainfile.tex
 
-\documentclass[a4paper,11pt,twoside]{report}
+\documentclass[a4paper,12pt,oneside]{report}
 \usepackage[utf8]{inputenc}
 
+
+
+%%% FONT AND LINE SPACING ------------------------------------------
+\renewcommand{\familydefault}{\sfdefault}
+\usepackage{setspace}
+\onehalfspacing
+
+\usepackage[inline]{enumitem}
+\setlist{noitemsep} % or \setlist{nosep} 
+
 %%% PAGE DIMENSIONS ------------------------------------------------------------
+
 \usepackage[
 	top=3.5cm,
-	right=3.5cm,
-	left=4cm,
+	right=2.5cm,
+	left=3cm,
 	bottom=3cm]{geometry}
 % \usepackage[top=3cm,
 % 	bottom=2cm,
@@ -35,7 +46,7 @@
 \usepackage{listings}
 \usepackage[table]{xcolor}
 \usepackage{amsmath}
-\usepackage[inline]{enumitem}
+
 \usepackage{url}
 
 %% CODE STYLING ----------------------------------------------------------------
@@ -76,7 +87,7 @@
 }
 
 %% BIBLIOGRAPHY -----------------------------------------------------------------
-\usepackage{cite}
+\usepackage{natbib}
 
 %%% ToC (table of contents) APPEARANCE -----------------------------------------
 \renewcommand{\contentsname}{Table of Contents}
@@ -93,6 +104,9 @@
 
 %%% PDF LINKS AND STYLE --------------------------------------------------------
 \usepackage[bookmarks=true]{hyperref}
+\hypersetup{
+    pdfborder = {0 0 0}
+}
 % \hypersetup{%
 % 	colorlinks=true, % false: boxed links; true: colored links
 % 	linkcolor=black, % color of internal links (change box color with linkbordercolor)
@@ -124,7 +138,7 @@
 \input{folder/security.tex}
 \input{folder/evaluation.tex}
 \input{folder/conclusion.tex}
-\bibliographystyle{plain}
+\bibliographystyle{apalike}
 \bibliography{references}
 
 \end{document}
