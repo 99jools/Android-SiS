@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.4-1.40.13 (MiKTeX 2.9 64-bit) (preloaded format=pdflatex 2013.11.10)  3 OCT 2014 21:06
+This is pdfTeX, Version 3.1415926-2.4-1.40.13 (MiKTeX 2.9 64-bit) (preloaded format=pdflatex 2013.11.10)  3 OCT 2014 23:18
 entering extended mode
 **mainfile.tex
 
@@ -683,11 +683,7 @@ Package uniquecounter Info: New unique counter `rerunfilecheck' on input line 2
 \Hy@SectionHShift=\skip66
 )
 ("D:\Users\Julie\Documents\GitHub\Android-SiS\Project stuff\Report-latex\mainfi
-le.aux"
-
-LaTeX Warning: Label `cha:imp' multiply defined.
-
-)
+le.aux")
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 129.
 LaTeX Font Info:    ... okay on input line 129.
 LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 129.
@@ -814,12 +810,6 @@ LaTeX Font Warning: Font shape `OMS/cmss/m/n' undefined
 (Font)              using `OMS/cmsy/m/n' instead
 (Font)              for symbol `textbullet' on input line 20.
 
-
-LaTeX Warning: Reference `cha:security' on page 4 undefined on input line 33.
-
-
-LaTeX Warning: Reference `cha:eval' on page 4 undefined on input line 33.
-
 )
 ("D:\Users\Julie\Documents\GitHub\Android-SiS\Project stuff\Report-latex\folder
 /background.tex" [4] [5]
@@ -872,13 +862,9 @@ Underfull \hbox (badness 10000) in paragraph at lines 86--87
 
  []
 
-
-LaTeX Warning: Reference `cha:security' on page 15 undefined on input line 101.
-
-
 [15])
 ("D:\Users\Julie\Documents\GitHub\Android-SiS\Project stuff\Report-latex\folder
-/temp.tex" [16]
+/implementation.tex" [16]
 Chapter 4.
 
 Package natbib Warning: Citation `android_dev' on page 17 undefined on input li
@@ -886,76 +872,64 @@ ne 8.
 
 [17
 
-]
-Underfull \hbox (badness 10000) in paragraph at lines 22--23
-
- []
-
-<SplashScreen.png, id=274, 1445.4pt x 903.375pt>
-File: SplashScreen.png Graphic file (type png)
- <use SplashScreen.png>
-Package pdftex.def Info: SplashScreen.png used on input line 31.
-(pdftex.def)             Requested size: 176.40439pt x 110.24742pt.
-
-<Setup.png, id=275, 1445.4pt x 903.375pt>
+] <Setup.png, id=239, 1445.4pt x 903.375pt>
 File: Setup.png Graphic file (type png)
  <use Setup.png>
-Package pdftex.def Info: Setup.png used on input line 39.
-(pdftex.def)             Requested size: 176.40439pt x 110.24742pt.
+Package pdftex.def Info: Setup.png used on input line 27.
+(pdftex.def)             Requested size: 220.50887pt x 137.81618pt.
 
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-[18 <D:/Users/Julie/Documents/GitHub/Android-SiS/Project stuff/Report-latex/Spl
-ashScreen.png>] [19 <D:/Users/Julie/Documents/GitHub/Android-SiS/Project stuff/
-Report-latex/Setup.png>]
-Chapter 5.
-[20
-
-]
-Chapter 6.
-[21
-
-]
-Chapter 7.
-)
-("D:\Users\Julie\Documents\GitHub\Android-SiS\Project stuff\Report-latex\folder
-/implementation.tex" [22
-
-]
-Chapter 8.
-
-Package natbib Warning: Citation `android_dev' on page 23 undefined on input li
-ne 8.
-
-[23
-
-]
-Overfull \hbox (15.57997pt too wide) in paragraph at lines 43--44
+[18]
+Overfull \hbox (15.57997pt too wide) in paragraph at lines 53--54
 []\OT1/cmss/m/n/12 Implemented with al-go-rithms as static vari-ables so that e
 asy to amend if stan-dards change 
  []
 
-[24] [25])
+[19 <D:/Users/Julie/Documents/GitHub/Android-SiS/Project stuff/Report-latex/Set
+up.png>] [20])
 ("D:\Users\Julie\Documents\GitHub\Android-SiS\Project stuff\Report-latex\folder
-/projectmgt.tex" [26]
-Chapter 9.
-[27
+/projectmgt.tex" [21]
+Chapter 5.
+[22
+
+])
+("D:\Users\Julie\Documents\GitHub\Android-SiS\Project stuff\Report-latex\folder
+/security.tex" [23]
+Chapter 6.
+[24
 
 ]
-Overfull \hbox (22.97694pt too wide) in paragraph at lines 18--20
-[]\OT1/cmss/m/n/12 Regular con-tact with su-per-vi-sor was ex-tremely []$\OT1/c
-mtt/m/n/12 http : / / www . scrumguides . org / scrum-[]guide .$
+Underfull \hbox (badness 10000) in paragraph at lines 19--20
+
  []
 
+[25])
+("D:\Users\Julie\Documents\GitHub\Android-SiS\Project stuff\Report-latex\folder
+/evaluation.tex"
+Underfull \hbox (badness 10000) in paragraph at lines 43--4
+
+ []
+
+[26]
+Chapter 7.
+[27
+
+])
+("D:\Users\Julie\Documents\GitHub\Android-SiS\Project stuff\Report-latex\folder
+/conclusion.tex" [28]
+Chapter 8.
 )
 ("D:\Users\Julie\Documents\GitHub\Android-SiS\Project stuff\Report-latex\mainfi
-le.bbl" [28])
+le.bbl" [29
+
+])
 
 Package natbib Warning: There were undefined citations.
 
 Package atveryend Info: Empty hook `BeforeClearDocument' on input line 145.
-[29
+[30
 
 ]
 Package atveryend Info: Empty hook `AfterLastShipout' on input line 145.
@@ -965,35 +939,29 @@ le.aux")
 Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 145.
 Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 145.
 Package rerunfilecheck Info: File `mainfile.out' has not changed.
-(rerunfilecheck)             Checksum: 75EF88D30D44327337E7F8CB2ACF6409;2023.
+(rerunfilecheck)             Checksum: 6B84906E328B59D9A80E61D0829D1690;1502.
 
 
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 
-
-LaTeX Warning: There were undefined references.
-
-
-LaTeX Warning: There were multiply-defined labels.
-
 Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 145.
  ) 
 Here is how much of TeX's memory you used:
- 10964 strings out of 493921
- 160794 string characters out of 3145276
- 262281 words of memory out of 3000000
- 14020 multiletter control sequences out of 15000+200000
+ 10954 strings out of 493921
+ 160965 string characters out of 3145276
+ 262306 words of memory out of 3000000
+ 14011 multiletter control sequences out of 15000+200000
  9980 words of font info for 36 fonts, out of 3000000 for 9000
  841 hyphenation exceptions out of 8191
- 42i,12n,43p,2946b,448s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 42i,12n,43p,2956b,448s stack positions out of 5000i,500n,10000p,200000b,50000s
 <D:/Test Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmss12.pfb><
 D:/Test Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmssbx10.pfb><D
 :/Test Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmssi12.pfb><D:/
 Test Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy10.pfb><D:/Tes
 t Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmtt12.pfb>
-Output written on mainfile.pdf (29 pages, 286596 bytes).
+Output written on mainfile.pdf (30 pages, 211745 bytes).
 PDF statistics:
- 378 PDF objects out of 1000 (max. 8388607)
- 86 named destinations out of 1000 (max. 500000)
- 275 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 342 PDF objects out of 1000 (max. 8388607)
+ 79 named destinations out of 1000 (max. 500000)
+ 206 words of extra memory for PDF output out of 10000 (max. 10000000)
 

@@ -16,18 +16,10 @@
 \contentsline {chapter}{\numberline {4}Implementation}{17}{chapter.4}
 \contentsline {section}{\numberline {4.1}Development Environment}{17}{section.4.1}
 \contentsline {section}{\numberline {4.2}Initial Development}{18}{section.4.2}
-\contentsline {section}{\numberline {4.3}SecurelyShare Prototype}{18}{section.4.3}
-\contentsline {section}{\numberline {4.4}Implementation Challenges}{19}{section.4.4}
-\contentsline {section}{\numberline {4.5}Testing}{19}{section.4.5}
-\contentsline {chapter}{\numberline {5}Project Management}{20}{chapter.5}
-\contentsline {chapter}{\numberline {6}Evaluation}{21}{chapter.6}
-\contentsline {section}{\numberline {6.1}Security Evaluation}{21}{section.6.1}
-\contentsline {section}{\numberline {6.2}Product Evaluation}{21}{section.6.2}
-\contentsline {section}{\numberline {6.3}Process Evaluation}{21}{section.6.3}
-\contentsline {section}{\numberline {6.4}Future Work}{21}{section.6.4}
-\contentsline {chapter}{\numberline {7}Conclusion}{22}{chapter.7}
-\contentsline {chapter}{\numberline {8}Implementation}{23}{chapter.8}
-\contentsline {section}{\numberline {8.1}Development Environment}{23}{section.8.1}
-\contentsline {section}{\numberline {8.2}Initial Development}{24}{section.8.2}
-\contentsline {section}{\numberline {8.3}Testing}{25}{section.8.3}
-\contentsline {chapter}{\numberline {9}Project Management}{27}{chapter.9}
+\contentsline {section}{\numberline {4.3}User Interface}{18}{section.4.3}
+\contentsline {section}{\numberline {4.4}Implementation Challenges}{18}{section.4.4}
+\contentsline {section}{\numberline {4.5}Testing}{20}{section.4.5}
+\contentsline {chapter}{\numberline {5}Project Management}{22}{chapter.5}
+\contentsline {chapter}{\numberline {6}Security}{24}{chapter.6}
+\contentsline {chapter}{\numberline {7}Evaluation}{27}{chapter.7}
+\contentsline {chapter}{\numberline {8}Conclusion}{29}{chapter.8}
