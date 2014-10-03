@@ -146,12 +146,6 @@ public class AppKeystore {
     public void importGroupKey(String groupID, FileInputStream fis) throws GeneralSecurityException, IOException {
         // get private key to decrypt key file
         PrivateKey privateKey = getMyPrivateKey();
-
-
-//PrintPrivateKey.printPK(context, cs);
-
-
-
         //set up Cipher to decrypt groupKeyFile
         Cipher deCipher = Cipher.getInstance(KEYPAIR_ALGORITHM);
         deCipher.init(Cipher.DECRYPT_MODE, privateKey);
@@ -213,19 +207,15 @@ public class AppKeystore {
 
 
         } catch (UnrecoverableKeyException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         } catch (KeyStoreException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         } catch (NoSuchAlgorithmException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
         return key;
     }
 
-    //TODO check whether this can be removed
     private PublicKey getPublicKey(File certFile) {
         //read in the certificate from file
         FileInputStream certIn;

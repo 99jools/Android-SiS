@@ -14,7 +14,7 @@ As we had no previous experience of developing for the Android platform, it was 
 
 The next stage was to introduce real encryption, for which we needed to investigate the Java Cryptography Architecture(JCA).  Although the choice of algorithm was determined as part of the design, we were mindful of the fact that  many security weaknesses are introduced by poor implementation. As \citet{schneier1998security} states,
 \begin{quotation}
-And just as it's possible to build a weak structure using strong materials, it's possible to build a weak cryptographic system using strong algorithms and protocols 
+'And just as it's possible to build a weak structure using strong materials, it's possible to build a weak cryptographic system using strong algorithms and protocols' 
 \end{quotation}  
 For this reason we decided that we would initially develop and test the  Java classes to be used for encryption and decryption in the more familiar Linux environment before porting to Android.  Linux also provides a simple command line interface which was valuable for inspecting the binary (or hex) content of encrypted files to aid debugging.
 
@@ -24,30 +24,42 @@ For this reason we decided that we would initially develop and test the  Java cl
 
 DROPBOX
 For improvement, use custom file extension registered with Dropbox then would only ever see encrypted files
+
 GOOD PRACTICE
 use of bundle for passing data between activities
+
 use of interface for passing data back from dialog
+
 Use of singleton
 
 
 
 ANDROID FEATURES
+
 Splash screen and initialization
+
 Fragments
+
 Implemented with algorithms as static variables so that easy to amend if standards change
+
 CRYPTOGRAPHY
+
 
 
 
 CHALLENGES
 Major issues with keystore, certificates and default providers.
+
 dbx stuff does not implement serialisable or parcelable
-Dropbox synchronization issues - developed everything using App specific access then discovered that this doesn't allow any use of shared folders so had to redesign 
+
+
 Challenge of unavailability of BKS on pcs in school
+
 No access to key tool in android
+
 Issue: if generate [private key on device, it is device specific - ability to import would allow same keystores to be used on multiple devices for4 same user
 
-how to manage letting decryption know group - flirted with shared preferences
+
 Issue: if generate [rivate key on device, it is device specific - ability to import would allow same keystores to be used on multiple devices for4 same user
 
 THINGS NOT INCLUDED
@@ -56,7 +68,9 @@ However, as will be discussed in Chapter \ref{cha:imp}, due to some of the chall
 custom pdf reader
 
 OPTIMIZATION
+
 buffering
+
 decision not to implement threads at this stage
 Did not optimize for battery and memory
 

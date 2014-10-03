@@ -45,9 +45,11 @@ When considering how to manage the storage and sharing of group documents, we in
 
 Although in a production-level application it would be desirable to allow the user to choose which cloud storage service they wished to use, it quickly became apparent that to implement using multiple APIs was infeasible within the scope of this project.  However, as the facilities offered by each were broadly similar, it was felt that developing for a single API in the prototype would be sufficient for the purposes of validating the concept.  Dropbox was selected as it is widely used and is well supported in both Windows and Linux environments, the latter being important as this was the development and testing environment being used for the project.  
 
-As described in \ref{sec:dropbox}, Dropbox offers several version of the API for Android and the Sync API seemed to be the best match for the project requirements.  Developers are encouraged to assign each application the least permissions possible, so initially App level permission was chosen.  However, it came to light that this did not allow any access to shared folders so the design specification was amended to use the File type permission.  This presents a filtered view of the user's Dropbox folder, only permitting the calling application to see files of the specified types.  One disadvantage of this is that although all of the user's folders can be seen, various folder operations (e.g. delete, share) are prohibited as the folders may contain hidden files.  However, this was agreed to be sufficient for our purposes the administrative tasks of folder manipulation were able to be performed easily from elsewhere.   
+As described in \ref{sec:dropbox}, Dropbox offers several version of the API for Android and the Sync API seemed to be the best match for the project requirements.  Developers are encouraged to assign each application the least permissions possible, so initially App level permission was chosen.  However, it came to light that this did not allow any access to shared folders so the design specification was amended to use the File type permission.  This presents a filtered view of the user's Dropbox folder, only permitting the calling application to see files of the specified types.  One disadvantage of this is that although all of the user's folders can be seen, various folder operations (e.g. delete, share) are prohibited as the folders may contain hidden files.  
 
 When registering SecurelyShare, text and document types were required but it was also necessary to have a file extension to represent our encrypted files.  It would have been possible to submit a requrest to register custom file types with Dropbox but since time was of the essence, we elected to choose two less-commonly used ebook formats as a temporary measure, .xps (for encrypted documents) and .xeb (for encrypted group keys).  The .xps extension was simply added to the filename of an encrypted file so that it was easy to recover the original file extension on decryption.
+\subsection*{Administration}
+Although Dropbox provides an excellent environment for collaborative working with its inbuilt mechanisms for file and folder sharing, this does bring with it the initial administrative overhead of creating a group folder and sharing it with all the members.  As discusses, the Dropbox Sync API does not currently provide support for  this in Android but it was deemed acceptable for our purposes that this process should be completed via the Dropbox website in the usual way.  
 
 \section{Cryptographic Design}
 \label{sec:crypto}
@@ -55,27 +57,17 @@ When registering SecurelyShare, text and document types were required but it was
 There are two main aspects to the cryptographic design as follows:
 \begin{itemize}
 \item the document encryption scheme
-\item the key distribution protocol
+\item the group key distribution protocol
 \end{itemize} 
 \subsection*{Document Encryption}
 As one of the central assumptions is that any third-party server cannot be trusted, it is essential that client-side encryption is used to protect our sensitive data.  SecurelyShare uses a symmetric key encryption scheme and is currently implemented using the AES algorithm in Cipher Block Chaining (CBC) mode with a key length of 256 bits.  A design requirement was that references to algorithms and key lengths should be included as static variables rather than being hard-coded in order to provide an easy upgrade path or scope to make these user options at a later date.
-\subsection*{Key Distribution}
+
+Since a user of SecurelyShare may be a member of multiple groups at any one time, it is important that the decryption module is able to determine the correct key to use for each document.  Initially we thought to capture this information based on the name of the containing folder but quickly realised that this was prone to error as, if a file became disassociated from its correct folder there would be no way of determining where it came from and hence reuniting it with the correct key.  It was determined that each file should have a file header written to it made up of an integer containing the length (in bytes) of the group name, a string containing the group name and a fixed length Initialisation Vector - this would provide all the information required to decrypt the file.
+
+
+
+\subsection*{Group Key Distribution}
 By their nature, symmetric  schemes require that all parties are in possession of the key, as the same key is used for both encryption and decryption.  Where we are just sharing a key between two parties, methods such as the Diffie-Hellman key exchange protocol \cite{dh1976}  are widely used.  However, the problem of group key distribution is much more challenging and has been the subject of multiple research papers (see  \ref{sec:agke}).  Although these papers present a number of interesting theoretical schemes with advanced features, our design goal was to produce a practical but secure implementation which matches requirements built with well-established cryptographic primitives and protocols.    
-
-
-File meta data
-
-
-\red{Reasons why didn't choose ID based cryptography or password based solution - aim is to use simplest solution that works.  Refer to examples which use PBE.  Happy to use it for protection of key material on device as even with password, attacker would have to have access to device or would require more sophisticated remote attack which is out of our scope.  }\\
-
-
-
-
-\section{Group Administration}
-
-Although Dropbox provides an excellent environment for collaborative working with its inbuilt mechanisms for file and folder sharing, this does bring with it the initial administrative overhead of creating a group folder and sharing it with all the members.  As the Dropbox API does not currently provide support for  this in Android, it was deemed acceptable that this process should be completed via the Dropbox website in the usual way.  
-
-\red{include  screen shot of folder structure}\\
 
 Before generating the group key, a Java KeyStore should be set up containing the private key and corresponding certificate which is to be used to authenticate the group key on distribution.  Each group member should supply a certificate which should then be imported into the KeyStore and finally the key generation module can be run.  
 
@@ -84,17 +76,18 @@ Before generating the group key, a Java KeyStore should be set up containing the
 A high-level description of the key-generation process is as follows:-
 \begin{itemize}
 \item generate a new  symmetric key for the group
-\item for each user certificate in the KeyStore, encrypt a copy of the group key with the user's public key (as contained in the certificate)
+\item for each user certificate in the KeyStore, encrypt a copy of the group key with the user's public key (as contained in the certificate) using RSA
 \item sign the encrypted key using the administrator's certificate
 \item save the encrypted and signed key to the group Dropbox folder 
 \end{itemize}
 
 The use of digital signatures is required for each user to be able to validate that the encrypted key they receive is the authentic one and not one substituted by an attacker.  This  is a vital part of the  security protocol and hence has been included in our  system design.  However, as will be discussed in Chapter \ref{cha:imp}, due to some of the challenges encountered during the implementation phase, we were not able to implement this aspect of our design fully in the prototype.
 
+\red{Should I discuss choice of PKI over ID based scheme here or in evaluation}\\
 
 \section{Android Prototype }
 
-I would develop prototype for a single API and test on one device – no backwards compatibility hence no need to use compatibility libraries eg for Action Bar
+
 
 
 \subsection*{Encryption }
@@ -103,15 +96,17 @@ As outlined in the Problem Analysis  (\ref{sec:prob}), it is unlikely that large
 
 
 \subsection*{Decryption }
-Since tablet devices are ideally suited for reading documents, the major requirement of this app is that it is able to take encrypted documents stored in the user's Dropbox,  decrypt them with the appropriate symmetric key and present the original text to the user in a readable format.  Our requirements necessitated that this should be accomplished without the need to save the plaintext to disk on the device.  Initially this seemed as though it would be achievable as the Android platform provides mechanisms for one application to provide data to another
+Since tablet devices are ideally suited for reading documents, the major requirement of this app is that it is able to take encrypted documents stored in the user's Dropbox,  decrypt them with the appropriate symmetric key and present the original text to the user in a readable format.  Our requirements necessitated that this should be accomplished without the need to save the plaintext to disk on the device.  Initially this seemed as though it would be achievable as the Android platform provides mechanisms for one application to provide data to another,.  However, on deeper study, it transpired that none of these options was exactly right for our purpose.  We considered a number of ways of modifying our design in order to overcome this challenge  but all of them required some sort of modification to the third-party application.  Eventually it was decided that we had to weaken our requirements or risk jeopardising the entire project time scale. 
 
-
-can open a viewer via an Intent but then required to return a link to a file.  Considered offering decryption as a Service, but this would still require modification of the calling app in order to persuade it to request decryption.  A number of ways of modifying our design in order to overcome this challenge but eventually it was decided that we had to weaken our requirements or risk jeopardising the entire project time scale.  Consequently we decided that we could achieve our objective for simple text files by displaying the decrypted data in one of the Android-supplied Edittext widgets,which would enable it to be read and, if required, edited and resaved in encrypted format.  For files requiring a more complex viewing and editing environment, for example those in Portable Document Format (PDF), we currently have write these temporarily to the external cache before broadcasting an Intent with the appropriate URI in order to allow the user to open this temporary file with one of the PDF readers installed on their device.  The security implications and requirements for future work are discussed further in Chapter \ref{cha:security}.
-
-
+It was agreed that we could achieve our objective for simple text files by displaying the decrypted data in one of the Android-supplied Edittext widgets,which would enable it to be read and, if required, edited saved again in encrypted format.  For files requiring a more complex viewing and editing environment, for example those in Portable Document Format (PDF), we would write these temporarily to the external cache before broadcasting an Intent with the appropriate URI in order to allow the user to open this temporary file with one of the PDF readers installed on their device.  The security implications of this and suggestions for future work are discussed further in Chapter \ref{cha:security}.
 
 
 \subsection*{Key Management }
-No ability to recover keys if app gets deleted - could re download from Dropbox as long as private key and certificate backed up. 
+When first installed on the Android device, the SecurelyShare application will create two keystores and save them in the application's private storage.  The Certificate keystore contains a copy of the user's private key and corresponding certificate chain and the Group keystore is the place where all the group keys will be stored.  KeyStores are mechanisms designed for securing cryptographic artifacts, encrypted using Password Based Encryption (PBE) with a user supplied password.  
+
+As described above, the group key is created by the group administrator and a file is generated for each group member containing a copy of the group key encrypted with the private key contained in the Certificate KeyStore.  Before the user can begin creating or reading documents for the group, this key must be imported into the Group keystore on the device.  The user selects his file from the Dropbox folder containing the encryption keys for the group, the app decrypts this with the user's private key and stores it in the Group keystore using the group name as an alias.  
+
+
+
 
 

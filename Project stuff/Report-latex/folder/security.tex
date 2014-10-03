@@ -25,7 +25,7 @@ Forward secrecy - requiring perfect forward secrecy adds an additional level of 
  Write about why I didnt use encrypted folder approach
  
  
-specifically designed to avoid central server for key management.  Essential to avoid running our own and placing trust in 3rd party.  Our solution is similar to commercial ones - they make much of being zero-knowledge but't  essentially this is a matter of trust as can't examine their code.
+specifically designed to avoid central server for key management.  Essential to avoid running our own and placing trust in 3rd party.  Our solution is similar to commercial ones - they make much of being zero-knowledge but' essentially this is a matter of trust as can't examine their code.
  
  Problem with API meant that we had to generate keystore for private key and corresponding certificate chain manually.  Further work would be to redesign this part of the app using the additional ffeatures offered in Android 4.3.  Currently consider this to be one of the weakest parts of the design - by the time I realised that this could have been done better, it was too late to go back and change it.
  
@@ -40,4 +40,4 @@ Backward secrecy  - this is often required in a messaging environment where it i
 
 Removal of keystore after password failure
  
-
+\red{Reasons why didn't choose ID based cryptography or password based solution - aim is to use simplest solution that works.  Refer to examples which use PBE.  Happy to use it for protection of key material on device as even with password, attacker would have to have access to device or would require more sophisticated remote attack which is out of our scope.  }\\

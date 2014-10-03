@@ -5,6 +5,10 @@ Das, A., Bonneau, J., Caesar, M., Borisov, N., and Wang, X. (2014).
 \newblock The tangled web of password reuse.
 \newblock In {\em Proceedings of NDSS}.
 
+\bibitem[Gupta, 2008]{scrum}
+Gupta, M. (2008).
+\newblock Definition of done: A reference - scrum alliance.
+
 \bibitem[Schneier, 1998]{schneier1998security}
 Schneier, B. (1998).
 \newblock Security pitfalls in cryptography.
