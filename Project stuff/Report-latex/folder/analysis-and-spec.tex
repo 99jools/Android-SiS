@@ -45,13 +45,9 @@ When considering how to manage the storage and sharing of group documents, we in
 
 Although in a production-level application it would be desirable to allow the user to choose which cloud storage service they wished to use, it quickly became apparent that to implement using multiple APIs was infeasible within the scope of this project.  However, as the facilities offered by each were broadly similar, it was felt that developing for a single API in the prototype would be sufficient for the purposes of validating the concept.  Dropbox was selected as it is widely used and is well supported in both Windows and Linux environments, the latter being important as this was the development and testing environment being used for the project.  
 
+As described in \ref{sec:dropbox}, Dropbox offers several version of the API for Android and the Sync API seemed to be the best match for the project requirements.  Developers are encouraged to assign each application the least permissions possible, so initially App level permission was chosen.  However, it came to light that this did not allow any access to shared folders so the design specification was amended to use the File type permission.  This presents a filtered view of the user's Dropbox folder, only permitting the calling application to see files of the specified types.  One disadvantage of this is that although all of the user's folders can be seen, various folder operations (e.g. delete, share) are prohibited as the folders may contain hidden files.  However, this was agreed to be sufficient for our purposes the administrative tasks of folder manipulation were able to be performed easily from elsewhere.   
 
-
-
-
-
-
-
+When registering SecurelyShare, text and document types were required but it was also necessary to have a file extension to represent our encrypted files.  It would have been possible to submit a requrest to register custom file types with Dropbox but since time was of the essence, we elected to choose two less-commonly used ebook formats as a temporary measure, .xps (for encrypted documents) and .xeb (for encrypted group keys).  The .xps extension was simply added to the filename of an encrypted file so that it was easy to recover the original file extension on decryption.
 
 \section{Cryptographic Design}
 \label{sec:crypto}
@@ -61,12 +57,12 @@ There are two main aspects to the cryptographic design as follows:
 \item the document encryption scheme
 \item the key distribution protocol
 \end{itemize} 
+\subsection*{Document Encryption}
+As one of the central assumptions is that any third-party server cannot be trusted, it is essential that client-side encryption is used to protect our sensitive data.  SecurelyShare uses a symmetric key encryption scheme and is currently implemented using the AES algorithm in Cipher Block Chaining (CBC) mode with a key length of 256 bits.  A design requirement was that references to algorithms and key lengths should be included as static variables rather than being hard-coded in order to provide an easy upgrade path or scope to make these user options at a later date.
+\subsection*{Key Distribution}
+By their nature, symmetric  schemes require that all parties are in possession of the key, as the same key is used for both encryption and decryption.  Where we are just sharing a key between two parties, methods such as the Diffie-Hellman key exchange protocol \cite{dh1976}  are widely used.  However, the problem of group key distribution is much more challenging and has been the subject of multiple research papers (see  \ref{sec:agke}).  Although these papers present a number of interesting theoretical schemes with advanced features, our design goal was to produce a practical but secure implementation which matches requirements built with well-established cryptographic primitives and protocols.    
 
-As one of the central assumptions is that any third-party server cannot be trusted, it is essential that client-side encryption is used to protect our sensitive data.  SecurelyShare uses a symmetric key encryption scheme and is currently implemented using the AES algorithm in Cipher Block Chaining (CBC) mode.
 
-By their nature, symmetric  schemes require that all parties are in possession of the key, as the same key is used for both encryption and decryption.  Where we are just sharing a key between two parties, methods such as the Diffie-Hellman key exchange protocol \cite{dh1976}  are widely used.  However, the problem of group key distribution is much more challenging and has been the subject of multiple research papers (see  \ref{sec:agke})
-
-Include information about algorithms and key lengths
 File meta data
 
 
