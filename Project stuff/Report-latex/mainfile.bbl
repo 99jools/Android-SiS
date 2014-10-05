@@ -27,11 +27,11 @@ Das, A., Bonneau, J., Caesar, M., Borisov, N., and Wang, X. (2014).
 \newblock The tangled web of password reuse.
 \newblock In {\em Proceedings of NDSS}.
 
-\bibitem[Developer.android.com, ]{androiddev}
-Developer.android.com.
+\bibitem[Developer.android.com, 2014]{androiddev}
+Developer.android.com (2014).
 \newblock Android developers.
-\newblock \url{http://developer.android.com}, year={2014}, Note= {Accessed:
-  2014-10-03},.
+\newblock \url{http://developer.android.com}.
+\newblock Accessed: 2014-10-03.
 
 \bibitem[Dropbox, 2014]{dropboxguide}
 Dropbox (2014).
