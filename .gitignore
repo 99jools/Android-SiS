@@ -30,3 +30,12 @@ proguard/
 *.project
 *.settings/
 *.metadata/
+
+# Latex Files
+*.aux
+*.ps
+*.log
+*.dvi
+*.tex~   
+*.bbl
+*.blg
