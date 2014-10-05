@@ -1,13 +1,83 @@
 \begin{thebibliography}{}
 
+\bibitem[boxcryptor, 2014]{boxcryptor}
+boxcryptor (2014).
+\newblock Technical overview | how boxcryptor works | aes and rsa.
+\newblock \url{https://www.boxcryptor.com/en/technical-overview}.
+\newblock Accessed: 2014-10-05.
+
+\bibitem[Cairns and Steel, 2014]{cairnsdeveloper}
+Cairns, K. and Steel, G. (2014).
+\newblock Developer-resistant cryptography.
+\newblock \url{https://www.w3.org/2014/strint/papers/48.pdf}.
+\newblock Accessed: 2014-10-05.
+
+\bibitem[Challal and Seba, 2005]{challal2005group}
+Challal, Y. and Seba, H. (2005).
+\newblock Group key management protocols: A novel taxonomy.
+\newblock {\em International Journal of Information Technology}, 2(1):105--118.
+
+\bibitem[Cojocaru, 2014]{JMEDSProtecting_Stored_Data_on_Android_Devices}
+Cojocaru, R. (2014).
+\newblock Protecting stored data on android devices.
+\newblock {\em Journal of Mobile, Embedded and Distributed Systems}, 6(1).
+
 \bibitem[Das et~al., 2014]{das2014tangled}
 Das, A., Bonneau, J., Caesar, M., Borisov, N., and Wang, X. (2014).
 \newblock The tangled web of password reuse.
 \newblock In {\em Proceedings of NDSS}.
 
-\bibitem[Gupta, 2008]{scrum}
-Gupta, M. (2008).
+\bibitem[Dropbox, 2014]{dropboxguide}
+Dropbox (2014).
+\newblock Dropbox platform developer guide.
+\newblock \url{https://www.dropbox.com/developers/reference/devguide}.
+\newblock Accessed: 2014-10-05.
+
+\bibitem[Fowler and Highsmith, 2001]{fowler2001agile}
+Fowler, M. and Highsmith, J. (2001).
+\newblock The agile manifesto.
+\newblock {\em Software Development}, 9(8):28--35.
+
+\bibitem[Franz and Brants, 2006]{googleresearch}
+Franz, A. and Brants, T. (2006).
+\newblock All our n-gram are belong to you.
+\newblock
+  \url{http://googleresearch.blogspot.co.uk/2006/08/all-our-n-gram-are-belong-to-you.html}.
+\newblock Accessed: 2014-10-05.
+
+\bibitem[Google, 2014]{androidsecurity}
+Google (2014).
+\newblock Android security program overview.
+\newblock
+  \url{http://source.android.com/devices/tech/security/#android-platform-security-architecture}.
+\newblock Accessed: 2014-10-05.
+
+\bibitem[Grolimund et~al., 2006]{grolimund2006cryptree}
+Grolimund, D., Meisser, L., Schmid, S., and Wattenhofer, R. (2006).
+\newblock Cryptree: A folder tree structure for cryptographic file systems.
+\newblock In {\em Reliable Distributed Systems, 2006. SRDS'06. 25th IEEE
+  Symposium on}, pages 189--198. IEEE.
+
+\bibitem[Gunasekera, 2012]{Gunasekera:2012:AAS:2381033}
+Gunasekera, S. (2012).
+\newblock {\em Android Apps Security}.
+\newblock Apress, Berkely, CA, USA, 1st edition.
+
+\bibitem[Gupta, 2008a]{scrumalliance}
+Gupta, M. (2008a).
+\newblock Definition of done: A reference.
+\newblock
+  \url{https://www.scrumalliance.org/community/articles/2008/september/definition-of-done-a-reference}.
+\newblock Accessed: 2014-10-05.
+
+\bibitem[Gupta, 2008b]{scrum}
+Gupta, M. (2008b).
 \newblock Definition of done: A reference - scrum alliance.
+
+\bibitem[Harney, 1997]{harney1997group}
+Harney, H. (1997).
+\newblock Group key management protocol (gkmp) architecture.
+\newblock {\em Group}.
 
 \bibitem[na, ]{android_dev}
 na.
@@ -17,10 +87,63 @@ na.
 na (2014).
 \newblock Portecle: Home.
 
-\bibitem[Schneier, 1998]{schneier1998security}
-Schneier, B. (1998).
+\bibitem[Oracle, 2014]{javasedoc}
+Oracle (2014).
+\newblock Java cryptography architecture oracle providers documentation for
+  java platform standard edition 7.
+\newblock
+  \url{http://docs.oracle.com/javase/7/docs/technotes/guides/security/SunProviders.html}.
+\newblock Accessed: 2014-10-05.
+
+\bibitem[Perrig, 1999]{perrig1999efficient}
+Perrig, A. (1999).
+\newblock Efficient collaborative key management protocols for secure
+  autonomous group communication.
+\newblock In {\em International Workshop on Cryptographic Techniques and
+  E-Commerce (CrypTEC’99)}, pages 192--202.
+
+\bibitem[Rao et~al., 2012]{rao2012secure}
+Rao, R.~V., Selvamani, K., and Elakkiya, R. (2012).
+\newblock A secure key transfer protocol for group communication.
+\newblock {\em arXiv preprint arXiv:1212.2720}.
+
+\bibitem[SafeMonk, 2014]{safemonk}
+SafeMonk (2014).
+\newblock Safemonk is serious about encryption key security.
+\newblock \url{https://www.safemonk.com/security}.
+\newblock Accessed: 2014-10-05.
+
+\bibitem[Schneier, 1998a]{schneier1998crypto}
+Schneier, B. (1998a).
+\newblock Crypto-gram newsletter.
+
+\bibitem[Schneier, 1998b]{schneier1998security}
+Schneier, B. (1998b).
 \newblock Security pitfalls in cryptography.
 \newblock In {\em EDI FORUM-OAK PARK-}, volume~11, pages 65--69. THE EDI GROUP,
   LTD.
+
+\bibitem[Shabtai et~al., 2010a]{shabtai2010google}
+Shabtai, A., Fledel, Y., Kanonov, U., Elovici, Y., Dolev, S., and Glezer, C.
+  (2010a).
+\newblock Google android: A comprehensive security assessment.
+\newblock {\em IEEE Security and Privacy}, 8(2):35--44.
+
+\bibitem[Shabtai et~al., 2010b]{Shabtai:2010:GAC:1803940.1804131}
+Shabtai, A., Fledel, Y., Kanonov, U., Elovici, Y., Dolev, S., and Glezer, C.
+  (2010b).
+\newblock Google android: A comprehensive security assessment.
+\newblock {\em IEEE Security and Privacy}, 8(2):35--44.
+
+\bibitem[Six, 2011]{six2011application}
+Six, J. (2011).
+\newblock {\em Application Security for the Android Platform: Processes,
+  Permissions, and Other Safeguards}.
+\newblock " O'Reilly Media, Inc.".
+
+\bibitem[Zhou et~al., 2011]{zhou2011taming}
+Zhou, Y., Zhang, X., Jiang, X., and Freeh, V.~W. (2011).
+\newblock Taming information-stealing smartphone applications (on android).
+\newblock In {\em Trust and Trustworthy Computing}, pages 93--107. Springer.
 
 \end{thebibliography}
