@@ -68,81 +68,41 @@ Fragments are reusable elements of the application's user interface which can be
 \subsubsection*{Performance and Threading}
 Although some asynchronous processing results from the calls to the Dropbox API, currently everything in SecurelyShare runs on the main thread.  Whilst this may seem an unusual choice when carrying out computationally expensive cryptographic operations, there is little value in introducing parallel processing if it frees the user up to do other tasks.  When opening a file, there is little else that the user can practically do apart from wait and in testing, we felt that performance was within acceptable limits.  This may need to be revisited in a future iteration;  if, for example, a custom PDF processor was implemented where users were needing to encrypt and save large annotated files, it may be preferable to run this on a separate thread.
 
+\section{Admin System}
+\red{
+Admin system – basic with no front end.  Designed to run on system with Dropbox installed and running so files uploaded to dropbox simply by saving them in the correct location rather than worrying about using Dropbox API within program.
+}
+\red{
+PC version in java that just does basic encryption/decryption.  Used primarily for intial development and testing of encryption mechanisms. Single username hardcoded for testing. Fully developed application with user interface outside of scope of this project. Assumption that encrypted blobs are probably also created on PC - simple PC version of program developed to address this, although no gui developed
+}\\
 
 \section{Implementation Challenges}
- Activities are event-driven 
-• Your Activities provide event handling code to process events 
-• Your primary work is to create one or more Activities 
-• Your activities DO NOT control the flow of program execution but 
-instead respond to key events 
+Android is highly event-driven; its activities are written using the familiar syntax of Java and, as a new Android developer, it is easy to fall into the trap of thinking of them as 'programs'.  However, they could perhaps be more properly thought of as sophisticated event-handlers.  Android activities do not control the flow of program execution - they simply provide code to respond to events.  
 
-• Subsequent code in your Activity is triggered by your event listeners 
+We found that this different way of thinking was one of the most challenging aspects of this project - basic  concepts like opening a dialog to ask the user to confirm an action and blocking until the user responds are simply not available.  Similarly unfamiliar is the way that the operating system actively manages storage.  When the user navigates away from an activity, the operating system holds it in memory in a paused state.  If, however, memory resources run short, the current instance of the activity is simply destroyed and a new one created next time the user navigates back to it, causing variables to be reinitialised (although the system saves the state of the activity layout so that it can recreate the screen when the user resumes the application).  This uncertainty over the precise state of variables required close attention when coding. 
 
-
-Android iis highly event-driven; its activities are written using the familiar syntax of Java and, as a new Android developer, it is easy to fall into the trap of thinking of them as 'programs'.  However, they could perhaps be more properly thought of as sophisticated event-handlers.  Android activities do not control the flow of program execution - they simply provide code to respond to events.  
-
-We found that his different way of thinking was one of the most challenging aspects of this project - basic  concepts, like opening a dialog to ask the user to confirm an action and blocking until the user responds, are simply not available.  Similarly unfamiliar is the operating system actively manages storage.  When the user navigates away from an activity, the operating system holds it in memory in a paused state.  If, however, memory resources run short, the current instance of the activity is simply destroyed and a new one created next time the user navigates back to it, causing variables to be reinitialised.  There are mechanisms to allow the user interface to automatically retain its state but as a developer, the conis is in marked contrast to 
+\subsubsection*{Communication between activities}
+When wanting to start a new activity, the standard method is to create an \texttt{Intent} and then to execute \texttt{startActivity(intent)}.  Data to be passed to the new activity can be placed in a \texttt{Bundle} belonging to the intent.  However, in order to pass an object in this way it must be serializable, either using standard Java serialization or by implementing \texttt{Parcelable} , Android's own implementation which is lighterweight and faster.  In SecurelyShare we are working with object of the Dropbox API, which are neither parecelable nor serializable.  Considerable time was spent investigating whether there was an obvious solution to this which we were simply missing due to inexperience but ultimately it appeared that there was none and we had to design around this limitation.
 
 
-DROPBOX
-For improvement, use custom file extension registered with Dropbox then would only ever see encrypted files
+\subsubsection*{Security Providers}
+The Java SE Documentation states:
+\begin{quotation}
+\textbf{Reminder: }Cryptographic implementations in the JDK are distributed through several different providers ("Sun", "SunJSSE", "SunJCE", "SunRsaSign") for both historical reasons and by the types of services provided. General purpose applications SHOULD NOT request cryptographic services from specific providers. \cite{javasedoc}
+\end{quotation} 
+Having followed this advice, we discovered that although we were able to decrypt and import group keys in the desktop version of our code, this did not work when ported to Android.  This presented a major debugging difficulty as, having isolated the problem, we were essentially comparing two pieces of code that looked identical but performed differently.  It transpired that the problem arose because Java and Android use different default providers and these are not interchangeable.  We were able to remedy the problem by installing the Bouncy Castle provider and forcing Java to use that provider.
 
-GOOD PRACTICE
-use of bundle for passing data between activities
-
-use of interface for passing data back from dialog
-
-Use of singleton
-
-
-
-ANDROID FEATURES
-
-Splash screen and initialization
-
-Fragments
-
-Implemented with algorithms as static variables so that easy to amend if standards change
-
-CRYPTOGRAPHY
-
-
-
-
+\red{
 CHALLENGES
-Major issues with keystore, certificates and default providers.
-
-dbx stuff does not implement serialisable or parcelable
-
-
-Challenge of unavailability of BKS on pcs in school
-
+Major issues with keystore, certificates 
 No access to key tool in android
-
-Issue: if generate [private key on device, it is device specific - ability to import would allow same keystores to be used on multiple devices for4 same user
-
-
-Issue: if generate [rivate key on device, it is device specific - ability to import would allow same keystores to be used on multiple devices for4 same user
-
 THINGS NOT INCLUDED
 However, as will be discussed in Chapter \ref{cha:imp}, due to some of the challenges encountered during the implementation phase, we were not able to implement this aspect of our design fully in the prototype. (digital signatures)
-
-custom pdf reader
-
-OPTIMIZATION
-
-buffering
-
-decision not to implement threads at this stage
-Did not optimize for battery and memory
+}\\
 
 
 
-Admin system – basic with no front end.  Designed to run on system with Dropbox installed and running so files uploaded to dropbox simply by saving them in the correct location rather than worrying about using Dropbox API within program.
 
-Android prototype
-
-PC version in java that just does basic encryption/decryption.  Used primarily for intial development and testing of encryption mechanisms. Single username hardcoded for testing. Fully developed application with user interface outside of scope of this project. Assumption that encrypted blobs are probably also created on PC - simple PC version of program developed to address this, although no gui developed
 \section{Testing}
 
 The encryption and decryption elements of our prototype were largely testing by inspection - known texts were encrypted, the files were checked to ensure that they were not leaking any of the plaintext, and these were in turn decrypted and compared with the original.   In general, the nature of encryption means that the main body of a file either decrypts completely or not at all, however particular attention must be paid to the very beginning and end of a file, as incorrect use of the API can lead to errors here.  As our project was aimed at document encryption, we tested using a mixture of text (.txt files) and PDFs (although we did also confirm that our processes generalised to other file types).  Since randomness plays an important role in ensuring  semantic security  for symmetric encryption schemes, this made any sort on unit testing extremely difficult.  At the outset we considered using fixed initialisation vectors and encryption keys to make our tests repeatable.  However, on closer consideration this involved making some significant changes to the program logic relating to the use of the cryptography APIs and so was considered to make this sort of testing meaningless.  

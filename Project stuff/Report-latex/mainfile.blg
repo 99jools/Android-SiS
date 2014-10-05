@@ -1,12 +1,11 @@
 This is BibTeX, Version 0.99dThe top-level auxiliary file: mainfile.aux
-The style file: plainnat.bst
+The style file: abbrvnat.bst
 Database file #1: references.bib
 Warning--string name "sept" is undefined
---line 33 of file references.bib
-Warning--string name "sept" is undefined
---line 41 of file references.bib
+--line 24 of file references.bib
 Warning--I didn't find a database entry for "dh1976"
 Warning--I didn't find a database entry for "android_dev"
 Warning--I didn't find a database entry for "androiddev2"
 Warning--I didn't find a database entry for "androiddev3"
+Warning--I didn't find a database entry for "scrum"
 (There were 6 warnings)

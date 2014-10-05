@@ -1,4 +1,4 @@
-\begin{thebibliography}{26}
+\begin{thebibliography}{23}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -12,19 +12,19 @@ boxcryptor.
 \newblock Accessed: 2014-10-05.
 
 \bibitem[Cairns and Steel(2014)]{cairnsdeveloper}
-Kelsey Cairns and Graham Steel.
+K.~Cairns and G.~Steel.
 \newblock Developer-resistant cryptography.
 \newblock \url{https://www.w3.org/2014/strint/papers/48.pdf}, 2014.
 \newblock Accessed: 2014-10-05.
 
 \bibitem[Challal and Seba(2005)]{challal2005group}
-Yacine Challal and Hamida Seba.
+Y.~Challal and H.~Seba.
 \newblock Group key management protocols: A novel taxonomy.
 \newblock \emph{International Journal of Information Technology}, 2\penalty0
   (1):\penalty0 105--118, 2005.
 
 \bibitem[Cojocaru(2014)]{JMEDSProtecting_Stored_Data_on_Android_Devices}
-Raluca Cojocaru.
+R.~Cojocaru.
 \newblock Protecting stored data on android devices.
 \newblock \emph{Journal of Mobile, Embedded and Distributed Systems},
   6\penalty0 (1), 2014.
@@ -33,21 +33,14 @@ Raluca Cojocaru.
 
 \bibitem[Das et~al.(2014)Das, Bonneau, Caesar, Borisov, and
   Wang]{das2014tangled}
-Anupam Das, Joseph Bonneau, Matthew Caesar, Nikita Borisov, and XiaoFeng Wang.
+A.~Das, J.~Bonneau, M.~Caesar, N.~Borisov, and X.~Wang.
 \newblock The tangled web of password reuse.
 \newblock In \emph{Proceedings of NDSS}, 2014.
 
-<<<<<<< HEAD
-\bibitem[Developer.android.com, 2014]{androiddev}
-Developer.android.com (2014).
-\newblock Android developers.
-\newblock \url{http://developer.android.com}.
-=======
 \bibitem[Developer.android.com(2014)]{androiddev}
 Developer.android.com.
 \newblock Android developers.
 \newblock \url{http://developer.android.com}, 2014.
->>>>>>> 919e6d525d6d778256b97ceb790448d0b8f0d8d4
 \newblock Accessed: 2014-10-03.
 
 \bibitem[Dropbox(2014)]{dropboxguide}
@@ -57,12 +50,12 @@ Dropbox.
 \newblock Accessed: 2014-10-05.
 
 \bibitem[Fowler and Highsmith(2001)]{fowler2001agile}
-Martin Fowler and Jim Highsmith.
+M.~Fowler and J.~Highsmith.
 \newblock The agile manifesto.
 \newblock \emph{Software Development}, 9\penalty0 (8):\penalty0 28--35, 2001.
 
 \bibitem[Franz and Brants(2006)]{googleresearch}
-Alex Franz and Thorsten Brants.
+A.~Franz and T.~Brants.
 \newblock All our n-gram are belong to you.
 \newblock
   \url{http://googleresearch.blogspot.co.uk/2006/08/all-our-n-gram-are-belong-to-you.html},
@@ -79,33 +72,27 @@ Google.
 
 \bibitem[Grolimund et~al.(2006)Grolimund, Meisser, Schmid, and
   Wattenhofer]{grolimund2006cryptree}
-Dominik Grolimund, Luzius Meisser, Stefan Schmid, and Roger Wattenhofer.
+D.~Grolimund, L.~Meisser, S.~Schmid, and R.~Wattenhofer.
 \newblock Cryptree: A folder tree structure for cryptographic file systems.
 \newblock In \emph{Reliable Distributed Systems, 2006. SRDS'06. 25th IEEE
   Symposium on}, pages 189--198. IEEE, 2006.
 
 \bibitem[Gunasekera(2012)]{Gunasekera:2012:AAS:2381033}
-Sheran Gunasekera.
+S.~Gunasekera.
 \newblock \emph{Android Apps Security}.
 \newblock Apress, Berkely, CA, USA, 1st edition, 2012.
 \newblock ISBN 1430240628, 9781430240624.
 
-\bibitem[Gupta(2008{\natexlab{a}})]{scrum}
-Mayank Gupta.
-\newblock Definition of done: A reference - scrum alliance, 2008{\natexlab{a}}.
-\newblock URL
-  \url{https://www.scrumalliance.org/community/articles/2008/september/definition-of-done-a-reference}.
-
-\bibitem[Gupta(2008{\natexlab{b}})]{scrumalliance}
-Mayank Gupta.
+\bibitem[Gupta(2008)]{scrumalliance}
+M.~Gupta.
 \newblock Definition of done: A reference.
 \newblock
   \url{https://www.scrumalliance.org/community/articles/2008/september/definition-of-done-a-reference},
-  2008{\natexlab{b}}.
+  2008.
 \newblock Accessed: 2014-10-05.
 
 \bibitem[Harney(1997)]{harney1997group}
-Hugh Harney.
+H.~Harney.
 \newblock Group key management protocol (gkmp) architecture.
 \newblock \emph{Group}, 1997.
 
@@ -119,7 +106,7 @@ Oracle.
 \newblock Accessed: 2014-10-05.
 
 \bibitem[Perrig(1999)]{perrig1999efficient}
-Adrian Perrig.
+A.~Perrig.
 \newblock Efficient collaborative key management protocols for secure
   autonomous group communication.
 \newblock In \emph{International Workshop on Cryptographic Techniques and
@@ -131,7 +118,7 @@ Portecle.sourceforge.net.
 \newblock URL \url{http://portecle.sourceforge.net/}.
 
 \bibitem[Rao et~al.(2012)Rao, Selvamani, and Elakkiya]{rao2012secure}
-R~Velumadhava Rao, K~Selvamani, and R~Elakkiya.
+R.~V. Rao, K.~Selvamani, and R.~Elakkiya.
 \newblock A secure key transfer protocol for group communication.
 \newblock \emph{arXiv preprint arXiv:1212.2720}, 2012.
 
@@ -141,43 +128,27 @@ SafeMonk.
 \newblock \url{https://www.safemonk.com/security}, 2014.
 \newblock Accessed: 2014-10-05.
 
-\bibitem[Schneier(1998{\natexlab{a}})]{schneier1998crypto}
-Bruce Schneier.
-\newblock Crypto-gram newsletter, 1998{\natexlab{a}}.
-
-\bibitem[Schneier(1998{\natexlab{b}})]{schneier1998security}
-Bruce Schneier.
+\bibitem[Schneier(1998)]{schneier1998security}
+B.~Schneier.
 \newblock Security pitfalls in cryptography.
 \newblock In \emph{EDI FORUM-OAK PARK-}, volume~11, pages 65--69. THE EDI
-  GROUP, LTD., 1998{\natexlab{b}}.
+  GROUP, LTD., 1998.
 
-\bibitem[Shabtai et~al.(2010{\natexlab{a}})Shabtai, Fledel, Kanonov, Elovici,
-  Dolev, and Glezer]{Shabtai:2010:GAC:1803940.1804131}
-Asaf Shabtai, Yuval Fledel, Uri Kanonov, Yuval Elovici, Shlomi Dolev, and
-  Chanan Glezer.
+\bibitem[Shabtai et~al.(2010)Shabtai, Fledel, Kanonov, Elovici, Dolev, and
+  Glezer]{shabtai2010google}
+A.~Shabtai, Y.~Fledel, U.~Kanonov, Y.~Elovici, S.~Dolev, and C.~Glezer.
 \newblock Google android: A comprehensive security assessment.
 \newblock \emph{IEEE Security and Privacy}, 8\penalty0 (2):\penalty0 35--44,
-  March 2010{\natexlab{a}}.
-\newblock ISSN 1540-7993.
-\newblock \doi{10.1109/MSP.2010.2}.
-\newblock URL \url{http://dx.doi.org/10.1109/MSP.2010.2}.
-
-\bibitem[Shabtai et~al.(2010{\natexlab{b}})Shabtai, Fledel, Kanonov, Elovici,
-  Dolev, and Glezer]{shabtai2010google}
-Asaf Shabtai, Yuval Fledel, Uri Kanonov, Yuval Elovici, Shlomi Dolev, and
-  Chanan Glezer.
-\newblock Google android: A comprehensive security assessment.
-\newblock \emph{IEEE Security and Privacy}, 8\penalty0 (2):\penalty0 35--44,
-  2010{\natexlab{b}}.
+  2010.
 
 \bibitem[Six(2011)]{six2011application}
-Jeff Six.
+J.~Six.
 \newblock \emph{Application Security for the Android Platform: Processes,
   Permissions, and Other Safeguards}.
 \newblock " O'Reilly Media, Inc.", 2011.
 
 \bibitem[Zhou et~al.(2011)Zhou, Zhang, Jiang, and Freeh]{zhou2011taming}
-Yajin Zhou, Xinwen Zhang, Xuxian Jiang, and Vincent~W Freeh.
+Y.~Zhou, X.~Zhang, X.~Jiang, and V.~W. Freeh.
 \newblock Taming information-stealing smartphone applications (on android).
 \newblock In \emph{Trust and Trustworthy Computing}, pages 93--107. Springer,
   2011.
