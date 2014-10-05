@@ -65,10 +65,23 @@ Figure \ref{fig:import} shows the screen for importing a new group key, which il
 
 Fragments are reusable elements of the application's user interface which can be combined to build a multi-pane user interface \cite{androiddev3}. As shown here, SecurelyShare is perhaps  best suited to landscape mode as it uses a split-screen, however it could easily be modified to show each fragment in a separate activity on a smaller screen or to improve the display in portrait mode.
 
+\subsubsection*{Performance and Threading}
+Although some asynchronous processing results from the calls to the Dropbox API, currently everything in SecurelyShare runs on the main thread.  Whilst this may seem an unusual choice when carrying out computationally expensive cryptographic operations, there is little value in introducing parallel processing if it frees the user up to do other tasks.  When opening a file, there is little else that the user can practically do apart from wait and in testing, we felt that performance was within acceptable limits.  This may need to be revisited in a future iteration;  if, for example, a custom PDF processor was implemented where users were needing to encrypt and save large annotated files, it may be preferable to run this on a separate thread.
 
 
 \section{Implementation Challenges}
-One aspect of the Android environment which is challenging for newcomers is the way in which the operating system actively manages storage.  When the user navigates away from an activity, it operating system holds it in memory in a paused state.  If, however, memory resources run short, the current instance of the activity is simply destroyed and a new one created next time the user navigates back to it, causing variables to be reinitialised.
+ Activities are event-driven 
+• Your Activities provide event handling code to process events 
+• Your primary work is to create one or more Activities 
+• Your activities DO NOT control the flow of program execution but 
+instead respond to key events 
+
+• Subsequent code in your Activity is triggered by your event listeners 
+
+
+Android iis highly event-driven; its activities are written using the familiar syntax of Java and, as a new Android developer, it is easy to fall into the trap of thinking of them as 'programs'.  However, they could perhaps be more properly thought of as sophisticated event-handlers.  Android activities do not control the flow of program execution - they simply provide code to respond to events.  
+
+We found that his different way of thinking was one of the most challenging aspects of this project - basic  concepts, like opening a dialog to ask the user to confirm an action and blocking until the user responds, are simply not available.  Similarly unfamiliar is the operating system actively manages storage.  When the user navigates away from an activity, the operating system holds it in memory in a paused state.  If, however, memory resources run short, the current instance of the activity is simply destroyed and a new one created next time the user navigates back to it, causing variables to be reinitialised.  There are mechanisms to allow the user interface to automatically retain its state but as a developer, the conis is in marked contrast to 
 
 
 DROPBOX
