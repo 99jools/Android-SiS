@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.4-1.40.13 (MiKTeX 2.9 64-bit) (preloaded format=pdflatex 2013.11.10)  3 OCT 2014 23:18
+This is pdfTeX, Version 3.1415926-2.4-1.40.13 (MiKTeX 2.9 64-bit) (preloaded format=pdflatex 2013.11.10)  5 OCT 2014 15:07
 entering extended mode
 **mainfile.tex
 
@@ -683,7 +683,23 @@ Package uniquecounter Info: New unique counter `rerunfilecheck' on input line 2
 \Hy@SectionHShift=\skip66
 )
 ("D:\Users\Julie\Documents\GitHub\Android-SiS\Project stuff\Report-latex\mainfi
-le.aux")
+le.aux"
+
+! Package natbib Error: Bibliography not compatible with author-year citations.
+
+(natbib)                Press <return> to continue in numerical citation style.
+
+
+See the natbib package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.91 ...mand\NAT@force@numbers{}\NAT@force@numbers
+                                                  
+Check the bibliography entries for non-compliant syntax,
+or select author-year BibTeX style, e.g. plainnat
+
+)
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 129.
 LaTeX Font Info:    ... okay on input line 129.
 LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 129.
@@ -866,13 +882,9 @@ Underfull \hbox (badness 10000) in paragraph at lines 86--87
 ("D:\Users\Julie\Documents\GitHub\Android-SiS\Project stuff\Report-latex\folder
 /implementation.tex" [16]
 Chapter 4.
-
-Package natbib Warning: Citation `android_dev' on page 17 undefined on input li
-ne 8.
-
 [17
 
-] <Setup.png, id=239, 1445.4pt x 903.375pt>
+] <Setup.png, id=238, 1445.4pt x 903.375pt>
 File: Setup.png Graphic file (type png)
  <use Setup.png>
 Package pdftex.def Info: Setup.png used on input line 27.
@@ -947,10 +959,10 @@ LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 145.
  ) 
 Here is how much of TeX's memory you used:
- 10954 strings out of 493921
- 160965 string characters out of 3145276
- 262306 words of memory out of 3000000
- 14011 multiletter control sequences out of 15000+200000
+ 10957 strings out of 493921
+ 161025 string characters out of 3145276
+ 262325 words of memory out of 3000000
+ 14013 multiletter control sequences out of 15000+200000
  9980 words of font info for 36 fonts, out of 3000000 for 9000
  841 hyphenation exceptions out of 8191
  42i,12n,43p,2956b,448s stack positions out of 5000i,500n,10000p,200000b,50000s
@@ -959,9 +971,9 @@ D:/Test Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmssbx10.pfb><D
 :/Test Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmssi12.pfb><D:/
 Test Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy10.pfb><D:/Tes
 t Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmtt12.pfb>
-Output written on mainfile.pdf (30 pages, 211745 bytes).
+Output written on mainfile.pdf (30 pages, 211415 bytes).
 PDF statistics:
- 342 PDF objects out of 1000 (max. 8388607)
- 79 named destinations out of 1000 (max. 500000)
+ 340 PDF objects out of 1000 (max. 8388607)
+ 80 named destinations out of 1000 (max. 500000)
  206 words of extra memory for PDF output out of 10000 (max. 10000000)
 
