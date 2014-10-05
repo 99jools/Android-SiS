@@ -5,15 +5,13 @@
 \documentclass[a4paper,12pt,oneside]{report}
 \usepackage[utf8]{inputenc}
 
-
-
 %%% FONT AND LINE SPACING ------------------------------------------
 \renewcommand{\familydefault}{\sfdefault}
 \usepackage{setspace}
 \onehalfspacing
 
 \usepackage[inline]{enumitem}
-\setlist{noitemsep} % or \setlist{nosep} 
+\setlist{noitemsep} % or \setlist{nosep}
 
 %%% PAGE DIMENSIONS ------------------------------------------------------------
 
@@ -31,8 +29,6 @@
 
 %%% SECTION TITLE APPEARANCE ---------------------------------------------------
 % \setcounter{secnumdepth}{1}
-
-
 
 %%% PACKAGES -------------------------------------------------------------------
 \usepackage{subcaption}
@@ -87,7 +83,9 @@
 }
 
 %% BIBLIOGRAPHY -----------------------------------------------------------------
-\usepackage{cite}
+%\usepackage{cite}
+\usepackage{natbib}
+\bibliographystyle{plainnat}
 
 %%% ToC (table of contents) APPEARANCE -----------------------------------------
 \renewcommand{\contentsname}{Table of Contents}
@@ -139,7 +137,6 @@
 \input{folder/security.tex}
 \input{folder/evaluation.tex}
 \input{folder/conclusion.tex}
-\bibliographystyle{apalike}
 \bibliography{references}
 \nocite{*}
 
