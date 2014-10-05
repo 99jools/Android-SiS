@@ -1,0 +1,109 @@
+% Created:  Sun 15 Jun 2014 04:29 pm
+% @author Josh Wainwright
+% File name : titlepage.tex
+
+\begin{titlepage}
+	\begin{center}
+		\vspace*{\fill}
+
+		\centering
+		\includegraphics[scale=1.3]{Logo.pdf}
+		\vfill
+
+		{\LARGE\bf An ImageJ Plugin for Cluster Analysis \\
+			of PALM and STORM Data Using \\
+			Recursive Data Structures}
+
+		\vfill
+		{\Large Josh Wainwright}
+		\vfill
+
+		\vfill
+		\textit{Supervisor:} Iain Styles \\
+		\vfill
+		\textit{Date:} September 2014
+		\vfill
+		\vfill
+
+	\end{center}
+\end{titlepage}
+
+\thispagestyle{empty}
+\pagenumbering{roman}
+
+\textbf{Title:} An ImageJ Plugin for Cluster Analysis of PALM and STORM Data
+Using Recursive Data Structures \\
+\textbf{Author:} Josh Wainwright \\
+\textbf{Supervisor:} Iain Styles \\
+\textbf{Date:} September 2014 \\
+\textbf{}
+\vfill
+\vfill
+
+\subsubsection*{Declaration}
+
+The material contained within this dissertation has not previously been
+submitted for a degree at the University of Birmingham or any other university.
+The research reported within this dissertation has been conducted by the author
+unless indicated otherwise.\\
+
+Signed \dotfill
+
+\vfill
+
+Submitted in conformance with the requirements of the post graduate degree of
+MSc Computer Science at the School of Computer Science, University of
+Birmingham (2013/2014).
+
+\copyright~University of Birmingham 2013/2014
+
+\pagestyle{empty}
+
+\newpage
+\pagenumbering{gobble}
+\makebox[\linewidth][c]{%
+	\begin{minipage}[c]{0.8\textwidth}
+		\part*{Abstract}
+
+		\vspace{1cm}
+		This project introduces the concept of data clustering and its uses in
+		medical and biological image analysis and examines some existing
+		techniques for extracting clustering information from such data sets. A
+		new technique based on quadtree style data structures is discussed and
+		an implementation tested and evaluated based on this technique. This
+		method is found to perform well even under difficult conditions, such
+		as noisy data, where others struggle, though has limitations in data
+		set size, resource usage and taking advantage of parallel processing.
+
+	\end{minipage}
+}
+
+\newpage
+\makebox[\linewidth][c]{%
+	\begin{minipage}[c]{0.8\textwidth}
+		\part*{Acknowledgements}
+
+		\vspace{1cm}
+
+	\end{minipage}
+}
+
+\clearpage
+
+%\pagenumbering{roman}
+%\begingroup
+%\let\clearpage\relax
+%
+%\tableofcontents
+%% \newpage
+%\addcontentsline{toc}{section}{List of Figures}
+%\listoffigures
+%\addcontentsline{toc}{section}{List of Tables}
+%\listoftables
+%\addcontentsline{toc}{section}{List of Code Listings}
+%\renewcommand{\lstlistlistingname}{List of Code Listings}
+%\lstlistoflistings%
+%\endgroup
+%
+%\cleardoublepage%
+%\pagestyle{fancy}

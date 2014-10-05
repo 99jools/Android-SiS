@@ -37,10 +37,17 @@ Anupam Das, Joseph Bonneau, Matthew Caesar, Nikita Borisov, and XiaoFeng Wang.
 \newblock The tangled web of password reuse.
 \newblock In \emph{Proceedings of NDSS}, 2014.
 
+<<<<<<< HEAD
+\bibitem[Developer.android.com, 2014]{androiddev}
+Developer.android.com (2014).
+\newblock Android developers.
+\newblock \url{http://developer.android.com}.
+=======
 \bibitem[Developer.android.com(2014)]{androiddev}
 Developer.android.com.
 \newblock Android developers.
 \newblock \url{http://developer.android.com}, 2014.
+>>>>>>> 919e6d525d6d778256b97ceb790448d0b8f0d8d4
 \newblock Accessed: 2014-10-03.
 
 \bibitem[Dropbox(2014)]{dropboxguide}
