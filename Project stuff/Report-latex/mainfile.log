@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.4-1.40.13 (MiKTeX 2.9 64-bit) (preloaded format=pdflatex 2013.11.10)  5 OCT 2014 17:39
+This is pdfTeX, Version 3.1415926-2.4-1.40.13 (MiKTeX 2.9 64-bit) (preloaded format=pdflatex 2013.11.10)  5 OCT 2014 17:47
 entering extended mode
 **mainfile.tex
 
@@ -891,48 +891,55 @@ File: main.png Graphic file (type png)
 Package pdftex.def Info: main.png used on input line 37.
 (pdftex.def)             Requested size: 220.50887pt x 137.81618pt.
  [18]
-Overfull \hbox (15.57997pt too wide) in paragraph at lines 69--70
+<Unlock.png, id=253, 1445.4pt x 903.375pt>
+File: Unlock.png Graphic file (type png)
+ <use Unlock.png>
+Package pdftex.def Info: Unlock.png used on input line 44.
+(pdftex.def)             Requested size: 220.50887pt x 137.81618pt.
+ [19 <D:/Users/Julie/Documents/GitHub/Android-SiS/Project stuff/Report-latex/Se
+tup.png> <D:/Users/Julie/Documents/GitHub/Android-SiS/Project stuff/Report-late
+x/main.png> <D:/Users/Julie/Documents/GitHub/Android-SiS/Project stuff/Report-l
+atex/Unlock.png>]
+Overfull \hbox (15.57997pt too wide) in paragraph at lines 75--76
 []\OT1/cmss/m/n/12 Implemented with al-go-rithms as static vari-ables so that e
 asy to amend if stan-dards change 
  []
 
-[19 <D:/Users/Julie/Documents/GitHub/Android-SiS/Project stuff/Report-latex/Set
-up.png> <D:/Users/Julie/Documents/GitHub/Android-SiS/Project stuff/Report-latex
-/main.png>] [20])
+[20] [21])
 ("D:\Users\Julie\Documents\GitHub\Android-SiS\Project stuff\Report-latex\folder
-/projectmgt.tex" [21]
+/projectmgt.tex" [22]
 Chapter 5.
-[22
+[23
 
 ])
 ("D:\Users\Julie\Documents\GitHub\Android-SiS\Project stuff\Report-latex\folder
-/security.tex" [23]
+/security.tex" [24]
 Chapter 6.
-[24
+[25
 
 ]
 Underfull \hbox (badness 10000) in paragraph at lines 19--20
 
  []
 
-[25])
+[26])
 ("D:\Users\Julie\Documents\GitHub\Android-SiS\Project stuff\Report-latex\folder
 /evaluation.tex"
 Underfull \hbox (badness 10000) in paragraph at lines 43--4
 
  []
 
-[26]
+[27]
 Chapter 7.
-[27
+[28
 
 ])
 ("D:\Users\Julie\Documents\GitHub\Android-SiS\Project stuff\Report-latex\folder
-/conclusion.tex" [28]
+/conclusion.tex" [29]
 Chapter 8.
 )
 ("D:\Users\Julie\Documents\GitHub\Android-SiS\Project stuff\Report-latex\mainfi
-le.bbl" [29
+le.bbl" [30
 
 ]
 Underfull \hbox (badness 4805) in paragraph at lines 42--47
@@ -956,7 +963,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 49--54
 om / devices / tech / security /$
  []
 
-[30
+[31
 
 ]
 Underfull \hbox (badness 10000) in paragraph at lines 67--72
@@ -969,9 +976,9 @@ Underfull \hbox (badness 10000) in paragraph at lines 67--72
 s / 2008 / september /$
  []
 
-[31])
+[32])
 Package atveryend Info: Empty hook `BeforeClearDocument' on input line 146.
- [32]
+ [33]
 Package atveryend Info: Empty hook `AfterLastShipout' on input line 146.
 
 ("D:\Users\Julie\Documents\GitHub\Android-SiS\Project stuff\Report-latex\mainfi
@@ -990,10 +997,10 @@ LaTeX Warning: There were undefined references.
 Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 146.
  ) 
 Here is how much of TeX's memory you used:
- 10780 strings out of 493921
- 159345 string characters out of 3145276
- 260112 words of memory out of 3000000
- 13808 multiletter control sequences out of 15000+200000
+ 10788 strings out of 493921
+ 159450 string characters out of 3145276
+ 260214 words of memory out of 3000000
+ 13813 multiletter control sequences out of 15000+200000
  9980 words of font info for 36 fonts, out of 3000000 for 9000
  841 hyphenation exceptions out of 8191
  42i,12n,43p,2962b,448s stack positions out of 5000i,500n,10000p,200000b,50000s
@@ -1002,9 +1009,9 @@ D:/Test Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmssbx10.pfb><D
 :/Test Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmssi12.pfb><D:/
 Test Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy10.pfb><D:/Tes
 t Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmtt12.pfb>
-Output written on mainfile.pdf (32 pages, 432985 bytes).
+Output written on mainfile.pdf (33 pages, 466578 bytes).
 PDF statistics:
- 395 PDF objects out of 1000 (max. 8388607)
- 107 named destinations out of 1000 (max. 500000)
- 216 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 403 PDF objects out of 1000 (max. 8388607)
+ 109 named destinations out of 1000 (max. 500000)
+ 221 words of extra memory for PDF output out of 10000 (max. 10000000)
 
