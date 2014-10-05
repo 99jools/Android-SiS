@@ -27,6 +27,12 @@ Das, A., Bonneau, J., Caesar, M., Borisov, N., and Wang, X. (2014).
 \newblock The tangled web of password reuse.
 \newblock In {\em Proceedings of NDSS}.
 
+\bibitem[Developer.android.com, ]{androiddev}
+Developer.android.com.
+\newblock Android developers.
+\newblock \url{http://developer.android.com}, year={2014}, Note= {Accessed:
+  2014-10-03},.
+
 \bibitem[Dropbox, 2014]{dropboxguide}
 Dropbox (2014).
 \newblock Dropbox platform developer guide.
@@ -79,14 +85,6 @@ Harney, H. (1997).
 \newblock Group key management protocol (gkmp) architecture.
 \newblock {\em Group}.
 
-\bibitem[na, ]{android_dev}
-na.
-\newblock Android studio | android developers.
-
-\bibitem[na, 2014]{portecle}
-na (2014).
-\newblock Portecle: Home.
-
 \bibitem[Oracle, 2014]{javasedoc}
 Oracle (2014).
 \newblock Java cryptography architecture oracle providers documentation for
@@ -101,6 +99,10 @@ Perrig, A. (1999).
   autonomous group communication.
 \newblock In {\em International Workshop on Cryptographic Techniques and
   E-Commerce (CrypTEC’99)}, pages 192--202.
+
+\bibitem[Portecle.sourceforge.net, 2014]{portecle}
+Portecle.sourceforge.net (2014).
+\newblock Portecle: Home.
 
 \bibitem[Rao et~al., 2012]{rao2012secure}
 Rao, R.~V., Selvamani, K., and Elakkiya, R. (2012).

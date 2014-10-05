@@ -5,12 +5,14 @@ Warning--entry type for "scrum" isn't style-file defined
 --line 30 of file references.bib
 Warning--entry type for "portecle" isn't style-file defined
 --line 38 of file references.bib
-Warning--entry type for "android_dev" isn't style-file defined
---line 45 of file references.bib
-I was expecting a `,' or a `}'---line 49 of file references.bib
- : year 
- :      = {2014},
+I was expecting a `,' or a `}'---line 54 of file references.bib
+ : 
+ : @article{Shabtai:2010:GAC:1803940.1804131,
+(Error may have been on previous line)
 I'm skipping whatever remains of this entry
 Warning--I didn't find a database entry for "dh1976"
-Warning--empty year in android_dev
+Warning--I didn't find a database entry for "android_dev"
+Warning--I didn't find a database entry for "androiddev2"
+Warning--I didn't find a database entry for "androiddev3"
+Warning--empty year in androiddev
 (There was 1 error message)
