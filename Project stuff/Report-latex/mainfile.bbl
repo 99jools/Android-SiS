@@ -1,4 +1,4 @@
-\begin{thebibliography}{25}
+\begin{thebibliography}{27}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -37,10 +37,26 @@ A.~Das, J.~Bonneau, M.~Caesar, N.~Borisov, and X.~Wang.
 \newblock The tangled web of password reuse.
 \newblock In \emph{Proceedings of NDSS}, 2014.
 
-\bibitem[Developer.android.com(2014)]{androiddev}
+\bibitem[Developer.android.com(2014{\natexlab{a}})]{androiddev}
 Developer.android.com.
-\newblock Android developers.
-\newblock \url{http://developer.android.com}, 2014.
+\newblock Android studio | android developers.
+\newblock \url{http://developer.android.com/sdk/installing/studio.html},
+  2014{\natexlab{a}}.
+\newblock Accessed: 2014-10-03.
+
+\bibitem[Developer.android.com(2014{\natexlab{b}})]{androiddev2}
+Developer.android.com.
+\newblock Application | android developers.
+\newblock
+  \url{http://developer.android.com/reference/android/app/Application.html},
+  2014{\natexlab{b}}.
+\newblock Accessed: 2014-10-03.
+
+\bibitem[Developer.android.com(2014{\natexlab{c}})]{androiddev3}
+Developer.android.com.
+\newblock Fragments | android developers.
+\newblock \url{http://developer.android.com/guide/components/fragments.html},
+  2014{\natexlab{c}}.
 \newblock Accessed: 2014-10-03.
 
 \bibitem[Diffie and Hellman(1976)]{diffie1976new}

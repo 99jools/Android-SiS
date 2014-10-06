@@ -21,7 +21,7 @@ At the outset, the following key areas were identified that would need further r
 \label{sec:prob}
 \subsection*{Assumptions}
 
-As outlined in the introduction, Securely Share is intended for use by small, autonomous groups (typically of the order of 3-15 members) with a largely static membership.  This factor was significant in enabling us to discard a number of complex key distribution protocols which were designed for much larger or more volatile groups.  It was also envisaged that groups would have lifetime measured in months, rather than days, hence a small administrative overhead in setting up the group could be considered acceptable in terms of the group duration. 
+As outlined in the introduction, Securely Share is intended for use by small, autonomous groups  with a largely static membership.  This factor was significant in enabling us to discard a number of complex key distribution protocols which were designed for much larger or more volatile groups.  It was also envisaged that groups would have lifetime measured in months, rather than days, hence a small administrative overhead in setting up the group could be considered acceptable in terms of the group duration. 
 
 For practical purposes, it is likely that origination of sensitive documents would be carried out on a PC, as much for the practicality of typing as for any security reasons.  Therefore we are aware that one or more desktop client applications would be required for any fully-implemented solution.  For the purposes of this "proof of concept" project, it was decided that an outline version would be created in Java in order to verify the cryptography, but that time would not permit this to be developed and tested to a level where it could be submitted as part of the finished product.  
 
@@ -79,11 +79,10 @@ A high-level description of the key-generation process is as follows:-
 \item save the encrypted and signed key to the group Dropbox folder 
 \end{itemize}
 
-The use of digital signatures is required for each user to be able to validate that the encrypted key they receive is the authentic one and not one substituted by an attacker.  This  is a vital part of the  security protocol and hence has been included in our  system design.  However, as will be discussed in Chapter \ref{cha:imp}, due to some of the challenges encountered during the implementation phase, we were not able to implement this aspect of our design fully in the prototype.
+The use of digital signatures is required for each user to be able to validate that the encrypted key they receive is the authentic one and not one substituted by an attacker.  This  is a vital part of the  security protocol and hence has been included in our  system design.  However, as will be discussed later, due to some of the challenges encountered during the implementation phase, we were not able to implement this aspect of our design fully in the prototype.
 
-\red{Should I discuss choice of PKI over ID based scheme here or in evaluation}\\
 
-\red{Reasons why didn't choose ID based cryptography or password based solution - aim is to use simplest solution that works.   }\\
+\red{Reasons why chose PKI over IBE or password based solution - aim is to use simplest solution that works.   }\\
 
 \section{Android Prototype }
 

@@ -4,25 +4,28 @@
 
 \chapter{Evaluation}
 \label{cha:eval}
-\section{Security}
+\section{Security Features}
 \label{sec:security}
-In designing our application we applied the principle of 'Defense in Depth' \citep{nsa}
+In designing our application we applied the principle of 'Defense in Depth' \citep{nsa}, using multiple layers of protection to guard against failure in any single mechanism.  Security features discussed earlier in this report include:
+\begin{itemize}
+\item linux and android inbuilt mechanism provide sandboxing and control access to internal file storage
+\item the device should be locked with a pass code
+\item the application has a master password that is used to encrypt the KeyStore containing all the cryptographic artefacts
+\item data stored on both the device and Dropbox is encrypted 
+\item encryption is performed on the device to ensure that the server has no access to decryption keys
+\item using the Dropbox Sync API automatically ensures that all data in transit is protected using SSL
+\item data on the server is also protected by the Dropbox access control facilities
+\end{itemize}
 
- Dropbox uses SSL so protected agains replay attacks
- 
- Client side encryption was used because of the desire to ensure that server had no access to plaintext
 
-Refer to examples which use PBE.  Happy to use it for protection of key material on device as even with password, attacker would have to have access to device or would require more sophisticated remote attack which is out of our scope. 
 
 
 
 \subsection*{Unauthorised Access to device}
-loss of device - we need to include some protection against loss of device but an attacker who is able to gain access to the device whilst the app is running would be able to use the app to decrypt any documents in Dropbox as key store would be unlocked.  It should be noted however that the use of Dropbox does provide some additional protection for this as, once aware that the device is lost, the user is able to log in via the Dropbox website and revoke SecurelyShare's permissions for the account with immediate effect. 
+In the event that the device is physically compromised (lost, stolen, etc.), we acknowledge that if an attacker is able to gain access to the device whilst the app is running he would be able to use the app to decrypt any documents in Dropbox as the KeyStore would be unlocked.  In the event that the SecurelyShare is not running, we have implemented a failed password lockout - encryption keys are deleted from the device after three successive password failures.  It should also be noted  that the use of Dropbox does provide some additional protection as, once aware that the device is lost, the user is able to log in via the Dropbox website and revoke SecurelyShare's permissions for the account with immediate effect. 
 
 \subsection*{Password Policy}
-Password policy - balance of requiring password for every file access which encourages user to choose insecure password.  Opted to use one password both to unlock the KeyStore and to encrypt each of the group keys.  Could have had a separate password for each group but requiring user to remember different passwords often leads to insecure ones. 
-
-Keystore deleted
+In determining a password policy for SecurelyShare, we had to consider whether to require the user to enter the password for every file access, and whether to  use one password both to unlock the KeyStore and to encrypt each of the group keys or whether to have a separate password for each group.  It was felt that overuse of passwords can often lead to less security as users choose short passwords for speed of entry, or low entropy passwords to aid memory.  We feel that, with the added protections outlined above, the current approach is sufficient to meet requirements.
 
 
 \subsection*{Key Distribution}
@@ -42,7 +45,7 @@ This is one of the reasons why we suggest our solution my not be scalable to lar
 
 
 \subsection*{Known Vulnerabilities}
-Had to compromise on aim never to write to storage - this is a temporary measure but would need to implement a custom pdf reader which is beyond the scope of this project. 
+As outlined in the design, to maintain full document security, we require that documents are only ever written to storage in encrypted format.  Although we were able to display and edit decrypted text files, decrypted PDF files have to temporarily be written to cache in order to pass them to the third-party application for reading and annotating.  This is felt to be an unsatisfactory solution but it was acknowledged that finding and customising a suitable PDF reader was not achievable within the time frame.  
 
  digital signatures to protect against man in the middle 
  
@@ -72,47 +75,23 @@ WHAT YOU HAVE LEARNED
 • Android is a whole new operating system not just ‘Java with extra bits’
 
 Problem with API meant that we had to generate keystore for private key and corresponding certificate chain manually.  Further work would be to redesign this part of the app using the additional ffeatures offered in Android 4.3.  Currently consider this to be one of the weakest parts of the design - by the time I realised that this could have been done better, it was too late to go back and change it.
+
 \section{Future Work}
 
 look at generating keystores on device - would need to include method of exporting keystore (encrypted?) for distribution to other device.  
 
 Review other schemes - lots of theoretical examples but anything that would work in practice
 
-Implement propert user interface
+Implement proper user interface
 
 Write a proper PC-based client application and look at improving group names
 
- xxx app offers different levels of password policy as a user option - this may be a useful addition to be considered in the future.   Similarly, for ease of testing and general usability we decided not to implement encryption of filenames in the prototype,  However, this would again be a potential usre option.
+different levels of password policy as a user option - this may be a useful addition to be considered in the future.   Similarly, for ease of testing and general usability we decided not to implement encryption of filenames in the prototype,  However, this would again be a potential user option.
 
 
-SECURITY EVALUATION
-Did not implement signing in prototype as largely meaningless with self-signed certificates. Purchase of appropriate certificates for authentication of signatures would be required for a complete solution
-Attacks and issues to consider
-• anonymity
-• forward secrecy
-• revokation
-• man-in-middle
-Delete keys after failed password attempts
-Write about how p[rotocols as as important as implementation - need to support this view from academic papers
-Talk about why it doesn't matter that encrypted copies of group key are available on dropbox
 nelenkov.blogspot.co.uk - credential storage enhancements in Android 4.3
-out of bounds channel - side channel attack
-Write about issues to do with public key distribution and the need for signing
-Talk about decision not to implemenmt passing decrypted data directly to another app without needing to write to external storage
 
 
-
-
-
-
-
-
-Threats:
-
-•	Attacker snooping around external storage but not one with root access
-•	Lost device with app open (minimal protection) but can unlink from dropbox remotely so would only have a very small window of opportunity to decrypt files currently stored on devicewhilst keystore is unlocked
-•	Could have had different password for each group
-•	Could make user re-enter password for each file – trade off between added security in event of lost device and templtation for user to choose a weaker password
 
 
 
