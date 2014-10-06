@@ -4,15 +4,43 @@
 
 \chapter{Evaluation}
 \label{cha:eval}
+\section{Security}
+Decision to use same password for keystore and aliases - trade off of added security against temptation for users to use insecure passwords or write them down
 
-ACHIEVEMENTS
-• What works well
-EXPLAIN HOW WELL SOLUTION MEETS OBJECTIVES -
-WHAT YOU HAVE LEARNED - WHY ANDROID DEVELOPMENT WAS A CHALLENGE
+Group needs admin, although any group member can serve in this role.  It is also possible to delegate this to an administrator who is not part of the group without giving them access to the group encryption key.  However, if the admin was corrupt, the fact that they had access to the private key for signing the encrypted group key would still be a problem.. Useful phrase “a more sophisticated attacker”
+
+\subsection*{Forward Secrecy and Key Revokation}
+Requiring perfect forward secrecy adds an additional level of complexity to any encryption.   The main application of forward secrecy to our project is that a member who leaves the group should not have access to future documents.  Although our current cryptographic design does not provide this (once established, the group key is never changed), one of the benefits of using a service like Dropbox is that we are able to avail ourselves of its extensive access control mechanisms.  In order to compromise security an attacker needs access to both the group's shared Dropbox folder \textit{and } the group key - a member leaving the group would only have access to the former, which is considered sufficient for our purposes at this point.  Similarly, there is currently no means of revoking a key without the need to re-key all of the documents for the group (although again we could revoke access to the folder).   
+
+This is one of the reasons why we suggest our solution my not be scalable to large groups as in this instance the membership is much more likely to be volatile.  An evaluation of more sophisticated key exchange protocols in order to strengthen this aspect of security without introducing dependency on a server for key management could be the subject of further work. 
+
+\subsection*{Known Vulnerabilities}
+Had to compromise on aim never to write to storage - this is a temporary measure but would need to implement a custom pdf reader which is beyond the scope of this project. 
+
+\section{Product}
+scalability - Structure would work with larger group but there may be better key management protocols - admin issue with setting up dropbox shares etc.
+
+PROTOTYPE EVALUATION
+dependent on exactly correct alias for groupid and folder name
+• Is designed as a “proof of concept”
+• Aspires to use “best practice” within the code 
+• Uses well-tested cryptographic techniques and standard libraries
+• Adheres to the stated security requirements 
+No ability to change passwords etc added at present
+\section{Process}
 major challenge of the fact that android is an operating system not a programming language - event driven programming
-FURTHER WORK
-• From prototype to production - next steps
-Write as though you are porviding a basisi for a good cs graduate to continue the work - assume they have already done some android development
+
+Since many of the example apps that we looked at were focused on personal encryption with the sharing capacity as an added feature, it was importatnt that we remembered that the core purpose of our application whas group collaboration and therefore central to any design we might chosose was the requirement for a robust key sharing mechanism.
+
+\section{Overall Project}
+EXPLAIN HOW WELL SOLUTION MEETS OBJECTIVES
+ACHIEVEMENTS
+WHAT YOU HAVE LEARNED
+• Android is a whole new operating system not just ‘Java with extra bits’
+\section{Future Work}
+
+
+
 SECURITY EVALUATION
 Did not implement signing in prototype as largely meaningless with self-signed certificates. Purchase of appropriate certificates for authentication of signatures would be required for a complete solution
 Attacks and issues to consider
@@ -27,39 +55,27 @@ nelenkov.blogspot.co.uk - credential storage enhancements in Android 4.3
 out of bounds channel - side channel attack
 Write about issues to do with public key distribution and the need for signing
 Talk about decision not to implemenmt passing decrypted data directly to another app without needing to write to external storage
-Don't zero out passwords after use
-No implementation of digital signatures so vulnerable to man-in-middle
-Decision to use same password for keystore and aliases - trade off of added security against temptation for users to use insecure passwords or write them down
 
 
 
 
-Group needs admin, although any group member can serve in this role.  It is also possible to delegate this to an administrator who is not part of the group without giving them access to the group encryption key.  However, if the admin was corrupt, the fact that they had access to the private key for signing the encrypted group key would still be a problem.. Useful phrase “a more sophisticated attacker”
+
+
+
 
 Threats:
-•	Malware on device
+
 •	Attacker snooping around external storage but not one with root access
 •	Lost device with app open (minimal protection) but can unlink from dropbox remotely so would only have a very small window of opportunity to decrypt files currently stored on devicewhilst keystore is unlocked
 •	Could have had different password for each group
 •	Could make user re-enter password for each file – trade off between added security in event of lost device and templtation for user to choose a weaker password
 
-Maybe argue why solution is secure here
-PROTOTYPE EVALUATION
-dependent on exactly correct alias for groupid and folder name
-• Is designed as a “proof of concept”
-• Aspires to use “best practice” within the code 
-• Uses well-tested cryptographic techniques and standard libraries
-• Adheres to the stated security requirements 
-No ability to change passwords etc added at present
-
-EVALUATION OF PERSONAL LEARNING 
-• zero knowledge starting point 
-• Android is a whole new operating system not just ‘Java with extra bits’
-• Unfamiliar API’s operating in a sub-optimal environment 
 
 
-Since many of the example apps that we looked at were focused on personal encryption with the sharing capacity as an added feature, it was importatnt that we remembered that the core purpose of our application whas group collaboration and therefore central to any design we might chosose was the requirement for a robust key sharing mechanism.
 
-scalability - Structure would work with larger group but there may be better key management protocols - admin issue with setting up dropbox shares etc.
 
- was not in innovative design and algorithms but in the correct deplayment of the Dropbox and cryptographic libraries, and in managing the flow of information between the various activities
+
+
+
+
+

@@ -23,4 +23,9 @@
 \contentsline {chapter}{\numberline {5}Project Management}{}{chapter.5}
 \contentsline {chapter}{\numberline {6}Security}{}{chapter.6}
 \contentsline {chapter}{\numberline {7}Evaluation}{}{chapter.7}
+\contentsline {section}{\numberline {7.1}Security}{}{section.7.1}
+\contentsline {section}{\numberline {7.2}Product}{}{section.7.2}
+\contentsline {section}{\numberline {7.3}Process}{}{section.7.3}
+\contentsline {section}{\numberline {7.4}Overall Project}{}{section.7.4}
+\contentsline {section}{\numberline {7.5}Future Work}{}{section.7.5}
 \contentsline {chapter}{\numberline {8}Conclusion}{}{chapter.8}

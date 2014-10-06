@@ -9,9 +9,9 @@ The issue with our solution scalability is just the admin cost of setting up the
 
 With our scheme, if delegating the admin function it is important that the membership of the group is known at the outset as the encryption key is ephemeral, however it could be the subject of further work to extend the android application to permit the Android application to include the capacity to share the group key with a new user.  This would need to be considered carefully as it would provide an additional means of Mallory getting access to the key, even if he only had temporary access to the device whilst the application was unlocked.  
 
-There is currently no means of revoking a key, however the fact that we are also making use of the access control afforded by Dropbox would also give some protection in the event that a member left the group as their access to the Dbx folder could be revoked.  This is one of the reasons why we suggest our solution my not be scalable to large groups as in this instance the membership is much more likely to be volatile.  It could be the subject of further work consider alternative key sharing mechanisms to see whether improvement could be achieved here without introducing the requirement for a central key management server.
 
-Forward secrecy - requiring perfect forward secrecy adds an additional level of complexity to any encryption.   The main application of forward secrecy to our project is that a member who leaves the group should not have access to future documents.\red{have I got this right?}\\  Although our current cryptographic design does not provide this (once established, the group key is never changed), one of the benefits of using a service like Dropbox is that we are able to avail ourselves of its extensive access control mechanisms.  In order to compromise security an attacker needs access to both the group's shared Dropbox folder \textit{and } the group key - a member leaving the group would only have access to the former, which is considered sufficient for our purposes at this point.  An evaluation of more sophisticated key exchange protocols in order to strengthen this aspect of security could be the subject of further work. 
+
+
 
  
  Client side encryption was used because of the desire to ensure that server had no access to plaintext

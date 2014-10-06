@@ -3,9 +3,8 @@ The style file: abbrvnat.bst
 Database file #1: references.bib
 Warning--string name "sept" is undefined
 --line 24 of file references.bib
-Warning--I didn't find a database entry for "dh1976"
 Warning--I didn't find a database entry for "android_dev"
 Warning--I didn't find a database entry for "androiddev2"
 Warning--I didn't find a database entry for "androiddev3"
 Warning--I didn't find a database entry for "scrum"
-(There were 6 warnings)
+(There were 5 warnings)

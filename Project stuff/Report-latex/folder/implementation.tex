@@ -5,14 +5,14 @@
 \chapter{Implementation}
 \label{cha:imp}
 \section{Development Environment}
-An early challenge encountered in this project was setting up a suitable development environment.  Initially the intention was to use the Android Development Tools plug-in for Eclipse, as this was an extension to an already familiar IDE, however, difficulties were encountered with the school computers and finally we elected to switch to Android Studio (Beta) as suggested on the Android Developers website \cite{android_dev}.  
+An early challenge encountered in this project was setting up a suitable development environment.  Initially the intention was to use the Android Development Tools plug-in for Eclipse, as this was an extension to an already familiar IDE, however, difficulties were encountered with the school computers and finally we elected to switch to Android Studio (Beta) as suggested on the Android Developers website \citep{android_dev}.  
 
 Since the main rationale for the Android application was to allow users to read documents away from the PC, we felt that the application should be optimised for use on a tablet.  As a difficulty arose in getting the device emulators to work on Linux, it became necessary to purchase a physical device for the purposes of the project.  Budget too was a significant consideration; therefore the device chosen was a Hudl 7" tablet running the Android 4.2.2 Jelly Bean operating system.  For the purposes of this project, it was decided that we would develop and test for this device.  This meant that we were restricted to API 17, which eliminated the need to include any backward compatibility but also precluded using features of the latest Android releases as it transpired that there was no upgrade path available for this device.  This fact turned out to be highly significant in a later stage of the project.  
 
 \section{Initial Development}
 It was felt wise to begin by developing a very simple application in order to gain some familiarity with the complexities of the Android architecture and its API. This initial application enabled us to input some text, encrypt it (using "convert to upper case" in lieu of encryption) and write it to the application storage.  
 
-The next stage was to introduce actual encryption, for which we needed to investigate the Java Cryptography Architecture(JCA).  Although the choice of algorithm was determined as part of the design, we were mindful of the fact that  many security weaknesses are introduced by poor implementation. As \cite{schneier1998security} states,
+The next stage was to introduce actual encryption, for which we needed to investigate the Java Cryptography Architecture(JCA).  Although the choice of algorithm was determined as part of the design, we were mindful of the fact that  many security weaknesses are introduced by poor implementation. As \citet{schneier1998security} states,
 \begin{quotation}
 'And just as it's possible to build a weak structure using strong materials, it's possible to build a weak cryptographic system using strong algorithms and protocols' 
 \end{quotation}  
@@ -22,7 +22,7 @@ For this reason we decided that we would initially develop and test the  Java cl
 In undertaking this project we were keen to understand more of the tools and techniques of Android development, therefore we attempted to incorporate a number different user interface components including altert and custom dialogs, fragments and ActionBar menus.
 \subsection*{Initialisation}
 
-The Initialisation Activity is run the first time SecurelyShare is installed.  The user is asked whether they wish to import a KeyStore from backup and asked to set up a master password.  In the current implementation, the import option must be chosen as the Certificate keystore needs to be created on a PC, either in Linux using  \texttt{keytool} from the command line or using a program called \texttt{Portecle}  \cite{portecle}.  An empty keystore is created for the group keys and the user is asked to confirm to proceed.  We used 
+The Initialisation Activity is run the first time SecurelyShare is installed.  The user is asked whether they wish to import a KeyStore from backup and asked to set up a master password.  In the current implementation, the import option must be chosen as the Certificate keystore needs to be created on a PC, either in Linux using  \texttt{keytool} from the command line or using a program called \texttt{Portecle}  \citep{portecle}.  An empty keystore is created for the group keys and the user is asked to confirm to proceed.  We used 
 
 \begin{figure}[h!]
     \centering
@@ -41,7 +41,7 @@ The home page consists simply of four buttons for loving to the other main activ
     \label{fig:main}
 \end{figure}
 
-The user is invited to enter the Master password upon opening the application and, having decided that we would not require the password to be re-entered to access each file, it was necessary to ensure that this data was available wherever needed. Although the option of writing the password to the  \texttt{SharedPreference} database, from whence it could be accessed by other activities, would have been an easy solution, we did not feel that this represented good practice.  Further research revealed this to be a contentious question, with experienced developers divided as to whether this was best done by extending the \texttt{Application} class or by use of the Singleton design pattern.  As the guidance from Android Developers website states that 'there is normally no need to subclass Application. In most situation, static singletons can provide the same functionality in a more modular way'   \cite{androiddev2} , we decided to use this approach but recognise we may not have completely understood the full complexities of this problem at this juncture.
+The user is invited to enter the Master password upon opening the application and, having decided that we would not require the password to be re-entered to access each file, it was necessary to ensure that this data was available wherever needed. Although the option of writing the password to the  \texttt{SharedPreference} database, from whence it could be accessed by other activities, would have been an easy solution, we did not feel that this represented good practice.  Further research revealed this to be a contentious question, with experienced developers divided as to whether this was best done by extending the \texttt{Application} class or by use of the Singleton design pattern.  As the guidance from Android Developers website states that 'there is normally no need to subclass Application. In most situation, static singletons can provide the same functionality in a more modular way'   \citep{androiddev2} , we decided to use this approach but recognise we may not have completely understood the full complexities of this problem at this juncture.
 
 \begin{figure}[h!]
     \centering
@@ -63,7 +63,7 @@ Figure \ref{fig:import} shows the screen for importing a new group key, which il
     \label{fig:import}
 \end{figure}
 
-Fragments are reusable elements of the application's user interface which can be combined to build a multi-pane user interface \cite{androiddev3}. As shown here, SecurelyShare is perhaps  best suited to landscape mode as it uses a split-screen, however it could easily be modified to show each fragment in a separate activity on a smaller screen or to improve the display in portrait mode.
+Fragments are reusable elements of the application's user interface which can be combined to build a multi-pane user interface \citep{androiddev3}. As shown here, SecurelyShare is perhaps  best suited to landscape mode as it uses a split-screen, however it could easily be modified to show each fragment in a separate activity on a smaller screen or to improve the display in portrait mode.
 
 \subsubsection*{Performance and Threading}
 Although some asynchronous processing results from the calls to the Dropbox API, currently everything in SecurelyShare runs on the main thread.  Whilst this may seem an unusual choice when carrying out computationally expensive cryptographic operations, there is little value in introducing parallel processing if it frees the user up to do other tasks.  When opening a file, there is little else that the user can practically do apart from wait and in testing, we felt that performance was within acceptable limits.  This may need to be revisited in a future iteration;  if, for example, a custom PDF processor was implemented where users were needing to encrypt and save large annotated files, it may be preferable to run this on a separate thread.
@@ -88,7 +88,7 @@ When wanting to start a new activity, the standard method is to create an \textt
 \subsubsection*{Security Providers}
 The Java SE Documentation states:
 \begin{quotation}
-\textbf{Reminder: }Cryptographic implementations in the JDK are distributed through several different providers ("Sun", "SunJSSE", "SunJCE", "SunRsaSign") for both historical reasons and by the types of services provided. General purpose applications SHOULD NOT request cryptographic services from specific providers. \cite{javasedoc}
+\textbf{Reminder: }Cryptographic implementations in the JDK are distributed through several different providers ("Sun", "SunJSSE", "SunJCE", "SunRsaSign") for both historical reasons and by the types of services provided. General purpose applications SHOULD NOT request cryptographic services from specific providers. \citep{javasedoc}
 \end{quotation} 
 Having followed this advice, we discovered that although we were able to decrypt and import group keys in the desktop version of our code, this did not work when ported to Android.  This presented a major debugging difficulty as, having isolated the problem, we were essentially comparing two pieces of code that looked identical but performed differently.  It transpired that the problem arose because Java and Android use different default providers and these are not interchangeable.  We were able to remedy the problem by installing the Bouncy Castle provider and forcing Java to use that provider.
 
