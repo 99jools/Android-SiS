@@ -1,43 +1,12 @@
-% Created:  
-% Author:   Julie Sewards
-% Filename: security.tex
 
-\chapter{Security}
-\label{cha:security}
-The issue with our solution scalability is just the admin cost of setting up the dropbox folder, adding all the users and getting all the certificate and importing into the keystore in order to run the initial key generation.  In our solution it is possiblethat this function could be delegated tosomeone who isn’t part of the trusted group and they would never have any access to the shared secret.  However it is important that they are honest at the initial setup phase or it would be possible for them to insert Mallory’s certificate into the keystore and hence they would generate a copy of the encryption key for Mallory.  However, as long as they are honest at the outset, there would be no opportunity for Mallory to subvert them at a later stage as being able to get access to the keystore containing all the certificates wouln’t give any advantage.  Gaining access to the Dropbox forlder would enable Mallory to see what files were in there but without private keys he woulnt be able to decrypt anything.
-
-
-With our scheme, if delegating the admin function it is important that the membership of the group is known at the outset as the encryption key is ephemeral, however it could be the subject of further work to extend the android application to permit the Android application to include the capacity to share the group key with a new user.  This would need to be considered carefully as it would provide an additional means of Mallory getting access to the key, even if he only had temporary access to the device whilst the application was unlocked.  
 
 
 
 
 
  
- Client side encryption was used because of the desire to ensure that server had no access to plaintext
- 
- digital signatures to protect against man in the middle \red{is it really MITM}\\
- 
- Dropbox uses SSL so protected agains replay attacks
- 
- Had to compromise on aim never to write to storage - this is a temporary measure but would need to implememnt a custom pdf reader which is beyond the scope of this project.  It is interesting to note that this is the same issue experienced by xxx application
- 
- Write about why I didnt use encrypted folder approach
- 
- 
-specifically designed to avoid central server for key management.  Essential to avoid running our own and placing trust in 3rd party.  Our solution is similar to commercial ones - they make much of being zero-knowledge but' essentially this is a matter of trust as can't examine their code.
- 
- Problem with API meant that we had to generate keystore for private key and corresponding certificate chain manually.  Further work would be to redesign this part of the app using the additional ffeatures offered in Android 4.3.  Currently consider this to be one of the weakest parts of the design - by the time I realised that this could have been done better, it was too late to go back and change it.
- 
- The security implications and requirements for future work are discussed further in Chapter \ref{cha:security}.
- 
-Password policy - balance of requiring password for every file access which encourages user to choose insecure psasword.  Opted to use one password both to unlock the keystore and to encrypt each of the group keys.  Could have had a separate password for each group but requiring user to remember different passwords often leads to insecure ones.  xxx app offers different levels of password policy as a user option - this may be a useful addition to be considered in the future.   Similarly, for ease of testing and general usability we decided not to implement encryption of filenames in the prototype,  However, this would again be a potential usre option.
- 
- loss of device - we need to include some protection against loss of device but an attacker who is able to gain access to the device whilst the app is running would be able to use the app to decrypt any documents in Dropbox as key store would be unlocked.  It should be noted however that the use of Dropbox does provide some additional protection for this as, once aware that the device is lost, the user is able to log in via the Dropbox website and revoke SecurelyShare's permissions for the account with immediate effect. 
- 
-Backward secrecy  - this is often required in a messaging environment where it is important that new group members are not able to decrypt messages from before they joined the group. However, in our application backward secrecy is not required as all group members should have access to historic documents.
 
 
-Removal of keystore after password failure
+
  
-\red{Reasons why didn't choose ID based cryptography or password based solution - aim is to use simplest solution that works.  Refer to examples which use PBE.  Happy to use it for protection of key material on device as even with password, attacker would have to have access to device or would require more sophisticated remote attack which is out of our scope.  }\\
+

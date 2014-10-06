@@ -1,4 +1,4 @@
-\begin{thebibliography}{24}
+\begin{thebibliography}{25}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -101,6 +101,12 @@ M.~Gupta.
 H.~Harney.
 \newblock Group key management protocol (gkmp) architecture.
 \newblock \emph{Group}, 1997.
+
+\bibitem[NSA(2000)]{nsa}
+NSA.
+\newblock Defense in depth.
+\newblock \url{https://www.nsa.gov/ia/_files/support/defenseindepth.pdf}, 2000.
+\newblock Accessed: 2014-10-03.
 
 \bibitem[Oracle(2014)]{javasedoc}
 Oracle.

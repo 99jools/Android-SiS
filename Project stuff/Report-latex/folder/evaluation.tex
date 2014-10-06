@@ -5,18 +5,47 @@
 \chapter{Evaluation}
 \label{cha:eval}
 \section{Security}
-Decision to use same password for keystore and aliases - trade off of added security against temptation for users to use insecure passwords or write them down
+\label{sec:security}
+In designing our application we applied the principle of 'Defense in Depth' \citep{nsa}
 
-Group needs admin, although any group member can serve in this role.  It is also possible to delegate this to an administrator who is not part of the group without giving them access to the group encryption key.  However, if the admin was corrupt, the fact that they had access to the private key for signing the encrypted group key would still be a problem.. Useful phrase “a more sophisticated attacker”
+ Dropbox uses SSL so protected agains replay attacks
+ 
+ Client side encryption was used because of the desire to ensure that server had no access to plaintext
 
-\subsection*{Forward Secrecy and Key Revokation}
+Refer to examples which use PBE.  Happy to use it for protection of key material on device as even with password, attacker would have to have access to device or would require more sophisticated remote attack which is out of our scope. 
+
+
+
+\subsection*{Unauthorised Access to device}
+loss of device - we need to include some protection against loss of device but an attacker who is able to gain access to the device whilst the app is running would be able to use the app to decrypt any documents in Dropbox as key store would be unlocked.  It should be noted however that the use of Dropbox does provide some additional protection for this as, once aware that the device is lost, the user is able to log in via the Dropbox website and revoke SecurelyShare's permissions for the account with immediate effect. 
+
+\subsection*{Password Policy}
+Password policy - balance of requiring password for every file access which encourages user to choose insecure password.  Opted to use one password both to unlock the KeyStore and to encrypt each of the group keys.  Could have had a separate password for each group but requiring user to remember different passwords often leads to insecure ones. 
+
+Keystore deleted
+
+
+\subsection*{Key Distribution}
+
+Each group requires an administrator to carry our the initial setup, although any member can serve in this role.  It is also possible to delegate this to someone who is not part of the group without giving them access to the group encryption key.   There is a recognised weakness in this solution if a corrupt administrator imports the attacker's certificate into the KeyStore, thus generating a copy of the encryption key for the attacker. After this point there would be no benefit for an attacker in subverting them, as being able to get access to the KeyStore containing all the certificates wouldn't give any advantage.  Gaining access to the Dropbox folder would enable the attacker to see what files were in there but without private keys he wouldn't be able to decrypt anything.
+
+
+\subsubsection*{Backward Secrecy}
+This is often required in a messaging environment where it is important that new group members are not able to decrypt messages from before they joined the group. However, in our application backward secrecy is not required as all group members should have access to historic documents.
+
+
+\subsubsection*{Forward Secrecy and Key Revokation}
 Requiring perfect forward secrecy adds an additional level of complexity to any encryption.   The main application of forward secrecy to our project is that a member who leaves the group should not have access to future documents.  Although our current cryptographic design does not provide this (once established, the group key is never changed), one of the benefits of using a service like Dropbox is that we are able to avail ourselves of its extensive access control mechanisms.  In order to compromise security an attacker needs access to both the group's shared Dropbox folder \textit{and } the group key - a member leaving the group would only have access to the former, which is considered sufficient for our purposes at this point.  Similarly, there is currently no means of revoking a key without the need to re-key all of the documents for the group (although again we could revoke access to the folder).   
 
 This is one of the reasons why we suggest our solution my not be scalable to large groups as in this instance the membership is much more likely to be volatile.  An evaluation of more sophisticated key exchange protocols in order to strengthen this aspect of security without introducing dependency on a server for key management could be the subject of further work. 
 
+
+
 \subsection*{Known Vulnerabilities}
 Had to compromise on aim never to write to storage - this is a temporary measure but would need to implement a custom pdf reader which is beyond the scope of this project. 
 
+ digital signatures to protect against man in the middle 
+ 
 \section{Product}
 scalability - Structure would work with larger group but there may be better key management protocols - admin issue with setting up dropbox shares etc.
 
@@ -32,13 +61,28 @@ major challenge of the fact that android is an operating system not a programmin
 
 Since many of the example apps that we looked at were focused on personal encryption with the sharing capacity as an added feature, it was importatnt that we remembered that the core purpose of our application whas group collaboration and therefore central to any design we might chosose was the requirement for a robust key sharing mechanism.
 
+development environment
+
 \section{Overall Project}
 EXPLAIN HOW WELL SOLUTION MEETS OBJECTIVES
 ACHIEVEMENTS
+
 WHAT YOU HAVE LEARNED
+
 • Android is a whole new operating system not just ‘Java with extra bits’
+
+Problem with API meant that we had to generate keystore for private key and corresponding certificate chain manually.  Further work would be to redesign this part of the app using the additional ffeatures offered in Android 4.3.  Currently consider this to be one of the weakest parts of the design - by the time I realised that this could have been done better, it was too late to go back and change it.
 \section{Future Work}
 
+look at generating keystores on device - would need to include method of exporting keystore (encrypted?) for distribution to other device.  
+
+Review other schemes - lots of theoretical examples but anything that would work in practice
+
+Implement propert user interface
+
+Write a proper PC-based client application and look at improving group names
+
+ xxx app offers different levels of password policy as a user option - this may be a useful addition to be considered in the future.   Similarly, for ease of testing and general usability we decided not to implement encryption of filenames in the prototype,  However, this would again be a potential usre option.
 
 
 SECURITY EVALUATION

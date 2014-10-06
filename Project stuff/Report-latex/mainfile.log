@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.4-1.40.13 (MiKTeX 2.9 64-bit) (preloaded format=pdflatex 2013.11.10)  6 OCT 2014 02:24
+This is pdfTeX, Version 3.1415926-2.4-1.40.13 (MiKTeX 2.9 64-bit) (preloaded format=pdflatex 2013.11.10)  6 OCT 2014 03:58
 entering extended mode
 **mainfile.tex
 
@@ -778,7 +778,7 @@ le.out")
 \@outlinefile=\write3
 
 ("D:\Users\Julie\Documents\GitHub\Android-SiS\Project stuff\Report-latex\folder
-/titlepage.tex" <Logo.pdf, id=127, 130.5811pt x 106.6857pt>
+/titlepage.tex" <Logo.pdf, id=123, 130.5811pt x 106.6857pt>
 File: Logo.pdf Graphic file (type pdf)
  <use Logo.pdf>
 Package pdftex.def Info: Logo.pdf used on input line 10.
@@ -822,7 +822,7 @@ Overfull \hbox (30.0pt too wide) in paragraph at lines 65--74
 [1
 
 ]
-Overfull \hbox (30.0pt too wide) in paragraph at lines 76--84
+Overfull \hbox (30.0pt too wide) in paragraph at lines 76--85
 [][] 
  []
 
@@ -830,20 +830,12 @@ pdfTeX warning (ext4): destination with the same identifier (name{page.}) has b
 een already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.85 \clearpage
+l.86 \clearpage
                 [2
 
 ])
 ("D:\Users\Julie\Documents\GitHub\Android-SiS\Project stuff\Report-latex\mainfi
-le.toc"pdfTeX warning (ext4): destination with the same identifier (name{page.}
-) has been already used, duplicate ignored
-<to be read again> 
-                   \relax 
-l.31 ...r}{\numberline {8}Conclusion}{}{chapter.8}
-                                                   [3
-
-
-])
+le.toc")
 \tf@toc=\write4
 
 ("D:\Users\Julie\Documents\GitHub\Android-SiS\Project stuff\Report-latex\folder
@@ -852,7 +844,10 @@ name{page.}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
 l.5 \chapter
-            {Introduction} [4]
+            {Introduction} [3
+
+
+]
 Chapter 1.
 pdfTeX warning (ext4): destination with the same identifier (name{page.}) has b
 een already used, duplicate ignored
@@ -860,7 +855,7 @@ een already used, duplicate ignored
                    \relax 
 l.20 \item
            Groups are self-organizing and represent multiple organizations, ...
-[5
+[4
 
 ])
 ("D:\Users\Julie\Documents\GitHub\Android-SiS\Project stuff\Report-latex\folder
@@ -869,14 +864,14 @@ me{page.}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
 l.4 
-     [6]pdfTeX warning (ext4): destination with the same identifier (name{page.
+     [5]pdfTeX warning (ext4): destination with the same identifier (name{page.
 }) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
 l.5 \chapter
-            {Background Material} [7]
+            {Background Material} [6]
 Chapter 2.
-<security_table.png, id=207, 1013.7875pt x 684.5575pt>
+<security_table.png, id=199, 1013.7875pt x 684.5575pt>
 File: security_table.png Graphic file (type png)
 
 <use security_table.png>
@@ -890,11 +885,11 @@ pdfTeX warning (ext4): destination with the same identifier (name{page.}) has b
 een already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.28 
-      [8
+l.29 \section
+             {Dropbox API} [7
 
 ]
-Underfull \hbox (badness 10000) in paragraph at lines 29--31
+Underfull \hbox (badness 10000) in paragraph at lines 33--35
 
  []
 
@@ -902,10 +897,10 @@ pdfTeX warning (ext4): destination with the same identifier (name{page.}) has b
 een already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.37 
-      [9 <D:/Users/Julie/Documents/GitHub/Android-SiS/Project stuff/Report-late
-x/security_table.png>]
-Underfull \hbox (badness 10000) in paragraph at lines 49--50
+l.38 \end{description}
+                       [8 <D:/Users/Julie/Documents/GitHub/Android-SiS/Project 
+stuff/Report-latex/security_table.png>]
+Underfull \hbox (badness 10000) in paragraph at lines 53--54
 
  []
 
@@ -913,46 +908,51 @@ pdfTeX warning (ext4): destination with the same identifier (name{page.}) has b
 een already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.60 
-      [10])
+l.58 \begin{quotation}
+                       [9])
 ("D:\Users\Julie\Documents\GitHub\Android-SiS\Project stuff\Report-latex\folder
 /analysis-and-spec.tex"pdfTeX warning (ext4): destination with the same identif
 ier (name{page.}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
 l.5 \chapter
-            {Analysis and Design} [11]
+            {Analysis and Design} [10]
 Chapter 3.
 pdfTeX warning (ext4): destination with the same identifier (name{page.}) has b
 een already used, duplicate ignored
 <to be read again> 
                    \relax 
 l.25 
-      [12
+      [11
 
 ]pdfTeX warning (ext4): destination with the same identifier (name{page.}) has 
 been already used, duplicate ignored
 <to be read again> 
                    \relax 
 l.36 \item t
-            he Certificate Authority may be considered as trusted. [13]pdfTeX w
+            he Certificate Authority may be considered as trusted. [12]pdfTeX w
 arning (ext4): destination with the same identifier (name{page.}) has been alre
 ady used, duplicate ignored
 <to be read again> 
                    \relax 
 l.49 
-      [14]pdfTeX warning (ext4): destination with the same identifier (name{pag
+      [13]pdfTeX warning (ext4): destination with the same identifier (name{pag
 e.}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
 l.64 
-      [15]pdfTeX warning (ext4): destination with the same identifier (name{pag
+      [14]pdfTeX warning (ext4): destination with the same identifier (name{pag
 e.}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
 l.76 \item g
-            enerate a new  symmetric key for the group [16]
+            enerate a new  symmetric key for the group [15]
 Underfull \hbox (badness 10000) in paragraph at lines 84--85
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 86--87
 
  []
 
@@ -960,15 +960,15 @@ pdfTeX warning (ext4): destination with the same identifier (name{page.}) has b
 een already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.98 
-      [17])
+l.97 
+      [16])
 ("D:\Users\Julie\Documents\GitHub\Android-SiS\Project stuff\Report-latex\folder
 /implementation.tex"pdfTeX warning (ext4): destination with the same identifier
  (name{page.}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
 l.5 \chapter
-            {Implementation} [18]
+            {Implementation} [17]
 Chapter 4.
 
 Package natbib Warning: Citation `android_dev' on page  undefined on input line
@@ -979,9 +979,9 @@ een already used, duplicate ignored
 <to be read again> 
                    \relax 
 l.14 
-      [19
+      [18
 
-] <Setup.png, id=287, 1445.4pt x 903.375pt>
+] <Setup.png, id=280, 1445.4pt x 903.375pt>
 File: Setup.png Graphic file (type png)
  <use Setup.png>
 Package pdftex.def Info: Setup.png used on input line 29.
@@ -995,7 +995,7 @@ een already used, duplicate ignored
 <to be read again> 
                    \relax 
 l.36 
-      [20] <main.png, id=295, 1445.4pt x 903.375pt>
+      [19] <main.png, id=288, 1445.4pt x 903.375pt>
 File: main.png Graphic file (type png)
  <use main.png>
 Package pdftex.def Info: main.png used on input line 39.
@@ -1010,15 +1010,15 @@ een already used, duplicate ignored
 <to be read again> 
                    \relax 
 l.45 
-      [21 <D:/Users/Julie/Documents/GitHub/Android-SiS/Project stuff/Report-lat
+      [20 <D:/Users/Julie/Documents/GitHub/Android-SiS/Project stuff/Report-lat
 ex/Setup.png> <D:/Users/Julie/Documents/GitHub/Android-SiS/Project stuff/Report
--latex/main.png>] <Unlock.png, id=302, 1445.4pt x 903.375pt>
+-latex/main.png>] <Unlock.png, id=295, 1445.4pt x 903.375pt>
 File: Unlock.png Graphic file (type png)
  <use Unlock.png>
 Package pdftex.def Info: Unlock.png used on input line 48.
 (pdftex.def)             Requested size: 264.61333pt x 165.38492pt.
 
-<import.png, id=304, 1445.4pt x 903.375pt>
+<import.png, id=297, 1445.4pt x 903.375pt>
 File: import.png Graphic file (type png)
  <use import.png>
 Package pdftex.def Info: import.png used on input line 61.
@@ -1033,7 +1033,7 @@ een already used, duplicate ignored
 <to be read again> 
                    \relax 
 l.67 
-      [22 <D:/Users/Julie/Documents/GitHub/Android-SiS/Project stuff/Report-lat
+      [21 <D:/Users/Julie/Documents/GitHub/Android-SiS/Project stuff/Report-lat
 ex/Unlock.png> <D:/Users/Julie/Documents/GitHub/Android-SiS/Project stuff/Repor
 t-latex/import.png>]
 Underfull \hbox (badness 10000) in paragraph at lines 74--78
@@ -1045,12 +1045,12 @@ een already used, duplicate ignored
 <to be read again> 
                    \relax 
 l.83 
-      [23]pdfTeX warning (ext4): destination with the same identifier (name{pag
+      [22]pdfTeX warning (ext4): destination with the same identifier (name{pag
 e.}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
 l.94 
-      [24]
+      [23]
 Underfull \hbox (badness 10000) in paragraph at lines 101--102
 
  []
@@ -1060,14 +1060,14 @@ een already used, duplicate ignored
 <to be read again> 
                    \relax 
 l.113 
-       [25])
+       [24])
 ("D:\Users\Julie\Documents\GitHub\Android-SiS\Project stuff\Report-latex\folder
 /projectmgt.tex"pdfTeX warning (ext4): destination with the same identifier (na
 me{page.}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
 l.5 \chapter
-            {Project Management} [26]
+            {Project Management} [25]
 Chapter 5.
 
 Package natbib Warning: Citation `scrum' on page  undefined on input line 8.
@@ -1077,85 +1077,69 @@ een already used, duplicate ignored
 <to be read again> 
                    \relax 
 l.15 
-      [27
+      [26
 
 ])
 ("D:\Users\Julie\Documents\GitHub\Android-SiS\Project stuff\Report-latex\folder
-/security.tex"pdfTeX warning (ext4): destination with the same identifier (name
-{page.}) has been already used, duplicate ignored
+/evaluation.tex"pdfTeX warning (ext4): destination with the same identifier (na
+me{page.}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
 l.5 \chapter
-            {Security} [28]
+            {Evaluation} [27]
 Chapter 6.
 
-Underfull \hbox (badness 10000) in paragraph at lines 19--20
-
+Overfull \hbox (0.83977pt too wide) in paragraph at lines 9--10
+\OT1/cmss/m/n/12 In de-sign-ing our ap-pli-ca-tion we ap-plied the prin-ci-ple 
+of 'De-fense in Depth' ([]NSA[], []2000[]) 
  []
 
 pdfTeX warning (ext4): destination with the same identifier (name{page.}) has b
 een already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.23  H
-       ad to compromise on aim never to write to storage - this is a tempora...
-[29
+l.24 
+      [28
 
 ]pdfTeX warning (ext4): destination with the same identifier (name{page.}) has 
 been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.41 R
-      emoval of keystore after password failure [30])
-("D:\Users\Julie\Documents\GitHub\Android-SiS\Project stuff\Report-latex\folder
-/evaluation.tex"
-Underfull \hbox (badness 10000) in paragraph at lines 43--4
-
- []
-
-pdfTeX warning (ext4): destination with the same identifier (name{page.}) has b
-een already used, duplicate ignored
+l.39 
+      [29]pdfTeX warning (ext4): destination with the same identifier (name{pag
+e.}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.5 \chapter
-            {Evaluation} [31]
-Chapter 7.
-pdfTeX warning (ext4): destination with the same identifier (name{page.}) has b
-een already used, duplicate ignored
+l.63 
+      [30]pdfTeX warning (ext4): destination with the same identifier (name{pag
+e.}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.16 
-      [32
-
-]pdfTeX warning (ext4): destination with the same identifier (name{page.}) has 
-been already used, duplicate ignored
-<to be read again> 
-                   \relax 
-l.57 
-      [33])
+l.102 
+       [31])
 ("D:\Users\Julie\Documents\GitHub\Android-SiS\Project stuff\Report-latex\folder
 /conclusion.tex"pdfTeX warning (ext4): destination with the same identifier (na
 me{page.}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
 l.5 \chapter
-            {Conclusion} [34]
-Chapter 8.
+            {Conclusion} [32]
+Chapter 7.
 )
 ("D:\Users\Julie\Documents\GitHub\Android-SiS\Project stuff\Report-latex\mainfi
 le.bbl"pdfTeX warning (ext4): destination with the same identifier (name{page.}
 ) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.1 \begin{thebibliography}{24}
-                                [35
+l.1 \begin{thebibliography}{25}
+                                [33
 
 ]pdfTeX warning (ext4): destination with the same identifier (name{page.}) has 
 been already used, duplicate ignored
 <to be read again> 
                    \relax 
 l.80   Wattenhofer]{grolimund2006cryptree}
-                                           [36
+                                           [34
 
 ]
 Underfull \hbox (badness 10000) in paragraph at lines 93--99
@@ -1163,53 +1147,59 @@ $\OT1/cmtt/m/n/12 community / articles / 2008 / september / definition-[]of-[]d
 one-[]a-[]reference$[]\OT1/cmss/m/n/12 ,
  []
 
+
+Underfull \hbox (badness 10000) in paragraph at lines 106--110
+[]\OT1/cmss/m/n/12 NSA.  De-fense in depth.  []$\OT1/cmtt/m/n/12 https : / / ww
+w . nsa . gov / ia / _files / support /$
+ []
+
 pdfTeX warning (ext4): destination with the same identifier (name{page.}) has b
 een already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.162 \end{thebibliography}
-                            [37])
+l.167 
+       [35])
 
 Package natbib Warning: There were undefined citations.
 
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 141.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 139.
 pdfTeX warning (ext4): destination with the same identifier (name{page.}) has b
 een already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.141 \end{document}
-                     [38]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 141.
+l.139 \end{document}
+                     [36]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 139.
 
 ("D:\Users\Julie\Documents\GitHub\Android-SiS\Project stuff\Report-latex\mainfi
 le.aux")
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 141.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 141.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 139.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 139.
 Package rerunfilecheck Info: File `mainfile.out' has not changed.
-(rerunfilecheck)             Checksum: 7292DDD85A04733DDF086B83602919A7;1859.
+(rerunfilecheck)             Checksum: 78E2F7E746469569DD1865ECD93A06D1;1814.
 
 
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 141.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 139.
  ) 
 Here is how much of TeX's memory you used:
- 11076 strings out of 493921
- 163763 string characters out of 3145276
- 265473 words of memory out of 3000000
- 14112 multiletter control sequences out of 15000+200000
+ 11081 strings out of 493921
+ 163662 string characters out of 3145276
+ 265500 words of memory out of 3000000
+ 14114 multiletter control sequences out of 15000+200000
  10580 words of font info for 38 fonts, out of 3000000 for 9000
  841 hyphenation exceptions out of 8191
- 42i,6n,43p,2962b,467s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 42i,6n,43p,2962b,469s stack positions out of 5000i,500n,10000p,200000b,50000s
 <D:/Test Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmss12.pfb><
 D:/Test Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmss17.pfb><D:/
 Test Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmssbx10.pfb><D:/T
 est Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmssi12.pfb><D:/Tes
 t Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy10.pfb><D:/Test P
 rogram Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmtt12.pfb>
-Output written on mainfile.pdf (40 pages, 700011 bytes).
+Output written on mainfile.pdf (38 pages, 699792 bytes).
 PDF statistics:
  459 PDF objects out of 1000 (max. 8388607)
- 93 named destinations out of 1000 (max. 500000)
- 279 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 99 named destinations out of 1000 (max. 500000)
+ 271 words of extra memory for PDF output out of 10000 (max. 10000000)
 

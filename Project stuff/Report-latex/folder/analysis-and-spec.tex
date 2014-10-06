@@ -83,10 +83,9 @@ The use of digital signatures is required for each user to be able to validate t
 
 \red{Should I discuss choice of PKI over ID based scheme here or in evaluation}\\
 
+\red{Reasons why didn't choose ID based cryptography or password based solution - aim is to use simplest solution that works.   }\\
+
 \section{Android Prototype }
-
-
-
 
 \subsection*{Encryption }
 As outlined in the Problem Analysis  (\ref{sec:prob}), it is unlikely that large documents will be originated from within SecurelyShare so our design just included a simple  edit window for text input which can then be saved to Dropbox as an encrypted file.  For completeness, and to aid testing, we also included the ability to encrypt a file which already exists on the device (although this is not to be encouraged as such files may have been exposed to an attacker prior to encryption).
@@ -96,11 +95,11 @@ As outlined in the Problem Analysis  (\ref{sec:prob}), it is unlikely that large
 \subsection*{Decryption }
 Since tablet devices are ideally suited for reading documents, the major requirement of this app is that it is able to take encrypted documents stored in the user's Dropbox,  decrypt them with the appropriate symmetric key and present the original text to the user in a readable format.  Our requirements necessitated that this should be accomplished without the need to save the plaintext to disk on the device.  Initially this seemed as though it would be achievable as the Android platform provides mechanisms for one application to provide data to another,.  However, on deeper study, it transpired that none of these options was exactly right for our purpose.  We considered a number of ways of modifying our design in order to overcome this challenge  but all of them required some sort of modification to the third-party application.  Eventually it was decided that we had to weaken our requirements or risk jeopardising the entire project time scale. 
 
-It was agreed that we could achieve our objective for simple text files by displaying the decrypted data in one of the Android-supplied Edittext widgets,which would enable it to be read and, if required, edited saved again in encrypted format.  For files requiring a more complex viewing and editing environment, for example those in Portable Document Format (PDF), we would write these temporarily to the external cache before broadcasting an Intent with the appropriate URI in order to allow the user to open this temporary file with one of the PDF readers installed on their device.  The security implications of this and suggestions for future work are discussed further in Chapter \ref{cha:security}.
+It was agreed that we could achieve our objective for simple text files by displaying the decrypted data in one of the Android-supplied Edittext widgets,which would enable it to be read and, if required, edited saved again in encrypted format.  For files requiring a more complex viewing and editing environment, for example those in Portable Document Format (PDF), we would write these temporarily to the external cache before broadcasting an Intent with the appropriate URI in order to allow the user to open this temporary file with one of the PDF readers installed on their device.  The security implications of this and suggestions for future work are discussed further in Chapter \ref{sec:security}.
 
 
 \subsection*{Key Management }
-When first installed on the Android device, the SecurelyShare application will create two keystores and save them in the application's private storage.  The Certificate keystore contains a copy of the user's private key and corresponding certificate chain and the Group keystore is the place where all the group keys will be stored.  KeyStores are mechanisms designed for securing cryptographic artifacts, encrypted using Password Based Encryption (PBE) with a user supplied password.  
+When first installed on the Android device, the SecurelyShare application will create two KeyStores and save them in the application's private storage.  The Certificate keystore contains a copy of the user's private key and corresponding certificate chain and the Group keystore is the place where all the group keys will be stored.  
 
 As described above, the group key is created by the group administrator and a file is generated for each group member containing a copy of the group key encrypted with the private key contained in the Certificate KeyStore.  Before the user can begin creating or reading documents for the group, this key must be imported into the Group keystore on the device.  The user selects his file from the Dropbox folder containing the encryption keys for the group, the app decrypts this with the user's private key and stores it in the Group keystore using the group name as an alias.  
 
